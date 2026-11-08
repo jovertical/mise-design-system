@@ -1,0 +1,13 @@
+{
+  "extends": "$app/tsconfig",
+  "compilerOptions": {
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "types": ["$app/types", "node", "vitest/globals", "@testing-library/jest-dom/vitest"]
+  },
+  "include": ["src", "tests", "scripts", "stories", ".storybook", "vite.config.ts"]
+}

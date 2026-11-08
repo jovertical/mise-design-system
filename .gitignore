@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.svelte-kit/
+storybook-static/
+*.log
+.DS_Store
+.env*
+!.env.example
+.tmp/

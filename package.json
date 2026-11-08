@@ -1,0 +1,127 @@
+{
+  "name": "@jovertical/mise-design-system",
+  "version": "0.0.0",
+  "description": "Svelte 5 components and a configurable Tailwind v4 theme for operations dashboards",
+  "license": "MIT",
+  "type": "module",
+  "packageManager": "pnpm@12.3.4",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "svelte": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "svelte": "./dist/index.js"
+    },
+    "./form": {
+      "types": "./dist/form.d.ts",
+      "svelte": "./dist/form.js"
+    },
+    "./tokens": {
+      "types": "./dist/tokens.d.ts",
+      "default": "./dist/tokens.js"
+    },
+    "./theme.css": "./dist/theme.css"
+  },
+  "bin": {
+    "mise-theme": "./bin/mise-theme.js"
+  },
+  "files": [
+    "dist",
+    "bin",
+    "LICENSES",
+    "!dist/**/*.stories.svelte",
+    "!dist/**/*.stories.svelte.d.ts",
+    "!dist/**/*.test.*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jovertical/mise-design-system.git"
+  },
+  "homepage": "https://github.com/jovertical/mise-design-system#readme",
+  "bugs": {
+    "url": "https://github.com/jovertical/mise-design-system/issues"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "scripts": {
+    "prepare": "svelte-kit sync || echo ''",
+    "build": "svelte-kit sync && svelte-package && pnpm build:theme && publint",
+    "build:theme": "tsx scripts/build-theme.ts",
+    "storybook": "pnpm build:theme && storybook dev -p 6006",
+    "build:storybook": "pnpm build:theme && storybook build",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --fail-on-warnings",
+    "lint": "biome check .",
+    "format": "biome format --write .",
+    "test:unit": "vitest run",
+    "test:watch": "vitest",
+    "test": "pnpm check && pnpm lint && pnpm test:unit"
+  },
+  "peerDependencies": {
+    "formsnap": "^2.1.0",
+    "svelte": "^5.0.0",
+    "sveltekit-superforms": "^3.0.0",
+    "tailwindcss": "^4.1.0",
+    "tw-animate-css": "^1.0.0"
+  },
+  "peerDependenciesMeta": {
+    "formsnap": {
+      "optional": true
+    },
+    "sveltekit-superforms": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "@internationalized/date": "^3.12.4",
+    "@lucide/svelte": "^1.67.0",
+    "@tanstack/svelte-table": "^9.3.1",
+    "bits-ui": "^2.20.4",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "d3-scale": "^4.0.3",
+    "d3-shape": "^3.2.1",
+    "layerchart": "^2.9.2",
+    "svelte-sonner": "^1.2.3",
+    "tailwind-merge": "^3.7.0",
+    "vaul-svelte": "1.0.0-next.7"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.6.4",
+    "@storybook/addon-a11y": "^10.6.5",
+    "@storybook/addon-docs": "^10.6.5",
+    "@storybook/addon-svelte-csf": "^5.1.6",
+    "@storybook/svelte": "^10.6.5",
+    "@storybook/sveltekit": "^10.6.5",
+    "@sveltejs/kit": "^3.1.1",
+    "@sveltejs/package": "^3.0.2",
+    "@sveltejs/vite-plugin-svelte": "^7.3.1",
+    "@tailwindcss/cli": "^4.3.4",
+    "@tailwindcss/vite": "^4.3.4",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/svelte": "^5.4.2",
+    "@testing-library/user-event": "^14.6.8",
+    "@types/d3-scale": "^4.0.9",
+    "@types/d3-shape": "^3.2.0",
+    "@types/node": "^24.19.2",
+    "formsnap": "^2.1.0",
+    "jsdom": "^30.1.3",
+    "publint": "^0.3.25",
+    "storybook": "^10.6.5",
+    "storybook-addon-tag-badges": "^3.1.0",
+    "svelte": "^5.57.3",
+    "svelte-check": "^4.7.8",
+    "sveltekit-superforms": "^3.1.0",
+    "tailwindcss": "^4.3.4",
+    "tsx": "^4.23.15",
+    "tw-animate-css": "^1.4.0",
+    "typescript": "~6.0.3",
+    "vite": "^8.3.5",
+    "vitest": "^5.1.0",
+    "zod": "^4.6.7"
+  }
+}

@@ -1,0 +1,21 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import '../dist/theme.css';
+
+/*
+ * Storybook renders this package's own source rather than a consumer's
+ * install, so the scan target is `src`. A consuming app needs the
+ * node_modules form; see the README.
+ */
+@source '../src';
+@source '../stories';
+
+/*
+ * The canvas is `--muted`, the page colour of an operations screen. White is
+ * reserved for what sits on it: cards, sidebars, dialogs. A white canvas hides
+ * that relationship.
+ */
+body {
+  background: var(--muted);
+  color: var(--foreground);
+}

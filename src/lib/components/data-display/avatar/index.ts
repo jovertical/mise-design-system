@@ -1,0 +1,5 @@
+export { type AvatarProps, default as Avatar } from './avatar.svelte'
+export { type AvatarFallbackProps, default as AvatarFallback } from './avatar-fallback.svelte'
+export { type AvatarImageProps, default as AvatarImage } from './avatar-image.svelte'
+export { type AvatarStatusProps, default as AvatarStatus } from './avatar-status.svelte'
+export { default as PresenceDot, type PresenceDotProps } from './presence-dot.svelte'
