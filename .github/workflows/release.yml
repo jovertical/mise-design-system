@@ -2,7 +2,9 @@ name: Release
 
 # release-please keeps a release PR open on main. Merging it tags the version,
 # writes CHANGELOG.md and creates the GitHub release; the publish job then
-# builds and publishes that commit to npm with provenance.
+# builds and publishes that commit to npm. Publishing authenticates through npm
+# trusted publishing (OIDC, `id-token: write`), which also attaches provenance;
+# there is no npm token.
 
 on:
   push:
@@ -48,5 +50,3 @@ jobs:
         run: pnpm build
       - name: Publish to npm
         run: pnpm publish --no-git-checks
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

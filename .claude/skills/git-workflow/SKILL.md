@@ -66,8 +66,8 @@ gh run watch --repo jovertical/mise-design-system --exit-status
 keeps a release PR open whose version follows the conventional commits since
 the last release: `fix` a patch, `feat` a minor, `feat!` or a
 `BREAKING CHANGE:` footer a major. Merging that PR tags the version, writes
-`CHANGELOG.md`, creates the GitHub release and publishes to npm with
-provenance, using the repository's `NPM_TOKEN` secret.
+`CHANGELOG.md`, creates the GitHub release and publishes to npm through
+npm trusted publishing (OIDC from `release.yml`; no token).
 
 - The user merges the release PR. The agent never does.
 - Never edit `version` or `CHANGELOG.md`, `git tag`, `gh release create`, or

@@ -11,7 +11,7 @@ code and plans do not say.
 green on `main`, the tree is clean, and no story is deferred.
 
 - **Gate:** 476 tests; `pnpm test`, `pnpm build` (publint clean) and `pnpm build:storybook` pass from a clean tree.
-- **Last commits:** the cosmetic fixes and the licensing cleanup of 2026-11-09 (`ca8644c` for the code, then the docs and this handoff).
+- **History:** one squashed commit, `cb18fcd feat: mise 1.0`, then the release-please 1.0.0 merge and the trusted-publishing switch.
 
 What was built, round by round:
 
@@ -45,7 +45,7 @@ Decisions made with the user along the way, each also on its module's `Diverged:
 Nothing is in progress. Ask which of these comes next:
 
 1. **The deferred components.** Draggable, Droppable and Sortable (they need a Svelte drag-and-drop library; none is installed) and MermaidDiagram (a heavy optional dependency). The triage defers them until a screen asks for one. If one is wanted, write a plan like round 8's first, and ask the user to install any dependency.
-2. **v1 and publishing (D10), decided 2026-11-09.** `@jovertical/mise-design-system` on npm, first release 1.0.0, cut by release-please (`release-please-config.json`, `.github/workflows/release.yml`; the git-workflow skill has the rules). The repo goes public from a fresh, single-commit history, because the old history still names the product the React package came from; the old history is kept in a git bundle outside the repo. After 1.0.0 is out, drop `release-as` from `release-please-config.json`, and consider npm trusted publishing in place of the `NPM_TOKEN` secret.
+2. **v1 and publishing (D10): done 2026-11-09.** `@jovertical/mise-design-system` 1.0.0 is on npm (tag `v1.0.0`, GitHub release), cut by release-please (`release-please-config.json`, `.github/workflows/release.yml`; the git-workflow skill has the rules). The repo is public, from a fresh single-commit history; the old history is in a git bundle outside the repo. 1.0.0 went out with an npm token and no provenance attestation; later releases publish through npm trusted publishing, which attaches provenance. The release PR's own CI run fails with "workflow file issue" and no jobs; `main`'s CI covers the merged code. A PAT or GitHub App token for release-please would let PR events run CI, if that is ever wanted.
 
 **Licensing is settled (2026-11-09).** The user wrote the React package, so mise's MIT `LICENSE` (Copyright Jovert Palonpon) covers the ported code, and no further notice is needed. At the user's request the tree no longer names that product: `Origin:` headers say "the React package 2.23.0", components not from shadcn/ui are tagged `mise`, and docs use `<react-package>` where a path stood. Keep it that way; the git history still has the old name until the squash at publish.
 The small cosmetic items React shares are fixed (2026-11-09): QuantityInput's unit-first trigger sits flush with the group edge (its addon is `pl-0`), NumberInput with controls is capped with `max-w-32` so a Field's `[&>*]:w-full` cannot stretch it, and the neutral wash is softened (above).

@@ -5,8 +5,7 @@
   "packages": {
     ".": {
       "package-name": "@jovertical/mise-design-system",
-      "changelog-path": "CHANGELOG.md",
-      "release-as": "1.0.0"
+      "changelog-path": "CHANGELOG.md"
     }
   }
 }
