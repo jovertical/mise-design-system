@@ -17,6 +17,7 @@
     "smoke": "pnpm build && tsx scripts/smoke.ts"
   },
   "dependencies": {
+    "@internationalized/date": "^3.12.4",
     "@jovertical/mise-design-system": "workspace:*",
     "@lucide/svelte": "^1.70.0",
     "@tanstack/svelte-table": "^9.3.1",
