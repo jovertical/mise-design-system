@@ -54,6 +54,10 @@ Biome 2.6 (including `.svelte`) · pnpm 12.
   npm publish. Never do any of them by hand; a conventional commit on `main` is
   what moves the next version.
 - Dependencies are installed by the user, not by the agent.
+- `examples/logistics/` is a showcase app built only from mise. It consumes the
+  built package (rebuild mise after changing it), adds nothing mise should
+  have (a gap is fixed in mise first), and its commits are `chore(example)` or
+  `docs(example)` so they never move mise's version.
 - `skills/mise/` is the skill that apps using mise install, and it ships in the
   package. Keep it current with the code: `pnpm build:skill` after a Props
   change, a new component in its index, setup and theming changes in its
@@ -67,6 +71,8 @@ Biome 2.6 (including `.svelte`) · pnpm 12.
 - `pnpm test`: svelte-check, Biome, unit tests
 - `pnpm build`: `svelte-package`, `dist/theme.css`, publint
 - `pnpm build:skill`: regenerate `skills/mise/components/` from the Props types
+- `pnpm dev:example`: the logistics example against this working copy, rebuilding mise on save
+- `pnpm --filter mise-logistics-example test` / `smoke`: the example's checks / a screenshot run
 
 ## Skills
 

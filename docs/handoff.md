@@ -15,6 +15,8 @@ green on `main`, the tree is clean, and no story is deferred.
 
 **The consumer skill is done (2026-11-09).** `skills/mise/` teaches an agent in an app that uses mise which component does which job, with a catalogue generated from the Props types (`pnpm build:skill`), setup and theming guides, three type-checked recipes, and `mise-theme info --json` for live context. It ships in the package; apps install it with `npx skills add jovertical/mise-design-system --skill mise`, or link the packaged copy with `npx skills experimental_sync`. Spec `docs/specs/2026-11-09-consumer-skill-design.md`, plan `docs/superpowers/plans/2026-11-09-consumer-skill.md`.
 
+**The logistics example is built (2026-11-09).** `examples/logistics/` is a SvelteKit single-page app built only from mise, on a seeded, resettable demo store: overview, orders (table, board, detail, create, cancel), shipments, fleet, products, warehouses, clients and settings, with ⌘K search. It consumes mise's built package through the pnpm workspace (rebuild mise after changing it) and deploys to GitHub Pages by `.github/workflows/example.yml` once Pages is enabled with GitHub Actions as the source. Building it added `Board` (`Origin: mise`, the first component without a React original) and fixed `SidebarInset`'s missing `min-w-0`. Spec `docs/specs/2026-11-09-logistics-example-design.md`, plans `docs/superpowers/plans/2026-11-09-logistics-example.md` and `…-board.md`.
+
 What was built, round by round:
 
 | Round | What | Plan or spec |
@@ -46,6 +48,7 @@ Decisions made with the user along the way, each also on its module's `Diverged:
 
 Nothing is in progress. Ask which of these comes next:
 
+0. **Alert's vocabulary.** `Alert` takes `variant` with `default | info | success | warning | destructive`, where every other component takes `tone` and calls red `critical`. Found while building the example; fixing it is a breaking change, so it waits for a decision.
 0. **Check DataTable's faceted filter.** The status filter in the DataTable stories sets an array of values on a column that declares no `filterFn`, and DataTable registers no array filter, so it may not filter at all. The data-table recipe gives its column a `filterFn` to be safe. Confirm in Storybook, and if it is broken, decide whether DataTable should register an `arrIncludesSome`-style default.
 
 1. **The deferred components.** Draggable, Droppable and Sortable (they need a Svelte drag-and-drop library; none is installed) and MermaidDiagram (a heavy optional dependency). The triage defers them until a screen asks for one. If one is wanted, write a plan like round 8's first, and ask the user to install any dependency.
@@ -159,6 +162,7 @@ The small cosmetic items React shares are fixed (2026-11-09): QuantityInput's un
 | Plans | `docs/superpowers/plans/` (rounds 0–1, 2, 3, 4a, 4b, 6, 7, 8) |
 | Naming authority | `docs/naming.md` |
 | Main entry, Form entry | `src/lib/index.ts`, `src/lib/form.ts` (`mise/form`) |
+| The logistics example | `examples/logistics/` (its README covers running, the data and deploying); `pnpm dev:example`; `.github/workflows/example.yml` |
 | The consumer skill | `skills/mise/` (hand-written `SKILL.md`, guides and recipes; generated `components/`), its generator in `scripts/skill/` and `scripts/build-skill.ts` |
 | Tone maps (the neutral wash) | `src/lib/utils/tone.ts` |
 | Story scaffolding and fixtures | `stories/` (`story-axis.svelte`, `on-a-card.svelte`, `fixtures/`) |

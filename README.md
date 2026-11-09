@@ -3,8 +3,11 @@
 Svelte 5 components and a configurable Tailwind v4 theme for operations
 dashboards: locations, shifts, orders, stock.
 
-> **Status:** 1.0. Published to npm as `@jovertical/mise-design-system`;
-> releases and the changelog are cut by release-please.
+> Published to npm as `@jovertical/mise-design-system`; releases and the
+> changelog are cut by release-please.
+>
+> **See it in an app:** [mise Logistics](https://jovertical.github.io/mise-design-system/),
+> a demo operations app built only from mise ([source](examples/logistics)).
 
 mise ports the API of a React design system to Svelte 5 and
 [bits-ui](https://bits-ui.com). Its Svelte mechanics follow
@@ -113,6 +116,9 @@ installed version, the stack, the theme config and the stylesheet that imports
 mise.
 
 ## Develop
+
+`pnpm dev:example` runs the logistics example against your working copy of
+mise, rebuilding mise on save; see `examples/logistics/README.md`.
 
 ```sh
 pnpm install
