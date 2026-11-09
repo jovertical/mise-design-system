@@ -1,7 +1,17 @@
 import { describe, expect, it } from 'vitest'
 
-import { clientReadiness, orderReadiness, productReadiness } from '../src/lib/data/readiness.js'
-import type { ClientInput, OrderInput, ProductInput } from '../src/lib/data/schemas.js'
+import {
+  clientReadiness,
+  orderReadiness,
+  productReadiness,
+  vehicleReadiness,
+} from '../src/lib/data/readiness.js'
+import type {
+  ClientInput,
+  OrderInput,
+  ProductInput,
+  VehicleInput,
+} from '../src/lib/data/schemas.js'
 
 const unmet = (items: { label: string; status: string }[]) =>
   items.filter((item) => item.status !== 'met').map((item) => item.label)
@@ -85,5 +95,28 @@ describe('product readiness', () => {
     const product = { ...blankProduct, name: 'Stretch film', unit: 'roll', price: 1450 }
     expect(unmet(productReadiness({ ...product, sku: 'pk 1' }))).toEqual(['SKU'])
     expect(unmet(productReadiness({ ...product, sku: 'PK-0499' }))).toEqual([])
+  })
+})
+
+const blankVehicle: VehicleInput = {
+  code: '',
+  registration: '',
+  type: 'van',
+  homeLocationId: '',
+  driverId: null,
+  mileageKm: 0,
+  nextServiceDay: 180,
+  condition: 'excellent',
+}
+
+describe('vehicle readiness', () => {
+  it('lists what a new vehicle still needs', () => {
+    expect(unmet(vehicleReadiness(blankVehicle))).toEqual(['Code', 'Registration', 'Home site'])
+  })
+
+  it('wants a code in the fleet shape', () => {
+    const van = { ...blankVehicle, registration: 'RV-2090', homeLocationId: 'loc-riverside' }
+    expect(unmet(vehicleReadiness({ ...van, code: 'VAN-30' }))).toEqual(['Code'])
+    expect(unmet(vehicleReadiness({ ...van, code: 'VAN-030' }))).toEqual([])
   })
 })

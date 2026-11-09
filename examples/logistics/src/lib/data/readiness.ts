@@ -11,6 +11,8 @@ import {
   type OrderInput,
   type ProductInput,
   productSchema,
+  type VehicleInput,
+  vehicleSchema,
 } from './schemas.js'
 
 const row = (id: string, label: string, met: boolean): ReadinessItem => ({
@@ -50,4 +52,10 @@ export const productReadiness = (values: ProductInput): ReadinessItem[] => [
   row('sku', 'SKU', productSchema.shape.sku.safeParse(values.sku).success),
   row('unit', 'Unit', values.unit.trim() !== ''),
   row('price', 'Price set', values.price > 0),
+]
+
+export const vehicleReadiness = (values: VehicleInput): ReadinessItem[] => [
+  row('code', 'Code', vehicleSchema.shape.code.safeParse(values.code).success),
+  row('registration', 'Registration', values.registration.trim().length >= 4),
+  row('home', 'Home site', values.homeLocationId !== ''),
 ]

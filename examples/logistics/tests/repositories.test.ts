@@ -10,12 +10,16 @@ import {
   updateClient,
 } from '../src/lib/data/clients.js'
 import {
+  assignableDrivers,
+  createVehicle,
   fleetCondition,
   fleetStatus,
   getVehicle,
   listVehicles,
   serviceDueSoon,
+  updateVehicle,
   vehicleShipments,
+  vehicleToInput,
 } from '../src/lib/data/fleet.js'
 import {
   cancelOrder,
@@ -200,6 +204,58 @@ describe('fleet', () => {
         .map((vehicle) => vehicle.code)
         .sort(),
     ).toEqual(['TRK-208', 'TRK-210', 'TRK-212', 'VAN-022'])
+  })
+
+  const newVan = {
+    code: 'VAN-030',
+    registration: 'RV-2090',
+    type: 'van' as const,
+    homeLocationId: 'loc-riverside',
+    driverId: null,
+    mileageKm: 120,
+    nextServiceDay: 180,
+    condition: 'excellent' as const,
+  }
+  const driver = (id: string) => s.data.drivers.find((candidate) => candidate.id === id)
+
+  it('adds a vehicle as idle', () => {
+    const vehicle = createVehicle(s, newVan)
+    expect(vehicle).toMatchObject({ id: 'veh-van-030', status: 'idle', driverId: null })
+    expect(getVehicle(s, 'VAN-030')).toEqual(vehicle)
+  })
+
+  it('refuses a code another vehicle has', () => {
+    expect(() => createVehicle(s, { ...newVan, code: 'TRK-212' })).toThrow(
+      'TRK-212 is already in use',
+    )
+    const van = getVehicle(s, 'VAN-026')
+    if (!van) throw new Error('no VAN-026')
+    expect(() => updateVehicle(s, 'VAN-026', { ...vehicleToInput(van), code: 'VAN-014' })).toThrow(
+      'VAN-014 is already in use',
+    )
+    expect(updateVehicle(s, 'VAN-026', vehicleToInput(van)).code).toBe('VAN-026')
+  })
+
+  it('moves a driver from their vehicle to a new one, keeping both sides in step', () => {
+    const vehicle = createVehicle(s, { ...newVan, driverId: 'drv-nguyen' })
+    expect(vehicle.driverId).toBe('drv-nguyen')
+    expect(driver('drv-nguyen')?.vehicleId).toBe(vehicle.id)
+    expect(getVehicle(s, 'TRK-212')?.driverId).toBeNull()
+  })
+
+  it('unassigns a driver, and lists who can be assigned', () => {
+    const truck = getVehicle(s, 'TRK-212')
+    if (!truck) throw new Error('no TRK-212')
+    updateVehicle(s, 'TRK-212', { ...vehicleToInput(truck), driverId: null })
+    expect(truck.driverId).toBeNull()
+    expect(driver('drv-nguyen')?.vehicleId).toBeNull()
+    expect(assignableDrivers(s, null).map((d) => d.id)).toEqual([
+      'drv-nguyen',
+      'drv-adeyemi',
+      'drv-lopez',
+    ])
+    const van = getVehicle(s, 'VAN-014')
+    expect(assignableDrivers(s, van?.id ?? null).map((d) => d.id)).toContain('drv-reyes')
   })
 })
 
