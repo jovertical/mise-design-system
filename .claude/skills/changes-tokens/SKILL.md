@@ -8,6 +8,8 @@ description: >-
   src/lib/styles/, when a theme test fails, or when a colour, radius, font or spacing value
   needs to move; or when the user mentions token, palette, preset, theme, theme.css, colour,
   radius, dark mode, mise-theme, or defineTheme.
+metadata:
+  internal: true
 ---
 
 # Changes Tokens

@@ -8,6 +8,8 @@ description: >-
   a default, or deciding whether something belongs in
   the package; or when the user mentions component, primitive, port, prop, variant, tone,
   default, shadcn, bits-ui, Origin header, or naming.
+metadata:
+  internal: true
 ---
 
 # Authors Components

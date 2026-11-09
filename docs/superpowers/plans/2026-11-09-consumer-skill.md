@@ -83,7 +83,7 @@ description: >-
 <Badge tone="success">Open</Badge>
 ```
 
-- [ ] **Step 2: Add the alias and include the folder**
+- [ ] **Step 2: Add the alias and include the folder** (superseded by the spike results: `tsconfig.json` `paths`)
 
 In `vite.config.ts`, pass the alias to the SvelteKit plugin. SvelteKit 3 takes its config as the plugin's options, so try:
 
@@ -142,9 +142,11 @@ Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
 
 #### Spike results
 
-- Alias: _to be filled in by Step 5_
-- Install command: _to be filled in by Step 5_
-- Discovery: _to be filled in by Step 5_
+- **Alias: not `kit.alias`.** SvelteKit 3 takes `alias` at the top level of the plugin options and marks it deprecated, and `svelte-package` rewrote a doc comment in `tokens/emit-web.js` (`'@jovertical/mise-design-system/theme.css'` became `'../index.ts/theme.css'`), so the packaged output changed. Used instead: `paths` in `tsconfig.json` mapping `@jovertical/mise-design-system` to `./src/lib/index.ts` and `/form` to `./src/lib/form.ts`, which only type-checking reads (the generated `$app/tsconfig` declares no `paths`). `pnpm check` passes with the probe, fails on `tone="loud"` with "Type '\"loud\"' is not assignable to type 'Tone | undefined'", and `svelte-package` output is byte-identical with and without it.
+- **Discovery (skills 1.7.6):** `npx skills add <repo> --list` found all seven skills, `mise` and the six in `.claude/skills/`, since `.claude/skills/` is a standard discovery path. The six contributor skills now carry `metadata: { internal: true }` in their frontmatter, which hides them unless `INSTALL_INTERNAL_SKILLS=1`; the listing then shows only `mise`.
+- **Install commands:**
+  - From GitHub: `npx skills add jovertical/mise-design-system --skill mise`.
+  - From the installed package, version-matched (experimental in the CLI): `npx skills experimental_sync -y` (add `-a claude-code` to pick the agent). It reads `skills/<name>/SKILL.md` from installed dependencies and links it into `.agents/skills/`, so the skill updates with the package. A `prepare` script can run it after every install.
 
 ### Task 2: The pure extractors
 

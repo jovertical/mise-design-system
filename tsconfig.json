@@ -7,7 +7,11 @@
     "noFallthroughCasesInSwitch": true,
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "types": ["$app/types", "node", "vitest/globals", "@testing-library/jest-dom/vitest"]
+    "types": ["$app/types", "node", "vitest/globals", "@testing-library/jest-dom/vitest"],
+    "paths": {
+      "@jovertical/mise-design-system": ["./src/lib/index.ts"],
+      "@jovertical/mise-design-system/form": ["./src/lib/form.ts"]
+    }
   },
-  "include": ["src", "tests", "scripts", "stories", ".storybook", "vite.config.ts"]
+  "include": ["src", "tests", "scripts", "stories", "skills", ".storybook", "vite.config.ts"]
 }

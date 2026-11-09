@@ -8,6 +8,8 @@ description: >-
   when writing or fixing a test, when a suite fails, or when a bug fix needs a regression test;
   or when the user mentions test, vitest, spec, assertion, jsdom, Testing Library, provenance,
   or barrel.
+metadata:
+  internal: true
 ---
 
 # Vitest Testing

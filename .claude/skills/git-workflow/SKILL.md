@@ -6,6 +6,8 @@ description: >-
   pushing only at an approved phase or round gate, and releases cut only by release-please. Activates when
   committing, pushing, branching, or when a release or version comes up; or when the user
   mentions git, branch, commit, push, ship, PR, release, tag, or version.
+metadata:
+  internal: true
 ---
 
 # Git Workflow

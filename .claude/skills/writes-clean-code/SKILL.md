@@ -5,6 +5,8 @@ description: >-
   lookup maps over branching on a variant, small focused functions, and defensive handling of
   optional props. Activates on every code change; or when the user mentions clean code, refactor,
   nesting, early return, guard clause, ternary, or defensive programming.
+metadata:
+  internal: true
 ---
 
 # Writes Clean Code

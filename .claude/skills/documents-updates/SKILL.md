@@ -6,6 +6,8 @@ description: >-
   AGENTS.md — so a rule never outlives the code it describes. Activates after porting, adding,
   renaming or removing a component, changing a default or a token, or changing the tooling;
   or when the user mentions docs, documentation, README, naming, spec, plan, or stale docs.
+metadata:
+  internal: true
 ---
 
 # Documents Updates
