@@ -22,12 +22,21 @@
 
   const path = $derived(page.url.pathname.replace(resolve('/'), '/'))
   const here = $derived(locate(path))
-  // Deeper than its menu item (an order's page): the record is the last step.
-  const leaf = $derived(
-    here && here.item.href !== '/' && path.length > here.item.href.length
-      ? (crumb.leaf ?? decodeURIComponent(path.slice(here.item.href.length + 1)))
-      : null,
-  )
+  // Deeper than its menu item (an order's page): the record is the next step,
+  // named by the page or taken from the URL. A create or edit page adds its
+  // step after it, and the record becomes a link back to its page.
+  type Step = { label: string; href: string | null }
+  const trail = $derived.by((): Step[] => {
+    if (!here || here.item.href === '/' || path.length <= here.item.href.length) return []
+    const [record] = path.slice(here.item.href.length + 1).split('/')
+    const recordLabel = crumb.leaf ?? decodeURIComponent(record)
+    if (!crumb.step) return [{ label: recordLabel, href: null }]
+    if (record === 'new') return [{ label: crumb.step, href: null }]
+    return [
+      { label: recordLabel, href: `${here.item.href}/${record}` },
+      { label: crumb.step, href: null },
+    ]
+  })
 </script>
 
 <!-- A floating bar on a blurred band, as the client portal has it: the page
@@ -48,12 +57,22 @@
               <BreadcrumbItem class="hidden md:block">{here.group.label}</BreadcrumbItem>
               <BreadcrumbSeparator class="hidden md:block" />
             {/if}
-            {#if leaf}
+            {#if trail.length > 0}
               <BreadcrumbItem>
                 <BreadcrumbLink href={resolve(here.item.href)}>{here.item.label}</BreadcrumbLink>
               </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem><BreadcrumbPage>{leaf}</BreadcrumbPage></BreadcrumbItem>
+              {#each trail as step (step.label)}
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  {#if step.href}
+                    <BreadcrumbLink href={resolve('/') + step.href.slice(1)}
+                      >{step.label}</BreadcrumbLink
+                    >
+                  {:else}
+                    <BreadcrumbPage>{step.label}</BreadcrumbPage>
+                  {/if}
+                </BreadcrumbItem>
+              {/each}
             {:else}
               <BreadcrumbItem><BreadcrumbPage>{here.item.label}</BreadcrumbPage></BreadcrumbItem>
             {/if}
