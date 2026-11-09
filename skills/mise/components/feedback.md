@@ -78,6 +78,16 @@ Types: `EmptyMediaVariant` (`'default' | 'icon'`).
 
 `import { EmptyState } from '@jovertical/mise-design-system'`
 
+The default "nothing here yet" panel, for a list that came back empty when the screen has nothing more specific to say. `Empty` and its parts stay exported for the cases that do. The fallback wording is honest anywhere, which is also the signal that a screen has not been given its own.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `icon` (required) | `Snippet` |  | Rendered in `EmptyMedia`'s icon chip. |
+| `title` | `string` |  |  |
+| `description` | `string` |  |  |
+| `actions` | `Snippet` |  | Buttons offering a way out of the empty state, laid out in a row. |
+| `class` | `string` |  |  |
+
 ## ErrorState
 
 `import { ErrorState } from '@jovertical/mise-design-system'`
@@ -111,11 +121,20 @@ The page a reader lands on when a feature is not open to them yet, in place of a
 | `primaryAction` (required) | `Snippet` |  | The way in: "Turn on purchase orders". |
 | `secondaryAction` | `Snippet` |  | Usually "Learn more". |
 
-Also takes: every `<>` attribute except `title`, `children`.
+Also takes: every HTML attribute except `title`, `children`.
 
 ## LoadingState
 
 `import { LoadingState } from '@jovertical/mise-design-system'`
+
+The panel that says work is under way, when the shape of what is coming is not known yet. The mirror of `EmptyState`, on the same `Empty` parts, so a list that flips from loading to empty does not move; the border is solid because something is coming. Reach for it last: where the layout is known, a `Skeleton` holds it.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `title` | `string` |  |  |
+| `description` | `string` |  |  |
+| `actions` | `Snippet` |  | Something to do instead of waiting, usually "Continue in background". |
+| `class` | `string` |  |  |
 
 ## LockedOverlay
 

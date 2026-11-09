@@ -118,7 +118,8 @@ function describe(node: ts.TypeNode, scope: Scope, depth = 0): string {
       return `${again(args[0])} except ${keys.join(', ')}`
     }
     if (name === 'HTMLAttributes') {
-      const element = args[0]?.getText().match(/^HTML(\w*)Element$/)?.[1] ?? 'Element'
+      const element = args[0]?.getText().match(/^HTML(\w*)Element$/)?.[1] ?? ''
+      if (!element) return 'every HTML attribute'
       return `every \`<${ELEMENTS[element] ?? element.toLowerCase()}>\` attribute`
     }
     const tag = name.match(/^HTML(\w+)Attributes$/)?.[1]
@@ -170,8 +171,32 @@ function isObjectShaped(node: ts.TypeNode): boolean {
   return false
 }
 
-export function propsDoc(moduleScript: string, typeName: string): PropsDoc | null {
+/**
+ * `interface XProps extends A, B { … }` rewritten as `type XProps = A & B & { … }`
+ * in place, JSDoc and all, so one reader serves both declarations.
+ */
+function interfaceAsAlias(moduleScript: string, typeName: string): string {
   const source = parse(moduleScript)
+  const declaration = source.statements.find(
+    (statement): statement is ts.InterfaceDeclaration =>
+      ts.isInterfaceDeclaration(statement) && statement.name.text === typeName,
+  )
+  if (!declaration) return moduleScript
+  const bases = (declaration.heritageClauses ?? []).flatMap((clause) =>
+    clause.types.map((type) => type.getText()),
+  )
+  const body = moduleScript.slice(declaration.members.pos, declaration.members.end)
+  const exported = declaration.modifiers?.some((m) => m.kind === ts.SyntaxKind.ExportKeyword)
+  const alias = `${exported ? 'export ' : ''}type ${typeName} = ${[...bases, `{${body}}`].join(' & ')}`
+  return (
+    moduleScript.slice(0, declaration.getStart(source)) +
+    alias +
+    moduleScript.slice(declaration.end)
+  )
+}
+
+export function propsDoc(moduleScript: string, typeName: string): PropsDoc | null {
+  const source = parse(interfaceAsAlias(moduleScript, typeName))
   const alias = source.statements.find(
     (statement): statement is ts.TypeAliasDeclaration =>
       ts.isTypeAliasDeclaration(statement) && statement.name.text === typeName,

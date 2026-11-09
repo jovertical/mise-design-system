@@ -68,7 +68,7 @@ Types: `BadgeVariant` (`'solid' | 'soft' | 'outline'`).
 | --- | --- | --- | --- |
 | `config` (required) | `ChartConfig` |  | Each series' label and colour; colours are written as `--color-<key>`. |
 
-Also takes: every `<>` attribute.
+Also takes: every HTML attribute.
 
 ### `ChartStyle`
 
@@ -346,7 +346,7 @@ A **list row**, not a menu row. `DropdownMenuItem` is a command: it lives in a `
 | `href` | `string` |  | Renders the row as an `a` to this address. |
 | `child` | `Snippet<[{ props: Record<string, unknown> }]>` |  |  |
 
-Also takes: every `<>` attribute.
+Also takes: every HTML attribute.
 
 ### `ItemActions`
 
@@ -619,7 +619,7 @@ Also takes: every `<thead>` attribute.
 
 A caption under the table.
 
-Also takes: every `<>` attribute.
+Also takes: every HTML attribute.
 
 ### `TableCell`
 

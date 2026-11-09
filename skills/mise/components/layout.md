@@ -134,6 +134,20 @@ Also takes: bits-ui `Collapsible.Trigger` props.
 
 `import { PageHeader } from '@jovertical/mise-design-system'`
 
+Which affordance a page carries, by what kind of page it is:
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `title` | `string` |  | Omit it when the trail carries the leaf and repeating it would add nothing. Without a title there is no `h1`, so the body owns the heading. |
+| `description` | `string \| Snippet` |  |  |
+| `breadcrumb` | `Snippet` |  | The trail of ancestors, above the title. Pass this or `backLink`, not both. |
+| `backLink` | `Snippet` |  | A way back out, where the breadcrumb would be: the create-and-edit shape. |
+| `eyebrow` | `string \| Snippet` |  | A short uppercase label naming the kind of page when the title cannot. |
+| `titleAccessory` | `Snippet` |  | Inline with the title: a switcher, a status badge. |
+| `truncateTitle` | `boolean` | `false` | One line, capped at `max-w-3xl`, with the whole title as a tooltip. For titles someone else wrote. |
+| `actions` | `Snippet` |  | The right-hand action cluster. |
+| `class` | `string` |  |  |
+
 ## PageLayout
 
 `import { PageLayout } from '@jovertical/mise-design-system'`

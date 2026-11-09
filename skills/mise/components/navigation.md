@@ -8,7 +8,7 @@
 
 Written against shadcn/ui's `breadcrumb` API, not ported from it: the names match so a reader arriving from shadcn finds what they expect. The separator is `/` and the leaf is not a disabled link.
 
-Also takes: every `<>` attribute.
+Also takes: every HTML attribute.
 
 ### `BreadcrumbEllipsis`
 
@@ -103,7 +103,7 @@ Also takes: everything `Input` takes.
 
 ### `SidebarInset`
 
-Also takes: every `<>` attribute.
+Also takes: every HTML attribute.
 
 ### `SidebarMenu`
 

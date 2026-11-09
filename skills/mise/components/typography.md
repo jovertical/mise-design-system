@@ -31,6 +31,6 @@ Body text, set by what it is doing rather than by the classes that draw it: the 
 | `numeric` | `boolean` | `false` | `tabular-nums`, so a column of figures lines up. |
 | `truncate` | `boolean` | `false` | One line, ellipsised. Needs a width to truncate against. |
 
-Also takes: every `<>` attribute.
+Also takes: every HTML attribute.
 
 Types: `TextSize` (`'xs' | 'sm'`), `TextWeight` (`'normal' | 'medium' | 'semibold'`).

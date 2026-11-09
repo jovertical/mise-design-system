@@ -86,6 +86,7 @@ describe('propsDoc', () => {
     ['SelectPrimitive.TriggerProps', 'bits-ui `Select.Trigger` props'],
     ['NumberInputFieldProps', 'everything `NumberInputField` takes'],
     ['HTMLInputAttributes', 'every `<input>` attribute'],
+    ['HTMLAttributes<HTMLElement>', 'every HTML attribute'],
   ])('summarises %s', (operand, expected) => {
     const source = `export type XProps = ${operand} & { a?: string }`
     expect(propsDoc(source, 'XProps')?.alsoTakes).toEqual([expected])
@@ -227,5 +228,25 @@ describe('propsDoc, inside WithElementRef', () => {
       ['type', "'file' | 'text'"],
       ['on', '((files: FileList) => void) | ((text: string) => void)'],
     ])
+  })
+})
+
+describe('propsDoc, for an interface', () => {
+  it('reads members, JSDoc and what it extends', () => {
+    const source = `/** A full-page stop. */
+export interface XProps extends HTMLAttributes<HTMLDivElement> {
+  /** What stopped. */
+  title: string
+  description?: string
+}`
+    const doc = propsDoc(source, 'XProps')
+    expect(doc?.summary).toBe('A full-page stop.')
+    expect(
+      doc?.props.map(({ name, optional, description }) => [name, optional, description]),
+    ).toEqual([
+      ['title', false, 'What stopped.'],
+      ['description', true, ''],
+    ])
+    expect(doc?.alsoTakes).toEqual(['every `<div>` attribute'])
   })
 })

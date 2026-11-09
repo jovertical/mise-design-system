@@ -51,6 +51,21 @@ describe('the skill', () => {
     )
   })
 
+  it('names every component folder in its index', () => {
+    const text = readFileSync(join(skill, 'SKILL.md'), 'utf8')
+    const missing = componentFolders()
+      .map(({ path }) => {
+        const entries = folderExports(readFileSync(join(componentsDir, path, 'index.ts'), 'utf8'))
+        const name = path.split('/')[1]
+        return (
+          entries.find((entry) => entry.component && entry.from === `./${name}.svelte`)?.name ??
+          name
+        )
+      })
+      .filter((name) => !new RegExp(`\\b${name}\\b`).test(text))
+    expect(missing).toEqual([])
+  })
+
   it('links only to files that exist', () => {
     const broken = markdownFiles(skill).flatMap((file) =>
       [...readFileSync(file, 'utf8').matchAll(/\]\((?!https?:|#)([^)#]+)/g)]
