@@ -28,6 +28,8 @@ else, give the button an explicit `type`.
 - `bind:ref` on every part.
 - Relative imports in `.ts` end in `.js`. The tsconfig's `NodeNext` override
   makes a missing extension an error.
+- Names, module boundaries, size and spacing between statements:
+  `../clean-code/guide.md`.
 
 ## Comments
 

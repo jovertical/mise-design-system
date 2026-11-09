@@ -2,7 +2,8 @@
 
 > **Read first:** `docs/specs/2026-11-04-svelte-port-design.md` (what this is
 > and why), then `.ai/guidelines/architecture/guide.md`,
-> `.ai/guidelines/style/guide.md` and `.ai/guidelines/theming/guide.md`.
+> `.ai/guidelines/style/guide.md`, `.ai/guidelines/theming/guide.md` and
+> `.ai/guidelines/clean-code/guide.md`.
 > `docs/naming.md` is the naming authority. The round plan in progress is in
 > `docs/superpowers/plans/`.
 
@@ -83,4 +84,4 @@ Activate the matching skill before working in its area:
 - `vitest-testing`: writing or fixing a test
 - `git-workflow`: committing or pushing
 - `documents-updates`: after a component, default, token or flow change
-- `writes-clean-code`: every code change
+- `writes-clean-code`: every code change (the rules are in `.ai/guidelines/clean-code/guide.md`)
