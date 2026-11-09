@@ -58,3 +58,75 @@ describe('mise-theme', () => {
     expect(result.message).toContain('Unknown hue "chartreuse" for primary')
   })
 })
+
+describe('mise-theme info', () => {
+  const app = (dependencies: Record<string, string>) =>
+    writeFileSync(join(dir, 'package.json'), JSON.stringify({ type: 'module', dependencies }))
+
+  it('reports an Inertia app with its theme config and stylesheet', async () => {
+    app({ '@inertiajs/svelte': '^2.0.0', svelte: '^5.41.0', tailwindcss: '^4.1.3' })
+    writeFileSync(join(dir, 'mise.theme.js'), 'export default {}')
+    mkdirSync(join(dir, 'resources', 'css'), { recursive: true })
+    writeFileSync(
+      join(dir, 'resources', 'css', 'app.css'),
+      "@import 'tailwindcss';\n@import '@jovertical/mise-design-system/theme.css';\n",
+    )
+
+    const result = await runThemeCli(['info', '--json'], dir, '1.0.0')
+
+    expect(result.code).toBe(0)
+    expect(JSON.parse(result.message)).toEqual({
+      version: '1.0.0',
+      stack: 'inertia',
+      svelte: '^5.41.0',
+      tailwind: '^4.1.3',
+      themeConfig: 'mise.theme.js',
+      stylesheet: 'resources/css/app.css',
+      form: false,
+    })
+  })
+
+  it('reports a SvelteKit app with the form peers and no theme or stylesheet', async () => {
+    app({ '@sveltejs/kit': '^3.0.0', formsnap: '^2.0.0', 'sveltekit-superforms': '^2.0.0' })
+
+    const info = JSON.parse((await runThemeCli(['info', '--json'], dir, '1.0.0')).message)
+
+    expect(info).toMatchObject({
+      stack: 'sveltekit',
+      themeConfig: null,
+      stylesheet: null,
+      form: true,
+    })
+  })
+
+  it('calls anything else a plain Vite app', async () => {
+    app({ svelte: '^5.0.0' })
+    const info = JSON.parse((await runThemeCli(['info', '--json'], dir, '1.0.0')).message)
+    expect(info.stack).toBe('vite')
+  })
+
+  it('skips node_modules when looking for the stylesheet', async () => {
+    app({ svelte: '^5.0.0' })
+    mkdirSync(join(dir, 'node_modules', 'x'), { recursive: true })
+    writeFileSync(
+      join(dir, 'node_modules', 'x', 'a.css'),
+      "@import '@jovertical/mise-design-system/theme.css';",
+    )
+    const info = JSON.parse((await runThemeCli(['info', '--json'], dir, '1.0.0')).message)
+    expect(info.stylesheet).toBeNull()
+  })
+
+  it('prints lines without --json', async () => {
+    app({ svelte: '^5.0.0' })
+    const result = await runThemeCli(['info'], dir, '1.0.0')
+    expect(result.code).toBe(0)
+    expect(result.message).toContain('stack: vite')
+  })
+
+  it('fails without a package.json', async () => {
+    rmSync(join(dir, 'package.json'))
+    const result = await runThemeCli(['info', '--json'], dir, '1.0.0')
+    expect(result.code).toBe(1)
+    expect(result.message).toMatch(/No package.json/)
+  })
+})
