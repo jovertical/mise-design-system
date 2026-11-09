@@ -4,6 +4,7 @@ import {
   clientReadiness,
   orderReadiness,
   productReadiness,
+  shipmentReadiness,
   siteReadiness,
   vehicleReadiness,
 } from '../src/lib/data/readiness.js'
@@ -11,6 +12,7 @@ import type {
   ClientInput,
   OrderInput,
   ProductInput,
+  ShipmentInput,
   SiteInput,
   VehicleInput,
 } from '../src/lib/data/schemas.js'
@@ -153,5 +155,28 @@ describe('site readiness', () => {
     expect(unmet(siteReadiness(site))).toEqual(['At least one zone'])
     const zoned = { ...site, zones: [{ name: 'Zone A', capacity: 2500 }] }
     expect(unmet(siteReadiness(zoned))).toEqual([])
+  })
+})
+
+describe('shipment readiness', () => {
+  const blankRun: ShipmentInput = { originId: '', vehicleId: '', driverId: '', orderIds: [] }
+
+  it('lists what a new run still needs', () => {
+    expect(unmet(shipmentReadiness(blankRun))).toEqual([
+      'Origin',
+      'Vehicle',
+      'Driver',
+      'At least one order',
+    ])
+  })
+
+  it('is ready with a vehicle, a driver and an order', () => {
+    const run = {
+      originId: 'loc-riverside',
+      vehicleId: 'veh-van-026',
+      driverId: 'drv-lopez',
+      orderIds: ['or-2049'],
+    }
+    expect(unmet(shipmentReadiness(run))).toEqual([])
   })
 })

@@ -11,6 +11,7 @@ import {
   type OrderInput,
   type ProductInput,
   productSchema,
+  type ShipmentInput,
   type SiteInput,
   type VehicleInput,
   vehicleSchema,
@@ -70,4 +71,11 @@ export const siteReadiness = (values: SiteInput): ReadinessItem[] => [
     'At least one zone',
     values.zones.some((zone) => zone.name.trim() !== '' && zone.capacity > 0),
   ),
+]
+
+export const shipmentReadiness = (values: ShipmentInput): ReadinessItem[] => [
+  row('origin', 'Origin', values.originId !== ''),
+  row('vehicle', 'Vehicle', values.vehicleId !== ''),
+  row('driver', 'Driver', values.driverId !== ''),
+  row('orders', 'At least one order', values.orderIds.length > 0),
 ]
