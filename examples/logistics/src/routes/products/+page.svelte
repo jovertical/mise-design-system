@@ -37,8 +37,14 @@
   import { renderComponent, renderSnippet } from '@tanstack/svelte-table'
   import NoMatches from '#lib/components/no-matches.svelte'
   import { latency } from '#lib/data/latency.js'
-  import { listProducts, lowStock, productStock, updateProduct } from '#lib/data/products.js'
-  import { productPatchSchema } from '#lib/data/schemas.js'
+  import {
+    listProducts,
+    lowStock,
+    productStock,
+    productToInput,
+    updateProduct,
+  } from '#lib/data/products.js'
+  import { productSchema } from '#lib/data/schemas.js'
   import { store } from '#lib/data/store.svelte.js'
   import type { Product } from '#lib/data/types.js'
   import { money } from '#lib/format.js'
@@ -87,7 +93,7 @@
   function save(event: SubmitEvent) {
     event.preventDefault()
     if (!editing) return
-    const result = productPatchSchema.safeParse({
+    const result = productSchema.pick({ price: true, reorderPoint: true }).safeParse({
       price: price ?? -1,
       reorderPoint: reorderPoint ?? -1,
     })
@@ -97,7 +103,7 @@
       )
       return
     }
-    updateProduct(store, editing.id, result.data)
+    updateProduct(store, editing.id, { ...productToInput(editing), ...result.data })
     toast.success(`${editing.name} updated`)
     editing = null
   }

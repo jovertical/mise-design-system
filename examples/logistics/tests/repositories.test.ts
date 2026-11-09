@@ -37,10 +37,12 @@ import {
   pipelineUrgency,
 } from '../src/lib/data/overview.js'
 import {
+  createProduct,
   getProduct,
   listProducts,
   lowStock,
   productStock,
+  productToInput,
   updateProduct,
 } from '../src/lib/data/products.js'
 import { clientSchema, orderSchema } from '../src/lib/data/schemas.js'
@@ -215,9 +217,50 @@ describe('products', () => {
     ).toEqual(['CC-3008', 'PK-0422', 'PK-0462', 'PL-1020'])
   })
 
-  it('updates only price and reorder point', () => {
-    const product = updateProduct(s, 'prd-pk-0422', { price: 990, reorderPoint: 80 })
-    expect(product).toMatchObject({ price: 990, reorderPoint: 80, sku: 'PK-0422' })
+  it('updates a product and leaves its stock alone', () => {
+    const corner = listProducts(s, { search: 'PK-0422' })[0]
+    const stock = JSON.parse(JSON.stringify(corner.stock))
+    const product = updateProduct(s, corner.id, {
+      ...productToInput(corner),
+      name: 'Corner boards ×100',
+      price: 990,
+      reorderPoint: 80,
+      openingStock: [{ locationId: 'loc-riverside', onHand: 9999 }],
+    })
+    expect(product).toMatchObject({ name: 'Corner boards ×100', price: 990, reorderPoint: 80 })
+    expect(product.stock).toEqual(stock)
+  })
+
+  it('creates a product with opening stock at every site', () => {
+    const product = createProduct(s, {
+      name: 'Stretch film, 23µm',
+      sku: 'PK-0499',
+      category: 'packaging',
+      unit: 'roll',
+      price: 1450,
+      reorderPoint: 40,
+      openingStock: [{ locationId: 'loc-harbour', onHand: 120 }],
+    })
+    expect(product.id).toBe('prd-pk-0499')
+    expect(product.stock).toHaveLength(s.data.locations.length)
+    expect(product.stock.find((row) => row.locationId === 'loc-harbour')).toEqual({
+      locationId: 'loc-harbour',
+      onHand: 120,
+      reserved: 0,
+    })
+    expect(productStock(product).onHand).toBe(120)
+  })
+
+  it('refuses a SKU another product already has', () => {
+    const corner = listProducts(s, { search: 'PK-0422' })[0]
+    const wrap = listProducts(s, { search: 'PK-0410' })[0]
+    expect(() => createProduct(s, { ...productToInput(corner), name: 'Copy' })).toThrow(
+      'SKU PK-0422 is already in use',
+    )
+    expect(() => updateProduct(s, wrap.id, { ...productToInput(wrap), sku: 'PK-0422' })).toThrow(
+      'SKU PK-0422 is already in use',
+    )
+    expect(updateProduct(s, corner.id, productToInput(corner)).sku).toBe('PK-0422')
   })
 })
 

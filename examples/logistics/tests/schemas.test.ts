@@ -6,7 +6,7 @@ import { updateProduct } from '../src/lib/data/products.js'
 import {
   clientSchema,
   orderSchema,
-  productPatchSchema,
+  productSchema,
   settingsSchema,
 } from '../src/lib/data/schemas.js'
 import { getSettings, saveSettings } from '../src/lib/data/settings.js'
@@ -36,8 +36,23 @@ describe('schemas', () => {
       'Enter the order total',
     )
 
-    expect(productPatchSchema.safeParse({ price: 990, reorderPoint: 80 }).success).toBe(true)
-    expect(productPatchSchema.safeParse({ price: -1, reorderPoint: 80 }).success).toBe(false)
+    const product = {
+      name: 'Stretch film',
+      sku: 'PK-0499',
+      category: 'packaging' as const,
+      unit: 'roll',
+      price: 1450,
+      reorderPoint: 40,
+      openingStock: [{ locationId: 'loc-harbour', onHand: 120 }],
+    }
+    expect(productSchema.safeParse(product).success).toBe(true)
+    expect(productSchema.safeParse({ ...product, price: 0 }).error?.issues[0].message).toBe(
+      'Enter a price',
+    )
+    expect(productSchema.safeParse({ ...product, sku: 'pk 0499' }).error?.issues[0].message).toBe(
+      'Capitals, digits and dashes only',
+    )
+    expect(productSchema.safeParse({ ...product, reorderPoint: -1 }).success).toBe(false)
 
     const client = {
       name: 'Pine Deli',
@@ -82,7 +97,17 @@ describe('schemas', () => {
 
   it('guard every write function', () => {
     expect(() => createOrder(s, { ...order, destination: 'x' })).toThrow()
-    expect(() => updateProduct(s, 'prd-pk-0422', { price: 1.5, reorderPoint: 1 })).toThrow()
+    expect(() =>
+      updateProduct(s, 'prd-pk-0422', {
+        name: 'Corner boards',
+        sku: 'PK-0422',
+        category: 'packaging',
+        unit: 'pack',
+        price: 1.5,
+        reorderPoint: 1,
+        openingStock: [],
+      }),
+    ).toThrow()
     expect(() =>
       createClient(s, {
         name: 'A',

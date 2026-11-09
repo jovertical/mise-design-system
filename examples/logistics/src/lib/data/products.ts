@@ -1,4 +1,4 @@
-import { productPatchSchema } from './schemas.js'
+import { type ProductInput, productSchema } from './schemas.js'
 import { matches, type Source } from './shared.js'
 import type { Product } from './types.js'
 
@@ -18,16 +18,44 @@ export function productStock(product: Product) {
 export const lowStock = (s: Source) =>
   s.data.products.filter((product) => productStock(product).available < product.reorderPoint)
 
-export function updateProduct(
-  s: Source,
-  id: string,
-  patch: Pick<Product, 'price' | 'reorderPoint'>,
-): Product {
+export const productToInput = (product: Product): ProductInput => ({
+  name: product.name,
+  sku: product.sku,
+  category: product.category,
+  unit: product.unit,
+  price: product.price,
+  reorderPoint: product.reorderPoint,
+  openingStock: product.stock.map(({ locationId, onHand }) => ({ locationId, onHand })),
+})
+
+function parseProduct(s: Source, raw: ProductInput, id: string | null) {
+  const input = productSchema.parse(raw)
+  const taken = s.data.products.some((product) => product.sku === input.sku && product.id !== id)
+  if (taken) throw new Error(`SKU ${input.sku} is already in use`)
+  return input
+}
+
+export function createProduct(s: Source, raw: ProductInput): Product {
+  const { openingStock, ...input } = parseProduct(s, raw, null)
+  const product: Product = {
+    ...input,
+    id: `prd-${input.sku.toLowerCase()}`,
+    stock: s.data.locations.map((location) => ({
+      locationId: location.id,
+      onHand: openingStock.find((row) => row.locationId === location.id)?.onHand ?? 0,
+      reserved: 0,
+    })),
+  }
+  s.data.products.push(product)
+  return product
+}
+
+/** Everything but stock, which moves through adjustments rather than this form. */
+export function updateProduct(s: Source, id: string, raw: ProductInput): Product {
   const product = s.data.products.find((candidate) => candidate.id === id)
   if (!product) throw new Error(`No product ${id}`)
-  const { price, reorderPoint } = productPatchSchema.parse(patch)
-  product.price = price
-  product.reorderPoint = reorderPoint
+  const { openingStock: _, ...input } = parseProduct(s, raw, product.id)
+  Object.assign(product, input)
   return product
 }
 

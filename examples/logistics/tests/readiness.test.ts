@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
-import { clientReadiness, orderReadiness } from '../src/lib/data/readiness.js'
-import type { ClientInput, OrderInput } from '../src/lib/data/schemas.js'
+import { clientReadiness, orderReadiness, productReadiness } from '../src/lib/data/readiness.js'
+import type { ClientInput, OrderInput, ProductInput } from '../src/lib/data/schemas.js'
 
 const unmet = (items: { label: string; status: string }[]) =>
   items.filter((item) => item.status !== 'met').map((item) => item.label)
@@ -63,5 +63,27 @@ describe('client readiness', () => {
     const client = { ...blankClient, name: 'Pine Deli', city: 'Riverside', contact: 'H. Boyd' }
     expect(unmet(clientReadiness({ ...client, email: 'boyd' }))).toEqual(['Contact and email'])
     expect(unmet(clientReadiness({ ...client, email: 'boyd@pine.example' }))).toEqual([])
+  })
+})
+
+const blankProduct: ProductInput = {
+  name: '',
+  sku: '',
+  category: 'packaging',
+  unit: '',
+  price: 0,
+  reorderPoint: 0,
+  openingStock: [],
+}
+
+describe('product readiness', () => {
+  it('lists what a new product still needs', () => {
+    expect(unmet(productReadiness(blankProduct))).toEqual(['Named', 'SKU', 'Unit', 'Price set'])
+  })
+
+  it('wants a SKU in the right shape', () => {
+    const product = { ...blankProduct, name: 'Stretch film', unit: 'roll', price: 1450 }
+    expect(unmet(productReadiness({ ...product, sku: 'pk 1' }))).toEqual(['SKU'])
+    expect(unmet(productReadiness({ ...product, sku: 'PK-0499' }))).toEqual([])
   })
 })
