@@ -32,6 +32,7 @@
     "dist",
     "bin",
     "LICENSES",
+    "skills",
     "!dist/**/*.stories.svelte",
     "!dist/**/*.stories.svelte.d.ts",
     "!dist/**/*.test.*"
@@ -52,6 +53,7 @@
     "prepare": "svelte-kit sync || echo ''",
     "build": "svelte-kit sync && svelte-package && pnpm build:theme && publint",
     "build:theme": "tsx scripts/build-theme.ts",
+    "build:skill": "tsx scripts/build-skill.ts",
     "storybook": "pnpm build:theme && storybook dev -p 6006",
     "build:storybook": "pnpm build:theme && storybook build",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --fail-on-warnings",

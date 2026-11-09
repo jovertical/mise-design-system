@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-
+import { literalAliases } from '../scripts/skill/aliases.js'
 import { folderExports } from '../scripts/skill/exports.js'
 import { propDefaults, propsDoc } from '../scripts/skill/props.js'
 import { scripts } from '../scripts/skill/svelte-source.js'
@@ -118,6 +118,114 @@ export { type BadgeVariant, badgeVariants } from './badge-variants.js'`
       { name: 'Badge', from: './badge.svelte', component: true, typeOnly: false },
       { name: 'BadgeVariant', from: './badge-variants.js', component: false, typeOnly: true },
       { name: 'badgeVariants', from: './badge-variants.js', component: false, typeOnly: false },
+    ])
+  })
+})
+
+describe('literalAliases', () => {
+  const files = [
+    "export type Tone = 'neutral' | 'primary'\nexport type Size = 'sm' | 'md' | 'lg'",
+    'export type Own = Size\nexport type Loose = string',
+    `import { cva, type VariantProps } from 'class-variance-authority'
+export const groupVariants = cva('flex', {
+  variants: { orientation: { horizontal: 'flex-row', vertical: 'flex-col' } },
+})
+export type GroupOrientation = NonNullable<
+  VariantProps<typeof groupVariants>['orientation']
+>`,
+  ]
+  const aliases = literalAliases(files)
+
+  it('reads unions of literals', () => {
+    expect(aliases.get('Tone')).toBe("'neutral' | 'primary'")
+  })
+
+  it('follows an alias of an alias', () => {
+    expect(aliases.get('Own')).toBe("'sm' | 'md' | 'lg'")
+  })
+
+  it('reads the keys of a cva variant', () => {
+    expect(aliases.get('GroupOrientation')).toBe("'horizontal' | 'vertical'")
+  })
+
+  it('leaves out anything that is not a set of literals', () => {
+    expect(aliases.has('Loose')).toBe(false)
+  })
+})
+
+describe('describe, for the bits-ui wrappers', () => {
+  it.each([
+    [
+      'WithoutChildrenOrChild<CalendarPrimitive.RootProps>',
+      'bits-ui `Calendar.Root` props except `children`, `child`',
+    ],
+    [
+      'WithoutChildren<SelectPrimitive.ContentProps>',
+      'bits-ui `Select.Content` props except `children`',
+    ],
+    ['WithoutChild<SelectPrimitive.ItemProps>', 'bits-ui `Select.Item` props except `child`'],
+  ])('summarises %s', (operand, expected) => {
+    expect(
+      propsDoc(`export type XProps = ${operand} & { a?: string }`, 'XProps')?.alsoTakes,
+    ).toEqual([expected])
+  })
+})
+
+describe('describe, through local aliases and imports', () => {
+  it('follows a local alias and Extract to the bits-ui type', () => {
+    const source = `import { Select as SelectPrimitive } from 'bits-ui'
+type Root = SelectPrimitive.RootProps
+type Single = Extract<Root, { type: 'single' }>
+type Multiple = Extract<Root, { type: 'multiple' }>
+export type XProps = (Omit<Single, 'type'> & { type?: 'single' }) | Multiple`
+    expect(propsDoc(source, 'XProps')?.alsoTakes).toEqual([
+      'bits-ui `Select.Root` props except `type`',
+      'bits-ui `Select.Root` props',
+    ])
+  })
+
+  it('names the package a type is imported from', () => {
+    const source = `import { type ToasterProps as SonnerProps } from 'svelte-sonner'
+export type XProps = SonnerProps`
+    expect(propsDoc(source, 'XProps')?.alsoTakes).toEqual(['`svelte-sonner` `ToasterProps`'])
+  })
+
+  it('keeps a sibling part relative import as that part', () => {
+    const source = `import type { NumberInputFieldProps } from './number-input-field.svelte'
+export type XProps = NumberInputFieldProps & { a?: string }`
+    expect(propsDoc(source, 'XProps')?.alsoTakes).toEqual(['everything `NumberInputField` takes'])
+  })
+})
+
+describe('propsDoc, through local object aliases', () => {
+  it('turns a local alias of an object type into rows, merging a prop on both sides of a union', () => {
+    const source = `type Single = { mode: 'single'; value?: Date }
+type Range = { mode: 'range'; value?: { start: Date; end: Date } }
+export type XProps = { open?: boolean } & (Single | Range)`
+    expect(propsDoc(source, 'XProps')?.props.map(({ name, type }) => [name, type])).toEqual([
+      ['open', 'boolean'],
+      ['mode', "'single' | 'range'"],
+      ['value', 'Date | { start: Date; end: Date }'],
+    ])
+  })
+
+  it('phrases Pick as the keys it takes from a part', () => {
+    const source = "export type XProps = Pick<ButtonProps, 'variant' | 'size'> & { a?: string }"
+    expect(propsDoc(source, 'XProps')?.alsoTakes).toEqual(['`variant`, `size` from `Button`'])
+  })
+})
+
+describe('propsDoc, inside WithElementRef', () => {
+  it('reads members through the wrapper, and parenthesises merged function types', () => {
+    const source = `export type XProps = WithElementRef<
+  Omit<HTMLInputAttributes, 'type'> &
+    ({ type: 'file'; on?: (files: FileList) => void } | { type?: 'text'; on?: (text: string) => void })
+>`
+    const doc = propsDoc(source, 'XProps')
+    expect(doc?.alsoTakes).toEqual(['every `<input>` attribute except `type`'])
+    expect(doc?.props.map(({ name, type }) => [name, type])).toEqual([
+      ['type', "'file' | 'text'"],
+      ['on', '((files: FileList) => void) | ((text: string) => void)'],
     ])
   })
 })
