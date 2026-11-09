@@ -11,6 +11,7 @@ import {
   type OrderInput,
   type ProductInput,
   productSchema,
+  type SiteInput,
   type VehicleInput,
   vehicleSchema,
 } from './schemas.js'
@@ -58,4 +59,15 @@ export const vehicleReadiness = (values: VehicleInput): ReadinessItem[] => [
   row('code', 'Code', vehicleSchema.shape.code.safeParse(values.code).success),
   row('registration', 'Registration', values.registration.trim().length >= 4),
   row('home', 'Home site', values.homeLocationId !== ''),
+]
+
+export const siteReadiness = (values: SiteInput): ReadinessItem[] => [
+  row('name', 'Named', values.name.trim().length >= 2),
+  row('manager', 'Manager', values.manager.trim() !== ''),
+  row('capacity', 'Capacity and docks', values.capacityUnits > 0 && values.docks > 0),
+  row(
+    'zones',
+    'At least one zone',
+    values.zones.some((zone) => zone.name.trim() !== '' && zone.capacity > 0),
+  ),
 ]

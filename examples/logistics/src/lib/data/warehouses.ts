@@ -1,3 +1,4 @@
+import { type SiteInput, siteSchema } from './schemas.js'
 import { percent, type Source } from './shared.js'
 import type { Location } from './types.js'
 
@@ -30,4 +31,47 @@ export function locationActivity(s: Source, id: string) {
       (shipment) => shipment.originId === id && shipment.status !== 'delivered',
     ),
   }
+}
+
+const units = new Intl.NumberFormat('en-US')
+
+export const siteToInput = (location: Location): SiteInput => ({
+  name: location.name,
+  city: location.city,
+  manager: location.manager,
+  capacityUnits: location.capacityUnits,
+  docks: location.docks,
+  zones: location.zones.map(({ name, capacity }) => ({ name, capacity })),
+})
+
+export function createSite(s: Source, raw: SiteInput): Location {
+  const { zones, ...input } = siteSchema.parse(raw)
+  const site: Location = {
+    ...input,
+    id: `loc-${input.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`,
+    zones: zones.map((zone) => ({ ...zone, used: 0 })),
+  }
+  s.data.locations.push(site)
+  return site
+}
+
+/**
+ * Zones line up by position: a kept zone keeps what it holds, and its
+ * capacity can't drop below that; a zone past the new end must be empty.
+ */
+export function updateSite(s: Source, id: string, raw: SiteInput): Location {
+  const site = getLocation(s, id)
+  if (!site) throw new Error(`No site ${id}`)
+  const { zones, ...input } = siteSchema.parse(raw)
+  for (const [index, zone] of zones.entries()) {
+    const used = site.zones[index]?.used ?? 0
+    if (zone.capacity < used) {
+      throw new Error(`${zone.name} holds ${units.format(used)}; its capacity can't go below that`)
+    }
+  }
+  const dropped = site.zones.slice(zones.length).find((zone) => zone.used > 0)
+  if (dropped) throw new Error(`${dropped.name} still holds stock`)
+  Object.assign(site, input)
+  site.zones = zones.map((zone, index) => ({ ...zone, used: site.zones[index]?.used ?? 0 }))
+  return site
 }

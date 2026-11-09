@@ -4,12 +4,14 @@ import {
   clientReadiness,
   orderReadiness,
   productReadiness,
+  siteReadiness,
   vehicleReadiness,
 } from '../src/lib/data/readiness.js'
 import type {
   ClientInput,
   OrderInput,
   ProductInput,
+  SiteInput,
   VehicleInput,
 } from '../src/lib/data/schemas.js'
 
@@ -118,5 +120,38 @@ describe('vehicle readiness', () => {
     const van = { ...blankVehicle, registration: 'RV-2090', homeLocationId: 'loc-riverside' }
     expect(unmet(vehicleReadiness({ ...van, code: 'VAN-30' }))).toEqual(['Code'])
     expect(unmet(vehicleReadiness({ ...van, code: 'VAN-030' }))).toEqual([])
+  })
+})
+
+const blankSite: SiteInput = {
+  name: '',
+  city: '',
+  manager: '',
+  capacityUnits: 0,
+  docks: 0,
+  zones: [{ name: '', capacity: 0 }],
+}
+
+describe('site readiness', () => {
+  it('lists what a new site still needs', () => {
+    expect(unmet(siteReadiness(blankSite))).toEqual([
+      'Named',
+      'Manager',
+      'Capacity and docks',
+      'At least one zone',
+    ])
+  })
+
+  it('counts a zone once it has a name and a capacity', () => {
+    const site = {
+      ...blankSite,
+      name: 'East Gate',
+      manager: 'P. Ruiz',
+      capacityUnits: 5000,
+      docks: 3,
+    }
+    expect(unmet(siteReadiness(site))).toEqual(['At least one zone'])
+    const zoned = { ...site, zones: [{ name: 'Zone A', capacity: 2500 }] }
+    expect(unmet(siteReadiness(zoned))).toEqual([])
   })
 })
