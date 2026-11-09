@@ -537,8 +537,8 @@ export type Dataset = {
 
 Write the counts in the spec (4 locations, 12 vehicles, 10 drivers, 14 clients, 24 products, 60 orders, 18 shipments) by hand, in one file per entity, following these rules so the screens have something to show:
 
-- Orders: statuses spread as received 6, ready 14, in-fulfilment 8, completed 30, cancelled 2; numbers `OR-2001` to `OR-2060`; placed over days `-14` to `0`; every order's `events` start with `received` at `placedAt` and walk forward to its status; `OR-2041` is `ready`, Bloom & Stem, Express, Harbour Hub to 199 Water St, two packages (the wireframe's detail page).
-- Shipments: 18, statuses scheduled 4, in-transit 5, out-for-delivery 3, delivered 5, delayed 1; each carries 1–4 orders that are `in-fulfilment` or `completed`, and 2–5 stops; delivered stops have `deliveredAt`.
+- Orders: statuses spread as received 6, ready 14, in-fulfilment 18, completed 20, cancelled 2 (amended in Task 6: the first draft's 8 in-fulfilment orders could not fill 13 active shipments, nor 30 completed orders fit 5 delivered shipments of four); numbers `OR-2001` to `OR-2060`; placed over days `-14` to `0`; every order's `events` start with `received` at `placedAt` and walk forward to its status; `OR-2041` is `ready`, Bloom & Stem, Express, Harbour Hub to 199 Water St, two packages (the wireframe's detail page).
+- Shipments: 18, statuses scheduled 4, in-transit 5, out-for-delivery 3, delivered 5, delayed 1; delivered ones carry four `completed` orders each, active ones one or two `in-fulfilment` orders, with one stop per order; delivered stops have `deliveredAt`.
 - Vehicles: conditions excellent 6, good 3, service-due 2, overdue 1; status on-route 7, loading 2, idle 2, workshop 1; three with `nextServiceDay` within 7.
 - Products: four below their reorder point at some location.
 - Locations: Riverside DC 78% used, Harbour Hub 54%, North Yard and Market Street in between; zones per site, one over 85%.
