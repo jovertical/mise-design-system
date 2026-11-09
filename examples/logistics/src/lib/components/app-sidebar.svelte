@@ -24,6 +24,8 @@
   import ChevronsUpDown from '@lucide/svelte/icons/chevrons-up-down'
   import Info from '@lucide/svelte/icons/info'
   import RotateCcw from '@lucide/svelte/icons/rotate-ccw'
+  import { getSettings } from '#lib/data/settings.js'
+  import { store } from '#lib/data/store.svelte.js'
   import { locate, NAVIGATION } from '#lib/navigation.js'
   import { resolve } from '$app/paths'
   import { page } from '$app/state'
@@ -43,7 +45,7 @@
             >m</span
           >
           <span class="flex flex-col leading-tight">
-            <span class="font-semibold">mise Logistics</span>
+            <span class="truncate font-semibold">{getSettings(store).companyName}</span>
             <span class="text-muted-foreground text-xs">Operations</span>
           </span>
           <Badge variant="outline" class="ml-auto">demo</Badge>

@@ -19,7 +19,7 @@ export const SEED: Dataset = {
   orders: ORDERS,
   shipments: SHIPMENTS,
   settings: {
-    companyName: 'mise Logistics (demo)',
+    companyName: 'mise Logistics',
     timezone: 'America/New_York',
     units: 'metric',
     deliveryConfirmations: true,
