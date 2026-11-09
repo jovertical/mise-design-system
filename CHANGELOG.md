@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/jovertical/mise-design-system/compare/v1.2.0...v1.3.0) (2026-11-09)
+
+
+### Features
+
+* **theme:** fully round buttons, from a buttonRadius key ([257197c](https://github.com/jovertical/mise-design-system/commit/257197cd25ea0d2ca4437e9a7021484d278ced5a))
+
 ## [1.2.0](https://github.com/jovertical/mise-design-system/compare/v1.1.1...v1.2.0) (2026-11-09)
 
 
