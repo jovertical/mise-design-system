@@ -16,5 +16,5 @@ export default defineConfig({
       paths: { base: (process.env.BASE_PATH ?? '') as '' | `/${string}` },
     }),
   ],
-  test: { environment: 'jsdom', include: ['tests/**/*.test.ts'] },
+  test: { environment: 'jsdom', include: ['tests/**/*.test.ts'], setupFiles: ['tests/setup.ts'] },
 })
