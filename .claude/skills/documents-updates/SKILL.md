@@ -28,6 +28,9 @@ Adapted from the React package's `documents-updates` skill.
 | Lint, format, comments, story copy | `.ai/guidelines/style/guide.md` |
 | A decision the spec or plan got wrong | amend `docs/specs/…` or `docs/superpowers/plans/…`, and say what changed and when |
 | A rule every session needs | `CLAUDE.md`, then `cp CLAUDE.md AGENTS.md` |
+| A Props type, its JSDoc or a default | `pnpm build:skill`; and `skills/mise/recipes/` if a recipe uses it |
+| A new or renamed component | the index in `skills/mise/SKILL.md`, then `pnpm build:skill` |
+| Consumer setup, theming, the CLI | `skills/mise/setup.md` or `theming.md`, as well as `README.md` |
 
 ## Rules
 

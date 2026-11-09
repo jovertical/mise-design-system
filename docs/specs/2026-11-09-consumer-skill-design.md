@@ -1,6 +1,6 @@
 # The consumer skill: teaching agents in other apps to use mise
 
-Date: 2026-11-09. Status: approved in conversation, awaiting the written review.
+Date: 2026-11-09. Status: implemented 2026-11-09. Differences from this text are noted where they arose; see the plan's spike results for the alias and install-command findings.
 
 ## Problem
 
@@ -64,7 +64,7 @@ triggering on Svelte UI work in an app that depends on mise.
 
 The body, in order:
 
-1. **Live context.** `` !`npx mise-theme info --json` ``. If it fails, mise is
+1. **Live context.** `` !`npx --no-install mise-theme info --json` `` (`--no-install`, so a missing install fails instead of fetching an unrelated package of that name). If it fails, mise is
    not installed: follow `setup.md`.
 2. **Which copy to trust.** C7, in one paragraph.
 3. **Rules.** Use a mise component before writing UI. Reach for `tone`,
@@ -108,12 +108,11 @@ Each recipe is prose in a `.md` file and code in a sibling `.svelte` file. The
 that uses a prop or a part that no longer exists fails `pnpm test`.
 
 The package's `exports` point at `dist/`, which does not exist when CI runs
-`pnpm test` before `pnpm build`. So `svelte.config.js` gains a `kit.alias`
-mapping `@jovertical/mise-design-system` to `src/lib/index.ts` and
-`@jovertical/mise-design-system/form` to `src/lib/form.ts`, and `tsconfig`
-includes `skills`. Nothing in `src/lib` imports the package's own name, so the
-alias changes nothing in the packaged output; the plan's first phase confirms
-that `svelte-package` output is byte-identical with and without it.
+`pnpm test` before `pnpm build`. So `tsconfig.json` maps `@jovertical/mise-design-system` to
+`src/lib/index.ts` and `/form` to `src/lib/form.ts` through `paths`, and
+includes `skills`. Only type-checking reads `paths`, so the packaged output is
+byte-identical. (The first draft used `kit.alias`; `svelte-package` applied it
+to a string in a doc comment and changed the output, so it was dropped.)
 
 - **dashboard-page:** Sidebar, PageLayout, PageHeader, a row of StatTiles, a
   Chart and a MetricBar list.
@@ -133,7 +132,7 @@ from an app's root, prints:
 | `stack` | `sveltekit` if `@sveltejs/kit` is a dependency, else `inertia` if `@inertiajs/svelte` is, else `vite` |
 | `svelte`, `tailwind` | the versions declared in the app's `package.json`, or `null` |
 | `themeConfig` | the path of `mise.theme.js`, `.mjs` or `.ts` in the app root, or `null` |
-| `stylesheet` | the first CSS file outside `node_modules` that imports mise's theme, or `null` |
+| `stylesheet` | the first CSS file that imports mise, or `null`; `node_modules`, `vendor`, `public`, `storage`, `dist`, `build` and dot-folders are skipped, so a Laravel app's compiled assets do not match |
 | `form` | whether `formsnap` and `sveltekit-superforms` are both installed |
 
 It reads files and writes nothing. Without `--json` it prints the same facts
@@ -145,7 +144,9 @@ binary would clash with the widely used `mise` dev-tools CLI.
 In `tests/skill.test.ts`, run by `pnpm test`:
 
 1. The generator's output equals the committed `components/*.md`.
-2. Every runtime export of `src/lib/index.ts` appears in the catalogue, and
+2. Every name a component folder's `index.ts` exports appears in the catalogue (utilities
+   outside component folders, such as `cn` and the tone maps, are covered in `SKILL.md`'s
+   rules), and
    every component folder is named in `SKILL.md`'s index.
 3. Every relative link in `skills/mise/**/*.md` resolves to a file.
 4. The frontmatter `name` equals the folder name, and the description ends

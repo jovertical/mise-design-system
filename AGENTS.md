@@ -53,12 +53,19 @@ Biome 2.6 (including `.svelte`) · pnpm 12.
   npm publish. Never do any of them by hand; a conventional commit on `main` is
   what moves the next version.
 - Dependencies are installed by the user, not by the agent.
+- `skills/mise/` is the skill that apps using mise install, and it ships in the
+  package. Keep it current with the code: `pnpm build:skill` after a Props
+  change, a new component in its index, setup and theming changes in its
+  guides. `tests/skill.test.ts` enforces the generated part. The six skills in
+  `.claude/skills/` are for working on mise and carry `metadata.internal`, so
+  the `skills` CLI does not offer them to apps.
 
 ## Commands
 
 - `pnpm storybook`: build the theme and start Storybook on :6006
 - `pnpm test`: svelte-check, Biome, unit tests
 - `pnpm build`: `svelte-package`, `dist/theme.css`, publint
+- `pnpm build:skill`: regenerate `skills/mise/components/` from the Props types
 
 ## Skills
 

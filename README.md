@@ -92,6 +92,26 @@ Import `src/mise-theme.css` in place of `theme.css`. `emitThemeCss(config)`
 is exported from `/tokens` too, if you would rather call it in your own build
 script.
 
+## AI agents
+
+mise ships an agent skill, `skills/mise/`, that teaches a coding agent in your
+app which mise component does which job, every component's props and
+defaults, setup per stack, theming, and worked recipes. Install it with the
+[`skills` CLI](https://github.com/vercel-labs/skills):
+
+```sh
+npx skills add jovertical/mise-design-system --skill mise
+```
+
+The same skill is in the package at
+`node_modules/@jovertical/mise-design-system/skills/mise/`, matching the
+installed version. `npx skills experimental_sync` links it from there, so it
+updates with mise.
+
+The skill reads the app's setup with `npx mise-theme info --json`: the
+installed version, the stack, the theme config and the stylesheet that imports
+mise.
+
 ## Develop
 
 ```sh

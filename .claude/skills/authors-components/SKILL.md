@@ -146,6 +146,11 @@ is `neutral`, never `default` or `muted`.
 2. Add `export * from './components/<group>/<name>/index.js'` to
    `src/lib/index.ts`, under its group's comment. Biome keeps the lines sorted.
 3. Append the runtime names to `EXPECTED_EXPORTS` in `tests/barrel.test.ts`.
+4. Run `pnpm build:skill`, and add the component to the index in
+   `skills/mise/SKILL.md` under the job it does. `tests/skill.test.ts` fails
+   until both are done. The same command follows any change to a Props type,
+   its JSDoc or a default: the consumer skill's catalogue is generated from
+   them.
 
 ## 6. The story
 
@@ -207,5 +212,6 @@ pnpm storybook          # look at it in light, dark and a second preset
 - A class retyped instead of copied, or assembled from a template string that Tailwind cannot see.
 - A missing `Diverged:` line, or a `Svelte:` line naming a component that was not used.
 - Forgetting the barrel line or `EXPECTED_EXPORTS`.
+- Changing a Props type, its JSDoc or a default without `pnpm build:skill`.
 - A story tag typed from memory instead of read from the header.
 - A relative `.ts` import without `.js`.

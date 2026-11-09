@@ -37,6 +37,8 @@ pnpm vitest run -t "takes a disabled link out"   # one test by name
 | Suite | Fails when | Fix |
 | --- | --- | --- |
 | `provenance.test.ts` | a module has no header, no `Origin:` naming a React file, or no `Diverged:`; a `Svelte:` line names no shadcn-svelte component; a story's tag disagrees with its component's header, or the story is missing | fix the header or the tag |
+| `skill.test.ts` | the committed `skills/mise/components/` differs from what `pnpm build:skill` generates; a folder's export is missing from that catalogue or a component from `SKILL.md`'s index; a link in the skill points nowhere; the frontmatter is off | run `pnpm build:skill`, or add the component to the index |
+| `skill-props.test.ts` | the catalogue's readers misread a Props type, a default or an export | fix `scripts/skill/`, after adding the failing case |
 | `barrel.test.ts` | a component folder is missing from `src/lib/index.ts`, the barrel names one that does not exist, or a name in `EXPECTED_EXPORTS` does not resolve | add the `export *` line or the missing export |
 | `theme.test.ts` | a semantic token is missing from `:root` or `.dark`, a bridge freezes a utility on a ramp step, or a config option does not reach the CSS | fix the emitter or the token |
 | `theme-config.test.ts` | a default, a preset or a validation message moved | fix `config.ts` / `presets.ts` |

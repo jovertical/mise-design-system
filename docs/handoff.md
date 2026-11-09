@@ -10,8 +10,10 @@ code and plans do not say.
 "merge" exists, is tested, has stories on the skeleton, and is pushed. CI is
 green on `main`, the tree is clean, and no story is deferred.
 
-- **Gate:** 476 tests; `pnpm test`, `pnpm build` (publint clean) and `pnpm build:storybook` pass from a clean tree.
-- **History:** one squashed commit, `cb18fcd feat: mise 1.0`, then the release-please 1.0.0 merge and the trusted-publishing switch.
+- **Gate:** 516 tests; `pnpm test`, `pnpm build` (publint clean) and `pnpm build:storybook` pass from a clean tree.
+- **History:** one squashed commit, `cb18fcd feat: mise 1.0`, then the release-please 1.0.0 merge, the trusted-publishing switch, and the consumer skill.
+
+**The consumer skill is done (2026-11-09).** `skills/mise/` teaches an agent in an app that uses mise which component does which job, with a catalogue generated from the Props types (`pnpm build:skill`), setup and theming guides, three type-checked recipes, and `mise-theme info --json` for live context. It ships in the package; apps install it with `npx skills add jovertical/mise-design-system --skill mise`, or link the packaged copy with `npx skills experimental_sync`. Spec `docs/specs/2026-11-09-consumer-skill-design.md`, plan `docs/superpowers/plans/2026-11-09-consumer-skill.md`.
 
 What was built, round by round:
 
@@ -43,6 +45,8 @@ Decisions made with the user along the way, each also on its module's `Diverged:
 ## Next steps: the user's to choose
 
 Nothing is in progress. Ask which of these comes next:
+
+0. **Check DataTable's faceted filter.** The status filter in the DataTable stories sets an array of values on a column that declares no `filterFn`, and DataTable registers no array filter, so it may not filter at all. The data-table recipe gives its column a `filterFn` to be safe. Confirm in Storybook, and if it is broken, decide whether DataTable should register an `arrIncludesSome`-style default.
 
 1. **The deferred components.** Draggable, Droppable and Sortable (they need a Svelte drag-and-drop library; none is installed) and MermaidDiagram (a heavy optional dependency). The triage defers them until a screen asks for one. If one is wanted, write a plan like round 8's first, and ask the user to install any dependency.
 2. **v1 and publishing (D10): done 2026-11-09.** `@jovertical/mise-design-system` 1.0.0 is on npm (tag `v1.0.0`, GitHub release), cut by release-please (`release-please-config.json`, `.github/workflows/release.yml`; the git-workflow skill has the rules). The repo is public, from a fresh single-commit history; the old history is in a git bundle outside the repo. 1.0.0 went out with an npm token and no provenance attestation; later releases publish through npm trusted publishing, which attaches provenance. The release PR's own CI run fails with "workflow file issue" and no jobs; `main`'s CI covers the merged code. A PAT or GitHub App token for release-please would let PR events run CI, if that is ever wanted.
@@ -155,6 +159,7 @@ The small cosmetic items React shares are fixed (2026-11-09): QuantityInput's un
 | Plans | `docs/superpowers/plans/` (rounds 0–1, 2, 3, 4a, 4b, 6, 7, 8) |
 | Naming authority | `docs/naming.md` |
 | Main entry, Form entry | `src/lib/index.ts`, `src/lib/form.ts` (`mise/form`) |
+| The consumer skill | `skills/mise/` (hand-written `SKILL.md`, guides and recipes; generated `components/`), its generator in `scripts/skill/` and `scripts/build-skill.ts` |
 | Tone maps (the neutral wash) | `src/lib/utils/tone.ts` |
 | Story scaffolding and fixtures | `stories/` (`story-axis.svelte`, `on-a-card.svelte`, `fixtures/`) |
 | Rules, stack, commands | `CLAUDE.md` (copied to `AGENTS.md`), `.ai/guidelines/`, `.claude/skills/` |
