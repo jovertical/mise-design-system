@@ -41,14 +41,16 @@
       <SidebarMenuItem>
         <SidebarMenuButton size="lg" noHover>
           <span
-            class="bg-primary text-primary-foreground grid size-8 place-items-center rounded-md text-sm font-semibold"
+            class="bg-primary text-primary-foreground grid size-8 shrink-0 place-items-center rounded-md text-sm font-semibold"
             >m</span
           >
-          <span class="flex flex-col leading-tight">
-            <span class="truncate font-semibold">{getSettings(store).companyName}</span>
+          <span class="flex min-w-0 flex-col leading-tight">
+            <span class="truncate font-semibold" title={getSettings(store).companyName}>
+              {getSettings(store).companyName}
+            </span>
             <span class="text-muted-foreground text-xs">Operations</span>
           </span>
-          <Badge variant="outline" class="ml-auto">demo</Badge>
+          <Badge variant="outline" class="ml-auto shrink-0">demo</Badge>
         </SidebarMenuButton>
       </SidebarMenuItem>
     </SidebarMenu>

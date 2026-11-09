@@ -21,9 +21,9 @@ describe('the store', () => {
   })
 
   it('discards a store saved under another version', () => {
-    localStorage.setItem('mise-logistics-demo:v0', JSON.stringify({ orders: [] }))
+    localStorage.setItem('mise-logistics-demo:v1', JSON.stringify({ orders: [] }))
     expect(createStore().data.orders).toHaveLength(60)
-    expect(STORAGE_KEY).toBe('mise-logistics-demo:v1')
+    expect(STORAGE_KEY).toBe('mise-logistics-demo:v2')
   })
 
   it('ignores a saved store that does not parse', () => {
