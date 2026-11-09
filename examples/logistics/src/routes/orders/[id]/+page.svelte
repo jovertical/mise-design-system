@@ -42,11 +42,12 @@
   import CircleCheck from '@lucide/svelte/icons/circle-check'
   import FilePlus from '@lucide/svelte/icons/file-plus'
   import PackageCheck from '@lucide/svelte/icons/package-check'
+  import Pencil from '@lucide/svelte/icons/pencil'
   import Printer from '@lucide/svelte/icons/printer'
   import Truck from '@lucide/svelte/icons/truck'
   import type { Component } from 'svelte'
   import { clientOf, locationName } from '#lib/data/lookups.js'
-  import { cancelOrder, getOrder } from '#lib/data/orders.js'
+  import { cancelOrder, getOrder, isOrderEditable } from '#lib/data/orders.js'
   import { getShipment } from '#lib/data/shipments.js'
   import { store } from '#lib/data/store.svelte.js'
   import type { OrderStatus } from '#lib/data/types.js'
@@ -97,6 +98,11 @@
   {/snippet}
   {#snippet actions()}
     <Button variant="outline" onclick={() => window.print()}><Printer />Print</Button>
+    {#if isOrderEditable(order)}
+      <Button variant="outline" href={resolve('/orders/[id]/edit', { id: order.number })}>
+        <Pencil />Edit
+      </Button>
+    {/if}
     <Button
       variant="outline"
       tone="critical"

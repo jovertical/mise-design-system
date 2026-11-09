@@ -1,6 +1,6 @@
 <!--
   Orders: the open counts, then every order in a searchable, filterable table.
-  Create order opens a sheet; cancelling asks first.
+  Create order goes to its own page; cancelling asks first.
 -->
 <script lang="ts">
   import {
@@ -29,11 +29,6 @@
     EntityLabel,
     PageHeader,
     PageLayout,
-    Sheet,
-    SheetContent,
-    SheetDescription,
-    SheetHeader,
-    SheetTitle,
     Sparkline,
     StatTile,
     ToggleGroup,
@@ -43,18 +38,15 @@
   import Plus from '@lucide/svelte/icons/plus'
   import { renderComponent, renderSnippet } from '@tanstack/svelte-table'
   import NoMatches from '#lib/components/no-matches.svelte'
-  import OrderForm from '#lib/components/order-form.svelte'
   import { latency } from '#lib/data/latency.js'
   import { clientOf, initials, locationName } from '#lib/data/lookups.js'
   import {
     cancelOrder,
-    createOrder,
     listOrders,
     OPEN_STATUSES,
     orderStats,
     ordersByStatus,
   } from '#lib/data/orders.js'
-  import type { OrderInput } from '#lib/data/schemas.js'
   import { store } from '#lib/data/store.svelte.js'
   import type { Order } from '#lib/data/types.js'
   import { dateTime, money, weight } from '#lib/format.js'
@@ -68,7 +60,6 @@
     latency().then(() => (loading = false))
   })
 
-  let creating = $state(false)
   let cancelling = $state<Order | null>(null)
 
   const stats = $derived(orderStats(store))
@@ -89,12 +80,6 @@
     value,
     label: look.label,
   }))
-
-  function create(input: OrderInput) {
-    const order = createOrder(store, input)
-    creating = false
-    toast.success(`Order ${order.number} created`)
-  }
 
   function confirmCancel() {
     if (!cancelling) return
@@ -198,7 +183,7 @@
 {/snippet}
 
 {#snippet headerActions()}
-  <Button onclick={() => (creating = true)}><Plus />Create order</Button>
+  <Button href={resolve('/orders/new')}><Plus />Create order</Button>
 {/snippet}
 
 {#snippet trendOf(trend: number[])}
@@ -300,20 +285,6 @@
     </DataTable>
   {/if}
 </PageLayout>
-
-<Sheet bind:open={creating}>
-  <SheetContent class="w-full overflow-y-auto sm:max-w-lg">
-    <SheetHeader>
-      <SheetTitle>New order</SheetTitle>
-      <SheetDescription>It arrives as Received, ready for review.</SheetDescription>
-    </SheetHeader>
-    <div class="px-4 pb-4">
-      {#if creating}
-        <OrderForm onsubmit={create} oncancel={() => (creating = false)} />
-      {/if}
-    </div>
-  </SheetContent>
-</Sheet>
 
 <AlertDialog
   open={cancelling !== null}

@@ -3,6 +3,8 @@ export const ROUTES: string[] = [
   '/',
   '/orders',
   '/orders/OR-2041',
+  '/orders/new',
+  '/orders/OR-2041/edit',
   '/orders?view=board',
   '/shipments',
   '/shipments/SHP-3006',
@@ -18,4 +20,4 @@ export const ROUTES: string[] = [
 ]
 
 /** Routes that must render ErrorState rather than a screen. */
-export const NOT_FOUND_ROUTES: string[] = ['/orders/does-not-exist']
+export const NOT_FOUND_ROUTES: string[] = ['/orders/does-not-exist', '/orders/does-not-exist/edit']

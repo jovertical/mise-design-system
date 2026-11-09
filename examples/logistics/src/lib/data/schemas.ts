@@ -30,7 +30,7 @@ export const orderSchema = z.object({
       }),
     )
     .min(1, 'Add a package'),
-  total: cents,
+  total: cents.min(1, 'Enter the order total'),
 })
 
 /** What the order form edits: everything about an order its customer decides. */

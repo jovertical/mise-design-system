@@ -32,6 +32,9 @@ describe('schemas', () => {
     expect(orderSchema.safeParse(order).success).toBe(true)
     expect(orderSchema.safeParse({ ...order, total: 12.5 }).success).toBe(false)
     expect(orderSchema.safeParse({ ...order, clientId: '' }).success).toBe(false)
+    expect(orderSchema.safeParse({ ...order, total: 0 }).error?.issues[0].message).toBe(
+      'Enter the order total',
+    )
 
     expect(productPatchSchema.safeParse({ price: 990, reorderPoint: 80 }).success).toBe(true)
     expect(productPatchSchema.safeParse({ price: -1, reorderPoint: 80 }).success).toBe(false)
