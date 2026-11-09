@@ -23,6 +23,7 @@
   import Briefcase from '@lucide/svelte/icons/briefcase'
   import Mail from '@lucide/svelte/icons/mail'
   import MapPin from '@lucide/svelte/icons/map-pin'
+  import Pencil from '@lucide/svelte/icons/pencil'
   import User from '@lucide/svelte/icons/user'
   import UserCog from '@lucide/svelte/icons/user-cog'
   import { nameThisPage } from '#lib/breadcrumb.svelte.js'
@@ -71,11 +72,17 @@
   {#snippet status()}
     <Badge tone={CLIENT_STATUS[client.status].tone}>{CLIENT_STATUS[client.status].label}</Badge>
   {/snippet}
+  {#snippet actions()}
+    <Button variant="outline" href={resolve('/clients/[id]/edit', { id: client.id })}>
+      <Pencil />Edit
+    </Button>
+  {/snippet}
   <PageLayout>
     <PageHeader
       title={client.name}
       titleAccessory={status}
       description="{client.industry} · {client.city}"
+      {actions}
     />
 
     <div class="grid gap-4 sm:grid-cols-3">
