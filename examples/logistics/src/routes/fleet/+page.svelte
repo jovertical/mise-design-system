@@ -8,6 +8,7 @@
     AlertDescription,
     AlertTitle,
     Badge,
+    Button,
     DataTable,
     DataTableColumnHeader,
     DataTableToolbar,
@@ -15,6 +16,7 @@
     PageHeader,
     PageLayout,
   } from '@jovertical/mise-design-system'
+  import Plus from '@lucide/svelte/icons/plus'
   import Wrench from '@lucide/svelte/icons/wrench'
   import { renderComponent, renderSnippet } from '@tanstack/svelte-table'
   import NoMatches from '#lib/components/no-matches.svelte'
@@ -102,7 +104,11 @@
   <PageHeader
     title="Fleet"
     description="{vehicles.length} vehicles across {store.data.locations.length} sites."
-  />
+  >
+    {#snippet actions()}
+      <Button href={resolve('/fleet/new')}><Plus />New vehicle</Button>
+    {/snippet}
+  </PageHeader>
 
   {#if due.length}
     <Alert variant="warning">

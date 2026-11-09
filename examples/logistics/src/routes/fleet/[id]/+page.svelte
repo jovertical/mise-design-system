@@ -26,6 +26,7 @@
   import CalendarClock from '@lucide/svelte/icons/calendar-clock'
   import Gauge from '@lucide/svelte/icons/gauge'
   import IdCard from '@lucide/svelte/icons/id-card'
+  import Pencil from '@lucide/svelte/icons/pencil'
   import Phone from '@lucide/svelte/icons/phone'
   import Warehouse from '@lucide/svelte/icons/warehouse'
   import Wrench from '@lucide/svelte/icons/wrench'
@@ -89,7 +90,13 @@
         store,
         vehicle.homeLocationId,
       )}"
-    />
+    >
+      {#snippet actions()}
+        <Button variant="outline" href={resolve('/fleet/[id]/edit', { id: vehicle.code })}>
+          <Pencil />Edit
+        </Button>
+      {/snippet}
+    </PageHeader>
 
     {#if due <= 7}
       <Alert variant="warning">

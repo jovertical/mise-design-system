@@ -10,6 +10,8 @@ export const ROUTES: string[] = [
   '/shipments/SHP-3006',
   '/fleet',
   '/fleet/TRK-212',
+  '/fleet/new',
+  '/fleet/TRK-212/edit',
   '/products',
   '/products/PK-0422',
   '/products/new',
