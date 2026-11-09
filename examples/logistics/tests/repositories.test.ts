@@ -16,7 +16,14 @@ import {
   orderStats,
   ordersByStatus,
 } from '../src/lib/data/orders.js'
-import { deliveryTrend, pipeline } from '../src/lib/data/overview.js'
+import {
+  change,
+  deliveredThisWeek,
+  deliveryTrend,
+  ordersToday,
+  pipeline,
+  pipelineUrgency,
+} from '../src/lib/data/overview.js'
 import { listProducts, lowStock, productStock, updateProduct } from '../src/lib/data/products.js'
 import { getSettings, saveSettings } from '../src/lib/data/settings.js'
 import {
@@ -91,6 +98,11 @@ describe('shipments', () => {
     expect(listShipments(s, { status: 'delivered' })).toHaveLength(5)
     expect(getShipment(s, 'SHP-3006')?.status).toBe('out-for-delivery')
     expect(activeShipments(s)).toHaveLength(13)
+    expect(
+      activeShipments(s)
+        .map((shipment) => shipment.status)
+        .slice(0, 2),
+    ).toEqual(['delayed', 'out-for-delivery'])
   })
 
   it('measures progress as delivered stops over stops', () => {
@@ -172,6 +184,30 @@ describe('overview', () => {
       shipped: { count: 18, share: 35 },
       delivered: { count: 20, share: 38 },
     })
+  })
+
+  it('counts the express and same-day orders in each stage', () => {
+    const urgency = pipelineUrgency(s)
+    const ready = s.data.orders.filter((order) => order.status === 'ready')
+    expect(urgency.packed.count).toBe(ready.filter((order) => order.service !== 'regular').length)
+    expect(urgency.packed.share).toBeGreaterThan(0)
+    expect(urgency.packed.share).toBeLessThanOrEqual(100)
+  })
+
+  it('measures change between two counts', () => {
+    expect(change(12, 10)).toBe(20)
+    expect(change(9, 12)).toBe(-25)
+    expect(change(5, 0)).toBe(0)
+  })
+
+  it('compares today with yesterday, and this week with the last', () => {
+    const today = ordersToday(s)
+    expect(today.count).toBe(s.data.orders.filter((order) => order.placedAt.day === 0).length)
+    expect(Math.abs(today.change)).toBeLessThan(200)
+    expect(typeof deliveredThisWeek(s).change).toBe('number')
+    expect(deliveredThisWeek(s).count).toBe(
+      deliveryTrend(s).reduce((sum, d) => sum + d.delivered, 0),
+    )
   })
 
   it('charts the last seven days', () => {

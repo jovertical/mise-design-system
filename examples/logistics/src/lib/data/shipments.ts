@@ -17,8 +17,19 @@ export const getShipment = (s: Source, idOrNumber: string) =>
       shipment.id === idOrNumber.toLowerCase() || shipment.number === idOrNumber.toUpperCase(),
   )
 
+/** Most urgent first: what needs a look today comes before what is merely booked. */
+const URGENCY: Record<ShipmentStatus, number> = {
+  delayed: 0,
+  'out-for-delivery': 1,
+  'in-transit': 2,
+  scheduled: 3,
+  delivered: 4,
+}
+
 export const activeShipments = (s: Source) =>
-  listShipments(s).filter((shipment) => shipment.status !== 'delivered')
+  listShipments(s)
+    .filter((shipment) => shipment.status !== 'delivered')
+    .toSorted((a, b) => URGENCY[a.status] - URGENCY[b.status])
 
 export const shipmentProgress = (shipment: Shipment) =>
   percent(shipment.stops.filter((stop) => stop.deliveredAt).length, shipment.stops.length)

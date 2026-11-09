@@ -63,19 +63,35 @@ function statusOf(index: number): OrderStatus {
   return 'received'
 }
 
-/** Day -14 for the oldest order, 0 for the newest. */
-const placedDay = (index: number) => -14 + Math.floor((index * 14) / 59)
+/** Day -14 for the oldest order; the six received orders all came in today. */
+const placedDay = (index: number) => (index >= 54 ? 0 : -14 + Math.floor((index * 13) / 53))
 const clock = (index: number) =>
   `${String(8 + (index % 9)).padStart(2, '0')}:${index % 2 ? '30' : '00'}`
 
 const FLOW: OrderStatus[] = ['received', 'ready', 'in-fulfilment', 'completed']
 
-function eventsFor(status: OrderStatus, placedAt: DemoTime): OrderEvent[] {
-  const steps =
+/**
+ * Days after placing that each step happens: ready next day, out the day
+ * after, delivered four to eight days in, so completions spread over the last
+ * two weeks and both weeks of the delivery trend have something in them.
+ */
+const STEP_DAYS: Record<OrderStatus, (index: number) => number> = {
+  received: () => 0,
+  ready: () => 1,
+  'in-fulfilment': () => 2,
+  completed: (index) => 4 + (index % 5),
+  cancelled: () => 1,
+}
+
+function eventsFor(status: OrderStatus, placedAt: DemoTime, index: number): OrderEvent[] {
+  const steps: OrderStatus[] =
     status === 'cancelled' ? ['received', 'cancelled'] : FLOW.slice(0, FLOW.indexOf(status) + 1)
-  return (steps as OrderStatus[]).map((step, offset) => ({
+  return steps.map((step, offset) => ({
     status: step,
-    at: { day: Math.min(placedAt.day + offset, 0), time: offset === 0 ? placedAt.time : '15:00' },
+    at: {
+      day: Math.min(placedAt.day + STEP_DAYS[step](index), 0),
+      time: offset === 0 ? placedAt.time : '15:00',
+    },
   }))
 }
 
@@ -128,7 +144,7 @@ function build(index: number): Order {
     total: 2800 + ((index * 1733) % 11200),
     status,
     placedAt,
-    events: eventsFor(status, placedAt),
+    events: eventsFor(status, placedAt, index),
     shipmentId: shipmentOf(index),
   }
 }
