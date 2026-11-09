@@ -1,4 +1,4 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
-@import '@jovertical/mise-design-system/theme.css';
+@import './mise-theme.css';
 @source '../node_modules/@jovertical/mise-design-system/dist';
