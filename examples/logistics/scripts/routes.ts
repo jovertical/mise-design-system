@@ -3,6 +3,7 @@ export const ROUTES: string[] = [
   '/',
   '/orders',
   '/orders/OR-2041',
+  '/orders?view=board',
   '/shipments',
   '/fleet',
   '/products',

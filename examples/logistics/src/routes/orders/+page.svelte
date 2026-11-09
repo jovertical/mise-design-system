@@ -15,6 +15,9 @@
     Avatar,
     AvatarFallback,
     Badge,
+    Board,
+    BoardCard,
+    BoardColumn,
     Button,
     DataTable,
     DataTableColumnHeader,
@@ -37,6 +40,8 @@
     SheetTitle,
     Sparkline,
     StatTile,
+    ToggleGroup,
+    ToggleGroupItem,
     toast,
   } from '@jovertical/mise-design-system'
   import Plus from '@lucide/svelte/icons/plus'
@@ -51,6 +56,7 @@
     type NewOrder,
     OPEN_STATUSES,
     orderStats,
+    ordersByStatus,
   } from '#lib/data/orders.js'
   import { store } from '#lib/data/store.svelte.js'
   import type { Order } from '#lib/data/types.js'
@@ -58,6 +64,7 @@
   import { ORDER_STATUS, SERVICE_LABEL, SOURCE_LABEL } from '#lib/status.js'
   import { goto } from '$app/navigation'
   import { resolve } from '$app/paths'
+  import { page } from '$app/state'
 
   let loading = $state(true)
   $effect(() => {
@@ -69,6 +76,17 @@
 
   const stats = $derived(orderStats(store))
   const orders = $derived(listOrders(store))
+  const byStatus = $derived(ordersByStatus(store))
+
+  // The view lives in the URL, so it survives a reload and can be shared.
+  const view = $derived(page.url.searchParams.get('view') === 'board' ? 'board' : 'table')
+  function show(next: string) {
+    if (!next || next === view) return
+    const url = new URL(page.url.href)
+    if (next === 'board') url.searchParams.set('view', 'board')
+    else url.searchParams.delete('view')
+    goto(url, { replace: true, reset: false })
+  }
 
   const STATUS_OPTIONS = Object.entries(ORDER_STATUS).map(([value, look]) => ({
     value,
@@ -221,30 +239,75 @@
     {/each}
   </div>
 
-  <DataTable
-    {columns}
-    data={orders}
-    getRowId={(order) => order.id}
-    onRowClick={(order) => goto(resolve('/orders/[id]', { id: order.number }))}
-    isLoading={loading}
-    emptyState={noOrders}
-    withPadding={false}
+  <ToggleGroup
+    type="single"
+    value={view}
+    onValueChange={show}
+    variant="outline"
+    size="sm"
+    class="self-start"
   >
-    {#snippet toolbar(table)}
-      <DataTableToolbar
-        {table}
-        search={{ placeholder: 'Search orders or clients…' }}
-        filters={[
-          {
-            columnId: 'status',
-            title: 'Status',
-            allLabel: 'All statuses',
-            options: STATUS_OPTIONS,
-          },
-        ]}
-      />
-    {/snippet}
-  </DataTable>
+    <ToggleGroupItem value="table">Table</ToggleGroupItem>
+    <ToggleGroupItem value="board">Board</ToggleGroupItem>
+  </ToggleGroup>
+
+  {#if view === 'board'}
+    <Board>
+      {#each OPEN_STATUSES as status (status)}
+        <BoardColumn
+          title={ORDER_STATUS[status].label}
+          tone={ORDER_STATUS[status].tone}
+          count={byStatus[status].length}
+          empty="No orders"
+        >
+          {#if byStatus[status].length}
+            {#each byStatus[status].slice(0, 12) as order (order.id)}
+              <BoardCard href={resolve('/orders/[id]', { id: order.number })}>
+                <div class="flex items-center gap-2">
+                  <span class="font-medium">{order.number}</span>
+                  {#if order.service !== 'regular'}
+                    <Badge tone="primary">{SERVICE_LABEL[order.service]}</Badge>
+                  {/if}
+                  <span class="text-muted-foreground ml-auto tabular-nums"
+                    >{money(order.total)}</span
+                  >
+                </div>
+                <span class="text-muted-foreground truncate">
+                  {clientOf(store, order.clientId)?.name}
+                  · {dateTime(order.placedAt)}
+                </span>
+              </BoardCard>
+            {/each}
+          {/if}
+        </BoardColumn>
+      {/each}
+    </Board>
+  {:else}
+    <DataTable
+      {columns}
+      data={orders}
+      getRowId={(order) => order.id}
+      onRowClick={(order) => goto(resolve('/orders/[id]', { id: order.number }))}
+      isLoading={loading}
+      emptyState={noOrders}
+      withPadding={false}
+    >
+      {#snippet toolbar(table)}
+        <DataTableToolbar
+          {table}
+          search={{ placeholder: 'Search orders or clients…' }}
+          filters={[
+            {
+              columnId: 'status',
+              title: 'Status',
+              allLabel: 'All statuses',
+              options: STATUS_OPTIONS,
+            },
+          ]}
+        />
+      {/snippet}
+    </DataTable>
+  {/if}
 </PageLayout>
 
 <Sheet bind:open={creating}>
