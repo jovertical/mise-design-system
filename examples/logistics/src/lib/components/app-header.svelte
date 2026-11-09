@@ -11,6 +11,7 @@
     SidebarTrigger,
     ThemeToggle,
   } from '@jovertical/mise-design-system'
+  import SearchPalette from '#lib/components/search-palette.svelte'
   import { locate } from '#lib/navigation.js'
   import { resolve } from '$app/paths'
   import { page } from '$app/state'
@@ -47,5 +48,8 @@
       </BreadcrumbList>
     </Breadcrumb>
   {/if}
-  <div class="ml-auto"><ThemeToggle /></div>
+  <div class="ml-auto flex items-center gap-2">
+    <SearchPalette />
+    <ThemeToggle />
+  </div>
 </header>
