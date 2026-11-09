@@ -25,5 +25,9 @@ jobs:
         run: pnpm test
       - name: Package and publint
         run: pnpm build
+      - name: Example checks
+        run: pnpm --filter mise-logistics-example test
+      - name: Example builds
+        run: pnpm --filter mise-logistics-example build
       - name: Storybook builds
         run: pnpm build:storybook
