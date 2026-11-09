@@ -24,20 +24,26 @@ and plans do not say. Nothing is in progress.
 - **The logistics demo is live** at <https://jovertical.github.io/mise-design-system/>,
   from `examples/logistics/` (its README covers running, the data and
   deploying). Every push to `main` touching mise or the example redeploys it.
-  It has an overview; orders as a table and a board, with create, cancel and a
+  It has an overview; orders as a table and a board, with cancel and a
   detail page; detail pages for shipments, vehicles, products, clients and
-  sites; settings laid out like the client portal's; ⌘K search; an avatar
-  menu in a floating top bar; and a resettable demo store. It consumes mise's
+  sites; a create page and an edit page for each of those six, in the client
+  portal's shape (spec `docs/specs/2026-11-09-edit-pages-design.md`, plan of
+  the same date); settings laid out like the client portal's; ⌘K search; an
+  avatar menu in a floating top bar, its content capped at `max-w-content`;
+  and a resettable demo store. It consumes mise's
   built package through the pnpm workspace, so mise is rebuilt
   (`pnpm build`, or the watcher in `pnpm dev:example`) before the example sees
   a change.
 - **Gate:** `pnpm test` (528 tests), `pnpm build` (publint) and
   `pnpm build:storybook` for mise; `pnpm --filter mise-logistics-example test`
-  (44 tests) and `smoke` (20 routes, light and dark) for the example.
+  (80 tests) and `smoke` (27 routes and 2 not-found routes, light and dark) for
+  the example.
 - **Specs and plans** for the recent work: consumer skill
   (`docs/specs/2026-11-09-consumer-skill-design.md`, plan of the same date),
   logistics example (`docs/specs/2026-11-09-logistics-example-design.md`, its
-  plan and the Board plan in `docs/superpowers/plans/`).
+  plan and the Board plan in `docs/superpowers/plans/`), and the example's
+  create and edit pages (`docs/specs/2026-11-09-edit-pages-design.md`, its plan
+  of the same date).
 
 What was built, round by round:
 
@@ -99,14 +105,26 @@ In rough order of how much they block the apps:
    own may not filter. The example and the recipe give each such column one.
    Confirm in Storybook and decide whether DataTable should default to an
    `arrIncludesSome`-style filter.
-5. **`homepage` in `package.json`** could point at the demo instead of the
+5. **Three mise gaps the edit pages found**, worked around in the example and
+   not yet fixed in mise:
+   - `DatePicker` does not pass `id` and other attributes to its trigger, so a
+     `mise/form` label cannot point at it.
+   - `DatePicker`'s trigger is an outline button, where the inputs beside it
+     are filled; the vehicle form shows the mismatch.
+   - `ComboboxInput` does not show the selected item's label for a starting
+     value; bits-ui fills the field only when an item is picked. The order
+     form passes `defaultValue` itself.
+6. **`homepage` in `package.json`** could point at the demo instead of the
    README; needs a yes.
-6. **The deferred components:** Draggable, Droppable, Sortable (need a drag and
+7. **The deferred components:** Draggable, Droppable, Sortable (need a drag and
    drop library) and MermaidDiagram (heavy). Wait until a screen asks.
 
-Not verified by a browser, because the headless shell cannot click: uploading
-a logo, saving or cancelling settings, and choosing a ⌘K result in the demo.
-Their logic is unit-tested.
+Not verified by a browser: uploading a logo, saving or cancelling settings,
+choosing a ⌘K result, and picking a day in a `DatePicker`. Their logic is
+unit-tested. The smoke shell cannot click, but a DevTools-protocol driver can
+(`Input.dispatchMouseEvent` at an element's centre opens a bits-ui Select);
+the edit pages' flows were checked that way, from a script kept outside the
+repository.
 
 ## How the work is run
 
@@ -229,6 +247,19 @@ Their logic is unit-tested.
   without it a dialog or sheet is caught mid fade-in and looks transparent. Its
   browser calls must be async, or they block the in-process server. It cannot
   see console errors without puppeteer.
+- **Forms are superforms in SPA mode through `entityForm()`.** superforms
+  clears what it tracks once a submit validates, so a save the store then
+  refuses must call `cancel()` in `onUpdate`, or the form is left unguarded.
+  Its `taintedMessage` can be an async function, which is how the discard
+  dialog answers it.
+- **bits-ui Select reads `''` as nothing chosen**, so an option meaning "none"
+  needs its own value (`'none'`) mapped to `null`.
+- **`@internationalized/date` is a direct dependency of the example**: pnpm
+  does not let it import mise's copy, and `DatePicker` speaks `CalendarDate`.
+  `src/lib/data/days.ts` converts to and from the data's day offsets.
+- **A record made by the store comes back from the store** (`getShipment` after
+  the push): `$state` keeps its own proxy, and later edits to the object that
+  was pushed do not reach it.
 - **Commit types:** example changes are `chore(example)` or `docs(example)`; a
   `fix`/`feat` scope would make release-please cut a mise release.
 
