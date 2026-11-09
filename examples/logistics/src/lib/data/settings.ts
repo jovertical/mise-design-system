@@ -1,9 +1,10 @@
+import { settingsSchema } from './schemas.js'
 import type { Source } from './shared.js'
 import type { Settings } from './types.js'
 
 export const getSettings = (s: Source): Settings => s.data.settings
 
 export function saveSettings(s: Source, next: Settings): Settings {
-  s.data.settings = { ...next }
+  s.data.settings = settingsSchema.parse(next)
   return s.data.settings
 }

@@ -1,3 +1,4 @@
+import { productPatchSchema } from './schemas.js'
 import { matches, type Source } from './shared.js'
 import type { Product } from './types.js'
 
@@ -24,7 +25,8 @@ export function updateProduct(
 ): Product {
   const product = s.data.products.find((candidate) => candidate.id === id)
   if (!product) throw new Error(`No product ${id}`)
-  product.price = patch.price
-  product.reorderPoint = patch.reorderPoint
+  const { price, reorderPoint } = productPatchSchema.parse(patch)
+  product.price = price
+  product.reorderPoint = reorderPoint
   return product
 }

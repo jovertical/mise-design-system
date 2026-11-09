@@ -1,3 +1,4 @@
+import { newOrderSchema } from './schemas.js'
 import { matches, type Source } from './shared.js'
 import type { Cents, Id, Order, OrderStatus } from './types.js'
 
@@ -56,7 +57,8 @@ export function ordersByStatus(s: Source): Record<OrderStatus, Order[]> {
   return groups
 }
 
-export function createOrder(s: Source, input: NewOrder): Order {
+export function createOrder(s: Source, raw: NewOrder): Order {
+  const input = newOrderSchema.parse(raw)
   const highest = Math.max(...s.data.orders.map((order) => Number(order.number.slice(3))))
   const number = `OR-${highest + 1}`
   const placedAt = { day: 0, time: '12:00' }

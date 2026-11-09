@@ -1,3 +1,4 @@
+import { newClientSchema } from './schemas.js'
 import { matches, type Source } from './shared.js'
 import type { Cents, Client, Id } from './types.js'
 
@@ -23,7 +24,8 @@ export const openOrderValue = (s: Source, id: Id): Cents =>
     .filter((order) => order.status !== 'completed' && order.status !== 'cancelled')
     .reduce((sum, order) => sum + order.total, 0)
 
-export function createClient(s: Source, input: NewClient): Client {
+export function createClient(s: Source, raw: NewClient): Client {
+  const input = newClientSchema.parse(raw)
   const client: Client = {
     ...input,
     id: `cli-${input.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${s.data.clients.length + 1}`,
