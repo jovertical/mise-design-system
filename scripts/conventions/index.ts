@@ -10,7 +10,7 @@ import { checkedFiles } from './files.js'
 import { nameViolations } from './names.js'
 import { parseFile } from './parse.js'
 import { fileLengthViolations, functionLengthViolations } from './size.js'
-import { spacingViolations } from './spacing.js'
+import { spacingEdits, spacingViolations } from './spacing.js'
 
 export type Rule = 'names' | 'file-length' | 'function-length' | 'non-null' | 'spacing'
 export type Violation = { path: string; line: number; rule: Rule; detail: string }
@@ -37,3 +37,17 @@ export function checkRepository(root: string): Violation[] {
 
 export const formatViolation = (violation: Violation) =>
   `${violation.path}:${violation.line}: ${violation.rule}: ${violation.detail}`
+
+/** The text with the blank lines the spacing rule asks for, and none it forbids. */
+export function fixSpacing(path: string, text: string): string {
+  const edits = spacingEdits(parseFile(path, text))
+  const unique = new Map(edits.map((edit) => [`${edit.offset}:${edit.deleteCount}`, edit]))
+
+  return [...unique.values()]
+    .toSorted((first, second) => second.offset - first.offset)
+    .reduce(
+      (result, edit) =>
+        result.slice(0, edit.offset) + edit.insert + result.slice(edit.offset + edit.deleteCount),
+      text,
+    )
+}

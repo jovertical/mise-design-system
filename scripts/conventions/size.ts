@@ -48,6 +48,20 @@ export function functionLengthViolations(file: ParsedFile): Violation[] {
   })
 }
 
+/**
+ * A suite's body is a grouping, not logic, so a `describe` callback is not
+ * measured; each `it` inside it still is.
+ */
+function isSuiteBody(node: ts.Node) {
+  const call = node.parent
+
+  if (!call || !ts.isCallExpression(call)) return false
+
+  const callee = call.expression.getText()
+
+  return callee === 'describe' || callee.startsWith('describe.')
+}
+
 function isFunctionWithBody(node: ts.Node) {
   const isFunction =
     ts.isFunctionDeclaration(node) ||
@@ -57,5 +71,5 @@ function isFunctionWithBody(node: ts.Node) {
     ts.isGetAccessor(node) ||
     ts.isSetAccessor(node)
 
-  return isFunction && node.body !== undefined
+  return isFunction && node.body !== undefined && !isSuiteBody(node)
 }

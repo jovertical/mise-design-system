@@ -60,6 +60,7 @@
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --fail-on-warnings",
     "lint": "biome check .",
     "format": "biome format --write .",
+    "fix:spacing": "tsx scripts/fix-spacing.ts",
     "test:unit": "vitest run",
     "test:watch": "vitest",
     "test": "pnpm check && pnpm lint && pnpm test:unit"

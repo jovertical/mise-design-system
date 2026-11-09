@@ -78,13 +78,24 @@ function lineIndex(text: string) {
 
 type AnyNode = { type?: string; start?: number; [key: string]: unknown }
 
+const list = (value: unknown) => (Array.isArray(value) ? value : []) as AnyNode[]
+
+/** For each template node that declares names, the binding patterns it declares. */
+const DECLARES: Record<string, (node: AnyNode) => unknown[]> = {
+  EachBlock: (node) => [
+    node.context,
+    typeof node.index === 'string' ? { type: 'Identifier', name: node.index } : null,
+  ],
+  SnippetBlock: (node) => list(node.parameters),
+  ConstTag: (node) => list((node.declaration as AnyNode)?.declarations).map((item) => item.id),
+  AwaitBlock: (node) => [node.value, node.error],
+  ArrowFunctionExpression: (node) => list(node.params),
+  FunctionExpression: (node) => list(node.params),
+}
+
 /** Every name the template declares, from the AST svelte/compiler builds. */
 function templateNames(fragment: unknown, lineOf: (offset: number) => number): NameSite[] {
   const sites: NameSite[] = []
-
-  const declare = (pattern: unknown, at: number) => {
-    for (const name of patternNames(pattern)) sites.push({ name, line: lineOf(at) })
-  }
 
   const visit = (value: unknown) => {
     if (Array.isArray(value)) {
@@ -96,29 +107,10 @@ function templateNames(fragment: unknown, lineOf: (offset: number) => number): N
     if (!value || typeof value !== 'object') return
 
     const node = value as AnyNode
-    const at = node.start ?? 0
+    const patterns = DECLARES[node.type ?? '']?.(node) ?? []
+    const line = lineOf(node.start ?? 0)
 
-    switch (node.type) {
-      case 'EachBlock':
-        declare(node.context, at)
-        if (typeof node.index === 'string') sites.push({ name: node.index, line: lineOf(at) })
-        break
-      case 'SnippetBlock':
-        for (const parameter of (node.parameters as unknown[]) ?? []) declare(parameter, at)
-        break
-      case 'ConstTag':
-        for (const declarator of ((node.declaration as AnyNode)?.declarations as AnyNode[]) ?? [])
-          declare(declarator.id, at)
-        break
-      case 'AwaitBlock':
-        declare(node.value, at)
-        declare(node.error, at)
-        break
-      case 'ArrowFunctionExpression':
-      case 'FunctionExpression':
-        for (const parameter of (node.params as unknown[]) ?? []) declare(parameter, at)
-        break
-    }
+    for (const name of patterns.flatMap(patternNames)) sites.push({ name, line })
 
     for (const [key, child] of Object.entries(node)) {
       if (key !== 'parent' && key !== 'metadata') visit(child)
