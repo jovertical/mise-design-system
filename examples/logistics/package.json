@@ -2,6 +2,9 @@
   "name": "mise-logistics-example",
   "private": true,
   "type": "module",
+  "imports": {
+    "#lib/*": "./src/lib/*"
+  },
   "scripts": {
     "dev": "vite dev --port 5180",
     "build": "vite build",

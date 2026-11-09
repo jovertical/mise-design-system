@@ -1,7 +1,17 @@
 <script lang="ts">
-  import { Button } from '@jovertical/mise-design-system'
+  import { EmptyState, PageHeader, PageLayout } from '@jovertical/mise-design-system'
+  import Construction from '@lucide/svelte/icons/construction'
 </script>
 
-<main class="p-8">
-  <Button>mise Logistics (demo)</Button>
-</main>
+{#snippet icon()}
+  <Construction />
+{/snippet}
+
+<PageLayout>
+  <PageHeader title="Operations overview" />
+  <EmptyState
+    {icon}
+    title="Coming in a later phase"
+    description="This screen is built in the logistics example plan."
+  />
+</PageLayout>
