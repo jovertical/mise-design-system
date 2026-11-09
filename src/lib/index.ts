@@ -13,6 +13,7 @@ export * from './components/actions/theme-toggle/index.js'
 // Data display
 export * from './components/data-display/avatar/index.js'
 export * from './components/data-display/badge/index.js'
+export * from './components/data-display/board/index.js'
 export * from './components/data-display/chart/index.js'
 export * from './components/data-display/checklist/index.js'
 export * from './components/data-display/data-table/index.js'

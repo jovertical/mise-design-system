@@ -60,6 +60,34 @@ Also exports: `badgeVariants`.
 
 Types: `BadgeVariant` (`'solid' | 'soft' | 'outline'`).
 
+## Board
+
+`import { Board, BoardCard, BoardColumn } from '@jovertical/mise-design-system'`
+
+Columns of cards grouped by a status: a pipeline read across. Read-only; moving a card between columns is the deferred drag-and-drop work. The row scrolls sideways rather than squeezing its columns, because a card needs its width to say anything.
+
+Also takes: every `<div>` attribute.
+
+### `BoardCard`
+
+One item in a column, on a card surface. With `href` it is a link to the item: its hover darkens the border rather than tinting the fill, because `--accent` is the active nav row and nothing else.
+
+Also takes: every `<a>` attribute.
+
+### `BoardColumn`
+
+One lane of a board: a header naming the status, then its cards. A fixed width, so a wide board scrolls instead of squeezing every card to nothing. Pass no children for an empty column; wrap an `{#each}` in `{#if items.length}`, since an `{#each}` that renders nothing still counts as children.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `title` (required) | `string \| Snippet` |  |  |
+| `count` | `number` |  | How many items the column holds, which may be more than it shows. |
+| `tone` | `'neutral' \| 'primary' \| 'info' \| 'success' \| 'warning' \| 'critical'` | `'neutral'` | The dot beside the title. Neutral unless the status means something. |
+| `actions` | `Snippet` |  | Right of the title: a link to the full list, a menu. |
+| `empty` | `string \| Snippet` | `'Nothing here'` | Shown when the column has no cards, so it never collapses to its header. |
+
+Also takes: every HTML attribute except `title`.
+
 ## ChartContainer
 
 `import { ChartContainer, ChartStyle, ChartTooltip, chartAreaFillOpacity, chartComparisonSeriesClass, chartGrid, chartLineStrokeWidth, getPayloadConfigFromPayload, useChart } from '@jovertical/mise-design-system'`
