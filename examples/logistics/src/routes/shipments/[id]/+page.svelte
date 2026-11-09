@@ -33,13 +33,14 @@
   import Check from '@lucide/svelte/icons/check'
   import IdCard from '@lucide/svelte/icons/id-card'
   import MapPin from '@lucide/svelte/icons/map-pin'
+  import Pencil from '@lucide/svelte/icons/pencil'
   import Phone from '@lucide/svelte/icons/phone'
   import Truck from '@lucide/svelte/icons/truck'
   import Warehouse from '@lucide/svelte/icons/warehouse'
   import { nameThisPage } from '#lib/breadcrumb.svelte.js'
   import { clientOf, driverOf, locationName, vehicleOf } from '#lib/data/lookups.js'
   import { getOrder } from '#lib/data/orders.js'
-  import { getShipment, shipmentProgress } from '#lib/data/shipments.js'
+  import { getShipment, isShipmentEditable, shipmentProgress } from '#lib/data/shipments.js'
   import { store } from '#lib/data/store.svelte.js'
   import { dateTime, money } from '#lib/format.js'
   import { ORDER_STATUS, SHIPMENT_STATUS } from '#lib/status.js'
@@ -91,6 +92,11 @@
     >
   {/snippet}
   {#snippet actions()}
+    {#if isShipmentEditable(shipment)}
+      <Button variant="outline" href={resolve('/shipments/[id]/edit', { id: shipment.number })}>
+        <Pencil />Edit
+      </Button>
+    {/if}
     {#if vehicle}
       <Button variant="outline" href={resolve('/fleet/[id]', { id: vehicle.code })}
         ><Truck />View vehicle</Button

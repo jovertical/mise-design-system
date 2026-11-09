@@ -8,6 +8,8 @@ export const ROUTES: string[] = [
   '/orders?view=board',
   '/shipments',
   '/shipments/SHP-3006',
+  '/shipments/new',
+  '/shipments/SHP-3015/edit',
   '/fleet',
   '/fleet/TRK-212',
   '/fleet/new',

@@ -5,6 +5,7 @@
 <script lang="ts">
   import {
     Badge,
+    Button,
     DataTable,
     DataTableColumnHeader,
     DataTableToolbar,
@@ -13,6 +14,7 @@
     PageLayout,
     Progress,
   } from '@jovertical/mise-design-system'
+  import Plus from '@lucide/svelte/icons/plus'
   import { renderComponent, renderSnippet } from '@tanstack/svelte-table'
   import NoMatches from '#lib/components/no-matches.svelte'
   import { latency } from '#lib/data/latency.js'
@@ -107,7 +109,11 @@
 {/snippet}
 
 <PageLayout>
-  <PageHeader title="Shipments" description="Everything scheduled, on the road, or delivered." />
+  <PageHeader title="Shipments" description="Everything scheduled, on the road, or delivered.">
+    {#snippet actions()}
+      <Button href={resolve('/shipments/new')}><Plus />Plan a run</Button>
+    {/snippet}
+  </PageHeader>
 
   <DataTable
     {columns}
