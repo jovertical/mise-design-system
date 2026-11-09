@@ -1,21 +1,43 @@
-# Handoff: mise Svelte port, paused 2026-11-09 with the port list done
+# Handoff: mise, 2026-11-09, with 1.2.0 out and the logistics demo live
 
-Read this first when resuming. It records where the work stopped, what is left
-to decide, how the work is run, and what was learned along the way that the
-code and plans do not say.
+Read this first when resuming. It records where things stand, what is open and
+waiting on a decision, how the work is run, and what was learned that the code
+and plans do not say. Nothing is in progress.
 
 ## Where it stands
 
-**The port is done.** Every component the round 5 triage placed as "port" or
-"merge" exists, is tested, has stories on the skeleton, and is pushed. CI is
-green on `main`, the tree is clean, and no story is deferred.
-
-- **Gate:** 516 tests; `pnpm test`, `pnpm build` (publint clean) and `pnpm build:storybook` pass from a clean tree.
-- **History:** one squashed commit, `cb18fcd feat: mise 1.0`, then the release-please 1.0.0 merge, the trusted-publishing switch, and the consumer skill.
-
-**The consumer skill is done (2026-11-09).** `skills/mise/` teaches an agent in an app that uses mise which component does which job, with a catalogue generated from the Props types (`pnpm build:skill`), setup and theming guides, three type-checked recipes, and `mise-theme info --json` for live context. It ships in the package; apps install it with `npx skills add jovertical/mise-design-system --skill mise`, or link the packaged copy with `npx skills experimental_sync`. Spec `docs/specs/2026-11-09-consumer-skill-design.md`, plan `docs/superpowers/plans/2026-11-09-consumer-skill.md`.
-
-**The logistics example is built (2026-11-09).** `examples/logistics/` is a SvelteKit single-page app built only from mise, on a seeded, resettable demo store: overview, orders (table, board, detail, create, cancel), shipments, fleet, products, warehouses, clients and settings, with ⌘K search. It consumes mise's built package through the pnpm workspace (rebuild mise after changing it) and deploys to GitHub Pages by `.github/workflows/example.yml` once Pages is enabled with GitHub Actions as the source. Building it added `Board` (`Origin: mise`, the first component without a React original) and fixed `SidebarInset`'s missing `min-w-0`. Spec `docs/specs/2026-11-09-logistics-example-design.md`, plans `docs/superpowers/plans/2026-11-09-logistics-example.md` and `…-board.md`.
+- **The package.** `@jovertical/mise-design-system` is public on npm and GitHub
+  (`github.com/jovertical/mise-design-system`, branch `main`). **1.2.0** is the
+  latest release: 1.0.0 was the port, 1.1.x added the consumer skill and
+  `mise-theme info`, 1.2.0 added `Board` and the `SidebarInset` fix. Releases
+  are cut by release-please (merge its PR) and published by npm trusted
+  publishing with provenance; nothing is published by hand.
+- **The port is done.** Every component the round 5 triage kept exists, is
+  tested and has stories on the skeleton. Deferred: drag and drop, Mermaid.
+- **The consumer skill** (`skills/mise/`) teaches an agent in an app which mise
+  component does which job: a generated props catalogue (`pnpm build:skill`),
+  setup and theming guides, type-checked recipes, and `mise-theme info --json`
+  for live context. Apps install it with
+  `npx skills add jovertical/mise-design-system --skill mise`. The six skills
+  in `.claude/skills/` are for working on mise and are hidden from apps
+  (`metadata.internal`).
+- **The logistics demo is live** at <https://jovertical.github.io/mise-design-system/>,
+  from `examples/logistics/` (its README covers running, the data and
+  deploying). Every push to `main` touching mise or the example redeploys it.
+  It has an overview; orders as a table and a board, with create, cancel and a
+  detail page; detail pages for shipments, vehicles, products, clients and
+  sites; settings laid out like the client portal's; ⌘K search; an avatar
+  menu in a floating top bar; and a resettable demo store. It consumes mise's
+  built package through the pnpm workspace, so mise is rebuilt
+  (`pnpm build`, or the watcher in `pnpm dev:example`) before the example sees
+  a change.
+- **Gate:** `pnpm test` (526 tests), `pnpm build` (publint) and
+  `pnpm build:storybook` for mise; `pnpm --filter mise-logistics-example test`
+  (44 tests) and `smoke` (20 routes, light and dark) for the example.
+- **Specs and plans** for the recent work: consumer skill
+  (`docs/specs/2026-11-09-consumer-skill-design.md`, plan of the same date),
+  logistics example (`docs/specs/2026-11-09-logistics-example-design.md`, its
+  plan and the Board plan in `docs/superpowers/plans/`).
 
 What was built, round by round:
 
@@ -44,18 +66,48 @@ Decisions made with the user along the way, each also on its module's `Diverged:
 - **The neutral wash** is `bg-foreground/[0.07]`, not `bg-muted` (`201f080`, softened from `/10` after): the canvas is `--muted`, and a neutral badge, chip, avatar or disc vanished on it; at `/10` it read a step darker than `bg-muted` on a white card. Every hard-coded neutral fill writes the same class; Skeleton alone keeps `/10` for its pulse. `bg-muted` stays for tracks, strips and row surfaces. The rule is in the authors-components skill.
 - **Dropped:** the product logo, TourTooltip, CategoryIcon and its picker, the address components, CredentialCard, MediaUploader, MessageComposer, Waterfall.
 
-## Next steps: the user's to choose
+Later decisions, with the user:
 
-Nothing is in progress. Ask which of these comes next:
+- **`Origin: mise`** marks a component mise authored itself, with no React
+  original (Board was the first). `tests/provenance.test.ts` accepts it and its
+  story is tagged `mise`.
+- **Licensing:** the user wrote the React package, so mise's MIT `LICENSE`
+  covers the ported code. The tree does not name the product the React package
+  came from: `Origin:` lines say "the React package 2.23.0". Keep it that way.
+- **Gaps found by an app are fixed in mise first**, released, then used: the
+  example and bertos-bakery-ops never build a local look-alike.
 
-0. **Alert's vocabulary.** `Alert` takes `variant` with `default | info | success | warning | destructive`, where every other component takes `tone` and calls red `critical`. Found while building the example; fixing it is a breaking change, so it waits for a decision.
-0. **Check DataTable's faceted filter.** The status filter in the DataTable stories sets an array of values on a column that declares no `filterFn`, and DataTable registers no array filter, so it may not filter at all. The data-table recipe gives its column a `filterFn` to be safe. Confirm in Storybook, and if it is broken, decide whether DataTable should register an `arrIncludesSome`-style default.
+## Open: the user's to decide
 
-1. **The deferred components.** Draggable, Droppable and Sortable (they need a Svelte drag-and-drop library; none is installed) and MermaidDiagram (a heavy optional dependency). The triage defers them until a screen asks for one. If one is wanted, write a plan like round 8's first, and ask the user to install any dependency.
-2. **v1 and publishing (D10): done 2026-11-09.** `@jovertical/mise-design-system` 1.0.0 is on npm (tag `v1.0.0`, GitHub release), cut by release-please (`release-please-config.json`, `.github/workflows/release.yml`; the git-workflow skill has the rules). The repo is public, from a fresh single-commit history; the old history is in a git bundle outside the repo. 1.0.0 went out with an npm token and no provenance attestation; later releases publish through npm trusted publishing, which attaches provenance. The release PR's own CI run fails with "workflow file issue" and no jobs; `main`'s CI covers the merged code. A PAT or GitHub App token for release-please would let PR events run CI, if that is ever wanted.
+In rough order of how much they block the apps:
 
-**Licensing is settled (2026-11-09).** The user wrote the React package, so mise's MIT `LICENSE` (Copyright Jovert Palonpon) covers the ported code, and no further notice is needed. At the user's request the tree no longer names that product: `Origin:` headers say "the React package 2.23.0", components not from shadcn/ui are tagged `mise`, and docs use `<react-package>` where a path stood. Keep it that way; the git history still has the old name until the squash at publish.
-The small cosmetic items React shares are fixed (2026-11-09): QuantityInput's unit-first trigger sits flush with the group edge (its addon is `pl-0`), NumberInput with controls is capped with `max-w-32` so a Field's `[&>*]:w-full` cannot stretch it, and the neutral wash is softened (above).
+1. **Sidebar rows.** The client portal overrides mise's `SidebarMenuButton`
+   heavily (`h-8` rows, icon chips, `!` overrides in `nav-main.tsx`); mise's
+   default rows are tall by comparison, which the demo shows. Decide whether
+   mise's default or a `density` prop should match the portal.
+2. **Notifications in the top bar.** The portal has a `NotificationBell` and a
+   What's new button with no mise equivalent. A mise component would need a
+   plan; the demo has neither.
+3. **Alert's vocabulary.** `Alert` takes `variant` with
+   `default | info | success | warning | destructive`, where every other
+   component takes `tone` and calls red `critical`. Fixing it is breaking.
+4. **DataTable's faceted filter.** A faceted filter sets an array of values on
+   a column; DataTable registers no array `filterFn`, so a column without its
+   own may not filter. The example and the recipe give each such column one.
+   Confirm in Storybook and decide whether DataTable should default to an
+   `arrIncludesSome`-style filter.
+5. **Button rounding.** Buttons are `rounded-2xl` by design, as in the React
+   package and the portal; they do not follow the theme's `--radius`. Asked
+   about from the demo (its theme uses `0.5rem`); only a question if buttons
+   should follow the theme.
+6. **`homepage` in `package.json`** could point at the demo instead of the
+   README; needs a yes.
+7. **The deferred components:** Draggable, Droppable, Sortable (need a drag and
+   drop library) and MermaidDiagram (heavy). Wait until a screen asks.
+
+Not verified by a browser, because the headless shell cannot click: uploading
+a logo, saving or cancelling settings, and choosing a ⌘K result in the demo.
+Their logic is unit-tested.
 
 ## How the work is run
 
@@ -153,13 +205,41 @@ The small cosmetic items React shares are fixed (2026-11-09): QuantityInput's un
 - peso amounts, real tenant names, "tenant" and pricing tiers in story copy (mise uses `$`, generic locations, access or setup);
 - product tour hooks (`tourTarget`), dropped.
 
+**The logistics example (SvelteKit 3)**
+
+- **TypeScript stays on ~6.0.** SvelteKit 3.1 reads `tsconfig` through
+  TypeScript's JS API (`ts.sys`), which 7.0 does not have; 7.0 fails the build
+  in `load_tsconfig`.
+- **`$lib` is gone; use subpath imports.** The example maps `#lib/*` to
+  `./src/lib/*` in `package.json` `imports`. `kit.alias` is deprecated, and
+  `svelte-package` applied an alias to a string in a doc comment, so mise uses
+  `tsconfig` `paths` (type-checking only) to check its recipes.
+- **Routes:** `resolve('/orders/[id]', { id })` from `$app/paths`; nav items
+  are typed as `RouteId` minus dynamic routes. `goto` takes `replace` and
+  `reset`, not `replaceState`/`noScroll`/`keepFocus`. `page.url` is read-only;
+  copy it with `new URL(page.url.href)`.
+- **A single-page app on Pages:** `ssr = false`, adapter-static with
+  `fallback: '404.html'`, and a prerendered root shell so `/` answers 200. A
+  deep link is answered by `404.html` (status 404, about 10 s on Pages) and
+  routed in the browser.
+- **The demo store** saves to `localStorage` under `mise-logistics-demo:v<SEED_VERSION>`.
+  Bump `SEED_VERSION` on any seed change, content included, or earlier
+  visitors keep stale data (that happened once: "mise Logistics (demo)").
+- **The smoke run** (`scripts/smoke.ts`) serves `build/` the way Pages does and
+  runs the headless shell with `--run-all-compositor-stages-before-draw`;
+  without it a dialog or sheet is caught mid fade-in and looks transparent. Its
+  browser calls must be async, or they block the in-process server. It cannot
+  see console errors without puppeteer.
+- **Commit types:** example changes are `chore(example)` or `docs(example)`; a
+  `fix`/`feat` scope would make release-please cut a mise release.
+
 ## Where things are
 
 | What | Where |
 | --- | --- |
 | Port spec | `docs/specs/2026-11-04-svelte-port-design.md` |
 | Structure, skeleton, triage specs | `docs/specs/2026-11-05-*.md` |
-| Plans | `docs/superpowers/plans/` (rounds 0–1, 2, 3, 4a, 4b, 6, 7, 8) |
+| Plans | `docs/superpowers/plans/` (rounds 0–1, 2, 3, 4a, 4b, 6, 7, 8; the consumer skill; the logistics example; Board) |
 | Naming authority | `docs/naming.md` |
 | Main entry, Form entry | `src/lib/index.ts`, `src/lib/form.ts` (`mise/form`) |
 | The logistics example | `examples/logistics/` (its README covers running, the data and deploying); `pnpm dev:example`; `.github/workflows/example.yml` |
