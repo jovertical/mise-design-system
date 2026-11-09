@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.2.0](https://github.com/jovertical/mise-design-system/compare/v1.1.1...v1.2.0) (2026-11-09)
+
+
+### Features
+
+* **board:** columns of cards grouped by status, read-only ([7258770](https://github.com/jovertical/mise-design-system/commit/7258770a40595c6001b11e667f15752f47ee9eb7))
+
+
+### Bug Fixes
+
+* **sidebar:** let the inset shrink so wide content scrolls inside it ([05aa5dd](https://github.com/jovertical/mise-design-system/commit/05aa5dda16e3da9b30043ee7784b6475cdacf924))
+
 ## [1.1.1](https://github.com/jovertical/mise-design-system/compare/v1.1.0...v1.1.1) (2026-11-09)
 
 
