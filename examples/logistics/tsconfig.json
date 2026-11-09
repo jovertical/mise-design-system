@@ -1,0 +1,11 @@
+{
+  "extends": "$app/tsconfig",
+  "compilerOptions": {
+    "strict": true,
+    "noUnusedLocals": true,
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "types": ["$app/types", "node", "vitest/globals"]
+  },
+  "include": ["src", "tests", "scripts", "vite.config.ts"]
+}
