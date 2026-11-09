@@ -26,7 +26,7 @@
     SelectValue,
   } from '@jovertical/mise-design-system'
 
-  import { newOrderSchema } from '#lib/data/schemas.js'
+  import { type OrderInput, orderSchema } from '#lib/data/schemas.js'
   import { store } from '#lib/data/store.svelte.js'
   import type { Order } from '#lib/data/types.js'
   import { SERVICE_LABEL } from '#lib/status.js'
@@ -44,7 +44,7 @@
     onsubmit,
     oncancel,
   }: {
-    onsubmit: (input: Draft & { weightKg: number; total: number }) => void
+    onsubmit: (input: OrderInput) => void
     oncancel: () => void
   } = $props()
 
@@ -83,10 +83,18 @@
     event.preventDefault()
     const weightKg =
       draft.weightKg === null ? 0 : unit === 'lb' ? draft.weightKg * 0.4536 : draft.weightKg
-    const result = newOrderSchema.safeParse({ ...draft, weightKg, total: draft.total ?? -1 })
+    const { weightKg: _, ...rest } = draft
+    const result = orderSchema.safeParse({
+      ...rest,
+      packages: [{ contents: 'General freight', weightKg }],
+      total: draft.total ?? -1,
+    })
     if (!result.success) {
       errors = Object.fromEntries(
-        result.error.issues.map((issue) => [issue.path[0], issue.message]),
+        result.error.issues.map((issue) => [
+          issue.path[0] === 'packages' ? 'weightKg' : issue.path[0],
+          issue.message,
+        ]),
       )
       if (draft.total === null) errors.total = 'Enter the order total'
       return

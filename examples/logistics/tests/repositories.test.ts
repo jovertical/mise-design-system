@@ -19,9 +19,12 @@ import {
   cancelOrder,
   createOrder,
   getOrder,
+  isOrderEditable,
   listOrders,
   orderStats,
   ordersByStatus,
+  orderToInput,
+  updateOrder,
 } from '../src/lib/data/orders.js'
 import {
   change,
@@ -38,6 +41,7 @@ import {
   productStock,
   updateProduct,
 } from '../src/lib/data/products.js'
+import { orderSchema } from '../src/lib/data/schemas.js'
 import { getSettings, saveSettings } from '../src/lib/data/settings.js'
 import {
   activeShipments,
@@ -46,6 +50,7 @@ import {
   shipmentProgress,
 } from '../src/lib/data/shipments.js'
 import { createStore, type Store } from '../src/lib/data/store.svelte.js'
+import type { Order } from '../src/lib/data/types.js'
 import {
   getLocation,
   listLocations,
@@ -56,6 +61,13 @@ import {
 } from '../src/lib/data/warehouses.js'
 
 let s: Store
+
+/** A seed order that must exist; fails the test with its number if not. */
+function seedOrder(number: string): Order {
+  const order = getOrder(s, number)
+  if (!order) throw new Error(`The seed has no ${number}`)
+  return order
+}
 
 beforeEach(() => {
   localStorage.clear()
@@ -96,12 +108,51 @@ describe('orders', () => {
       service: 'express',
       originId: 'loc-riverside',
       destination: '12 Dock Rd',
-      weightKg: 40,
+      packages: [
+        { contents: 'Crates', weightKg: 40 },
+        { contents: 'Pallet wrap', weightKg: 12 },
+      ],
       total: 5600,
     })
     expect(order).toMatchObject({ number: 'OR-2061', status: 'received', shipmentId: null })
+    expect(order.packages).toEqual([
+      { label: 'PKG-1', contents: 'Crates', weightKg: 40 },
+      { label: 'PKG-2', contents: 'Pallet wrap', weightKg: 12 },
+    ])
     expect(order.events).toEqual([{ status: 'received', at: order.placedAt }])
     expect(listOrders(s)[0].number).toBe('OR-2061')
+  })
+
+  it('updates an open order, keeping its number, status and history', () => {
+    const before = JSON.parse(JSON.stringify(getOrder(s, 'OR-2041'))) as Order
+    const order = updateOrder(s, 'OR-2041', {
+      ...orderToInput(before),
+      destination: '9 Quay St',
+      packages: [{ contents: 'Cold boxes', weightKg: 18 }],
+      total: 4200,
+    })
+    expect(order).toMatchObject({
+      number: before.number,
+      status: before.status,
+      placedAt: before.placedAt,
+      events: before.events,
+      destination: '9 Quay St',
+      total: 4200,
+    })
+    expect(order.packages).toEqual([{ label: 'PKG-1', contents: 'Cold boxes', weightKg: 18 }])
+  })
+
+  it('refuses to update a completed or cancelled order', () => {
+    const completed = seedOrder('OR-2001')
+    expect(isOrderEditable(completed)).toBe(false)
+    expect(isOrderEditable(seedOrder('OR-2041'))).toBe(true)
+    expect(() => updateOrder(s, 'OR-2001', orderToInput(completed))).toThrow(
+      'OR-2001 is completed and cannot be edited',
+    )
+  })
+
+  it('turns an order into form input that the schema accepts', () => {
+    expect(orderSchema.parse(orderToInput(seedOrder('OR-2041')))).toBeTruthy()
   })
 
   it('cancels an open order, and refuses a completed or cancelled one', () => {

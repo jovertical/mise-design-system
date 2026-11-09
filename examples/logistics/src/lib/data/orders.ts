@@ -1,17 +1,8 @@
-import { newOrderSchema } from './schemas.js'
+import { type OrderInput, orderSchema } from './schemas.js'
 import { matches, type Source } from './shared.js'
-import type { Cents, Id, Order, OrderStatus } from './types.js'
+import type { Id, Order, OrderStatus } from './types.js'
 
 export type OrderFilters = { search?: string; status?: OrderStatus }
-
-export type NewOrder = {
-  clientId: Id
-  service: Order['service']
-  originId: Id
-  destination: string
-  weightKg: number
-  total: Cents
-}
 
 export const OPEN_STATUSES = ['received', 'ready', 'in-fulfilment', 'completed'] as const
 
@@ -57,8 +48,25 @@ export function ordersByStatus(s: Source): Record<OrderStatus, Order[]> {
   return groups
 }
 
-export function createOrder(s: Source, raw: NewOrder): Order {
-  const input = newOrderSchema.parse(raw)
+/** Labels follow position, so removing a package renumbers the rest. */
+const labelled = (packages: OrderInput['packages']): Order['packages'] =>
+  packages.map((pkg, index) => ({ label: `PKG-${index + 1}`, ...pkg }))
+
+/** Completed and cancelled orders are kept as they were. */
+export const isOrderEditable = (order: Order) =>
+  order.status !== 'completed' && order.status !== 'cancelled'
+
+export const orderToInput = (order: Order): OrderInput => ({
+  clientId: order.clientId,
+  service: order.service,
+  originId: order.originId,
+  destination: order.destination,
+  packages: order.packages.map(({ contents, weightKg }) => ({ contents, weightKg })),
+  total: order.total,
+})
+
+export function createOrder(s: Source, raw: OrderInput): Order {
+  const input = orderSchema.parse(raw)
   const highest = Math.max(...s.data.orders.map((order) => Number(order.number.slice(3))))
   const number = `OR-${highest + 1}`
   const placedAt = { day: 0, time: '12:00' }
@@ -70,7 +78,7 @@ export function createOrder(s: Source, raw: NewOrder): Order {
     service: input.service,
     originId: input.originId,
     destination: input.destination,
-    packages: [{ label: 'PKG-1', contents: 'General freight', weightKg: input.weightKg }],
+    packages: labelled(input.packages),
     total: input.total,
     status: 'received',
     placedAt,
@@ -78,6 +86,22 @@ export function createOrder(s: Source, raw: NewOrder): Order {
     shipmentId: null,
   }
   s.data.orders.push(order)
+  return order
+}
+
+export function updateOrder(s: Source, idOrNumber: string, raw: OrderInput): Order {
+  const order = getOrder(s, idOrNumber)
+  if (!order) throw new Error(`No order ${idOrNumber}`)
+  if (!isOrderEditable(order)) {
+    throw new Error(`${order.number} is ${order.status} and cannot be edited`)
+  }
+  const input = orderSchema.parse(raw)
+  order.clientId = input.clientId
+  order.service = input.service
+  order.originId = input.originId
+  order.destination = input.destination
+  order.packages = labelled(input.packages)
+  order.total = input.total
   return order
 }
 

@@ -5,7 +5,7 @@ import { createOrder } from '../src/lib/data/orders.js'
 import { updateProduct } from '../src/lib/data/products.js'
 import {
   newClientSchema,
-  newOrderSchema,
+  orderSchema,
   productPatchSchema,
   settingsSchema,
 } from '../src/lib/data/schemas.js'
@@ -23,16 +23,15 @@ const order = {
   service: 'regular' as const,
   originId: 'loc-riverside',
   destination: '12 Dock Rd',
-  weightKg: 40,
+  packages: [{ contents: 'Crates', weightKg: 40 }],
   total: 5600,
 }
 
 describe('schemas', () => {
   it('accept valid input and reject invalid input', () => {
-    expect(newOrderSchema.safeParse(order).success).toBe(true)
-    expect(newOrderSchema.safeParse({ ...order, total: 12.5 }).success).toBe(false)
-    expect(newOrderSchema.safeParse({ ...order, weightKg: 0 }).success).toBe(false)
-    expect(newOrderSchema.safeParse({ ...order, clientId: '' }).success).toBe(false)
+    expect(orderSchema.safeParse(order).success).toBe(true)
+    expect(orderSchema.safeParse({ ...order, total: 12.5 }).success).toBe(false)
+    expect(orderSchema.safeParse({ ...order, clientId: '' }).success).toBe(false)
 
     expect(productPatchSchema.safeParse({ price: 990, reorderPoint: 80 }).success).toBe(true)
     expect(productPatchSchema.safeParse({ price: -1, reorderPoint: 80 }).success).toBe(false)
@@ -53,6 +52,23 @@ describe('schemas', () => {
     )
     expect(settingsSchema.safeParse({ ...getSettings(s), orderPrefix: 'or 1' }).success).toBe(false)
     expect(settingsSchema.safeParse({ ...getSettings(s), website: 'example' }).success).toBe(false)
+  })
+
+  it('want at least one package, each with contents and a weight', () => {
+    const issue = (input: unknown) => orderSchema.safeParse(input).error?.issues[0]
+    expect(issue({ ...order, packages: [] })?.message).toBe('Add a package')
+    expect(issue({ ...order, packages: [{ contents: 'Crates', weightKg: 0 }] })).toMatchObject({
+      path: ['packages', 0, 'weightKg'],
+      message: 'Enter a weight',
+    })
+    expect(issue({ ...order, packages: [{ contents: ' ', weightKg: 3 }] })?.message).toBe(
+      'Say what is in it',
+    )
+    const two = [
+      { contents: 'Crates', weightKg: 40 },
+      { contents: 'Pallet wrap', weightKg: 12.5 },
+    ]
+    expect(orderSchema.safeParse({ ...order, packages: two }).success).toBe(true)
   })
 
   it('guard every write function', () => {

@@ -50,11 +50,11 @@
     cancelOrder,
     createOrder,
     listOrders,
-    type NewOrder,
     OPEN_STATUSES,
     orderStats,
     ordersByStatus,
   } from '#lib/data/orders.js'
+  import type { OrderInput } from '#lib/data/schemas.js'
   import { store } from '#lib/data/store.svelte.js'
   import type { Order } from '#lib/data/types.js'
   import { dateTime, money, weight } from '#lib/format.js'
@@ -90,7 +90,7 @@
     label: look.label,
   }))
 
-  function create(input: NewOrder) {
+  function create(input: OrderInput) {
     const order = createOrder(store, input)
     creating = false
     toast.success(`Order ${order.number} created`)
