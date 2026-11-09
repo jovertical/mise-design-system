@@ -14,7 +14,10 @@ import Warehouse from '@lucide/svelte/icons/warehouse'
 import type { Component } from 'svelte'
 import type { RouteId } from '$app/types'
 
-export type NavItem = { label: string; href: RouteId; icon: Component }
+/** Only routes without parameters can be a menu item. */
+type StaticRoute = Exclude<RouteId, `${string}[${string}`>
+
+export type NavItem = { label: string; href: StaticRoute; icon: Component }
 export type NavGroup = { label: string; items: NavItem[] }
 
 export const NAVIGATION: NavGroup[] = [

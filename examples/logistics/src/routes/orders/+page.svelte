@@ -41,7 +41,6 @@
   } from '@jovertical/mise-design-system'
   import Plus from '@lucide/svelte/icons/plus'
   import { renderComponent, renderSnippet } from '@tanstack/svelte-table'
-
   import OrderForm from '#lib/components/order-form.svelte'
   import { latency } from '#lib/data/latency.js'
   import { clientOf, initials, locationName } from '#lib/data/lookups.js'
@@ -57,6 +56,8 @@
   import type { Order } from '#lib/data/types.js'
   import { dateTime, money, weight } from '#lib/format.js'
   import { ORDER_STATUS, SERVICE_LABEL, SOURCE_LABEL } from '#lib/status.js'
+  import { goto } from '$app/navigation'
+  import { resolve } from '$app/paths'
 
   let loading = $state(true)
   $effect(() => {
@@ -224,6 +225,7 @@
     {columns}
     data={orders}
     getRowId={(order) => order.id}
+    onRowClick={(order) => goto(resolve('/orders/[id]', { id: order.number }))}
     isLoading={loading}
     emptyState={noOrders}
     withPadding={false}

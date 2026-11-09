@@ -3,6 +3,7 @@
   import {
     Breadcrumb,
     BreadcrumbItem,
+    BreadcrumbLink,
     BreadcrumbList,
     BreadcrumbPage,
     BreadcrumbSeparator,
@@ -14,7 +15,14 @@
   import { resolve } from '$app/paths'
   import { page } from '$app/state'
 
-  const here = $derived(locate(page.url.pathname.replace(resolve('/'), '/')))
+  const path = $derived(page.url.pathname.replace(resolve('/'), '/'))
+  const here = $derived(locate(path))
+  // Deeper than its menu item (an order's page): the record is the last step.
+  const leaf = $derived(
+    here && here.item.href !== '/' && path.length > here.item.href.length
+      ? decodeURIComponent(path.slice(here.item.href.length + 1))
+      : null,
+  )
 </script>
 
 <header class="bg-background flex h-14 shrink-0 items-center gap-2 border-b px-4">
@@ -27,7 +35,15 @@
           <BreadcrumbItem class="hidden md:block">{here.group.label}</BreadcrumbItem>
           <BreadcrumbSeparator class="hidden md:block" />
         {/if}
-        <BreadcrumbItem><BreadcrumbPage>{here.item.label}</BreadcrumbPage></BreadcrumbItem>
+        {#if leaf}
+          <BreadcrumbItem>
+            <BreadcrumbLink href={resolve(here.item.href)}>{here.item.label}</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem><BreadcrumbPage>{leaf}</BreadcrumbPage></BreadcrumbItem>
+        {:else}
+          <BreadcrumbItem><BreadcrumbPage>{here.item.label}</BreadcrumbPage></BreadcrumbItem>
+        {/if}
       </BreadcrumbList>
     </Breadcrumb>
   {/if}
