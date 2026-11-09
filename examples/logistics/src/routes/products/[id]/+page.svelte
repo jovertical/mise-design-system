@@ -19,6 +19,7 @@
   import Barcode from '@lucide/svelte/icons/barcode'
   import Box from '@lucide/svelte/icons/box'
   import DollarSign from '@lucide/svelte/icons/dollar-sign'
+  import Pencil from '@lucide/svelte/icons/pencil'
   import Tag from '@lucide/svelte/icons/tag'
   import { nameThisPage } from '#lib/breadcrumb.svelte.js'
   import { locationName } from '#lib/data/lookups.js'
@@ -65,11 +66,17 @@
   {#snippet status()}
     <Badge tone={low ? 'warning' : 'success'}>{low ? 'Low stock' : 'In stock'}</Badge>
   {/snippet}
+  {#snippet actions()}
+    <Button variant="outline" href={resolve('/products/[id]/edit', { id: product.sku })}>
+      <Pencil />Edit
+    </Button>
+  {/snippet}
   <PageLayout>
     <PageHeader
       title={product.name}
       titleAccessory={status}
       description="{product.sku} · {CATEGORY_LABEL[product.category]}"
+      {actions}
     />
 
     <div class="grid gap-4 sm:grid-cols-4">

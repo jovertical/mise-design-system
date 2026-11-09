@@ -1,7 +1,7 @@
 <!--
   Products: stock across every warehouse. Available and reserved show as one
   bar per row; anything under its reorder point is called out above the
-  table. Price and reorder point are edited in a dialog.
+  table. New product and each row's Edit go to the product form.
 -->
 <script lang="ts">
   import {
@@ -14,37 +14,18 @@
     DataTableColumnHeader,
     DataTableRowActions,
     DataTableToolbar,
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
     DropdownMenuItem,
     dataTableColumns,
-    Field,
-    FieldDescription,
-    FieldError,
-    FieldGroup,
-    FieldLabel,
-    NumberInput,
     PageHeader,
     PageLayout,
     SegmentedBar,
-    toast,
   } from '@jovertical/mise-design-system'
+  import Plus from '@lucide/svelte/icons/plus'
   import TriangleAlert from '@lucide/svelte/icons/triangle-exclamation-point'
   import { renderComponent, renderSnippet } from '@tanstack/svelte-table'
   import NoMatches from '#lib/components/no-matches.svelte'
   import { latency } from '#lib/data/latency.js'
-  import {
-    listProducts,
-    lowStock,
-    productStock,
-    productToInput,
-    updateProduct,
-  } from '#lib/data/products.js'
-  import { productSchema } from '#lib/data/schemas.js'
+  import { listProducts, lowStock, productStock } from '#lib/data/products.js'
   import { store } from '#lib/data/store.svelte.js'
   import type { Product } from '#lib/data/types.js'
   import { money } from '#lib/format.js'
@@ -76,37 +57,6 @@
     value,
     label,
   }))
-
-  // The edit dialog's state: the product, the draft, and any errors.
-  let editing = $state<Product | null>(null)
-  let price = $state<number | null>(null)
-  let reorderPoint = $state<number | null>(null)
-  let errors = $state<{ price?: string; reorderPoint?: string }>({})
-
-  function edit(product: Product) {
-    editing = product
-    price = product.price
-    reorderPoint = product.reorderPoint
-    errors = {}
-  }
-
-  function save(event: SubmitEvent) {
-    event.preventDefault()
-    if (!editing) return
-    const result = productSchema.pick({ price: true, reorderPoint: true }).safeParse({
-      price: price ?? -1,
-      reorderPoint: reorderPoint ?? -1,
-    })
-    if (!result.success) {
-      errors = Object.fromEntries(
-        result.error.issues.map((issue) => [issue.path[0], issue.message]),
-      )
-      return
-    }
-    updateProduct(store, editing.id, { ...productToInput(editing), ...result.data })
-    toast.success(`${editing.name} updated`)
-    editing = null
-  }
 
   const column = dataTableColumns<Product>()
   const columns = column.columns([
@@ -173,7 +123,9 @@
 {/snippet}
 {#snippet actionsCell(product: Product)}
   <DataTableRowActions label={`Actions for ${product.name}`}>
-    <DropdownMenuItem onSelect={() => edit(product)}>Edit price and reorder point</DropdownMenuItem>
+    <DropdownMenuItem onSelect={() => goto(resolve('/products/[id]/edit', { id: product.sku }))}>
+      Edit
+    </DropdownMenuItem>
   </DataTableRowActions>
 {/snippet}
 
@@ -182,7 +134,11 @@
 {/snippet}
 
 <PageLayout>
-  <PageHeader title="Products" description="Stock across every warehouse." />
+  <PageHeader title="Products" description="Stock across every warehouse.">
+    {#snippet actions()}
+      <Button href={resolve('/products/new')}><Plus />New product</Button>
+    {/snippet}
+  </PageHeader>
 
   {#if low.length}
     <Alert variant="warning">
@@ -217,42 +173,3 @@
     {/snippet}
   </DataTable>
 </PageLayout>
-
-<Dialog
-  open={editing !== null}
-  onOpenChange={(open) => {
-    if (!open) editing = null
-  }}
->
-  <DialogContent class="sm:max-w-md">
-    <form onsubmit={save} class="flex flex-col gap-6" novalidate>
-      <DialogHeader>
-        <DialogTitle>Edit {editing?.name}</DialogTitle>
-        <DialogDescription>{editing?.sku}</DialogDescription>
-      </DialogHeader>
-      <FieldGroup>
-        <Field data-invalid={errors.price ? 'true' : undefined}>
-          <FieldLabel for="product-price">Price</FieldLabel>
-          <NumberInput id="product-price" format="currency" prefix="$" bind:value={price} />
-          <FieldError errors={errors.price ? [{ message: errors.price }] : []} />
-        </Field>
-        <Field data-invalid={errors.reorderPoint ? 'true' : undefined}>
-          <FieldLabel for="product-reorder">Reorder point</FieldLabel>
-          <NumberInput
-            id="product-reorder"
-            format="integer"
-            controls
-            step={10}
-            bind:value={reorderPoint}
-          />
-          <FieldDescription>Below this many available, the product shows as low.</FieldDescription>
-          <FieldError errors={errors.reorderPoint ? [{ message: errors.reorderPoint }] : []} />
-        </Field>
-      </FieldGroup>
-      <DialogFooter>
-        <Button type="button" variant="outline" onclick={() => (editing = null)}>Cancel</Button>
-        <Button type="submit">Save</Button>
-      </DialogFooter>
-    </form>
-  </DialogContent>
-</Dialog>
