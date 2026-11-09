@@ -40,7 +40,7 @@
 <Button
   variant="ghost"
   size="sm"
-  class="text-muted-foreground ml-1 min-w-0 flex-1 justify-start"
+  class="text-muted-foreground ml-auto w-48 min-w-0 shrink justify-start md:w-72"
   onclick={() => (open = true)}
 >
   <Search />
