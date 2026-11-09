@@ -7,7 +7,14 @@ import {
   listClients,
   openOrderValue,
 } from '../src/lib/data/clients.js'
-import { fleetCondition, fleetStatus, listVehicles, serviceDueSoon } from '../src/lib/data/fleet.js'
+import {
+  fleetCondition,
+  fleetStatus,
+  getVehicle,
+  listVehicles,
+  serviceDueSoon,
+  vehicleShipments,
+} from '../src/lib/data/fleet.js'
 import {
   cancelOrder,
   createOrder,
@@ -24,7 +31,13 @@ import {
   pipeline,
   pipelineUrgency,
 } from '../src/lib/data/overview.js'
-import { listProducts, lowStock, productStock, updateProduct } from '../src/lib/data/products.js'
+import {
+  getProduct,
+  listProducts,
+  lowStock,
+  productStock,
+  updateProduct,
+} from '../src/lib/data/products.js'
 import { getSettings, saveSettings } from '../src/lib/data/settings.js'
 import {
   activeShipments,
@@ -33,7 +46,14 @@ import {
   shipmentProgress,
 } from '../src/lib/data/shipments.js'
 import { createStore, type Store } from '../src/lib/data/store.svelte.js'
-import { listLocations, locationStock, utilisation, zoneShare } from '../src/lib/data/warehouses.js'
+import {
+  getLocation,
+  listLocations,
+  locationActivity,
+  locationStock,
+  utilisation,
+  zoneShare,
+} from '../src/lib/data/warehouses.js'
 
 let s: Store
 
@@ -228,5 +248,28 @@ describe('settings', () => {
   it('reads and saves', () => {
     saveSettings(s, { ...getSettings(s), companyName: 'Renamed Co' })
     expect(getSettings(s).companyName).toBe('Renamed Co')
+  })
+})
+
+describe('detail lookups', () => {
+  it('finds records by the code their URL carries', () => {
+    expect(getVehicle(s, 'van-014')?.code).toBe('VAN-014')
+    expect(getProduct(s, 'pk-0410')?.name).toBe('Pallet wrap, 500 m')
+    expect(getLocation(s, 'loc-harbour')?.name).toBe('Harbour Hub')
+  })
+
+  it("lists a vehicle's shipments and a site's activity", () => {
+    expect(vehicleShipments(s, 'veh-van-014').map((shipment) => shipment.number)).toEqual([
+      'SHP-3017',
+      'SHP-3006',
+      'SHP-3001',
+    ])
+    const harbour = locationActivity(s, 'loc-harbour')
+    expect(harbour.vehicles.map((vehicle) => vehicle.code).sort()).toEqual([
+      'TRK-208',
+      'TRK-210',
+      'TRK-214',
+    ])
+    expect(harbour.outbound.every((shipment) => shipment.status !== 'delivered')).toBe(true)
   })
 })

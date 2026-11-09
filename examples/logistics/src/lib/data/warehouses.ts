@@ -18,3 +18,16 @@ export function locationStock(s: Source, id: Location['id']) {
   )
   return { skus: rows.length, units: rows.reduce((sum, row) => sum + row.onHand, 0) }
 }
+
+export const getLocation = (s: Source, id: string) =>
+  s.data.locations.find((location) => location.id === id)
+
+/** Vehicles based at the site, and the shipments leaving it that are not delivered. */
+export function locationActivity(s: Source, id: string) {
+  return {
+    vehicles: s.data.vehicles.filter((vehicle) => vehicle.homeLocationId === id),
+    outbound: s.data.shipments.filter(
+      (shipment) => shipment.originId === id && shipment.status !== 'delivered',
+    ),
+  }
+}

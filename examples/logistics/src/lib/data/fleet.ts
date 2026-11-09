@@ -26,3 +26,14 @@ export const fleetCondition = (s: Source) =>
 /** Due within the window, overdue included. */
 export const serviceDueSoon = (s: Source, withinDays = 7) =>
   s.data.vehicles.filter((vehicle) => vehicle.nextServiceDay <= withinDays)
+
+export const getVehicle = (s: Source, idOrCode: string) =>
+  s.data.vehicles.find(
+    (vehicle) => vehicle.id === idOrCode || vehicle.code === idOrCode.toUpperCase(),
+  )
+
+/** Every shipment the vehicle has run, most recent first. */
+export const vehicleShipments = (s: Source, vehicleId: string) =>
+  s.data.shipments
+    .filter((shipment) => shipment.vehicleId === vehicleId)
+    .toSorted((a, b) => b.number.localeCompare(a.number))

@@ -1,11 +1,11 @@
 <!-- One vehicle in the fleet's grid view: what it is, where it is, when it is due. -->
 <script lang="ts">
   import { Badge, Card, CardContent, FactList, FactListItem } from '@jovertical/mise-design-system'
-
   import { driverOf, locationName } from '#lib/data/lookups.js'
   import { store } from '#lib/data/store.svelte.js'
   import type { Vehicle } from '#lib/data/types.js'
   import { VEHICLE_STATUS } from '#lib/status.js'
+  import { resolve } from '$app/paths'
 
   let { vehicle }: { vehicle: Vehicle } = $props()
 
@@ -26,7 +26,12 @@
 <Card>
   <CardContent class="flex flex-col gap-3">
     <div class="flex items-center gap-2">
-      <span class="font-medium">{vehicle.code}</span>
+      <a
+        class="font-medium underline-offset-4 hover:underline"
+        href={resolve('/fleet/[id]', { id: vehicle.code })}
+      >
+        {vehicle.code}
+      </a>
       <Badge tone={VEHICLE_STATUS[vehicle.status].tone}
         >{VEHICLE_STATUS[vehicle.status].label}</Badge
       >

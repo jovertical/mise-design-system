@@ -36,7 +36,6 @@
   import TriangleAlert from '@lucide/svelte/icons/triangle-exclamation-point'
   import { renderComponent, renderSnippet } from '@tanstack/svelte-table'
   import NoMatches from '#lib/components/no-matches.svelte'
-
   import { latency } from '#lib/data/latency.js'
   import { listProducts, lowStock, productStock, updateProduct } from '#lib/data/products.js'
   import { productPatchSchema } from '#lib/data/schemas.js'
@@ -44,6 +43,8 @@
   import type { Product } from '#lib/data/types.js'
   import { money } from '#lib/format.js'
   import { CATEGORY_LABEL } from '#lib/status.js'
+  import { goto } from '$app/navigation'
+  import { resolve } from '$app/paths'
 
   let loading = $state(true)
   $effect(() => {
@@ -189,6 +190,7 @@
     {columns}
     data={products}
     getRowId={(product) => product.id}
+    onRowClick={(product) => goto(resolve('/products/[id]', { id: product.sku }))}
     isLoading={loading}
     emptyState={noMatches}
     withPadding={false}

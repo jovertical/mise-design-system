@@ -11,6 +11,7 @@
     SidebarTrigger,
     ThemeToggle,
   } from '@jovertical/mise-design-system'
+  import { crumb } from '#lib/breadcrumb.svelte.js'
   import SearchPalette from '#lib/components/search-palette.svelte'
   import UserMenu from '#lib/components/user-menu.svelte'
   import { locate } from '#lib/navigation.js'
@@ -24,7 +25,7 @@
   // Deeper than its menu item (an order's page): the record is the last step.
   const leaf = $derived(
     here && here.item.href !== '/' && path.length > here.item.href.length
-      ? decodeURIComponent(path.slice(here.item.href.length + 1))
+      ? (crumb.leaf ?? decodeURIComponent(path.slice(here.item.href.length + 1)))
       : null,
   )
 </script>

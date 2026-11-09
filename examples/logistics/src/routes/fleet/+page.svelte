@@ -18,7 +18,6 @@
   import Wrench from '@lucide/svelte/icons/wrench'
   import { renderComponent, renderSnippet } from '@tanstack/svelte-table'
   import NoMatches from '#lib/components/no-matches.svelte'
-
   import VehicleCard from '#lib/components/vehicle-card.svelte'
   import { listVehicles, serviceDueSoon } from '#lib/data/fleet.js'
   import { latency } from '#lib/data/latency.js'
@@ -26,6 +25,8 @@
   import { store } from '#lib/data/store.svelte.js'
   import type { Vehicle } from '#lib/data/types.js'
   import { VEHICLE_STATUS } from '#lib/status.js'
+  import { goto } from '$app/navigation'
+  import { resolve } from '$app/paths'
 
   let loading = $state(true)
   $effect(() => {
@@ -116,6 +117,7 @@
     data={vehicles}
     {viewMode}
     getRowId={(vehicle) => vehicle.id}
+    onRowClick={(vehicle) => goto(resolve('/fleet/[id]', { id: vehicle.code }))}
     getItemKey={(vehicle) => vehicle.id}
     isLoading={loading}
     emptyState={noMatches}

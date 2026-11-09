@@ -11,10 +11,10 @@
     MetricBar,
     RadialStat,
   } from '@jovertical/mise-design-system'
-
   import { store } from '#lib/data/store.svelte.js'
   import type { Location } from '#lib/data/types.js'
   import { locationStock, utilisation, zoneShare } from '#lib/data/warehouses.js'
+  import { resolve } from '$app/paths'
 
   let { location }: { location: Location } = $props()
 
@@ -34,7 +34,14 @@
       aria-label="{used}% of capacity used"
     />
     <div class="flex flex-col gap-1">
-      <CardTitle>{location.name}</CardTitle>
+      <CardTitle>
+        <a
+          class="underline-offset-4 hover:underline"
+          href={resolve('/warehouses/[id]', { id: location.id })}
+        >
+          {location.name}
+        </a>
+      </CardTitle>
       <CardDescription>{location.city} · {used}% of capacity used</CardDescription>
     </div>
   </CardHeader>

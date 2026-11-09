@@ -5,12 +5,15 @@ export const ROUTES: string[] = [
   '/orders/OR-2041',
   '/orders?view=board',
   '/shipments',
-  '/shipments?open=shp-3006',
+  '/shipments/SHP-3006',
   '/fleet',
+  '/fleet/TRK-212',
   '/products',
+  '/products/PK-0422',
   '/warehouses',
+  '/warehouses/loc-riverside',
   '/clients',
-  '/clients?open=cli-coastal-grocers',
+  '/clients/cli-coastal-grocers',
   '/settings/general',
 ]
 

@@ -83,7 +83,7 @@
       {#each store.data.clients as client (client.id)}
         <CommandItem
           value="{client.name} {client.contact}"
-          onSelect={() => go(`${resolve('/clients')}?open=${client.id}`)}
+          onSelect={() => go(resolve('/clients/[id]', { id: client.id }))}
         >
           {client.name}
         </CommandItem>
@@ -92,7 +92,10 @@
     <CommandSeparator />
     <CommandGroup heading="Products">
       {#each store.data.products as product (product.id)}
-        <CommandItem value="{product.sku} {product.name}" onSelect={() => go(resolve('/products'))}>
+        <CommandItem
+          value="{product.sku} {product.name}"
+          onSelect={() => go(resolve('/products/[id]', { id: product.sku }))}
+        >
           {product.name}
           <span class="text-muted-foreground">{product.sku}</span>
         </CommandItem>

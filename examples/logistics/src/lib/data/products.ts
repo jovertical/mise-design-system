@@ -30,3 +30,6 @@ export function updateProduct(
   product.reorderPoint = reorderPoint
   return product
 }
+
+export const getProduct = (s: Source, idOrSku: string) =>
+  s.data.products.find((product) => product.id === idOrSku || product.sku === idOrSku.toUpperCase())

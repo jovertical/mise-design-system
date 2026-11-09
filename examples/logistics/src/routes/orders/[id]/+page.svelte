@@ -167,7 +167,7 @@
             <div class="flex items-center justify-between gap-2">
               <a
                 class="font-medium underline-offset-4 hover:underline"
-                href="{resolve('/shipments')}?open={shipment.id}"
+                href={resolve('/shipments/[id]', { id: shipment.number })}
               >
                 {shipment.number}
               </a>
