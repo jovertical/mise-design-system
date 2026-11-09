@@ -4,7 +4,7 @@ import { createClient } from '../src/lib/data/clients.js'
 import { createOrder } from '../src/lib/data/orders.js'
 import { updateProduct } from '../src/lib/data/products.js'
 import {
-  newClientSchema,
+  clientSchema,
   orderSchema,
   productPatchSchema,
   settingsSchema,
@@ -45,9 +45,15 @@ describe('schemas', () => {
       contact: 'H. Boyd',
       email: 'boyd@pine.example',
       city: 'Riverside',
+      manager: 'Ops manager',
+      status: 'active' as const,
     }
-    expect(newClientSchema.safeParse(client).success).toBe(true)
-    expect(newClientSchema.safeParse({ ...client, email: 'not-an-email' }).success).toBe(false)
+    expect(clientSchema.safeParse(client).success).toBe(true)
+    expect(clientSchema.safeParse({ ...client, email: 'not-an-email' }).success).toBe(false)
+    expect(clientSchema.safeParse({ ...client, manager: ' ' }).error?.issues[0].message).toBe(
+      'Name the account manager',
+    )
+    expect(clientSchema.safeParse({ ...client, status: 'archived' }).success).toBe(false)
 
     expect(settingsSchema.safeParse(getSettings(s)).success).toBe(true)
     expect(settingsSchema.safeParse({ ...getSettings(s), timezone: 'Mars/Olympus' }).success).toBe(
@@ -78,7 +84,15 @@ describe('schemas', () => {
     expect(() => createOrder(s, { ...order, destination: 'x' })).toThrow()
     expect(() => updateProduct(s, 'prd-pk-0422', { price: 1.5, reorderPoint: 1 })).toThrow()
     expect(() =>
-      createClient(s, { name: 'A', industry: '', contact: '', email: 'x', city: '' }),
+      createClient(s, {
+        name: 'A',
+        industry: '',
+        contact: '',
+        email: 'x',
+        city: '',
+        manager: '',
+        status: 'active',
+      }),
     ).toThrow()
     expect(() => saveSettings(s, { ...getSettings(s), companyName: '' })).toThrow()
     expect(s.data.orders).toHaveLength(60)

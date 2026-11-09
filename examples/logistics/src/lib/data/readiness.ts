@@ -5,7 +5,7 @@
  */
 import type { ReadinessItem } from '@jovertical/mise-design-system'
 
-import type { OrderInput } from './schemas.js'
+import { type ClientInput, clientSchema, type OrderInput } from './schemas.js'
 
 const row = (id: string, label: string, met: boolean): ReadinessItem => ({
   id,
@@ -26,4 +26,15 @@ export const orderReadiness = (values: OrderInput): ReadinessItem[] => [
     values.packages.some((pkg) => pkg.weightKg > 0),
   ),
   row('total', 'Total set', values.total > 0),
+]
+
+export const clientReadiness = (values: ClientInput): ReadinessItem[] => [
+  row('name', 'Named', values.name.trim().length >= 2),
+  row(
+    'contact',
+    'Contact and email',
+    values.contact.trim() !== '' && clientSchema.shape.email.safeParse(values.email).success,
+  ),
+  row('city', 'City', values.city.trim() !== ''),
+  row('manager', 'Account manager', values.manager.trim() !== ''),
 ]

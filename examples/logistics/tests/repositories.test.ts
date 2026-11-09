@@ -2,10 +2,12 @@ import { beforeEach, describe, expect, it } from 'vitest'
 
 import {
   clientOrders,
+  clientToInput,
   createClient,
   getClient,
   listClients,
   openOrderValue,
+  updateClient,
 } from '../src/lib/data/clients.js'
 import {
   fleetCondition,
@@ -41,7 +43,7 @@ import {
   productStock,
   updateProduct,
 } from '../src/lib/data/products.js'
-import { orderSchema } from '../src/lib/data/schemas.js'
+import { clientSchema, orderSchema } from '../src/lib/data/schemas.js'
 import { getSettings, saveSettings } from '../src/lib/data/settings.js'
 import {
   activeShipments,
@@ -248,9 +250,28 @@ describe('clients', () => {
       contact: 'H. Boyd',
       email: 'boyd@pinestreetdeli.example',
       city: 'Riverside',
+      manager: 'Ops manager',
+      status: 'paused',
     })
-    expect(client).toMatchObject({ status: 'active', lifetimeValue: 0 })
+    expect(client).toMatchObject({ status: 'paused', manager: 'Ops manager', lifetimeValue: 0 })
     expect(listClients(s)).toHaveLength(15)
+  })
+
+  it('updates a client, keeping its id and lifetime value', () => {
+    const coastal = listClients(s, { search: 'coastal' })[0]
+    const { id, lifetimeValue } = coastal
+    const client = updateClient(s, id, {
+      ...clientToInput(coastal),
+      contact: 'R. Mendes',
+      status: 'paused',
+    })
+    expect(client).toMatchObject({ id, lifetimeValue, contact: 'R. Mendes', status: 'paused' })
+    expect(() => updateClient(s, 'cli-nobody', clientToInput(coastal))).toThrow('No client')
+  })
+
+  it('turns a client into form input that the schema accepts', () => {
+    const coastal = listClients(s, { search: 'coastal' })[0]
+    expect(clientSchema.parse(clientToInput(coastal))).toEqual(clientToInput(coastal))
   })
 })
 

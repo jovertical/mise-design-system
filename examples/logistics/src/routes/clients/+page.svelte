@@ -31,16 +31,10 @@
   import Plus from '@lucide/svelte/icons/plus'
   import { renderComponent, renderSnippet } from '@tanstack/svelte-table'
   import NoMatches from '#lib/components/no-matches.svelte'
-  import {
-    clientOrders,
-    createClient,
-    listClients,
-    type NewClient,
-    openOrderValue,
-  } from '#lib/data/clients.js'
+  import { clientOrders, createClient, listClients, openOrderValue } from '#lib/data/clients.js'
   import { latency } from '#lib/data/latency.js'
   import { initials } from '#lib/data/lookups.js'
-  import { newClientSchema } from '#lib/data/schemas.js'
+  import { type ClientInput, clientSchema } from '#lib/data/schemas.js'
   import { store } from '#lib/data/store.svelte.js'
   import type { Client } from '#lib/data/types.js'
   import { money } from '#lib/format.js'
@@ -70,8 +64,14 @@
 
   // The add-client dialog.
   let adding = $state(false)
-  let draft = $state<NewClient>({ name: '', industry: '', contact: '', email: '', city: '' })
-  let errors = $state<Partial<Record<keyof NewClient, string>>>({})
+  let draft = $state<Omit<ClientInput, 'manager' | 'status'>>({
+    name: '',
+    industry: '',
+    contact: '',
+    email: '',
+    city: '',
+  })
+  let errors = $state<Partial<Record<keyof Omit<ClientInput, 'manager' | 'status'>, string>>>({})
 
   function startAdding() {
     draft = { name: '', industry: '', contact: '', email: '', city: '' }
@@ -81,7 +81,7 @@
 
   function add(event: SubmitEvent) {
     event.preventDefault()
-    const result = newClientSchema.safeParse(draft)
+    const result = clientSchema.safeParse({ ...draft, manager: 'Ops manager', status: 'active' })
     if (!result.success) {
       errors = Object.fromEntries(
         result.error.issues.map((issue) => [issue.path[0], issue.message]),
@@ -93,7 +93,12 @@
     toast.success(`${client.name} added`)
   }
 
-  const FIELDS: { key: keyof NewClient; label: string; placeholder: string; type?: string }[] = [
+  const FIELDS: {
+    key: keyof Omit<ClientInput, 'manager' | 'status'>
+    label: string
+    placeholder: string
+    type?: string
+  }[] = [
     { key: 'name', label: 'Name', placeholder: 'Pine Street Deli' },
     { key: 'industry', label: 'Industry', placeholder: 'Food' },
     { key: 'contact', label: 'Contact', placeholder: 'H. Boyd' },

@@ -41,13 +41,18 @@ export const productPatchSchema = z.object({
   reorderPoint: z.number().int().min(0, 'Cannot be negative'),
 })
 
-export const newClientSchema = z.object({
+export const clientSchema = z.object({
   name: z.string().trim().min(2, 'Name the client'),
   industry: z.string().trim().min(1, 'Enter an industry'),
+  city: z.string().trim().min(1, 'Enter a city'),
   contact: z.string().trim().min(1, 'Name a contact'),
   email: z.email('Enter an email address'),
-  city: z.string().trim().min(1, 'Enter a city'),
+  manager: z.string().trim().min(1, 'Name the account manager'),
+  status: z.enum(['active', 'paused']),
 })
+
+/** What the client form edits: everything but the id and the lifetime value. */
+export type ClientInput = z.infer<typeof clientSchema>
 
 const prefix = z
   .string()

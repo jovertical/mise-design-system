@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
-import { orderReadiness } from '../src/lib/data/readiness.js'
-import type { OrderInput } from '../src/lib/data/schemas.js'
+import { clientReadiness, orderReadiness } from '../src/lib/data/readiness.js'
+import type { ClientInput, OrderInput } from '../src/lib/data/schemas.js'
 
 const unmet = (items: { label: string; status: string }[]) =>
   items.filter((item) => item.status !== 'met').map((item) => item.label)
@@ -41,5 +41,27 @@ describe('order readiness', () => {
   it('wants a weight on some package, not just a row', () => {
     const items = orderReadiness({ ...fullOrder, packages: [{ contents: 'Crates', weightKg: 0 }] })
     expect(unmet(items)).toEqual(['At least one package with a weight'])
+  })
+})
+
+const blankClient: ClientInput = {
+  name: '',
+  industry: '',
+  city: '',
+  contact: '',
+  email: '',
+  manager: 'Ops manager',
+  status: 'active',
+}
+
+describe('client readiness', () => {
+  it('lists what a new client still needs', () => {
+    expect(unmet(clientReadiness(blankClient))).toEqual(['Named', 'Contact and email', 'City'])
+  })
+
+  it('wants an email that looks like one', () => {
+    const client = { ...blankClient, name: 'Pine Deli', city: 'Riverside', contact: 'H. Boyd' }
+    expect(unmet(clientReadiness({ ...client, email: 'boyd' }))).toEqual(['Contact and email'])
+    expect(unmet(clientReadiness({ ...client, email: 'boyd@pine.example' }))).toEqual([])
   })
 })
