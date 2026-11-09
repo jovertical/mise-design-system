@@ -31,34 +31,38 @@ class DOMRectStub {
 
 globalThis.DOMRect ??= DOMRectStub as unknown as typeof DOMRect
 
-// bits-ui's PinInput probes for password-manager badges with elementFromPoint,
-// which jsdom does not implement.
-if (!document.elementFromPoint) {
-  document.elementFromPoint = () => null
-}
+// The DOM stubs below are skipped in a test that opts into the node
+// environment to render on the server, where there is no DOM to stub.
+if (typeof window !== 'undefined') {
+  // bits-ui's PinInput probes for password-manager badges with elementFromPoint,
+  // which jsdom does not implement.
+  if (!document.elementFromPoint) {
+    document.elementFromPoint = () => null
+  }
 
-if (!Element.prototype.scrollIntoView) {
-  Element.prototype.scrollIntoView = () => {}
-}
+  if (!Element.prototype.scrollIntoView) {
+    Element.prototype.scrollIntoView = () => {}
+  }
 
-if (!Element.prototype.hasPointerCapture) {
-  Element.prototype.hasPointerCapture = () => false
-  Element.prototype.setPointerCapture = () => {}
-  Element.prototype.releasePointerCapture = () => {}
-}
+  if (!Element.prototype.hasPointerCapture) {
+    Element.prototype.hasPointerCapture = () => false
+    Element.prototype.setPointerCapture = () => {}
+    Element.prototype.releasePointerCapture = () => {}
+  }
 
-// svelte-sonner reads the colour-scheme media query on mount. Inert: it
-// reports "light" and never fires, which is all a test of the toaster needs.
-if (!window.matchMedia) {
-  window.matchMedia = (query: string) =>
-    ({
-      matches: false,
-      media: query,
-      onchange: null,
-      addListener: () => {},
-      removeListener: () => {},
-      addEventListener: () => {},
-      removeEventListener: () => {},
-      dispatchEvent: () => false,
-    }) as MediaQueryList
+  // svelte-sonner reads the colour-scheme media query on mount. Inert: it
+  // reports "light" and never fires, which is all a test of the toaster needs.
+  if (!window.matchMedia) {
+    window.matchMedia = (query: string) =>
+      ({
+        matches: false,
+        media: query,
+        onchange: null,
+        addListener: () => {},
+        removeListener: () => {},
+        addEventListener: () => {},
+        removeEventListener: () => {},
+        dispatchEvent: () => false,
+      }) as MediaQueryList
+  }
 }

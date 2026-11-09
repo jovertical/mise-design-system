@@ -1,8 +1,9 @@
 /**
  * Origin: the React package 2.23.0 `use-theme.tsx` (`ThemeProviderState`, `useTheme`), in its hooks folder
  * Diverged: a rune-backed state shared through Svelte's context, for React's
- *   context and hook (round 8 plan, R8-6). It reads `localStorage` only in a
- *   browser, so a server render gets the default rather than a crash.
+ *   context and hook (round 8 plan, R8-6). It reads `localStorage` and
+ *   `matchMedia` only in a browser, so a server render gets the default, and
+ *   `system` resolves to light, rather than a crash.
  */
 import { getContext, setContext } from 'svelte'
 
@@ -36,10 +37,12 @@ export class ThemeState {
   /**
    * `system` resolved against `prefers-color-scheme`. Read on demand rather
    * than subscribed to: a theme that changes under the user mid-session is
-   * more surprising than one that settles at load.
+   * more surprising than one that settles at load. A server render cannot
+   * know the system scheme, so there it is light until the browser mounts.
    */
   get resolved(): 'dark' | 'light' {
     if (this.#theme !== 'system') return this.#theme
+    if (typeof window === 'undefined') return 'light'
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
   }
 }
