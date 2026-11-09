@@ -28,8 +28,8 @@ dirty form asks first.
 | P1 | Scope | Create and edit pages for all six entities, on one shared form per entity |
 | P2 | Replaced | The Create order sheet, the Add client dialog and the product row's edit dialog go; their buttons link to the new pages |
 | P3 | Layout | The portal's shape: `PageHeader` with `backLink`, a `lg:grid-cols-3` grid, the form card at `lg:col-span-2`, the aside beside it, stacked below `lg` |
-| P4 | Form state | Plain Svelte `$state` drafts validated with the shared zod schema, as an Inertia app would (the order form's existing approach). Not superforms: the settings page already shows that path |
-| P5 | Dirty guard | SvelteKit `beforeNavigate` cancels a navigation away from a dirty form and opens a "Discard changes?" `AlertDialog`; a successful save lets the next navigation through; `beforeunload` covers closing the tab |
+| P4 | Form state | superforms in SPA mode (`dataType: 'json'`, zod 4 adapter) with `mise/form`'s `FormField`, `FormControl` and `FormFieldErrors`, as the settings page does. Chosen over plain `$state` drafts (revised 2026-11-09): superforms already tracks tainted fields, nested array errors and the leave guard, and the demo should exercise `mise/form`. The Inertia-style plain form leaves the demo with the old order sheet |
+| P5 | Dirty guard | superforms' `taintedMessage` as an async function that opens a "Discard changes?" `AlertDialog` and resolves with the choice; superforms handles closing the tab. A successful save resets the form to the saved values, so the navigation that follows is not challenged |
 | P6 | After save | A toast, then the record's detail page |
 | P7 | Not editable | Completed and cancelled orders; shipments that are not `scheduled`. The detail page hides Edit; the edit route renders `ErrorState` with a link back |
 | P8 | Shipments | A run planner: origin, then an idle vehicle at that origin and a driver, then ready orders from that origin. Stops are derived |
@@ -69,19 +69,21 @@ Change the client, route, packages or total.
 - The title says what is happening: "New order", "Edit order". The description is one line.
 - Save is a `type="submit"` button in the header, tied to the form by `form="<entity>-form"`.
   Its label is "Create order" / "Save changes" (shipments: "Schedule shipment").
-- Field errors show on submit, from the schema, with `FieldError`; the first invalid field gets
-  focus.
+- Field errors show on submit, from the schema, through `FormFieldErrors`; superforms focuses
+  the first invalid field.
 - The summary and the readiness card read the live draft. Readiness rows are the schema's
   required facts, worded as outcomes ("Client chosen").
 
 ### Shared pieces in `src/lib/components/`
 
 - `form-page.svelte`: the page frame. Takes the title, description, back link, submit label,
-  form id, whether the draft is dirty, and the `form` and `aside` snippets; draws the header, the
-  grid and the unsaved-changes guard. It is the example's composition of mise parts, as the
-  portal's pages are; it is not a look-alike of a mise component.
+  form id, and the `form` and `aside` snippets; draws the header, the grid and the
+  unsaved-changes dialog. It is the example's composition of mise parts, as the portal's pages
+  are; it is not a look-alike of a mise component.
 - `unsaved-changes-dialog.svelte`: the `AlertDialog` the guard opens ("Keep editing" /
   "Discard").
+- `src/lib/entity-form.svelte.ts`: `entityForm(schema, initial, onsave)`, one superForm set up
+  the same way for every page (SPA, json, validators, the guard, reset on save).
 - `line-items.svelte` is not built: each line-item list is a few rows of mise inputs inside its
   form, as in the portal.
 

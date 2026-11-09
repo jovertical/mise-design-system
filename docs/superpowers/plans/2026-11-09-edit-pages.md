@@ -4,9 +4,9 @@
 
 **Goal:** Create and edit pages for orders, clients, products, vehicles, sites and shipments in the logistics example, in the client portal's shape.
 
-**Architecture:** One shared frame (`form-page.svelte`) draws the header, the two-thirds/one-third grid and the unsaved-changes guard; each entity has one form component used by its `new` and `[id]/edit` routes. Drafts are plain `$state` validated by one zod schema per entity, which the store's `create…`/`update…` functions also parse. Summary and readiness rows come from pure functions over the draft, so they are unit-tested without rendering.
+**Architecture:** One shared frame (`form-page.svelte`) draws the header, the two-thirds/one-third grid and the unsaved-changes dialog; each entity has one form component used by its `new` and `[id]/edit` routes. Every form is a superForm in SPA mode built by one helper (`entityForm`) and drawn with `mise/form`; it validates with one zod schema per entity, which the store's `create…`/`update…` functions also parse. Summary and readiness rows come from pure functions over the form's values, so they are unit-tested without rendering.
 
-**Tech Stack:** SvelteKit 3 (SPA), Svelte 5, mise (workspace), zod 4, `@internationalized/date`, Vitest 5, Biome 2.6.
+**Tech Stack:** SvelteKit 3 (SPA), Svelte 5, mise (workspace) and `mise/form`, sveltekit-superforms 3 (zod 4 adapter), zod 4, `@internationalized/date`, Vitest 5, Biome 2.6.
 
 **Spec:** `docs/specs/2026-11-09-edit-pages-design.md`. Wireframes reviewed in the browser on 2026-11-09 (`.superpowers/brainstorm/`, git-ignored).
 
@@ -28,26 +28,40 @@
 | --- | --- |
 | `src/lib/data/schemas.ts` | one schema per entity (`orderSchema`, `clientSchema`, `productSchema`, `vehicleSchema`, `siteSchema`, `shipmentSchema`) and their input types |
 | `src/lib/data/{orders,clients,products,fleet,warehouses,shipments}.ts` | `create…`, `update…`, editability checks, form-value mappers |
-| `src/lib/data/readiness.ts` | `<entity>Readiness(draft): ReadinessItem[]` per entity |
+| `src/lib/data/readiness.ts` | `<entity>Readiness(values): ReadinessItem[]` per entity |
 | `src/lib/data/days.ts` | `dayToDate(offset): CalendarDate`, `dateToDay(date): number` |
-| `src/lib/draft.ts` | `isDirty(initial, draft)`, `issuesByPath(error)` |
+| `src/lib/entity-form.svelte.ts` | `entityForm(…)`: the shared superForm setup, and the discard prompt's state |
 | `src/lib/breadcrumb.svelte.ts` | gains `crumb.step` ("Edit", "New") |
 | `src/lib/components/app-header.svelte` | renders `crumb.step` as the last breadcrumb item |
 | `src/lib/components/form-page.svelte` | the frame: header, grid, guard |
 | `src/lib/components/unsaved-changes-dialog.svelte` | "Discard changes?" |
 | `src/lib/components/<entity>-form.svelte` | one per entity: sections, aside |
 | `src/routes/<list>/new/+page.svelte`, `src/routes/<list>/[id]/edit/+page.svelte` | the twelve routes |
-| `tests/schemas.test.ts`, `tests/repositories.test.ts`, `tests/draft.test.ts`, `tests/readiness.test.ts`, `tests/days.test.ts` | Vitest |
+| `tests/schemas.test.ts`, `tests/repositories.test.ts`, `tests/readiness.test.ts`, `tests/days.test.ts` | Vitest |
 | `scripts/routes.ts` | the smoke list |
 
 ## Shared interfaces (defined in Phase 1, used by every later task)
 
 ```ts
-// src/lib/draft.ts
-/** Whether the draft differs from where it started; compares snapshots as JSON. */
-export function isDirty<T>(initial: T, draft: T): boolean
-/** Zod issues keyed by dotted path ('packages.0.weightKg'), first message wins. */
-export function issuesByPath(error: z.ZodError): Record<string, string>
+// src/lib/entity-form.svelte.ts
+import type { SuperValidated } from 'sveltekit-superforms'
+
+/** The discard prompt FormPage draws; the guard awaits the user's answer. */
+export const discard = $state<{ open: boolean; resolve: ((leave: boolean) => void) | null }>(…)
+export function askToDiscard(): Promise<boolean>   // opens the dialog, resolves on its answer
+
+/**
+ * One superForm per page, set up the same way everywhere: SPA (no server), json data
+ * (arrays and nested values), the schema's validators, resetForm false, and
+ * taintedMessage: askToDiscard. On a valid submit it calls onsave(values) and then
+ * form.reset({ newState: values }), so the navigation onsave starts is not challenged.
+ * onsave throwing (a write refusing) toasts the message and keeps the form as it is.
+ */
+export function entityForm<S extends z.ZodObject>(
+  schema: S,
+  initial: z.infer<S>,
+  onsave: (values: z.infer<S>) => void,
+): SuperForm<z.infer<S>>
 
 // src/lib/data/readiness.ts — ReadinessItem is mise's type
 import type { ReadinessItem } from '@jovertical/mise-design-system'
@@ -61,15 +75,28 @@ import type { ReadinessItem } from '@jovertical/mise-design-system'
   back: { href: string; label: string }   // "Back to OR-2058"
   formId: string           // "order-form"
   submitLabel: string      // "Save changes"
-  dirty: boolean
   form: Snippet            // the <form id={formId}> and its Card
   aside: Snippet           // the AsideCards
 }
-// exported from its module script:
-export function allowNextNavigation(): void   // call after a successful save, before goto
 ```
 
-The route owns the record: `const initial = …` and `let draft = $state(structuredClone(initial))`. Each entity form takes `{ draft (bindable); formId: string; onsave: (input: <Entity>Input) => void }` plus any lookups it needs, edits the draft, owns its errors, and parses on submit. Each `<entity>-aside.svelte` takes `{ draft }` (plus read-only context such as a client's lifetime value) and draws the Summary and Ready to save cards. The route passes `dirty={isDirty(initial, draft)}` to `FormPage`, the form in its `form` snippet and the aside in its `aside` snippet.
+Each entity has one editor, `<entity>-form.svelte`, which builds its superForm once in its script and draws the whole page:
+
+```ts
+// props of every <entity>-form.svelte
+{
+  initial: <Entity>Input              // empty values for new, <entity>ToInput(record) for edit
+  page: { title: string; description: string; back: { href: string; label: string }; submitLabel: string }
+  save: (values: <Entity>Input) => void   // calls create… or update…, toasts, goto(detail)
+  // plus read-only context where the entity needs it (an order's lookups come from the store)
+}
+```
+
+Inside: `const form = entityForm(<entity>Schema, untrack(() => initial), (values) => save(values))`, `const { form: formData, enhance } = form`, then `<FormPage {...page} formId="<entity>-form">` with a `form` snippet (`<form method="POST" id="<entity>-form" use:enhance>` around a `Card` of sections) and an `aside` snippet (`<<Entity>Aside values={$formData} />`). Every field is `mise/form`'s `FormField {form} name="…"` › `FormControl` › the mise input with `bind:value={$formData.…}`, then `FormFieldErrors`. `<entity>-aside.svelte` takes `{ values }` (plus read-only context such as a client's lifetime value) and draws the Summary and Ready to save cards.
+
+A route resolves the record, handles not found and not editable, and renders the editor inside `{#key record.id}`, so moving between two records' edit pages remounts the form with the right values.
+
+The settings page (`src/routes/settings/general/+page.svelte`) is the working example of superForm + `mise/form` in this app: copy its `FormField` usage and its handling of `Select` and `NumberInput` inside `FormControl`.
 
 ---
 
@@ -110,30 +137,67 @@ orderToInput(order: Order): OrderInput
 
 ### Task 2: The frame, the guard and the breadcrumb step
 
-**Files:** Create `src/lib/draft.ts`, `src/lib/components/form-page.svelte`, `src/lib/components/unsaved-changes-dialog.svelte`; Modify `src/lib/breadcrumb.svelte.ts`, `src/lib/components/app-header.svelte`; Test `tests/draft.test.ts`
+**Files:** Create `src/lib/entity-form.svelte.ts`, `src/lib/components/form-page.svelte`, `src/lib/components/unsaved-changes-dialog.svelte`; Modify `src/lib/breadcrumb.svelte.ts`, `src/lib/components/app-header.svelte`
 
-- [ ] **Step 1: Tests first** for `draft.ts`: `isDirty` is false for equal nested objects and arrays, true after one nested change; `issuesByPath` turns a parse of `orderSchema` with a bad second package into `{ 'packages.1.weightKg': 'Enter a weight' }` and keeps the first message per path.
-- [ ] **Step 2: `draft.ts`.**
+- [ ] **Step 1: `entity-form.svelte.ts`.**
 
 ```ts
+import { toast } from '@jovertical/mise-design-system'
+import { defaults, superForm } from 'sveltekit-superforms'
+import { zod4 } from 'sveltekit-superforms/adapters'
 import type { z } from 'zod'
 
-export const isDirty = <T>(initial: T, draft: T) =>
-  JSON.stringify(initial) !== JSON.stringify(draft)
+export const discard = $state<{ open: boolean; resolve: ((leave: boolean) => void) | null }>({
+  open: false,
+  resolve: null,
+})
 
-export function issuesByPath(error: z.ZodError): Record<string, string> {
-  const issues: Record<string, string> = {}
-  for (const issue of error.issues) {
-    const path = issue.path.join('.')
-    issues[path] ??= issue.message
-  }
-  return issues
+export function askToDiscard(): Promise<boolean> {
+  return new Promise((resolve) => {
+    discard.resolve = resolve
+    discard.open = true
+  })
+}
+
+export function answerDiscard(leave: boolean) {
+  discard.open = false
+  discard.resolve?.(leave)
+  discard.resolve = null
+}
+
+export function entityForm<S extends z.ZodObject>(
+  schema: S,
+  initial: z.infer<S>,
+  onsave: (values: z.infer<S>) => void,
+) {
+  const adapter = zod4(schema)
+  const form = superForm(defaults(structuredClone(initial), adapter), {
+    SPA: true,
+    applyAction: false,
+    dataType: 'json',
+    resetForm: false,
+    validators: adapter,
+    taintedMessage: askToDiscard,
+    onUpdate({ form: result }) {
+      if (!result.valid) return
+      try {
+        form.reset({ newState: result.data })
+        onsave(result.data)
+      } catch (error) {
+        form.reset({ newState: initial })
+        toast.error(error instanceof Error ? error.message : 'Could not save')
+      }
+    },
+  })
+  return form
 }
 ```
 
-- [ ] **Step 3: Breadcrumb step.** `crumb` becomes `$state<{ leaf: string | null; step: string | null }>`; add `markThisPage(step: string, leaf?: () => string | undefined)` that sets both and clears them on teardown. In `app-header.svelte`, when `crumb.step` is set, the record (if any) renders as a `BreadcrumbLink` to the path without its last segment, followed by `BreadcrumbPage` of the step; on `/x/new` the record is omitted and the leaf is the step.
-- [ ] **Step 4: `unsaved-changes-dialog.svelte`.** Props `{ open: boolean (bindable); ondiscard: () => void }`. mise `AlertDialog`: title "Discard changes?", description "Your changes haven't been saved.", `AlertDialogCancel` "Keep editing", `AlertDialogAction tone="critical"` "Discard".
-- [ ] **Step 5: `form-page.svelte`** with the props in Shared interfaces. Layout:
+Check `toast`'s import against the settings page (it may come from `svelte-sonner` through mise's `Toaster`); use what that page uses. If the reset-before-save order lets a refused write leave the form untainted, set the values back with `form.form.set(result.data, { taint: true })` instead of the second reset, and say so in the phase report.
+
+- [ ] **Step 2: Breadcrumb step.** `crumb` becomes `$state<{ leaf: string | null; step: string | null }>`; add `markThisPage(step: string, leaf?: () => string | undefined)` that sets both and clears them on teardown. In `app-header.svelte`, when `crumb.step` is set, the record (if any) renders as a `BreadcrumbLink` to the path without its last segment, followed by `BreadcrumbPage` of the step; on `/x/new` the record is omitted and the leaf is the step.
+- [ ] **Step 3: `unsaved-changes-dialog.svelte`.** No props; reads `discard` from `entity-form.svelte.ts`. mise `AlertDialog` with `open={discard.open}` and `onOpenChange={(open) => { if (!open) answerDiscard(false) }}`: title "Discard changes?", description "Your changes haven't been saved.", `AlertDialogCancel` "Keep editing" (answers `false`), `AlertDialogAction tone="critical"` "Discard" (answers `true`).
+- [ ] **Step 4: `form-page.svelte`** with the props in Shared interfaces:
 
 ```svelte
 <PageLayout>
@@ -149,21 +213,21 @@ export function issuesByPath(error: z.ZodError): Record<string, string> {
     <div class="flex flex-col gap-6">{@render aside()}</div>
   </div>
 </PageLayout>
-<UnsavedChangesDialog bind:open={asking} ondiscard={discard} />
+<UnsavedChangesDialog />
 ```
 
-The guard: `beforeNavigate((navigation) => { if (!dirty || allowed) return; if (navigation.type === 'leave') { navigation.cancel(); return } pending = navigation.to?.url ?? null; navigation.cancel(); asking = true })`. `leave` (tab close) cancels to get the browser's prompt. `discard()` sets `allowed = true` and `goto(pending)`. A module-level `let allowed = false` is reset on mount; `allowNextNavigation()` sets it.
+Cancel is a link, so the guard asks before it leaves a dirty form.
 
-- [ ] **Step 6:** `pnpm test` exits 0. Commit `chore(example): a create-and-edit page frame with an unsaved-changes guard`.
+- [ ] **Step 5:** Nothing renders these yet, so the check is `pnpm test` (svelte-check, Biome, Vitest) exiting 0. Commit `chore(example): a create-and-edit page frame with an unsaved-changes guard`.
 
 ### Task 3: The order form
 
 **Files:** Rewrite `src/lib/components/order-form.svelte`; Create `src/lib/components/order-aside.svelte`, `src/lib/data/readiness.ts`; Test `tests/readiness.test.ts`
 
-**Interfaces — produces:** `orderReadiness(draft: OrderDraft): ReadinessItem[]` where `OrderDraft` is `OrderInput` with `total: number | null` and each package's `weightKg: number | null`. Rows, all `required: true`: "Client chosen", "Origin and delivery address", "At least one package with a weight", "Total set".
+**Interfaces — produces:** `orderReadiness(values: OrderInput): ReadinessItem[]`. Rows, all `required: true`: "Client chosen" (`clientId` set), "Origin and delivery address" (both set, destination at least 3 characters), "At least one package with a weight" (some `weightKg > 0`), "Total set" (`total > 0`).
 
-- [ ] **Step 1: Tests first.** An empty draft has all four unmet; a full draft has all met; a draft whose only package has `weightKg: null` leaves the package row unmet. (Read `ReadinessItem`'s fields from `node_modules/@jovertical/mise-design-system/dist/components/feedback/readiness/*.d.ts` and match them.)
-- [ ] **Step 2: The form.** Props `{ draft: OrderDraft (bindable); formId: string; onsave: (input: OrderInput) => void }`, as in Shared interfaces. Inside `<form id={formId} onsubmit={submit} novalidate>`, one `Card` with `CardContent class="flex flex-col gap-6"`; four sections separated by `Separator`, each:
+- [ ] **Step 1: Tests first.** The new-order initial values (Task 4) have all four unmet except the origin row's origin half; a full order has all met; one package with `weightKg: 0` leaves the package row unmet. (Read `ReadinessItem`'s fields from `node_modules/@jovertical/mise-design-system/dist/components/feedback/readiness/*.d.ts` and match them.)
+- [ ] **Step 2: The form.** `order-form.svelte` with the editor props in Shared interfaces. Inside its `form` snippet, `<form method="POST" id="order-form" use:enhance>` and one `Card` with `CardContent class="flex flex-col gap-6"`; four sections separated by `Separator`, each:
 
 ```svelte
 <section class="flex flex-col gap-4">
@@ -171,20 +235,33 @@ The guard: `beforeNavigate((navigation) => { if (!dirty || allowed) return; if (
     <CardTitle iconTone="primary">{#snippet icon()}<Users />{/snippet}Client and service</CardTitle>
     <Text as="p" size="sm" muted>Who it is for and how fast it goes.</Text>
   </div>
-  <FieldGroup class="grid gap-4 sm:grid-cols-2">…</FieldGroup>
+  <div class="grid gap-4 sm:grid-cols-2">
+    <FormField {form} name="service">
+      <FormControl>
+        {#snippet children({ props })}
+          <FormLabel>Service</FormLabel>
+          <Select type="single" bind:value={$formData.service} items={services}>
+            <SelectTrigger {...props} class="w-full"><SelectValue /></SelectTrigger>
+            …
+          </Select>
+        {/snippet}
+      </FormControl>
+      <FormFieldErrors />
+    </FormField>
+  </div>
 </section>
 ```
 
-Fields as in the spec's Orders table, carried over from the current form (client `Combobox` with its search, service and origin `Select`, destination `Input`, total `NumberInput format="currency" prefix="$"`). Packages: `{#each draft.packages as pkg, index}` a row of a `Badge variant="outline"` `PKG-{index + 1}`, contents `Input`, weight `NumberInput` with suffix `kg`, and a ghost `iconOnly` remove `Button` (`aria-label="Remove PKG-{n}"`, disabled when one row is left); then a ghost "Add package" `Button`. Submit: `orderSchema.safeParse({ ...draft, total: draft.total ?? -1 })`; on failure `errors = issuesByPath(result.error)` (a null total reports "Enter the order total") and focus `form.querySelector('[aria-invalid="true"]')`; on success `onsave(result.data)`. Each field reads its error with `errors['packages.0.weightKg']` style keys.
-- [ ] **Step 3: The aside.** Create `order-aside.svelte`, props `{ draft: OrderDraft }`: `AsideCard` "Summary" (icon `ReceiptText`) with a `FactList` of client name (or "—"), service label, "origin → destination", "{n} packages · {kg} kg", `money(total)`; `AsideCard` "Ready to save" (icon `ListChecks`) with `ReadinessSummary` and `ReadinessChecklist` of `orderReadiness(draft)`.
+Fields as in the spec's Orders table, carried over from the current form (client `Combobox` with its search, service and origin `Select`, destination `Input`, total `NumberInput format="currency" prefix="$"`). Packages: `{#each $formData.packages as _, index}` a row of a `Badge variant="outline"` `PKG-{index + 1}`, a `FormField {form} name="packages[{index}].contents"` with an `Input`, a `FormField … name="packages[{index}].weightKg"` with a `NumberInput` suffix `kg`, and a ghost `iconOnly` remove `Button` (`aria-label="Remove PKG-{n}"`, disabled when one row is left) that sets `$formData.packages = $formData.packages.toSpliced(index, 1)`; then a ghost "Add package" `Button` that appends `{ contents: '', weightKg: 0 }`. The array's own error ("Add a package") shows under the list with `FormFieldErrors` on a `FormField name="packages"`; if `mise/form` has no array-level error part, read `$errors.packages?._errors` into a `FieldError` and note it as a candidate mise gap in the phase report.
+- [ ] **Step 3: The aside.** Create `order-aside.svelte`: `AsideCard` "Summary" (icon `ReceiptText`) with a `FactList` of client name (or "—"), service label, "origin → destination", "{n} packages · {kg} kg", `money(total)`; `AsideCard` "Ready to save" (icon `ListChecks`) with `ReadinessSummary` and `ReadinessChecklist` of `orderReadiness(values)`. Props `{ values: OrderInput }`.
 - [ ] **Step 4:** `pnpm test` exits 0. Commit `chore(example): the order form as a page, with packages, a summary and readiness`.
 
 ### Task 4: The order routes, and the sheet removed
 
 **Files:** Create `src/routes/orders/new/+page.svelte`, `src/routes/orders/[id]/edit/+page.svelte`; Modify `src/routes/orders/+page.svelte`, `src/routes/orders/[id]/+page.svelte`, `scripts/routes.ts`
 
-- [ ] **Step 1: `/orders/new`.** `markThisPage('New order')`. Initial draft: `{ clientId: '', service: 'regular', originId: 'loc-riverside', destination: '', packages: [{ contents: '', weightKg: null }], total: null }`. `FormPage` title "New order", description "Who it is for, where it goes and what it carries.", back `{ href: resolve('/orders'), label: 'Back to Orders' }`, submit "Create order". `onsave`: `const order = createOrder(store, input); toast.success(\`${order.number} created\`); allowNextNavigation(); goto(resolve('/orders/[id]', { id: order.number }))`.
-- [ ] **Step 2: `/orders/[id]/edit`.** `const order = $derived(getOrder(store, page.params.id))`. Unknown: the same `ErrorState` the detail page shows (404). Not editable: `ErrorState` title "{number} can't be edited", description "It is {status label}. Completed and cancelled orders are kept as they were.", `homeLink` a `Button href` "Back to {number}". Otherwise `markThisPage('Edit', () => order.number)`, `FormPage` title "Edit order", description "Change the client, route, packages or total. Status moves on its own.", back to the order, submit "Save changes"; `onsave` calls `updateOrder`, toasts "{number} saved", allows, goes to the detail page. Wrap the form in `{#key order.id}`.
+- [ ] **Step 1: `/orders/new`.** `markThisPage('New order')`. Initial values: `{ clientId: '', service: 'regular', originId: 'loc-riverside', destination: '', packages: [{ contents: '', weightKg: 0 }], total: 0 }`, passed to `<OrderForm {initial} page={…} {save} />`. `FormPage` title "New order", description "Who it is for, where it goes and what it carries.", back `{ href: resolve('/orders'), label: 'Back to Orders' }`, submit "Create order". `save`: `const order = createOrder(store, values); toast.success(\`${order.number} created\`); goto(resolve('/orders/[id]', { id: order.number }))`.
+- [ ] **Step 2: `/orders/[id]/edit`.** `const order = $derived(getOrder(store, page.params.id))`. Unknown: the same `ErrorState` the detail page shows (404). Not editable: `ErrorState` title "{number} can't be edited", description "It is {status label}. Completed and cancelled orders are kept as they were.", `homeLink` a `Button href` "Back to {number}". Otherwise `markThisPage('Edit', () => order.number)`, `FormPage` title "Edit order", description "Change the client, route, packages or total. Status moves on its own.", back to the order, submit "Save changes"; `save` calls `updateOrder`, toasts "{number} saved" and goes to the detail page. Render `{#key order.id}<OrderForm initial={orderToInput(order)} … />{/key}`.
 - [ ] **Step 3: Links.** Orders list: "Create order" becomes `<Button href={resolve('/orders/new')}>`; delete the `Sheet`, its state and imports, and the doc comment's sheet sentence. Order detail: an outline "Edit" `Button href` in `actions` when `isOrderEditable(order)`, ahead of Cancel order.
 - [ ] **Step 4: Smoke.** `ROUTES` gains `/orders/new`, `/orders/OR-2041/edit`; `NOT_FOUND_ROUTES` gains `/orders/does-not-exist/edit`.
 - [ ] **Step 5:** `pnpm test` and `pnpm smoke` exit 0; look at `.smoke/orders-new-*.png` and `.smoke/orders-or-2041-edit-*.png`. Commit `chore(example): create and edit orders on their own pages`.
@@ -215,7 +292,7 @@ export type ClientInput = z.infer<typeof clientSchema>
 createClient(s, raw: ClientInput): Client      // id as today; lifetimeValue 0
 updateClient(s, id: Id, raw: ClientInput): Client
 clientToInput(client: Client): ClientInput
-clientReadiness(draft: ClientInput): ReadinessItem[]   // "Named", "Contact and email", "City", "Account manager"
+clientReadiness(values: ClientInput): ReadinessItem[]   // "Named", "Contact and email", "City", "Account manager"
 ```
 
 `newClientSchema`/`NewClient` are removed; the Add client dialog sends `manager: 'Ops manager', status: 'active'` until Task 6.
@@ -249,7 +326,7 @@ export type ProductInput = z.infer<typeof productSchema>
 createProduct(s, raw: ProductInput): Product   // id `prd-<sku lower>`; stock from openingStock, reserved 0; a location missing from openingStock gets 0
 updateProduct(s, id: Id, raw: ProductInput): Product   // ignores openingStock; stock unchanged
 productToInput(product: Product): ProductInput          // openingStock = current onHand per site
-productReadiness(draft): ReadinessItem[]                 // "Named", "SKU", "Price set", "Reorder point set"
+productReadiness(values): ReadinessItem[]                 // "Named", "SKU", "Price set", "Reorder point set"
 ```
 
 Both writes throw "SKU {sku} is already in use" for another product's SKU. `productPatchSchema` is removed; the old dialog goes in Task 8, so update its call site to pass `{ ...productToInput(product), price, reorderPoint }` meanwhile.
@@ -296,7 +373,7 @@ createVehicle(s, raw): Vehicle          // id `veh-<code lower>`, status 'idle'
 updateVehicle(s, idOrCode, raw): Vehicle
 vehicleToInput(vehicle): VehicleInput
 assignableDrivers(s, vehicleId: Id | null): Driver[]   // drivers with no vehicle, plus this vehicle's
-vehicleReadiness(draft): ReadinessItem[]               // "Code and registration", "Home site", "Next service date"
+vehicleReadiness(values): ReadinessItem[]               // "Code and registration", "Home site", "Next service date"
 ```
 
 `dayToDate(0)` is `2026-07-14`; `dateToDay(dayToDate(-3)) === -3`. Both writes throw "{code} is already in use" for another vehicle's code. Assigning a driver: clear `vehicleId` on the driver previously on this vehicle, clear `driverId` on the vehicle the new driver had, then link both ways. `driverId: null` unlinks.
@@ -329,7 +406,7 @@ export type SiteInput = z.infer<typeof siteSchema>
 createSite(s, raw): Location            // id `loc-<name slug>`; zones used 0
 updateSite(s, id, raw): Location        // zones matched by position; a kept zone keeps its used
 siteToInput(location): SiteInput
-siteReadiness(draft): ReadinessItem[]   // "Named", "Manager", "Capacity and docks", "At least one zone"
+siteReadiness(values): ReadinessItem[]   // "Named", "Manager", "Capacity and docks", "At least one zone"
 ```
 
 `updateSite` throws "Zone {name} holds {used}; its capacity can't go below that" when a kept zone's capacity is below its used, and "Zone {name} still holds stock" when a removed zone (beyond the new length) has `used > 0`.
@@ -367,7 +444,7 @@ plannedStops(s, orderIds: Id[]): Stop[]   // destination per order, eta { day: 1
 createShipment(s, raw): Shipment          // next SHP number, 'scheduled'; each order → 'in-fulfilment', shipmentId, event
 updateShipment(s, idOrNumber, raw): Shipment   // refuses unless scheduled; applies the difference
 shipmentToInput(shipment): ShipmentInput
-shipmentReadiness(draft): ReadinessItem[]      // "Origin", "Vehicle", "Driver", "At least one order"
+shipmentReadiness(values): ReadinessItem[]      // "Origin", "Vehicle", "Driver", "At least one order"
 ```
 
 Both writes refuse an order that is not a candidate ("{number} isn't ready at this origin"). On update, a removed order returns to `ready` with a `ready` event and `shipmentId: null`; stops are recomputed. Times are `'09:00'`, `'09:45'`, `'10:30'`….
