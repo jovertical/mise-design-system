@@ -51,13 +51,16 @@ export function entityForm<S extends z.ZodObject>(
     resetForm: false,
     validators: adapter,
     taintedMessage: () => saved || askToDiscard(),
-    onUpdate({ form: result }) {
+    onUpdate({ form: result, cancel }) {
       if (!result.valid) return
       saved = true
       try {
         onsave(result.data)
       } catch (error) {
+        // Cancelling keeps superforms from treating the submit as done, which
+        // would clear the changes it tracks and drop the guard.
         saved = false
+        cancel()
         toast.error(error instanceof Error ? error.message : 'Could not save')
       }
     },
