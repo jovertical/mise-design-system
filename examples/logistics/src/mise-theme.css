@@ -146,11 +146,12 @@
 }
 
 :root {
-  /* Structure, and the one --radius the scale derives from. */
+  /* Structure, the one --radius the scale derives from, and the button corner. */
   --sidebar-width: calc(var(--spacing) * 20);
   --header-height: 64px;
   --spacing: 0.25rem;
   --radius: 0.5rem;
+  --radius-button: 9999px;
 
   /* Faces. */
   --font-sans: ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';

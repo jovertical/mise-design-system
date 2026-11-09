@@ -35,7 +35,9 @@
     <AppSidebar />
     <SidebarInset>
       <AppHeader onReset={() => (resetting = true)} />
-      <main class="flex-1">{@render children()}</main>
+      <!-- Capped and centred, as in the client portal, so a table does not
+           stretch across an ultrawide display. -->
+      <main class="mx-auto w-full max-w-content min-w-0 flex-1">{@render children()}</main>
     </SidebarInset>
   </SidebarProvider>
   <ResetDemoDialog bind:open={resetting} />
