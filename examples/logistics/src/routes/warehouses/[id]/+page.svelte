@@ -19,6 +19,7 @@
     TableHeader,
     TableRow,
   } from '@jovertical/mise-design-system'
+  import Pencil from '@lucide/svelte/icons/pencil'
   import { nameThisPage } from '#lib/breadcrumb.svelte.js'
   import { store } from '#lib/data/store.svelte.js'
   import {
@@ -57,10 +58,13 @@
 {:else}
   {@const used = utilisation(location)}
   <PageLayout>
-    <PageHeader
-      title={location.name}
-      description="{location.city} · managed by {location.manager}"
-    />
+    <PageHeader title={location.name} description="{location.city} · managed by {location.manager}">
+      {#snippet actions()}
+        <Button variant="outline" href={resolve('/warehouses/[id]/edit', { id: location.id })}>
+          <Pencil />Edit
+        </Button>
+      {/snippet}
+    </PageHeader>
 
     <div class="grid gap-4 sm:grid-cols-4">
       <StatTile label="Capacity used" value="{used}%" tone={used >= 85 ? 'warning' : 'neutral'} />

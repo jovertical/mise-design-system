@@ -16,6 +16,8 @@ export const ROUTES: string[] = [
   '/products/PK-0422/edit',
   '/warehouses',
   '/warehouses/loc-riverside',
+  '/warehouses/new',
+  '/warehouses/loc-riverside/edit',
   '/clients',
   '/clients/cli-coastal-grocers',
   '/clients/new',
