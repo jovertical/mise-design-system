@@ -28,7 +28,14 @@ const chrome =
     'Library/Caches/ms-playwright/chromium_headless_shell-1228/chrome-headless-shell-mac-arm64/chrome-headless-shell',
   )
 
-const flags = ['--headless', '--disable-gpu', '--hide-scrollbars', '--virtual-time-budget=8000']
+const flags = [
+  '--headless',
+  '--disable-gpu',
+  '--hide-scrollbars',
+  // Without it a screenshot can catch an overlay mid fade-in, half transparent.
+  '--run-all-compositor-stages-before-draw',
+  '--virtual-time-budget=8000',
+]
 
 const slug = (route: string) => (route === '/' ? 'home' : route.slice(1).replace(/[/?=&]/g, '-'))
 
