@@ -5,6 +5,7 @@ export const ROUTES: string[] = [
   '/orders/OR-2041',
   '/orders?view=board',
   '/shipments',
+  '/shipments?open=shp-3006',
   '/fleet',
   '/products',
   '/warehouses',
