@@ -17,6 +17,7 @@
   } from '@jovertical/mise-design-system'
   import Wrench from '@lucide/svelte/icons/wrench'
   import { renderComponent, renderSnippet } from '@tanstack/svelte-table'
+  import NoMatches from '#lib/components/no-matches.svelte'
 
   import VehicleCard from '#lib/components/vehicle-card.svelte'
   import { listVehicles, serviceDueSoon } from '#lib/data/fleet.js'
@@ -92,6 +93,10 @@
   {/if}
 {/snippet}
 
+{#snippet noMatches()}
+  <NoMatches things="vehicles" />
+{/snippet}
+
 <PageLayout>
   <PageHeader
     title="Fleet"
@@ -113,6 +118,7 @@
     getRowId={(vehicle) => vehicle.id}
     getItemKey={(vehicle) => vehicle.id}
     isLoading={loading}
+    emptyState={noMatches}
     withPadding={false}
   >
     {#snippet toolbar(table)}

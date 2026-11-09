@@ -35,6 +35,7 @@
   } from '@jovertical/mise-design-system'
   import TriangleAlert from '@lucide/svelte/icons/triangle-exclamation-point'
   import { renderComponent, renderSnippet } from '@tanstack/svelte-table'
+  import NoMatches from '#lib/components/no-matches.svelte'
 
   import { latency } from '#lib/data/latency.js'
   import { listProducts, lowStock, productStock, updateProduct } from '#lib/data/products.js'
@@ -169,6 +170,10 @@
   </DataTableRowActions>
 {/snippet}
 
+{#snippet noMatches()}
+  <NoMatches things="products" />
+{/snippet}
+
 <PageLayout>
   <PageHeader title="Products" description="Stock across every warehouse." />
 
@@ -185,6 +190,7 @@
     data={products}
     getRowId={(product) => product.id}
     isLoading={loading}
+    emptyState={noMatches}
     withPadding={false}
   >
     {#snippet toolbar(table)}

@@ -43,6 +43,7 @@
   } from '@jovertical/mise-design-system'
   import Plus from '@lucide/svelte/icons/plus'
   import { renderComponent, renderSnippet } from '@tanstack/svelte-table'
+  import NoMatches from '#lib/components/no-matches.svelte'
   import {
     clientOrders,
     createClient,
@@ -168,6 +169,10 @@
   <Button onclick={startAdding}><Plus />Add client</Button>
 {/snippet}
 
+{#snippet noMatches()}
+  <NoMatches things="clients" />
+{/snippet}
+
 <PageLayout>
   <PageHeader title="Clients" description="Who ships with us." actions={headerActions} />
 
@@ -177,6 +182,7 @@
     getRowId={(client) => client.id}
     onRowClick={(client) => setOpen(client.id)}
     isLoading={loading}
+    emptyState={noMatches}
     withPadding={false}
   >
     {#snippet toolbar(table)}

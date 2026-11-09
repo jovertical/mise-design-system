@@ -10,10 +10,6 @@
     DataTableColumnHeader,
     DataTableToolbar,
     dataTableColumns,
-    Empty,
-    EmptyDescription,
-    EmptyHeader,
-    EmptyTitle,
     FactList,
     FactListItem,
     PageHeader,
@@ -34,6 +30,7 @@
   import Check from '@lucide/svelte/icons/check'
   import MapPin from '@lucide/svelte/icons/map-pin'
   import { renderComponent, renderSnippet } from '@tanstack/svelte-table'
+  import NoMatches from '#lib/components/no-matches.svelte'
   import { latency } from '#lib/data/latency.js'
   import { driverOf, locationName, vehicleOf } from '#lib/data/lookups.js'
   import { getShipment, listShipments, shipmentProgress } from '#lib/data/shipments.js'
@@ -130,13 +127,9 @@
 {#snippet progressCell(shipment: Shipment)}
   <Progress value={shipmentProgress(shipment)} class="w-24" aria-label="Stops delivered" />
 {/snippet}
-{#snippet noShipments()}
-  <Empty>
-    <EmptyHeader>
-      <EmptyTitle>No shipments match</EmptyTitle>
-      <EmptyDescription>Clear the search or the filters.</EmptyDescription>
-    </EmptyHeader>
-  </Empty>
+
+{#snippet noMatches()}
+  <NoMatches things="shipments" />
 {/snippet}
 
 <PageLayout>
@@ -148,7 +141,7 @@
     getRowId={(shipment) => shipment.id}
     onRowClick={(shipment) => setOpen(shipment.id)}
     isLoading={loading}
-    emptyState={noShipments}
+    emptyState={noMatches}
     withPadding={false}
   >
     {#snippet toolbar(table)}

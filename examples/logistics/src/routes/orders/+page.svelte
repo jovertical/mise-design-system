@@ -26,10 +26,6 @@
     DropdownMenuItem,
     DropdownMenuSeparator,
     dataTableColumns,
-    Empty,
-    EmptyDescription,
-    EmptyHeader,
-    EmptyTitle,
     EntityLabel,
     PageHeader,
     PageLayout,
@@ -46,6 +42,7 @@
   } from '@jovertical/mise-design-system'
   import Plus from '@lucide/svelte/icons/plus'
   import { renderComponent, renderSnippet } from '@tanstack/svelte-table'
+  import NoMatches from '#lib/components/no-matches.svelte'
   import OrderForm from '#lib/components/order-form.svelte'
   import { latency } from '#lib/data/latency.js'
   import { clientOf, initials, locationName } from '#lib/data/lookups.js'
@@ -200,21 +197,16 @@
   </DataTableRowActions>
 {/snippet}
 
-{#snippet noOrders()}
-  <Empty>
-    <EmptyHeader>
-      <EmptyTitle>No orders match</EmptyTitle>
-      <EmptyDescription>Clear the search or the status filter.</EmptyDescription>
-    </EmptyHeader>
-  </Empty>
-{/snippet}
-
 {#snippet headerActions()}
   <Button onclick={() => (creating = true)}><Plus />Create order</Button>
 {/snippet}
 
 {#snippet trendOf(trend: number[])}
   <Sparkline data={trend} height={36} />
+{/snippet}
+
+{#snippet noMatches()}
+  <NoMatches things="orders" />
 {/snippet}
 
 <PageLayout>
@@ -289,7 +281,7 @@
       getRowId={(order) => order.id}
       onRowClick={(order) => goto(resolve('/orders/[id]', { id: order.number }))}
       isLoading={loading}
-      emptyState={noOrders}
+      emptyState={noMatches}
       withPadding={false}
     >
       {#snippet toolbar(table)}
