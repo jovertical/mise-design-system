@@ -1,0 +1,55 @@
+name: Example
+
+# Builds mise, then the logistics example against it, and publishes the example
+# to GitHub Pages at /mise-design-system/. Runs when anything the example is
+# built from changes.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'skills/**'
+      - 'examples/**'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - '.github/workflows/example.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      - run: pnpm --filter mise-logistics-example build
+        env:
+          BASE_PATH: /mise-design-system
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: examples/logistics/build
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
