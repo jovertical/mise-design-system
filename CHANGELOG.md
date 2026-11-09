@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/jovertical/mise-design-system/compare/v1.1.0...v1.1.1) (2026-11-09)
+
+
+### Bug Fixes
+
+* **theme-toggle:** resolve the system theme to light in a server render ([0ab4633](https://github.com/jovertical/mise-design-system/commit/0ab46331ea35e4897d77341b81d24962d46b35d5))
+
 ## [1.1.0](https://github.com/jovertical/mise-design-system/compare/v1.0.0...v1.1.0) (2026-11-09)
 
 
