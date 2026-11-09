@@ -8,9 +8,10 @@ import { componentFolders, componentsDir as components } from './groups.js'
 /**
  * A provenance header is only useful if it is true, and nobody checks a header
  * by hand. The `Origin:` line names the React file each module was ported
- * from. The story's `tags` project the same fact into the Storybook sidebar
- * (`shadcn` when that React file descends from shadcn/ui, `mise` when the
- * React package authored it), and are checked against the header.
+ * from, or says `mise` for a component mise authored itself. The story's
+ * `tags` project the same fact into the Storybook sidebar (`shadcn` when that
+ * React file descends from shadcn/ui, `mise` otherwise), and are checked
+ * against the header.
  *
  * Ported from the React package 2.23.0 tests/provenance.test.ts.
  */
@@ -42,7 +43,11 @@ function field(path: string, key: string): string | null {
   return match ? match[1].trim() : null
 }
 
-const ORIGIN = /^the React package 2\.23\.0 `[a-z-]+\.tsx?`/
+/**
+ * A module either names the React file it was ported from, or says `mise`: a
+ * component mise authored itself, with no React origin (Board, 2026-11-09).
+ */
+const ORIGIN = /^(the React package 2\.23\.0 `[a-z-]+\.tsx?`|mise$)/
 const SVELTE = /^shadcn-svelte `[a-z-]+`/
 
 const provenanceOf = (path: string) =>
@@ -53,7 +58,7 @@ describe('Origin headers', () => {
     expect(modules.filter((path) => header(path) === null)).toEqual([])
   })
 
-  it('names the React file each module was ported from', () => {
+  it('names the React file each module was ported from, or mise', () => {
     expect(modules.filter((path) => !ORIGIN.test(field(path, 'Origin') ?? ''))).toEqual([])
   })
 

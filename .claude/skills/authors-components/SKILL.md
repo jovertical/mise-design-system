@@ -44,9 +44,8 @@ whose name misleads, as the structure spec did with `LoadingStatus` (into
 plan, not mid-change. Record every departure from the React package and every
 merge on the surviving module's `Diverged:` line.
 
-A component with no React origin has no file for its `Origin:` line to name,
-and `tests/provenance.test.ts` requires one. Ask the user how to record it
-before writing one.
+A component mise authored itself, with no React file behind it, says
+`Origin: mise` (Board was the first), and its story is tagged `mise`.
 
 ## 2. The folder
 
@@ -112,7 +111,7 @@ The spec's API translation table, in short:
 What makes it right:
 
 - **The header comes first.** `tests/provenance.test.ts` fails without it.
-  - `Origin:` names the React file. Add the part in brackets for a multi-part file.
+  - `Origin:` names the React file, adding the part in brackets for a multi-part file, or is `mise` for a component mise authored itself.
   - `Svelte:` appears only when shadcn-svelte was used.
   - `Diverged:` always appears, even when its value is `none`.
 - **`<Part>Props` is exported** from the module script.

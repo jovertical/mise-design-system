@@ -41,8 +41,9 @@ Biome 2.6 (including `.svelte`) · pnpm 12.
 - Components never import `$app/*`. They are plain Svelte 5.
 - Relative imports in `.ts` files end in `.js`.
 - Every component module opens with an `Origin:` / `Svelte:` / `Diverged:`
-  header. `tests/provenance.test.ts` enforces it, and the story's `tags` must
-  match.
+  header. `Origin:` names the React file a module was ported from, or is
+  `mise` for one mise authored itself. `tests/provenance.test.ts` enforces it,
+  and the story's `tags` must match.
 - Every component folder is re-exported from `src/lib/index.ts`, and its
   runtime names are listed in `tests/barrel.test.ts`.
 - Colours come from the semantic tokens and the `Tone` maps in

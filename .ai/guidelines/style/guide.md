@@ -35,6 +35,7 @@ Every component module opens with this header, as an HTML comment in `.svelte`
 files and a JSDoc block in `.ts` files:
 
     Origin: the React package 2.23.0 `<file>.tsx`[ (`<Part>`)], itself shadcn/ui new-york `<name>`
+    Origin: mise                            (a component mise authored itself)
     Svelte: shadcn-svelte `<name>`          (only when shadcn-svelte was used)
     Diverged: <what changed beyond the port, or "none">
 
