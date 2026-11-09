@@ -10,3 +10,11 @@ export const utilisation = (location: Location) =>
   )
 
 export const zoneShare = (zone: Location['zones'][number]) => percent(zone.used, zone.capacity)
+
+/** How many products a site stocks, and how many units it holds on hand. */
+export function locationStock(s: Source, id: Location['id']) {
+  const rows = s.data.products.flatMap((product) =>
+    product.stock.filter((row) => row.locationId === id),
+  )
+  return { skus: rows.length, units: rows.reduce((sum, row) => sum + row.onHand, 0) }
+}

@@ -33,7 +33,7 @@ import {
   shipmentProgress,
 } from '../src/lib/data/shipments.js'
 import { createStore, type Store } from '../src/lib/data/store.svelte.js'
-import { listLocations, utilisation, zoneShare } from '../src/lib/data/warehouses.js'
+import { listLocations, locationStock, utilisation, zoneShare } from '../src/lib/data/warehouses.js'
 
 let s: Store
 
@@ -153,6 +153,12 @@ describe('warehouses', () => {
     const riverside = listLocations(s)[0]
     expect(utilisation(riverside)).toBe(78)
     expect(zoneShare(riverside.zones[0])).toBe(93)
+  })
+
+  it('counts the products and units a site holds', () => {
+    const market = locationStock(s, 'loc-market')
+    expect(market.skus).toBe(4)
+    expect(market.units).toBe(90 + 8 + 60 + 20)
   })
 })
 
