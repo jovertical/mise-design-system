@@ -10,6 +10,7 @@ export const ROUTES: string[] = [
   '/products',
   '/warehouses',
   '/clients',
+  '/clients?open=cli-coastal-grocers',
   '/settings/general',
 ]
 
