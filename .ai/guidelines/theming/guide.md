@@ -27,6 +27,9 @@
   bridge, so a consumer can override them in plain CSS. Tailwind also writes
   those self-references into its theme layer. They are harmless, because the
   unlayered `:root` wins the cascade.
+- **`--radius-button`** (the config's `buttonRadius`) is in `:root` with no
+  bridge: Button reads it through `rounded-[var(--radius-button,9999px)]`,
+  so a theme file generated before the token existed still gets the round default.
 - **`components.css`** is for what a class string cannot say. It is appended
   after the generated theme.
 

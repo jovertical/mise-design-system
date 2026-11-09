@@ -59,7 +59,7 @@ Three levels, each optional.
 **2. Override tokens in CSS.** The semantic tokens are a documented contract:
 `--background`, `--foreground`, `--primary`, `--muted`, `--muted-foreground`,
 `--border`, `--success`, `--warning`, `--destructive`, `--radius`,
-`--font-sans`, `--font-heading`, `--font-mono`, and the rest listed in
+`--radius-button`, `--font-sans`, `--font-heading`, `--font-mono`, and the rest listed in
 `SEMANTIC_TOKENS`. Override any of them after the import:
 
 ```css
@@ -81,6 +81,7 @@ export default defineTheme({
   primary: 'teal',            // a Tailwind hue name, or a custom 50–950 ramp
   status: { warning: 'orange' },
   radius: '0.5rem',
+  buttonRadius: '0.5rem',     // a button's corner; fully round by default
   fonts: { sans: "'Inter', system-ui, sans-serif" },
   light: { '--sidebar': 'oklch(0.98 0 0)' },
   dark: { '--sidebar': 'oklch(0.2 0 0)' },

@@ -28,6 +28,12 @@ export interface ThemeConfig {
   status?: Partial<Record<StatusRole, HueOrRamp>>
   charts?: readonly [HueName, HueName, HueName, HueName, HueName]
   radius?: string
+  /**
+   * The corner of a labelled button, as `--radius-button`. Fully round by
+   * default, to match the inputs; separate from `radius` so a theme can square
+   * its buttons without squaring its cards.
+   */
+  buttonRadius?: string
   fonts?: Partial<ThemeFonts>
   light?: TokenOverrides
   dark?: TokenOverrides
@@ -38,6 +44,7 @@ export interface ResolvedTheme {
   ramps: Record<RampRole, Ramp>
   charts: readonly [Ramp, Ramp, Ramp, Ramp, Ramp]
   radius: string
+  buttonRadius: string
   fonts: ThemeFonts
   light: TokenOverrides
   dark: TokenOverrides
@@ -90,6 +97,7 @@ export function resolveTheme(config: ThemeConfig = {}): ResolvedTheme {
     },
     charts: [c1, c2, c3, c4, c5],
     radius: config.radius ?? defaultTheme.radius,
+    buttonRadius: config.buttonRadius ?? defaultTheme.buttonRadius,
     fonts: { ...defaultTheme.fonts, ...config.fonts },
     light: { ...config.light },
     dark: { ...config.dark },

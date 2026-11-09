@@ -94,9 +94,10 @@ function themeInline(): string {
 
 function rootBlock(theme: ResolvedTheme): string {
   const lines = [
-    '  /* Structure, and the one --radius the scale derives from. */',
+    '  /* Structure, the one --radius the scale derives from, and the button corner. */',
     ...declare(Object.entries(sizing)),
     `  --radius: ${theme.radius};`,
+    `  --radius-button: ${theme.buttonRadius};`,
     '',
     '  /* Faces. */',
     `  --font-sans: ${theme.fonts.sans};`,

@@ -35,6 +35,7 @@ The tokens are a documented contract, listed in `SEMANTIC_TOKENS` (exported from
 `--popover`, `--primary`, `--secondary`, `--muted`, `--accent`, `--destructive`, `--info`,
 `--success`, `--warning`, each `-foreground` pair, `--border`, `--input`, `--ring`,
 `--chart-1` to `--chart-5`, the `--sidebar-*` set and `--color-table-header`. Also `--radius`,
+`--radius-button` (a button's corner, fully round by default),
 `--font-sans`, `--font-heading` and `--font-mono`.
 
 The `-soft` tints (`bg-success-soft` and the like) are mixed from their ink, so they follow an
@@ -56,6 +57,7 @@ export default defineTheme({
   status: { warning: 'orange' }, // info | success | warning | critical
   charts: ['teal', 'sky', 'amber', 'rose', 'violet'],
   radius: '0.5rem',
+  buttonRadius: '0.5rem', // a button's corner; fully round by default
   fonts: { sans: "'Inter', system-ui, sans-serif" }, // sans | heading | mono
   light: { '--sidebar': 'oklch(0.98 0 0)' }, // single tokens, written last
   dark: { '--sidebar': 'oklch(0.2 0 0)' },

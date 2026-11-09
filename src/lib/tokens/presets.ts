@@ -27,6 +27,8 @@ export const defaultTheme = {
   status: { info: 'sky', success: 'emerald', warning: 'amber', critical: 'red' },
   charts: ['teal', 'orange', 'fuchsia', 'lime', 'sky'],
   radius: '0.625rem',
+  // Fully round, so a button matches the inputs beside it.
+  buttonRadius: '9999px',
   fonts: { sans: SYSTEM_SANS, heading: SYSTEM_SANS, mono: SYSTEM_MONO },
 } as const satisfies {
   base: BaseName
@@ -34,6 +36,7 @@ export const defaultTheme = {
   status: Record<StatusRole, HueName>
   charts: readonly [HueName, HueName, HueName, HueName, HueName]
   radius: string
+  buttonRadius: string
   fonts: ThemeFonts
 }
 

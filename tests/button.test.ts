@@ -16,6 +16,11 @@ describe('Button', () => {
     expect(button).toHaveClass('bg-primary', 'h-9')
   })
 
+  it("takes its corner from the theme's --radius-button, fully round without it", () => {
+    render(Button, { children: text('Save') })
+    expect(screen.getByRole('button')).toHaveClass('rounded-[var(--radius-button,9999px)]')
+  })
+
   it('defaults the tone by variant: neutral for outline, primary for link', () => {
     const { unmount } = render(Button, { variant: 'outline', children: text('Cancel') })
     expect(screen.getByRole('button')).toHaveAttribute('data-tone', 'neutral')
@@ -34,6 +39,7 @@ describe('Button', () => {
     const button = screen.getByRole('button', { name: 'More' })
     expect(button).toHaveAttribute('data-icon-only', 'true')
     expect(button).toHaveClass('rounded-full', 'size-8')
+    expect(button).not.toHaveClass('rounded-[var(--radius-button,9999px)]')
   })
 
   it('lets a caller class beat the variant class', () => {

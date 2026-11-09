@@ -52,6 +52,7 @@ describe('resolveTheme', () => {
     expect(theme.ramps.warning).toBe(tailwindPalette.amber)
     expect(theme.ramps.critical).toBe(tailwindPalette.red)
     expect(theme.radius).toBe('0.625rem')
+    expect(theme.buttonRadius).toBe('9999px')
     expect(theme.charts).toHaveLength(5)
   })
 

@@ -49,7 +49,7 @@ export const layout = {
 export const geometryRules = {
   card: 'rounded-[min(var(--radius-4xl),24px)]',
   dialog: 'rounded-[min(var(--radius-4xl),24px)]',
-  button: 'rounded-2xl',
+  button: 'rounded-[var(--radius-button,9999px)]',
   input: 'rounded-2xl',
   select: 'rounded-2xl',
   toolbarPill: 'rounded-2xl',

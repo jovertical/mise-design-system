@@ -1,6 +1,8 @@
 /**
  * Origin: the React package 2.23.0 `button-variants.ts`, itself shadcn/ui new-york `button`
- * Diverged: none. Copied verbatim; only the import path moved.
+ * Diverged: the corner is the theme's `--radius-button` (`buttonRadius`),
+ *   fully round by default to match the inputs, where React had `rounded-2xl`.
+ *   Otherwise copied verbatim.
  *
  * `variant` (solid, soft, outline, ghost, link) × `tone` (the shared `Tone`),
  * sizes `sm | md | lg`, and `iconOnly` for the square. Hover is `--muted`,
@@ -47,11 +49,11 @@ export function defaultButtonTone(variant: ButtonVariant): Tone {
 }
 
 const buttonClasses = cva(
-  // Radius, transparent border and the press nudge are lifted from the
-  // reference's shipped button CSS. The radius is a fixed 16px rather than
-  // `rounded-full`, so it reads as a pill at the default height and keeps a
-  // consistent corner on the taller sizes.
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-2xl border border-transparent bg-clip-padding text-sm font-medium transition-all select-none active:translate-y-px disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
+  // Transparent border and the press nudge are lifted from the reference's
+  // shipped button CSS. The corner is the theme's `--radius-button`, fully
+  // round by default so a button matches the inputs beside it at every size.
+  // The fallback covers a theme file generated before the token existed.
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-[var(--radius-button,9999px)] border border-transparent bg-clip-padding text-sm font-medium transition-all select-none active:translate-y-px disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
   {
     variants: {
       variant: { solid: '', soft: '', outline: '', ghost: '', link: '' },

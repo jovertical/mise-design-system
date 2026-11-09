@@ -93,6 +93,12 @@ describe('config reaches the output', () => {
     expect(tokenValue(root, '--color-primary-600')).toBe(tailwindPalette.indigo[600])
     expect(tokenValue(root, '--color-base-950')).toBe(tailwindPalette.zinc[950])
     expect(tokenValue(root, '--primary')).toBe('var(--color-primary-600)')
+    expect(tokenValue(root, '--radius-button')).toBe('9999px')
+  })
+
+  it("takes the button corner from a config's buttonRadius", () => {
+    const root = block(emitThemeCss({ buttonRadius: '0.5rem' }), ':root')
+    expect(tokenValue(root, '--radius-button')).toBe('0.5rem')
   })
 
   it('takes the base, brand, statuses, radius and fonts from a config', () => {

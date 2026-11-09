@@ -31,7 +31,7 @@ and plans do not say. Nothing is in progress.
   built package through the pnpm workspace, so mise is rebuilt
   (`pnpm build`, or the watcher in `pnpm dev:example`) before the example sees
   a change.
-- **Gate:** `pnpm test` (526 tests), `pnpm build` (publint) and
+- **Gate:** `pnpm test` (528 tests), `pnpm build` (publint) and
   `pnpm build:storybook` for mise; `pnpm --filter mise-logistics-example test`
   (44 tests) and `smoke` (20 routes, light and dark) for the example.
 - **Specs and plans** for the recent work: consumer skill
@@ -74,6 +74,9 @@ Later decisions, with the user:
 - **Licensing:** the user wrote the React package, so mise's MIT `LICENSE`
   covers the ported code. The tree does not name the product the React package
   came from: `Origin:` lines say "the React package 2.23.0". Keep it that way.
+- **Button rounding** is a theme key, `buttonRadius` (`--radius-button`),
+  fully round by default to match the inputs. Inputs, selects and menus stay
+  `rounded-2xl`.
 - **Gaps found by an app are fixed in mise first**, released, then used: the
   example and bertos-bakery-ops never build a local look-alike.
 
@@ -96,13 +99,9 @@ In rough order of how much they block the apps:
    own may not filter. The example and the recipe give each such column one.
    Confirm in Storybook and decide whether DataTable should default to an
    `arrIncludesSome`-style filter.
-5. **Button rounding.** Buttons are `rounded-2xl` by design, as in the React
-   package and the portal; they do not follow the theme's `--radius`. Asked
-   about from the demo (its theme uses `0.5rem`); only a question if buttons
-   should follow the theme.
-6. **`homepage` in `package.json`** could point at the demo instead of the
+5. **`homepage` in `package.json`** could point at the demo instead of the
    README; needs a yes.
-7. **The deferred components:** Draggable, Droppable, Sortable (need a drag and
+6. **The deferred components:** Draggable, Droppable, Sortable (need a drag and
    drop library) and MermaidDiagram (heavy). Wait until a screen asks.
 
 Not verified by a browser, because the headless shell cannot click: uploading
