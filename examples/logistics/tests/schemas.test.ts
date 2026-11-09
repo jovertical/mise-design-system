@@ -51,6 +51,8 @@ describe('schemas', () => {
     expect(settingsSchema.safeParse({ ...getSettings(s), timezone: 'Mars/Olympus' }).success).toBe(
       false,
     )
+    expect(settingsSchema.safeParse({ ...getSettings(s), orderPrefix: 'or 1' }).success).toBe(false)
+    expect(settingsSchema.safeParse({ ...getSettings(s), website: 'example' }).success).toBe(false)
   })
 
   it('guard every write function', () => {

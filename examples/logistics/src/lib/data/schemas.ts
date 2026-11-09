@@ -39,10 +39,38 @@ export const newClientSchema = z.object({
   city: z.string().trim().min(1, 'Enter a city'),
 })
 
+const prefix = z
+  .string()
+  .trim()
+  .min(1, 'Enter a prefix')
+  .max(8, 'Eight characters at most')
+  .regex(/^[A-Z0-9-]+$/, 'Capitals, digits and dashes only')
+
 export const settingsSchema = z.object({
   companyName: z.string().trim().min(2, 'Enter the company name'),
+  legalName: z.string().trim().min(2, 'Enter the registered name'),
+  taxId: z.string().trim().min(1, 'Enter the tax ID'),
+  supportEmail: z.email('Enter an email address'),
+  phone: z.string().trim(),
+  website: z.union([z.literal(''), z.url('Enter a full address, with https://')]),
+  address: z.object({
+    line1: z.string().trim().min(1, 'Enter the street address'),
+    line2: z.string().trim(),
+    city: z.string().trim().min(1, 'Enter the city'),
+    region: z.string().trim(),
+    postalCode: z.string().trim(),
+  }),
+  logo: z.string().nullable(),
   timezone: z.enum(TIMEZONES),
+  language: z.enum(['en-US', 'en-GB', 'es', 'fr']),
+  currency: z.enum(['USD', 'EUR', 'GBP', 'CAD']),
+  dateFormat: z.enum(['MM/DD/YYYY', 'DD/MM/YYYY', 'YYYY-MM-DD']),
+  timeFormat: z.enum(['12h', '24h']),
   units: z.enum(['metric', 'imperial']),
+  dimensionUnit: z.enum(['cm', 'in']),
+  orderPrefix: prefix,
+  shipmentPrefix: prefix,
+  invoicePrefix: prefix,
   deliveryConfirmations: z.boolean(),
   proofOfDelivery: z.boolean(),
 })
