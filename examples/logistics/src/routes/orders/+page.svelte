@@ -235,8 +235,7 @@
     type="single"
     value={view}
     onValueChange={show}
-    variant="outline"
-    size="sm"
+    variant="segmented"
     class="self-start"
   >
     <ToggleGroupItem value="table">Table</ToggleGroupItem>

@@ -5,15 +5,8 @@
 <script lang="ts">
   import {
     Badge,
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
     Sidebar,
     SidebarContent,
-    SidebarFooter,
     SidebarGroup,
     SidebarGroupLabel,
     SidebarHeader,
@@ -21,16 +14,11 @@
     SidebarMenuButton,
     SidebarMenuItem,
   } from '@jovertical/mise-design-system'
-  import ChevronsUpDown from '@lucide/svelte/icons/chevrons-up-down'
-  import Info from '@lucide/svelte/icons/info'
-  import RotateCcw from '@lucide/svelte/icons/rotate-ccw'
   import { getSettings } from '#lib/data/settings.js'
   import { store } from '#lib/data/store.svelte.js'
   import { locate, NAVIGATION } from '#lib/navigation.js'
   import { resolve } from '$app/paths'
   import { page } from '$app/state'
-
-  let { onReset }: { onReset?: () => void } = $props()
 
   const current = $derived(locate(page.url.pathname.replace(resolve('/'), '/'))?.item.href)
 </script>
@@ -77,38 +65,4 @@
       </SidebarGroup>
     {/each}
   </SidebarContent>
-
-  <SidebarFooter>
-    <DropdownMenu>
-      <DropdownMenuTrigger>
-        {#snippet child({ props })}
-          <SidebarMenuButton size="lg" {...props}>
-            <span
-              class="bg-foreground/[0.07] grid size-8 place-items-center rounded-full text-xs font-medium"
-              >OM</span
-            >
-            <span class="flex flex-col leading-tight">
-              <span class="font-medium">Ops manager</span>
-              <span class="text-muted-foreground text-xs">Riverside DC</span>
-            </span>
-            <ChevronsUpDown class="ml-auto" />
-          </SidebarMenuButton>
-        {/snippet}
-      </DropdownMenuTrigger>
-      <DropdownMenuContent side="top" align="start" class="w-56">
-        <DropdownMenuLabel>Demo</DropdownMenuLabel>
-        <DropdownMenuItem onSelect={() => onReset?.()}
-          ><RotateCcw />Reset demo data</DropdownMenuItem
-        >
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          {#snippet child({ props })}
-            <a href="https://github.com/jovertical/mise-design-system" {...props}
-              ><Info />About this demo</a
-            >
-          {/snippet}
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  </SidebarFooter>
 </Sidebar>

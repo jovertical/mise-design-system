@@ -111,7 +111,7 @@
               <ToggleGroup
                 {...props}
                 type="single"
-                variant="outline"
+                variant="segmented"
                 bind:value={$values.units}
                 class="self-start"
               >

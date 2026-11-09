@@ -32,9 +32,9 @@
   <SchemeFromUrl />
   <NavigationProgress pending={navigating.to !== null} />
   <SidebarProvider>
-    <AppSidebar onReset={() => (resetting = true)} />
+    <AppSidebar />
     <SidebarInset>
-      <AppHeader />
+      <AppHeader onReset={() => (resetting = true)} />
       <main class="flex-1">{@render children()}</main>
     </SidebarInset>
   </SidebarProvider>

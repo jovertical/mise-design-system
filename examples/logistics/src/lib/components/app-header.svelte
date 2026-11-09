@@ -12,9 +12,12 @@
     ThemeToggle,
   } from '@jovertical/mise-design-system'
   import SearchPalette from '#lib/components/search-palette.svelte'
+  import UserMenu from '#lib/components/user-menu.svelte'
   import { locate } from '#lib/navigation.js'
   import { resolve } from '$app/paths'
   import { page } from '$app/state'
+
+  let { onReset }: { onReset?: () => void } = $props()
 
   const path = $derived(page.url.pathname.replace(resolve('/'), '/'))
   const here = $derived(locate(path))
@@ -51,5 +54,6 @@
   <div class="ml-auto flex items-center gap-2">
     <SearchPalette />
     <ThemeToggle />
+    <UserMenu {onReset} />
   </div>
 </header>
