@@ -38,14 +38,14 @@
 <svelte:window {onkeydown} />
 
 <Button
-  variant="outline"
+  variant="ghost"
   size="sm"
-  class="text-muted-foreground w-56 justify-start"
+  class="text-muted-foreground ml-1 min-w-0 flex-1 justify-start"
   onclick={() => (open = true)}
 >
   <Search />
-  Search…
-  <kbd class="ml-auto text-xs">⌘K</kbd>
+  Type to search…
+  <kbd class="bg-muted ml-auto hidden rounded px-1.5 py-0.5 text-xs sm:inline-block">⌘K</kbd>
 </Button>
 
 <CommandDialog

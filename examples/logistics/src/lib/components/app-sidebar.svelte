@@ -23,7 +23,7 @@
   const current = $derived(locate(page.url.pathname.replace(resolve('/'), '/'))?.item.href)
 </script>
 
-<Sidebar sidetheme="light">
+<Sidebar sidetheme="light" collapsible="icon">
   <SidebarHeader>
     <SidebarMenu>
       <SidebarMenuItem>

@@ -30,31 +30,37 @@
   )
 </script>
 
-<header class="bg-background flex h-14 shrink-0 items-center gap-2 border-b px-4">
-  <SidebarTrigger />
-  <Separator orientation="vertical" class="mx-1 h-4" />
-  {#if here}
-    <Breadcrumb>
-      <BreadcrumbList>
-        {#if here.group.label !== here.item.label}
-          <BreadcrumbItem class="hidden md:block">{here.group.label}</BreadcrumbItem>
-          <BreadcrumbSeparator class="hidden md:block" />
-        {/if}
-        {#if leaf}
-          <BreadcrumbItem>
-            <BreadcrumbLink href={resolve(here.item.href)}>{here.item.label}</BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem><BreadcrumbPage>{leaf}</BreadcrumbPage></BreadcrumbItem>
-        {:else}
-          <BreadcrumbItem><BreadcrumbPage>{here.item.label}</BreadcrumbPage></BreadcrumbItem>
-        {/if}
-      </BreadcrumbList>
-    </Breadcrumb>
-  {/if}
-  <div class="ml-auto flex items-center gap-2">
+<!-- A floating bar on a blurred band, as the client portal has it: the page
+     scrolls under the band, and the bar stays one card wide. -->
+<header
+  class="bg-muted/80 supports-[backdrop-filter]:bg-muted/60 sticky top-0 z-20 shrink-0 px-4 py-2 backdrop-blur lg:px-6"
+>
+  <div class="bg-card flex h-12 w-full items-center gap-2 rounded-xl border px-2">
+    <SidebarTrigger />
+    <Separator orientation="vertical" class="mx-1 h-4" />
+    {#if here}
+      <Breadcrumb>
+        <BreadcrumbList>
+          {#if here.group.label !== here.item.label}
+            <BreadcrumbItem class="hidden md:block">{here.group.label}</BreadcrumbItem>
+            <BreadcrumbSeparator class="hidden md:block" />
+          {/if}
+          {#if leaf}
+            <BreadcrumbItem>
+              <BreadcrumbLink href={resolve(here.item.href)}>{here.item.label}</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem><BreadcrumbPage>{leaf}</BreadcrumbPage></BreadcrumbItem>
+          {:else}
+            <BreadcrumbItem><BreadcrumbPage>{here.item.label}</BreadcrumbPage></BreadcrumbItem>
+          {/if}
+        </BreadcrumbList>
+      </Breadcrumb>
+    {/if}
     <SearchPalette />
-    <ThemeToggle />
-    <UserMenu {onReset} />
+    <div class="flex items-center gap-2">
+      <ThemeToggle />
+      <UserMenu {onReset} />
+    </div>
   </div>
 </header>
