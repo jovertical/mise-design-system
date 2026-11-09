@@ -53,6 +53,11 @@ describe('Sidebar', () => {
     expect(sidebar(container)).toHaveAttribute('data-state', 'collapsed')
   })
 
+  it('lets the inset shrink, so wide content scrolls inside it instead of widening the page', () => {
+    const { container } = render(AppShell)
+    expect(container.querySelector('[data-slot="sidebar-inset"]')).toHaveClass('min-w-0')
+  })
+
   it('marks the active row', () => {
     render(AppShell)
     expect(screen.getByRole('button', { name: 'Locations' })).toHaveAttribute('data-active', 'true')
