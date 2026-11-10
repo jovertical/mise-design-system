@@ -24,7 +24,7 @@ The card's 24px radius, a ring and `shadow-xl`: it is a dialog, and was drawn li
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `size` | `'default' \| 'sm'` | `'default'` |  |
+| `size` | `'md' \| 'default' \| 'sm'` | `'default'` | `md` (or its older name `default`) for the full dialog, `sm` for a short confirmation. |
 | `portalProps` | `AlertDialogPrimitive.PortalProps` |  |  |
 
 Also takes: bits-ui `AlertDialog.Content` props.

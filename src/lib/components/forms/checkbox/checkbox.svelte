@@ -11,6 +11,11 @@
 
   import type { WithoutChildrenOrChild } from '../../../utils/types.js'
 
+  /**
+   * A tick: `bind:checked`, and `indeterminate` for a parent whose children
+   * are partly ticked. Pair it with a `Label` or put it in a `Field`; for
+   * several choices bound to one array, `CheckboxGroup`.
+   */
   export type CheckboxProps = WithoutChildrenOrChild<CheckboxPrimitive.RootProps>
 </script>
 

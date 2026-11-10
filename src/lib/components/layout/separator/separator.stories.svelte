@@ -50,3 +50,17 @@
     {/snippet}
   </StoryAxis>
 </Story>
+
+<!--
+  A short divider between groups in a toolbar: `class="h-4"` sets a vertical
+  rule's height; without one it stretches to its row.
+-->
+<Story name="In a toolbar" asChild>
+  <div class="bg-card flex h-12 items-center gap-2 rounded-xl border px-3 text-sm">
+    <span class="font-medium">Orders</span>
+    <Separator orientation="vertical" class="h-4" />
+    <span class="text-muted-foreground">North depot</span>
+    <Separator orientation="vertical" class="h-4" />
+    <span class="text-muted-foreground">Today</span>
+  </div>
+</Story>

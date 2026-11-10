@@ -6,6 +6,23 @@ and plans do not say. In progress: branch `feat/tabler-icons`, below.
 
 ## Where it stands
 
+- **Branch `feat/bakery-gaps` (2026-11-10), awaiting its pull request.** Plan:
+  `docs/superpowers/plans/2026-11-10-bakery-gaps.md` (decisions B1–B16), from
+  bertos-bakery-ops' gap audit. Every change is additive, so it ships as a
+  minor. New: `CheckboxGroup`, `MonthPicker`, `SiteHeader` with
+  `SiteHeaderSeparator`, `TableSectionRow`, `PageHeaderBackLink`. Added to:
+  `TimePicker` (`id` and `aria-invalid` on the hour trigger, `hourCycle`,
+  `minuteStep`), `Input` and `NumberInput` (`size`), `Button` (`loading`,
+  and `StepperNavigation nextLoading`), `DatePicker` (`formatLabel`, `id` on
+  the trigger, a filled trigger), `Combobox` (`allowCustomValue`), `Readiness`
+  (`severity`, `showDetail`), `Alert` and `DropdownMenuItem` (`tone`), and
+  `md` as the middle size where a prop said `default`. Fixed: the theme
+  context keyed by `Symbol.for('mise-theme')`, `mise-theme info` finding a
+  generated theme by its `@source` line, a vertical `Separator` taking a
+  caller's height, and the catalogue sweep (element names, optional merged
+  props, missing descriptions, `setup.md`'s list of what an app imports
+  itself). The example's header uses `SiteHeader`, its form pages
+  `PageHeaderBackLink`. `main` (1.5.1) is merged in.
 - **Branch `feat/board-drag` (2026-11-10).** Spec
   `docs/specs/2026-11-10-board-drag-design.md`, plan of the same date. `Board`
   drags cards between columns (`onMove`, column `id` and `accepts`, card `id`
@@ -51,9 +68,9 @@ and plans do not say. In progress: branch `feat/tabler-icons`, below.
   built package through the pnpm workspace, so mise is rebuilt
   (`pnpm build`, or the watcher in `pnpm dev:example`) before the example sees
   a change.
-- **Gate:** `pnpm test` (561 tests, the clean-code check included), `pnpm build` (publint) and
+- **Gate:** `pnpm test` (662 tests, the clean-code check included), `pnpm build` (publint) and
   `pnpm build:storybook` for mise; `pnpm --filter mise-logistics-example test`
-  (83 tests) and `smoke` (27 routes and 2 not-found routes, light and dark) for
+  (89 tests) and `smoke` (27 routes and 2 not-found routes, light and dark) for
   the example. Run `pnpm fix:spacing` then `pnpm format` before it.
 - **Specs and plans** for the recent work: consumer skill
   (`docs/specs/2026-11-09-consumer-skill-design.md`, plan of the same date),
@@ -115,33 +132,31 @@ In rough order of how much they block the apps:
 2. **Notifications in the top bar.** The portal has a `NotificationBell` and a
    What's new button with no mise equivalent. A mise component would need a
    plan; the demo has neither.
-3. **Alert's vocabulary.** `Alert` takes `variant` with
-   `default | info | success | warning | destructive`, where every other
-   component takes `tone` and calls red `critical`. Fixing it is breaking.
+3. *Closed 2026-11-10 on `feat/bakery-gaps`:* Alert's vocabulary. `Alert`
+   takes `tone` (and `DropdownMenuItem` `tone="critical"`); `variant` still
+   works, so it was not breaking.
 4. **DataTable's faceted filter.** A faceted filter sets an array of values on
    a column; DataTable registers no array `filterFn`, so a column without its
    own may not filter. The example and the recipe give each such column one.
    Confirm in Storybook and decide whether DataTable should default to an
    `arrIncludesSome`-style filter.
-5. **Three mise gaps the edit pages found**, worked around in the example and
-   not yet fixed in mise:
-   - `DatePicker` does not pass `id` and other attributes to its trigger, so a
-     `mise/form` label cannot point at it.
-   - `DatePicker`'s trigger is an outline button, where the inputs beside it
-     are filled; the vehicle form shows the mismatch.
+5. **A mise gap the edit pages found**, worked around in the example and not
+   yet fixed in mise (DatePicker's two were fixed on `feat/bakery-gaps`):
    - `ComboboxInput` does not show the selected item's label for a starting
      value; bits-ui fills the field only when an item is picked. The order
      form passes `defaultValue` itself.
-6. **`Separator` cannot be shortened.** A vertical `Separator` sets
-   `data-[orientation=vertical]:h-full`, which beats a caller's plain `h-4`, so
-   the header's 16px tick ran the full bar (removed from the example's header
-   2026-11-10). A caller must write `data-[orientation=vertical]:h-4`; decide
-   whether mise should let a plain height win.
+6. *Closed 2026-11-10 on `feat/bakery-gaps`:* `Separator` picks its size
+   classes by orientation in script, so a caller's plain `h-4` wins.
+   `SiteHeaderSeparator` is the header's short tick.
 7. **`homepage` in `package.json`** could point at the demo instead of the
    README; needs a yes.
-8. **bertos-bakery-ops after this release:** it added `@lucide/svelte` itself; it
-   moves its own icons to `@tabler/icons-svelte-runes`, bumps mise, and takes
-   `CommandTrigger` and (after phase 3) `SidebarNav`.
+8. **bertos-bakery-ops after the bakery-gaps release:** it is on 1.4 with
+   Tabler icons, `CommandTrigger` and `SidebarNav`. Next it bumps mise,
+   replaces its composed top bar (`AppHeader`) with `SiteHeader`, its
+   `BranchChecklist` with `CheckboxGroup`, and takes `MonthPicker`,
+   `TimePicker hourCycle={24}`, `TableSectionRow`, `Button loading`,
+   `PageHeaderBackLink` and the Readiness severities in its page migration
+   (its plan B).
 9. **The deferred components:** generic Draggable, Droppable and Sortable, and
    MermaidDiagram (heavy). Wait until a screen asks. `Board` drags since
    2026-11-10 (`docs/specs/2026-11-10-board-drag-design.md`), on

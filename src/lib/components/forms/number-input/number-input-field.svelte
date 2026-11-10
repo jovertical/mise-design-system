@@ -16,7 +16,7 @@
    */
   export type NumberInputFieldProps = Omit<
     HTMLInputAttributes,
-    'type' | 'value' | 'min' | 'max' | 'step' | 'prefix' | 'children' | 'files'
+    'type' | 'value' | 'min' | 'max' | 'step' | 'prefix' | 'children' | 'files' | 'size'
   > & {
     format?: NumberInputFormat
     value?: number | null

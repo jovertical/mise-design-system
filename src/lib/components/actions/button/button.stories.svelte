@@ -14,6 +14,7 @@
 
   const VARIANTS: ButtonVariant[] = ['solid', 'soft', 'outline', 'ghost', 'link']
   const SIZES = ['sm', 'md', 'lg'] as const
+  const STATES = ['default', 'disabled', 'loading'] as const
 
   const { Story } = defineMeta({
     title: 'Actions/Button',
@@ -58,6 +59,20 @@
     <StoryAxis values={SIZES}>
       {#snippet item(size)}
         <Button {size}>Save changes</Button>
+      {/snippet}
+    </StoryAxis>
+  </OnACard>
+</Story>
+
+<!--
+  Disabled, and loading: a spinner before the label, `aria-busy`, and no second
+  press while what the first one started is still running.
+-->
+<Story name="States" asChild>
+  <OnACard>
+    <StoryAxis values={STATES}>
+      {#snippet item(state)}
+        <Button disabled={state === 'disabled'} loading={state === 'loading'}>Post order</Button>
       {/snippet}
     </StoryAxis>
   </OnACard>

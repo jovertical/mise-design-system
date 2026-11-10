@@ -9,7 +9,9 @@ import { getContext, setContext } from 'svelte'
 
 export type Theme = 'dark' | 'light' | 'system'
 
-const KEY = Symbol('mise-theme')
+// Registered, as the sidebar's is, so two loaded copies of mise (a dev server
+// across a version bump, a linked package) share one provider.
+const KEY = Symbol.for('mise-theme')
 
 /** The chosen theme, persisted under `storageKey`. */
 export class ThemeState {

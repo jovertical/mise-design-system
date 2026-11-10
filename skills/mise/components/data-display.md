@@ -338,7 +338,7 @@ The `dl` a column of facts sits in. An item's `dt`/`dd` pair is only valid insid
 | --- | --- | --- | --- |
 | `compact` | `boolean` | `false` | `gap-1` instead of `gap-2`, for an aside where the list is a footnote to a preview above it rather than the card's content. |
 
-Also takes: every `<dlist>` attribute.
+Also takes: every `<dl>` attribute.
 
 ### `FactListItem`
 
@@ -352,7 +352,7 @@ One labelled fact.
 | `icon` | `Snippet` |  | Vertical only. An `IconChip` ahead of the fact, for one that identifies (a location, a person, a category) rather than one field among several. |
 | `iconShape` | `'square' \| 'circle'` | `'square'` | Vertical only. `square` by default, for a column of facts under a heading; `circle` for a strip of identity facts read across, where round chips keep several of them from reading as a form. |
 | `multiline` | `boolean` | `false` | Vertical only. Lets the value wrap instead of truncating: a name is one line, but a description is worth reading past the card edge. |
-| `valueClass` | `string` |  | Classes for the value, such as a sign colour on a total. |
+| `valueClass` | `string` |  | Classes for the value's layout: alignment, width, wrapping. A value's colour comes from what it holds (a `Badge`, `Text` with a `tone`), not from a class. |
 
 Also takes: every `<div>` attribute.
 
@@ -539,6 +539,7 @@ One row per requirement, answering "what does this page still need from me". Del
 | `items` (required) | `ReadinessItem[]` |  |  |
 | `emptyMessage` | `string` | `'Nothing to check yet.'` | Shown when nothing is applicable: a server returning no rows. |
 | `showRequirement` | `boolean` | `true` | Drops the "Required" / "Optional" tag from unmet rows, for a progress list (what a server is doing), where a queued step tagged Required in warning colour reads as a problem when it simply has not started. |
+| `showDetail` | `'unmet' \| 'all'` | `'unmet'` | `unmet` shows a row's `detail` and `action` only while it is unmet; `all` shows the detail on met rows too, for a record of a check already made, where what was found matters as much as what passed. |
 
 Also takes: every `<ul>` attribute except `children`.
 
@@ -556,7 +557,7 @@ Also takes: every `<div>` attribute except `children`.
 
 Also exports: `summariseReadiness`.
 
-Types: `ReadinessItem`, `ReadinessStatus` (`'met' | 'unmet' | 'pending' | 'not-applicable'`), `ReadinessSummaryData`.
+Types: `ReadinessItem`, `ReadinessSeverity` (`'block' | 'warn'`), `ReadinessStatus` (`'met' | 'unmet' | 'pending' | 'not-applicable'`), `ReadinessSummaryData`.
 
 ## SegmentedBar
 
@@ -642,7 +643,7 @@ Types: `StatIconAlignment` (`'center' | 'top'`), `StatIconSize` (`'sm' | 'md' | 
 
 ## Table
 
-`import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@jovertical/mise-design-system'`
+`import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, TableSectionRow } from '@jovertical/mise-design-system'`
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -654,7 +655,7 @@ Also takes: every `<table>` attribute.
 
 The rows. The last row drops its rule; the table edge is enough.
 
-Also takes: every `<thead>` attribute.
+Also takes: every `<thead>`, `<tbody>` or `<tfoot>` attribute.
 
 ### `TableCaption`
 
@@ -674,7 +675,7 @@ Also takes: every `<td>` attribute.
 
 Totals, on a muted band under the body.
 
-Also takes: every `<thead>` attribute.
+Also takes: every `<thead>`, `<tbody>` or `<tfoot>` attribute.
 
 ### `TableHead`
 
@@ -689,11 +690,21 @@ Also takes: every `<th>` attribute.
 
 The column labels, muted, ruled off from the body.
 
-Also takes: every `<thead>` attribute.
+Also takes: every `<thead>`, `<tbody>` or `<tfoot>` attribute.
 
 ### `TableRow`
 
 One row. `data-state="selected"` tints it as the active nav row is tinted.
+
+Also takes: every `<tr>` attribute.
+
+### `TableSectionRow`
+
+A heading row inside `TableBody` that names the group of rows under it (assets, income, expenses): one `th scope="colgroup"` across the table.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `colspan` | `number` |  |  |
 
 Also takes: every `<tr>` attribute.
 

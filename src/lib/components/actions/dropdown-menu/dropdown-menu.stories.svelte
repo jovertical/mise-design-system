@@ -47,7 +47,7 @@
         </DropdownMenuItem>
         <DropdownMenuItem>Duplicate</DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem variant="destructive">Delete</DropdownMenuItem>
+        <DropdownMenuItem tone="critical">Delete</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   {/snippet}
@@ -91,7 +91,7 @@
 </Story>
 
 <!--
-  `variant="destructive"` colours the row and its glyph, and tints on highlight
+  `tone="critical"` colours the row and its glyph, and tints on highlight
   rather than filling. The command that cannot be undone should look different
   before it is chosen, not after.
 -->
@@ -106,7 +106,7 @@
       <DropdownMenuItem>Rename</DropdownMenuItem>
       <DropdownMenuItem>Move</DropdownMenuItem>
       <DropdownMenuSeparator />
-      <DropdownMenuItem variant="destructive">Delete permanently</DropdownMenuItem>
+      <DropdownMenuItem tone="critical">Delete permanently</DropdownMenuItem>
     </DropdownMenuContent>
   </DropdownMenu>
 </Story>

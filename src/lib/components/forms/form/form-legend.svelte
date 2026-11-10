@@ -8,7 +8,7 @@
 
   import type { WithoutChild } from '../../../utils/types.js'
 
-  /** text-destructive:The caption of a `FormFieldset`, red while the group is invalid. */
+  /** The caption of a `FormFieldset`, red while the group is invalid. */
   export type FormLegendProps = WithoutChild<FormPrimitive.LegendProps>
 </script>
 

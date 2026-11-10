@@ -52,4 +52,13 @@ describe('StepperNavigation', () => {
     expect(right.firstElementChild).toBe(screen.getByRole('button', { name: 'Skip this step' }))
     expect(right.lastElementChild).toBe(screen.getByRole('button', { name: 'Next' }))
   })
+
+  it('makes Next busy and unpressable while it loads', () => {
+    render(StepperNavigationHarness, { onNext: () => {}, nextLoading: true })
+
+    const next = screen.getByRole('button', { name: 'Next' })
+
+    expect(next).toBeDisabled()
+    expect(next).toHaveAttribute('aria-busy', 'true')
+  })
 })

@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/svelte'
 import { userEvent } from '@testing-library/user-event'
 import { afterEach, describe, expect, it } from 'vitest'
 
+import ThemeContextByKeyHarness from './fixtures/theme-context-by-key-harness.svelte'
 import ThemeToggleHarness from './fixtures/theme-toggle-harness.svelte'
 
 const realMatchMedia = window.matchMedia
@@ -63,5 +64,11 @@ describe('ThemeProvider and ThemeToggle', () => {
     render(ThemeToggleHarness, { defaultTheme: 'light' })
 
     expect(root()).toHaveClass('dark')
+  })
+
+  it('finds a provider set by another copy of mise, through the registered symbol', () => {
+    render(ThemeContextByKeyHarness)
+
+    expect(screen.getByRole('button', { name: 'Switch to light theme' })).toBeInTheDocument()
   })
 })

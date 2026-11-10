@@ -95,4 +95,66 @@ describe('ReadinessSummary', () => {
 
     expect(screen.getByText('Not ready yet.')).toBeInTheDocument()
   })
+
+  describe('severity', () => {
+    const CHECKS: ReadinessItem[] = [
+      { id: 'closes', label: 'Every location closed', status: 'unmet', severity: 'block' },
+      {
+        id: 'count',
+        label: 'Stock count recorded',
+        status: 'unmet',
+        severity: 'warn',
+        detail: 'Counted 2 days ago.',
+      },
+      {
+        id: 'drawer',
+        label: 'Drawers balance',
+        status: 'met',
+        severity: 'block',
+        detail: 'Off by 0.00.',
+      },
+    ]
+
+    it('counts block as required and warn as not', () => {
+      const summary = summariseReadiness(CHECKS)
+
+      expect(summary.blocking.map((item) => item.id)).toEqual(['closes'])
+      expect(summary.complete).toBe(false)
+      expect(summariseReadiness(CHECKS.slice(1)).complete).toBe(true)
+    })
+
+    it('lets optional win over severity', () => {
+      const summary = summariseReadiness([
+        { id: 'x', label: 'X', status: 'unmet', severity: 'block', optional: true },
+      ])
+
+      expect(summary.blocking).toEqual([])
+    })
+
+    it('draws an unmet block critical and an unmet warn as a check', () => {
+      render(ReadinessChecklist, { items: CHECKS })
+
+      const block = screen.getByText('Every location closed').closest('li') as HTMLElement
+      const warn = screen.getByText('Stock count recorded').closest('li') as HTMLElement
+
+      expect(block).toHaveAttribute('data-severity', 'block')
+      expect(block.querySelector('[data-slot="readiness-tag"]')).toHaveTextContent('Required')
+      expect(block.querySelector('[data-slot="readiness-tag"]')).toHaveClass('text-destructive')
+      expect(warn.querySelector('[data-slot="readiness-tag"]')).toHaveTextContent('Check')
+      expect(warn.querySelector('[data-slot="readiness-tag"]')).toHaveClass('text-warning')
+    })
+
+    it("hides a met row's detail unless showDetail is all", () => {
+      const { unmount } = render(ReadinessChecklist, { items: CHECKS })
+
+      expect(screen.queryByText('Off by 0.00.')).toBeNull()
+      expect(screen.getByText('Counted 2 days ago.')).toBeInTheDocument()
+
+      unmount()
+
+      render(ReadinessChecklist, { items: CHECKS, showDetail: 'all' })
+
+      expect(screen.getByText('Off by 0.00.')).toBeInTheDocument()
+    })
+  })
 })

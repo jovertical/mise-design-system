@@ -6,12 +6,22 @@
   import Input from './input.svelte'
 
   const { Story } = defineMeta({ title: 'Forms/Input', component: Input, tags: ['shadcn'] })
+  const SIZES = ['sm', 'md', 'lg'] as const
 </script>
 
 <Story name="Playground">
   {#snippet template(args)}
     <Input placeholder="Location name" aria-label="Location name" class="max-w-xs" {...args} />
   {/snippet}
+</Story>
+
+<!-- `sm` for a dense row or a table cell, `md` everywhere else, `lg` beside large buttons. -->
+<Story name="Sizes" asChild>
+  <StoryAxis values={SIZES} orientation="vertical">
+    {#snippet item(size)}
+      <Input {size} placeholder="Order number" class="max-w-xs" />
+    {/snippet}
+  </StoryAxis>
 </Story>
 
 <!--

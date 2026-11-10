@@ -47,7 +47,7 @@
       <DataTableRowActions label="Actions for RG-0041" {...args as object}>
         <DropdownMenuItem><IconPencil />Edit</DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem variant="destructive"><IconTrash />Unpair</DropdownMenuItem>
+        <DropdownMenuItem tone="critical"><IconTrash />Unpair</DropdownMenuItem>
       </DataTableRowActions>
     </div>
   {/snippet}

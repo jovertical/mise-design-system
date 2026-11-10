@@ -18,6 +18,7 @@
   })
 
   const FORMAT_VALUES = { integer: 12, decimal: 2.5, currency: 1999 } as const
+  const SIZES = ['sm', 'md', 'lg'] as const
 </script>
 
 <!--
@@ -45,6 +46,28 @@
         value={FORMAT_VALUES[format]}
         prefix={format === 'currency' ? '$' : undefined}
       />
+    {/snippet}
+  </StoryAxis>
+</Story>
+
+<!--
+  The heights `Input` draws at each size, so a dense row of text and number
+  fields lines up; the buttons step up at `lg`.
+-->
+<Story name="Sizes" asChild>
+  <StoryAxis values={SIZES} orientation="vertical">
+    {#snippet item(size)}
+      <div class="flex items-center gap-3">
+        <NumberInput {size} aria-label="Quantity" value={12} format="integer" controls />
+        <NumberInput
+          {size}
+          aria-label="Price"
+          value={1999}
+          format="currency"
+          prefix="$"
+          class="max-w-40"
+        />
+      </div>
     {/snippet}
   </StoryAxis>
 </Story>

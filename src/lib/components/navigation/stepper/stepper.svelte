@@ -43,6 +43,10 @@
    * Where a reader is in a multi-step flow, and what is behind them.
    */
   export type StepperProps = {
+    /**
+     * Each step's `id` and `name`, a `description` (required; `''` for none),
+     * and optionally `optional`, an `icon` component and a `badge` snippet.
+     */
     steps: StepDefinition[]
     currentStepId: string
     /**

@@ -182,4 +182,26 @@ describe('NumberInput', () => {
 
     expect(bound()).toBe('2')
   })
+
+  it.each([
+    ['sm', 'h-8'],
+    ['md', 'h-9'],
+    ['lg', 'h-10'],
+  ] as const)('draws size %s at the height Input draws it, %s', (size, height) => {
+    render(NumberInputHarness, { size, controls: true })
+
+    const group = document.querySelector('[data-slot="number-input"]') as HTMLElement
+
+    expect(group).toHaveAttribute('data-size', size)
+    expect(group).toHaveClass(height)
+  })
+
+  it('scales its buttons up at the large size', () => {
+    render(NumberInputHarness, { size: 'lg', controls: true })
+
+    expect(screen.getByRole('button', { name: 'Increase Amount' })).toHaveAttribute(
+      'data-size',
+      'icon-sm',
+    )
+  })
 })

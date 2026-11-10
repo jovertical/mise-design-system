@@ -18,6 +18,20 @@ peer dependencies; the app's own stylesheet imports all three, so they resolve f
 
 Tailwind v4 runs through its Vite plugin, `@tailwindcss/vite`, in the app's Vite config.
 
+### What the app imports itself
+
+mise's own dependencies are installed with it, but under pnpm an app can only
+import packages it lists itself. Add these when the app's own code needs them:
+
+| To | Add |
+| --- | --- |
+| Draw icons, including the one `EmptyState` asks for | `@tabler/icons-svelte-runes` |
+| Build the values of `DatePicker`, `MonthPicker`, `Calendar` or `TimePicker` (`CalendarDate`, `Time`) | `@internationalized/date` |
+| Draw charts with `ChartContainer` | `layerchart` and `d3-scale` |
+
+Import icons one file each, `import IconTruck from '@tabler/icons-svelte-runes/icons/truck'`,
+never from the package root, which re-exports every icon.
+
 ## The stylesheet
 
 In the app's main stylesheet:

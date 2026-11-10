@@ -1,6 +1,5 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf'
-  import IconArrowLeft from '@tabler/icons-svelte-runes/icons/arrow-left'
   import IconDots from '@tabler/icons-svelte-runes/icons/dots'
   import IconPlus from '@tabler/icons-svelte-runes/icons/plus'
   import Button from '../../actions/button/button.svelte'
@@ -12,6 +11,7 @@
   import BreadcrumbPage from '../../navigation/breadcrumb/breadcrumb-page.svelte'
   import BreadcrumbSeparator from '../../navigation/breadcrumb/breadcrumb-separator.svelte'
   import PageHeader from './page-header.svelte'
+  import PageHeaderBackLink from './page-header-back-link.svelte'
 
   const { Story } = defineMeta({
     title: 'Layout/PageHeader',
@@ -99,13 +99,7 @@
   <Button size="sm">Edit route</Button>
 {/snippet}
 {#snippet backToLocations()}
-  <a
-    href="#locations"
-    class="text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 text-sm"
-  >
-    <IconArrowLeft class="size-4" />
-    Back to locations
-  </a>
+  <PageHeaderBackLink href="#locations">Back to locations</PageHeaderBackLink>
 {/snippet}
 {#snippet saveOrCancel()}
   <Button variant="outline" size="sm">Cancel</Button>

@@ -1,7 +1,7 @@
-import { render, screen } from '@testing-library/svelte'
+import { render, screen, waitFor } from '@testing-library/svelte'
 import { describe, expect, it } from 'vitest'
-
 import TableFixture from './fixtures/table.svelte'
+import TableSectionsHarness from './fixtures/table-sections-harness.svelte'
 
 const slot = (container: HTMLElement, name: string) =>
   container.querySelector(`[data-slot="${name}"]`) as HTMLElement
@@ -50,5 +50,24 @@ describe('Table', () => {
     render(TableFixture)
 
     expect(screen.getByText('Item')).toHaveClass('text-foreground', 'text-sm', 'font-semibold')
+  })
+
+  describe('TableSectionRow', () => {
+    const heading = () => screen.getByRole('columnheader', { name: 'Assets' })
+
+    it('heads a group of rows across every column', async () => {
+      render(TableSectionsHarness)
+
+      expect(heading().tagName).toBe('TH')
+      expect(heading()).toHaveAttribute('scope', 'colgroup')
+
+      await waitFor(() => expect(heading()).toHaveAttribute('colspan', '3'))
+    })
+
+    it('spans what it is told to', () => {
+      render(TableSectionsHarness, { colspan: 2 })
+
+      expect(heading()).toHaveAttribute('colspan', '2')
+    })
   })
 })

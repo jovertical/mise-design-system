@@ -86,7 +86,9 @@ type and default.
 - One choice from many: `Select`; searchable or several values: `Combobox`
 - On or off: `Switch`; with a label and description in a row: `SwitchField`; a tick:
   `Checkbox`
-- A date: `DatePicker`; a calendar on the page: `Calendar`; a time: `TimePicker`
+- Several choices from a short list, as ticks bound to an array: `CheckboxGroup`
+- A date: `DatePicker`; a calendar on the page: `Calendar`; a time: `TimePicker`; a month:
+  `MonthPicker`
 - A one-time code: `InputOTP`
 - An image or file upload: `MediaDropzone`
 - Segmented buttons: `ToggleGroup`; one pressed state: `Toggle`; joined buttons and inputs:
@@ -107,6 +109,8 @@ type and default.
 **Layout** ([components/layout.md](components/layout.md))
 
 - The page frame: `PageLayout`, with `PageHeader` for the title, description and actions
+- The bar above every page (sidebar trigger, breadcrumb, search, menus): `SiteHeader`, with
+  `SiteHeaderSeparator` between groups
 - A surface: `Card`
 - Cards in a grid: `CardGrid`; rows inside one card: `CardList`
 - A collapsible card for a side column: `AsideCard`
@@ -146,7 +150,8 @@ type and default.
   side: `MetricGrid`
 - A share of a whole as a ring: `RadialStat`; as one segmented bar: `SegmentedBar`
 - A trend in a cell or a tile: `Sparkline`; a full chart: `ChartContainer` (LayerChart)
-- Rows of data: `Table`; with sorting, filtering, selection or pagination: `DataTable`
+- Rows of data: `Table`; rows grouped under headings: `TableSectionRow` in its body; with
+  sorting, filtering, selection or pagination: `DataTable`
 - Columns of cards by status, a pipeline read across: `Board`, with `BoardColumn` and `BoardCard`.
   To drag cards between columns: `onMove` on `Board`, an `id` on each column and card, and
   `accepts` on a column that takes only some cards. mise reports the drop; move the card in your

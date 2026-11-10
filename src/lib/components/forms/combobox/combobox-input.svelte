@@ -3,7 +3,8 @@
   Diverged: the clear button is drawn here from the root's context rather than
     as Base UI's `Clear`; like it, it shows only while there is a value, and it
     empties the typed text too, through an `input` event the caller's filter
-    hears.
+    hears. With the root's `allowCustomValue`, each keystroke sets the value
+    to the text, and the field starts from a bound value that is no item's.
 -->
 <script lang="ts" module>
   import { Combobox as ComboboxPrimitive } from 'bits-ui'
@@ -41,10 +42,19 @@
     showClear = false,
     class: className,
     children,
+    oninput,
     ...rest
   }: ComboboxInputProps = $props()
 
   const combobox = getComboboxContext()
+
+  const freeText = $derived(Boolean(combobox?.allowCustomValue))
+
+  function typed(event: Event & { currentTarget: EventTarget & HTMLInputElement }) {
+    ;(oninput as ((event: Event) => void) | undefined)?.(event)
+
+    if (freeText) combobox?.setText(event.currentTarget.value)
+  }
 
   function clear() {
     combobox?.clear()
@@ -60,7 +70,13 @@
 </script>
 
 <InputGroup class={cn('w-auto', className)}>
-  <ComboboxPrimitive.Input bind:ref {disabled} {...rest}>
+  <ComboboxPrimitive.Input
+    bind:ref
+    {disabled}
+    defaultValue={freeText ? combobox?.text : undefined}
+    oninput={typed}
+    {...rest}
+  >
     {#snippet child({ props })}
       <InputGroupInput {...props} {disabled} />
     {/snippet}

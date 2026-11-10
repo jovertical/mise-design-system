@@ -18,7 +18,9 @@
    * the item renders, and the list renders only when open. Radix kept hidden
    * items mounted for the same purpose.
    */
-  export type SelectProps = (Omit<Single, 'type'> & { type?: 'single' }) | Multiple
+  export type SelectProps =
+    | (Omit<Single, 'type'> & { type?: 'single' })
+    | (Omit<Multiple, 'type'> & { type: 'multiple' })
 </script>
 
 <script lang="ts">

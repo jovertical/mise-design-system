@@ -62,7 +62,32 @@ Types: `CalendarCaptionLayout` (`'label' | 'dropdown' | 'dropdown-months' | 'dro
 
 `import { Checkbox } from '@jovertical/mise-design-system'`
 
+A tick: `bind:checked`, and `indeterminate` for a parent whose children are partly ticked. Pair it with a `Label` or put it in a `Field`; for several choices bound to one array, `CheckboxGroup`.
+
 Also takes: bits-ui `Checkbox.Root` props except `children`, `child`.
+
+## CheckboxGroup
+
+`import { CheckboxGroup } from '@jovertical/mise-design-system'`
+
+Several choices from a short list, as ticks: a legend, one checkbox per option, and the field's error. `value` is the ticked options' values, kept in the order of `options` however they were ticked, so a form posts the same array for the same choice.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `value` | `string[]` | `[]` |  |
+| `onValueChange` | `(value: string[]) => void` |  |  |
+| `options` (required) | `CheckboxGroupOption[]` |  |  |
+| `legend` (required) | `string` |  |  |
+| `description` | `string` |  |  |
+| `errors` | `Array<{ message?: string } \| undefined>` |  | As `FieldError` takes them; any message marks the set invalid. |
+| `empty` | `string` | `'Nothing to choose from.'` | Shown in place of the boxes when `options` is empty. |
+| `orientation` | `'vertical' \| 'horizontal'` | `'vertical'` | `horizontal` wraps the options along a row, for short labels. |
+| `disabled` | `boolean` | `false` |  |
+| `name` | `string` |  | Each ticked box submits as `name[]`. |
+
+Also takes: every `<fieldset>` attribute except `children`.
+
+Types: `CheckboxGroupOption`.
 
 ## ChoiceRow
 
@@ -103,9 +128,10 @@ A searchable select: typing into the field narrows the list. Reach for it where 
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `type` | `'single'` | `'single'` |  |
+| `type` | `'single' \| 'multiple'` | `'single'` |  |
+| `allowCustomValue` | `boolean` | `false` | The typed text is the value; the items are suggestions. |
 
-Also takes: bits-ui `Combobox.Root` props except `type`; bits-ui `Combobox.Root` props.
+Also takes: bits-ui `Combobox.Root` props except `type`.
 
 ### `ComboboxChip`
 
@@ -199,14 +225,17 @@ A `Calendar` behind a trigger, for the case where the calendar itself would othe
 | `mode` (required) | `'single' \| 'range'` |  |  |
 | `value` | `DateValue \| DateRange` |  |  |
 | `onValueChange` | `((value: DateValue \| undefined) => void) \| ((value: DateRange \| undefined) => void)` |  |  |
+| `formatLabel` | `((value: DateValue) => string) \| ((value: DateRange) => string)` |  | The trigger's text for a picked day. A long date in `locale` by default. |
 | `placeholder` | `string` |  |  |
 | `disabled` | `boolean` | `false` | Disables the whole control: the trigger cannot be opened. |
-| `'aria-invalid'` | `boolean` |  | Marks the trigger invalid; `Button` draws the destructive border `Input` does. |
+| `'aria-invalid'` | `HTMLAttributes<HTMLElement>['aria-invalid']` |  | Marks the trigger invalid; `Button` draws the destructive border `Input` does. |
 | `isDateDisabled` | `(date: DateValue) => boolean` |  | Days the operator may not pick, inside an open calendar. Distinct from `disabled`, which closes the control. The rule is the caller's, not a `disablePast` flag: what counts as "past" is a decision the screen owns. |
 | `minValue` | `DateValue` |  |  |
 | `maxValue` | `DateValue` |  |  |
 | `locale` | `string` | `'en-US'` | For the trigger's label and the calendar. `en-US` when absent. |
 | `class` | `string` |  |  |
+
+Also takes: every HTML attribute except `children`, `placeholder`, `aria-invalid`, `class`.
 
 ## Field
 
@@ -350,7 +379,7 @@ Also takes: bits-ui `Form.Label` props except `child`.
 
 ### `FormLegend`
 
-text-destructive:The caption of a `FormFieldset`, red while the group is invalid.
+The caption of a `FormFieldset`, red while the group is invalid.
 
 Also takes: bits-ui `Form.Legend` props except `child`.
 
@@ -364,10 +393,13 @@ Types: `FormFieldState`.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `type` (required) | `'file' \| InputType` |  |  |
+| `type` | `'file' \| InputType` |  |  |
 | `files` | `FileList \| undefined` |  |  |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | `sm` for a dense row or a table cell, `lg` beside large buttons. `md` by default. |
 
-Also takes: every `<input>` attribute except `type`.
+Also takes: every `<input>` attribute except `type`, `size`.
+
+Types: `InputSize` (`'sm' | 'md' | 'lg'`).
 
 ## InputGroup
 
@@ -445,6 +477,8 @@ Also takes: bits-ui `InputOTP.Cell` props.
 
 `import { Label } from '@jovertical/mise-design-system'`
 
+The text naming a control: `for` points at the control's `id`. Inside a `Field`, use `FieldLabel`.
+
 Also takes: bits-ui `Label.Root` props.
 
 ## MediaDropzone
@@ -475,6 +509,27 @@ One image, on a zone that stays put: a logo, an avatar, a cover.
 
 Types: `MediaAsset`, `MediaLinkMode` (`'immediate' | 'deferred'`), `MediaUploaderAdapter`, `MediaUploadOptions`.
 
+## MonthPicker
+
+`import { MonthPicker } from '@jovertical/mise-design-system'`
+
+A month and its year behind a trigger, for a report or a ledger filtered by month: the year with its arrows over a grid of the twelve months.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `value` | `CalendarDate` |  |  |
+| `onValueChange` | `(value: CalendarDate) => void` |  |  |
+| `minValue` | `DateValue` |  |  |
+| `maxValue` | `DateValue` |  |  |
+| `formatLabel` | `(value: CalendarDate) => string` |  | The trigger's text for a picked month. "March 2026" in `locale` by default. |
+| `locale` | `string` | `'en-US'` | For the month names and the default label. `en-US` when absent. |
+| `placeholder` | `string` | `'Pick a month'` |  |
+| `disabled` | `boolean` | `false` |  |
+| `'aria-invalid'` | `HTMLAttributes<HTMLElement>['aria-invalid']` |  |  |
+| `class` | `string` |  |  |
+
+Also takes: every HTML attribute except `children`, `placeholder`, `aria-invalid`, `class`.
+
 ## NumberInput
 
 `import { NumberInput, NumberInputField } from '@jovertical/mise-design-system'`
@@ -484,13 +539,14 @@ A number typed into a text field, never `type="number"`: the native one has 8px 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `format` | `'integer' \| 'decimal' \| 'currency'` | `'decimal'` | `integer` takes whole numbers; `decimal` takes up to `precision` places; `currency` speaks minor units: `value` is an integer count of cents, shown with two places, and only two can be typed, because a third has no cent to land in. Everything crossing the boundary is then an integer, the units an API uses, and no price arrives as 19.99 and leaves as 1998.9999999999998. |
-| `min` | `number` | `0` | The floor, in `value`'s units. A negative one lets a minus sign be typed. |
+| `min` | `number` | `0` | The floor, in `value`'s units: 0 when absent, so a signed amount (a coordinate, an adjustment) sets its own. A negative one lets a minus sign be typed. |
 | `max` | `number` |  | No ceiling when absent. |
 | `step` | `number` | `1` | How far ↑, ↓ and the buttons move it, in `value`'s units. |
 | `precision` | `number` |  | The most decimal places `decimal` takes. No limit when absent. |
 | `clearable` | `boolean` | `true` | An emptied field commits `null`. Off, it commits `min`: for a count where zero is a real answer and the field should never be blank. |
 | `controls` | `boolean` | `false` | − and + either side, inside the field's own fill, so it reads as one control beside the plain inputs around it. Each disables at its end of the range. |
 | `prefix` | `string \| Snippet` |  | Ahead of the number: a currency symbol, a unit. |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | The height `Input` draws at the same size: `sm` for a dense row. `md` by default. |
 
 Also takes: everything `NumberInputField` takes.
 
@@ -510,7 +566,7 @@ The field alone: a number typed into a text field, inside an `InputGroup` the ca
 | `clearable` | `boolean` | `true` |  |
 | `ref` | `HTMLInputElement \| null` | `null` |  |
 
-Also takes: every `<input>` attribute except `type`, `value`, `min`, `max`, `step`, `prefix`, `children`, `files`.
+Also takes: every `<input>` attribute except `type`, `value`, `min`, `max`, `step`, `prefix`, `children`, `files`, `size`.
 
 Types: `NumberInputFormat` (`'integer' | 'decimal' | 'currency'`).
 
@@ -547,6 +603,8 @@ Types: `QuantityInputLayout` (`'unit-first' | 'quantity-first'`), `QuantityUnit`
 
 `import { RadioGroup, RadioGroupItem } from '@jovertical/mise-design-system'`
 
+One choice from a few, all visible: `bind:value` and a `RadioGroupItem` per option, each with its `Label`. When each choice needs a description or media, `ChoiceRow`; from many, `Select`.
+
 Also takes: bits-ui `RadioGroup.Root` props.
 
 ### `RadioGroupItem`
@@ -561,9 +619,9 @@ Pass `items` (`{ value, label }[]`) so the trigger can show the selected label w
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `type` | `'single'` | `'single'` |  |
+| `type` | `'single' \| 'multiple'` | `'single'` |  |
 
-Also takes: bits-ui `Select.Root` props except `type`; bits-ui `Select.Root` props.
+Also takes: bits-ui `Select.Root` props except `type`.
 
 ### `SelectContent`
 
@@ -667,6 +725,8 @@ Three selects standing in for a clock: hour, minute, and AM/PM.
 | `value` | `Time` |  |  |
 | `onValueChange` | `(value: Time) => void` |  |  |
 | `disabled` | `boolean` | `false` |  |
+| `hourCycle` | `12 \| 24` | `12` | `12` shows 1–12 and an AM/PM select; `24` shows 00–23 and no period. |
+| `minuteStep` | `number` | `1` | The minutes listed, every `minuteStep` from 00. A value between steps keeps its own minute listed, so loading it loses nothing. |
 
 Also takes: every `<div>` attribute except `children`.
 
@@ -679,14 +739,14 @@ One on/off control, not a group: reach for `ToggleGroup` the moment a second opt
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `variant` | `'default' \| 'outline' \| 'segmented' \| 'solid'` |  |  |
-| `size` | `'default' \| 'sm' \| 'lg'` |  |  |
+| `size` | `ToggleSize` |  |  |
 | `iconOnly` | `boolean` |  | One glyph and no label: a circle the size of the toggle's height. Needs an `aria-label`. |
 
 Also takes: bits-ui `Toggle.Root` props.
 
 Also exports: `toggleVariants`.
 
-Types: `ToggleSize` (`'default' | 'sm' | 'lg'`), `ToggleVariant` (`'default' | 'outline' | 'segmented' | 'solid'`).
+Types: `ToggleSize`, `ToggleVariant` (`'default' | 'outline' | 'segmented' | 'solid'`).
 
 ## ToggleGroup
 
@@ -697,7 +757,7 @@ A segmented group is a track, not a row of joined buttons: no gap between option
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `variant` | `'default' \| 'outline' \| 'segmented' \| 'solid'` |  |  |
-| `size` | `'default' \| 'sm' \| 'lg'` |  |  |
+| `size` | `ToggleSize` |  |  |
 | `spacing` | `number` | `0` |  |
 
 Also takes: bits-ui `ToggleGroup.Root` props.
@@ -707,6 +767,6 @@ Also takes: bits-ui `ToggleGroup.Root` props.
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `variant` | `'default' \| 'outline' \| 'segmented' \| 'solid'` |  |  |
-| `size` | `'default' \| 'sm' \| 'lg'` |  |  |
+| `size` | `ToggleSize` |  |  |
 
 Also takes: bits-ui `ToggleGroup.Item` props.

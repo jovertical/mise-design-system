@@ -6,3 +6,7 @@ export { default as TableFooter, type TableFooterProps } from './table-footer.sv
 export { default as TableHead, type TableHeadProps } from './table-head.svelte'
 export { default as TableHeader, type TableHeaderProps } from './table-header.svelte'
 export { default as TableRow, type TableRowProps } from './table-row.svelte'
+export {
+  default as TableSectionRow,
+  type TableSectionRowProps,
+} from './table-section-row.svelte'

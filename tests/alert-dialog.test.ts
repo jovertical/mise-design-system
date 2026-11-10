@@ -64,4 +64,12 @@ describe('AlertDialog', () => {
 
     expect(state()).toHaveTextContent('open confirmed')
   })
+
+  it('takes md as the name of its default size', async () => {
+    render(CloseLocationAlert, { size: 'md' })
+
+    await userEvent.click(screen.getByRole('button', { name: 'Close location' }))
+
+    expect(await screen.findByRole('alertdialog')).toHaveAttribute('data-size', 'default')
+  })
 })

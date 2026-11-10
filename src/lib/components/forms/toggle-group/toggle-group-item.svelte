@@ -17,7 +17,7 @@
 
 <script lang="ts">
   import { cn } from '../../../utils/cn.js'
-  import { toggleVariants } from '../toggle/toggle-variants.js'
+  import { drawnToggleSize, toggleVariants } from '../toggle/toggle-variants.js'
   import { getToggleGroupContext } from './toggle-group.svelte'
 
   let {
@@ -30,7 +30,7 @@
 
   const context = getToggleGroupContext()
   const resolvedVariant = $derived(context?.variant || variant)
-  const resolvedSize = $derived(context?.size || size)
+  const resolvedSize = $derived(drawnToggleSize(context?.size || size))
 
   // The joined-border rules square off the inner edges of adjacent options so
   // the group reads as one control. A segmented option is a pill floating in a

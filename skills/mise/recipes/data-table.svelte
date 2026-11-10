@@ -88,7 +88,7 @@
     <DropdownMenuItem>View order</DropdownMenuItem>
     <DropdownMenuItem>Print receipt</DropdownMenuItem>
     <DropdownMenuSeparator />
-    <DropdownMenuItem variant="destructive" disabled={order.status === 'refunded'}>
+    <DropdownMenuItem tone="critical" disabled={order.status === 'refunded'}>
       Refund
     </DropdownMenuItem>
   </DataTableRowActions>

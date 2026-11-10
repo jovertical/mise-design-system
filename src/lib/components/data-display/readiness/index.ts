@@ -1,6 +1,7 @@
 export { default as ReadinessChecklist, type ReadinessChecklistProps } from './readiness.svelte'
 export {
   type ReadinessItem,
+  type ReadinessSeverity,
   type ReadinessStatus,
   type ReadinessSummaryData,
   summariseReadiness,

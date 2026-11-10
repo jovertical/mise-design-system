@@ -31,7 +31,9 @@ const ELEMENTS: Record<string, string> = {
   OList: 'ol',
   LI: 'li',
   TableRow: 'tr',
-  TableSection: 'thead',
+  // One element type for all three sections, so the phrase names all three.
+  TableSection: 'thead>`, `<tbody>` or `<tfoot',
+  DList: 'dl',
   TableCell: 'td',
   Table: 'table',
   Anchor: 'a',

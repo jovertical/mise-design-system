@@ -3,6 +3,7 @@ import { userEvent } from '@testing-library/user-event'
 import { describe, expect, it } from 'vitest'
 
 import ComboboxChipsHarness from './fixtures/combobox-chips-harness.svelte'
+import ComboboxFreeTextHarness from './fixtures/combobox-free-text-harness.svelte'
 import ComboboxHarness from './fixtures/combobox-harness.svelte'
 
 // Floating content is visibility: hidden in jsdom, so items are matched by text.
@@ -90,5 +91,57 @@ describe('Combobox chips', () => {
 
     expect(field).toHaveClass('bg-input/50', 'rounded-2xl', 'flex-wrap')
     expect(field).toContainElement(screen.getByRole('combobox', { name: 'Categories' }))
+  })
+
+  describe('with allowCustomValue', () => {
+    const field = () => screen.getByRole('combobox', { name: 'Description' })
+    const bound = () => screen.getByTestId('value').textContent
+
+    it('binds what is typed, with no item chosen', async () => {
+      render(ComboboxFreeTextHarness)
+
+      await userEvent.type(field(), 'Sud-an')
+
+      expect(bound()).toBe('Sud-an')
+    })
+
+    it('keeps the typed text when the field loses focus', async () => {
+      render(ComboboxFreeTextHarness)
+
+      await userEvent.type(field(), 'Sud-an')
+
+      await userEvent.click(screen.getByRole('button', { name: 'Elsewhere' }))
+
+      expect(field()).toHaveValue('Sud-an')
+      expect(bound()).toBe('Sud-an')
+    })
+
+    it('fills the text from a chosen suggestion', async () => {
+      render(ComboboxFreeTextHarness)
+
+      await userEvent.type(field(), 'Fu')
+
+      const item = document.body.querySelector('[data-slot="combobox-item"]') as HTMLElement
+
+      await userEvent.click(item)
+
+      expect(field()).toHaveValue('Fuel')
+      expect(bound()).toBe('Fuel')
+    })
+
+    it('starts from a bound value that is not a suggestion', () => {
+      render(ComboboxFreeTextHarness, { value: 'Gas' })
+
+      expect(field()).toHaveValue('Gas')
+    })
+
+    it('binds an empty string once cleared', async () => {
+      render(ComboboxFreeTextHarness, { value: 'Gas' })
+
+      await userEvent.click(screen.getByRole('button', { name: 'Clear' }))
+
+      expect(bound()).toBe('')
+      expect(field()).toHaveValue('')
+    })
   })
 })

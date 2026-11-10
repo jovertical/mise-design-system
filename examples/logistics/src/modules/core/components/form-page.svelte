@@ -15,8 +15,12 @@
 </script>
 
 <script lang="ts">
-  import { Button, PageHeader, PageLayout } from '@jovertical/mise-design-system'
-  import IconArrowLeft from '@tabler/icons-svelte-runes/icons/arrow-left'
+  import {
+    Button,
+    PageHeader,
+    PageHeaderBackLink,
+    PageLayout,
+  } from '@jovertical/mise-design-system'
   import type { Snippet } from 'svelte'
 
   import UnsavedChangesDialog from './unsaved-changes-dialog.svelte'
@@ -35,13 +39,7 @@
 <PageLayout>
   <PageHeader {title} {description}>
     {#snippet backLink()}
-      <a
-        href={back.href}
-        class="text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 text-sm"
-      >
-        <IconArrowLeft class="size-4" />
-        {back.label}
-      </a>
+      <PageHeaderBackLink href={back.href}>{back.label}</PageHeaderBackLink>
     {/snippet}
     {#snippet actions()}
       <Button variant="outline" href={back.href}>Cancel</Button>

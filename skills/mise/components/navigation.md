@@ -128,7 +128,7 @@ Also takes: every `<div>` attribute.
 | --- | --- | --- | --- |
 | `child` | `Snippet<[{ props: Record<string, unknown> }]>` |  |  |
 | `isActive` | `boolean` | `false` |  |
-| `size` | `'default' \| 'sm' \| 'lg'` | `'default'` |  |
+| `size` | `SidebarMenuButtonSize` | `'default'` |  |
 | `noHover` | `boolean` | `false` | Keeps the button flat: no hover or active background, as for a logo. |
 | `tooltip` | `string \| Snippet` |  | Shown beside the button while the sidebar is collapsed to icons, on desktop. |
 | `tooltipContentProps` | `Omit<TooltipContentProps, 'children'>` |  |  |
@@ -204,7 +204,7 @@ Also takes: everything `Button` takes.
 
 Also exports: `SidebarState`, `useSidebar`, `activeHref`, `sidebarMenuButtonVariants`.
 
-Types: `SidebarSideTheme` (`'primary' | 'light' | 'panel'`), `SidebarNavGroup`, `SidebarNavItem`, `SidebarNavLink`, `SidebarNavSection`, `SidebarNavSubLink`, `SidebarMenuButtonSize` (`'default' | 'sm' | 'lg'`).
+Types: `SidebarSideTheme` (`'primary' | 'light' | 'panel'`), `SidebarNavGroup`, `SidebarNavItem`, `SidebarNavLink`, `SidebarNavSection`, `SidebarNavSubLink`, `SidebarMenuButtonSize`.
 
 ## Stepper
 
@@ -214,7 +214,7 @@ Where a reader is in a multi-step flow, and what is behind them.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `steps` (required) | `StepDefinition[]` |  |  |
+| `steps` (required) | `StepDefinition[]` |  | Each step's `id` and `name`, a `description` (required; `''` for none), and optionally `optional`, an `icon` component and a `badge` snippet. |
 | `currentStepId` (required) | `string` |  |  |
 | `completedSteps` | `readonly string[]` |  | Explicit completion. Any step id here is complete regardless of its position; when omitted, every step before `currentStepId` is. |
 | `variant` | `'vertical' \| 'horizontal' \| 'condensed' \| 'compact'` | `'vertical'` |  |

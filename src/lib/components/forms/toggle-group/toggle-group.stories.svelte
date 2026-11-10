@@ -64,12 +64,12 @@
   site has a reason to sit level with a smaller or larger control beside it.
 -->
 <Story name="Sizes" asChild>
-  <StoryAxis values={['sm', 'default', 'lg'] as const} orientation="vertical">
+  <StoryAxis values={['sm', 'md', 'lg'] as const} orientation="vertical">
     {#snippet item(size)}
       <ToggleGroup
         type="single"
         variant="segmented"
-        size={size === 'default' ? undefined : size}
+        {size}
         value="1"
         aria-label="Multiplier, {size}"
       >

@@ -22,6 +22,20 @@
 
   const single = $state({ value: '', search: '' })
 
+  const KNOWN_EXPENSES = [
+    { label: 'Fuel', category: 'Vehicles' },
+    { label: 'Freight', category: 'Shipping' },
+    { label: 'Pallets', category: 'Packaging' },
+    { label: 'Shrink wrap', category: 'Packaging' },
+  ]
+
+  const KNOWN_ITEMS = KNOWN_EXPENSES.map((expense) => ({
+    value: expense.label,
+    label: expense.label,
+  }))
+
+  const freeText = $state({ value: 'Toll fee', search: '' })
+
   const multiple = $state({
     value: ['Bread', 'Cakes'] as string[],
     search: '',
@@ -96,4 +110,36 @@
       </ComboboxList>
     </ComboboxContent>
   </Combobox>
+</Story>
+
+<!--
+  The items as suggestions: `allowCustomValue` makes the typed text the value,
+  kept when the field loses focus, so a description that matches nothing is
+  still saved as written. Choosing a suggestion fills the text with it; each
+  suggestion shows the category it maps to beside it.
+-->
+<Story name="Free text" asChild>
+  <div class="w-80">
+    <Combobox type="single" allowCustomValue bind:value={freeText.value} items={KNOWN_ITEMS}>
+      <ComboboxInput
+        aria-label="Expense"
+        placeholder="What was it for?"
+        showClear
+        oninput={(event) => (freeText.search = event.currentTarget.value)}
+      />
+      <ComboboxContent>
+        <ComboboxList>
+          {#each KNOWN_EXPENSES.filter((expense) =>
+            expense.label.toLowerCase().includes(freeText.search.toLowerCase()),
+          ) as expense (expense.label)}
+            <ComboboxItem value={expense.label} label={expense.label}>
+              {expense.label}
+              <span class="text-muted-foreground ml-auto text-xs">{expense.category}</span>
+            </ComboboxItem>
+          {/each}
+        </ComboboxList>
+      </ComboboxContent>
+    </Combobox>
+    <p class="text-muted-foreground mt-3 text-xs">value: {freeText.value}</p>
+  </div>
 </Story>

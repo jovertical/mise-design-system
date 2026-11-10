@@ -147,7 +147,7 @@
   </PageHeader>
 
   {#if low.length}
-    <Alert variant="warning">
+    <Alert tone="warning">
       <IconAlertTriangle />
       <AlertTitle>{low.length} products below their reorder point</AlertTitle>
       <AlertDescription>{low.map((product) => product.name).join(', ')}</AlertDescription>

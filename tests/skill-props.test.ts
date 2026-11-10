@@ -88,6 +88,11 @@ describe('propsDoc', () => {
     ['NumberInputFieldProps', 'everything `NumberInputField` takes'],
     ['HTMLInputAttributes', 'every `<input>` attribute'],
     ['HTMLAttributes<HTMLElement>', 'every HTML attribute'],
+    [
+      'HTMLAttributes<HTMLTableSectionElement>',
+      'every `<thead>`, `<tbody>` or `<tfoot>` attribute',
+    ],
+    ['HTMLAttributes<HTMLDListElement>', 'every `<dl>` attribute'],
   ])('summarises %s', (operand, expected) => {
     const source = `export type XProps = ${operand} & { a?: string }`
 
@@ -218,6 +223,14 @@ export type XProps = { open?: boolean } & (Single | Range)`
       ['mode', "'single' | 'range'"],
       ['value', 'Date | { start: Date; end: Date }'],
     ])
+  })
+
+  it('keeps a merged prop optional when either side of the union leaves it out', () => {
+    const source = "export type XProps = { type: 'file'; files?: FileList } | { type?: 'text' }"
+
+    expect(propsDoc(source, 'XProps')?.props.find((prop) => prop.name === 'type')?.optional).toBe(
+      true,
+    )
   })
 
   it('phrases Pick as the keys it takes from a part', () => {

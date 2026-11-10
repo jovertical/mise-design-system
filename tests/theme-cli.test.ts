@@ -120,6 +120,32 @@ describe('mise-theme info', () => {
     expect(info.stack).toBe('vite')
   })
 
+  it('finds the stylesheet of an app on a generated theme, by its @source line', async () => {
+    app({ '@inertiajs/svelte': '^2.0.0', svelte: '^5.41.0' })
+
+    mkdirSync(join(dir, 'resources', 'css'), { recursive: true })
+
+    writeFileSync(
+      join(dir, 'resources', 'css', 'app.css'),
+      "@import 'tailwindcss';\n@import './mise-theme.css';\n@source '../../node_modules/@jovertical/mise-design-system/dist';\n",
+    )
+
+    const info = JSON.parse((await runThemeCli(['info', '--json'], dir, '1.0.0')).message)
+
+    expect(info.stylesheet).toBe('resources/css/app.css')
+  })
+
+  it('names the command an app regenerates its theme with', async () => {
+    writeFileSync(join(dir, 'mise.theme.js'), 'export default {}')
+
+    await runThemeCli(['mise.theme.js', '-o', 'out.css'], dir, '1.0.0')
+
+    const header = readFileSync(join(dir, 'out.css'), 'utf8').split('\n').slice(0, 3).join('\n')
+
+    expect(header).toContain('mise-theme <config> -o <file>')
+    expect(header).not.toContain('pnpm build:theme')
+  })
+
   it('skips node_modules when looking for the stylesheet', async () => {
     app({ svelte: '^5.0.0' })
 

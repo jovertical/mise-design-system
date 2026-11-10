@@ -12,6 +12,7 @@
 | `tone` | `'neutral' \| 'primary' \| 'info' \| 'success' \| 'warning' \| 'critical'` |  | Defaults to `primary` for `solid` and `link`, `neutral` for the rest. |
 | `size` | `'sm' \| 'md' \| 'lg'` | `'md'` |  |
 | `iconOnly` | `boolean` | `false` | One glyph and no label: square, round, and it needs an `aria-label`. |
+| `loading` | `boolean` | `false` | Waiting on what the press started: a spinner before the label, `aria-busy`, and disabled so a second press cannot repeat it. A loading link drops its `href`, as a disabled one does. |
 | `children` | `Snippet` |  |  |
 
 Also takes: every `<button>` attribute; every `<a>` attribute.
@@ -133,7 +134,8 @@ Also takes: bits-ui `DropdownMenu.Group` props.
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `inset` | `boolean` |  |  |
-| `variant` | `'default' \| 'destructive'` | `'default'` | `destructive` for an action that removes or ends something. |
+| `tone` | `'neutral' \| 'critical'` |  | `critical` for an action that removes or ends something. Wins over `variant`. |
+| `variant` | `'default' \| 'destructive'` | `'default'` | The older name: `destructive` is `tone="critical"`. |
 
 Also takes: bits-ui `DropdownMenu.Item` props.
 

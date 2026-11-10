@@ -100,7 +100,7 @@
     </PageHeader>
 
     {#if due <= 7}
-      <Alert variant="warning">
+      <Alert tone="warning">
         <IconTool />
         <AlertTitle
           >{due < 0 ? `Service ${-due} days overdue` : `Service due in ${due} days`}</AlertTitle

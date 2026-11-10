@@ -70,4 +70,12 @@ export const toggleVariants = cva(
 )
 
 export type ToggleVariant = NonNullable<VariantProps<typeof toggleVariants>['variant']>
-export type ToggleSize = NonNullable<VariantProps<typeof toggleVariants>['size']>
+type DrawnToggleSize = NonNullable<VariantProps<typeof toggleVariants>['size']>
+
+/** `md` is mise's name for the middle size; `default` is the name shadcn gave it. */
+export type ToggleSize = DrawnToggleSize | 'md'
+
+/** The size the variants know: `md` drawn as `default`. */
+export function drawnToggleSize(size: ToggleSize | undefined): DrawnToggleSize | undefined {
+  return size === 'md' ? 'default' : size
+}

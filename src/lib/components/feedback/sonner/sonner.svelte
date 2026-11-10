@@ -1,8 +1,8 @@
 <!--
   Origin: the React package 2.23.0 `sonner.tsx`, itself shadcn/ui new-york `sonner`
   Svelte: shadcn-svelte `sonner`
-  Diverged: svelte-sonner for sonner. mise has no theme provider, so with no
-    `theme` prop the toaster follows the `.dark` class on <html>, the same class
+  Diverged: svelte-sonner for sonner. With no `theme` prop the toaster follows
+    the `.dark` class on <html> (which `ThemeProvider` sets), the same class
     every other component answers to; `system` is resolved here rather than
     handed to svelte-sonner, as in React. The per-type class is `mise-toast`.
     Tabler's icons for Lucide's.
