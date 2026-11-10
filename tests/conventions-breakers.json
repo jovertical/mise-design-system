@@ -27,7 +27,7 @@
   "scripts/skill/aliases.ts": ["function-length"],
   "scripts/skill/catalogue.ts": ["function-length", "names"],
   "scripts/skill/props.ts": ["file-length", "function-length", "names"],
-  "src/lib/components/data-display/data-table/data-table.svelte": ["file-length"],
+  "src/lib/components/data-display/data-table/data-table-state.svelte.ts": ["function-length"],
   "src/lib/tokens/semantic.ts": ["function-length"],
   "tests/barrel.test.ts": ["file-length"]
 }
