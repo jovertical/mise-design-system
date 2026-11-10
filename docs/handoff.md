@@ -13,14 +13,14 @@ and plans do not say. In progress: branch `feat/tabler-icons`, below.
   example's Orders board shows all five statuses and every order, and a drop
   marks an order ready, puts it on a run, or cancels it. Completing orders
   waits for a run delivery action on the shipment pages.
-- **Branch `feat/tabler-icons` (2026-11-10), a minor release.** Plan:
+- **1.4.0 (2026-11-10), from `feat/tabler-icons` (#7).** Plan:
   `docs/superpowers/plans/2026-11-10-tabler-icons-and-command-trigger.md`.
   Three phases, all done: Tabler icons everywhere; `CommandTrigger`,
   the filled "Type to search… ⌘K" field; and the sidebar as the portals draw
   it, with `panel` the default theme and `SidebarNav`, the menu
   drawn from data (sections, groups, badges, the current row). The example
-  uses all three. Also the dark indeterminate `Checkbox` fix. Merging its
-  pull request lets release-please cut the next minor. The icon swap and the
+  uses all three. Also the dark indeterminate `Checkbox` fix. Released as
+  1.4.0, a minor. The icon swap and the
   new default would be breaking for an outside consumer; with the user's
   own apps the only consumers, they ship as `feat`, not `feat!`.
 - **The package.** `@jovertical/mise-design-system` is public on npm and GitHub
