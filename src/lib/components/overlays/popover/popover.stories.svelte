@@ -1,6 +1,6 @@
 <script module lang="ts">
-  import FilterIcon from '@lucide/svelte/icons/funnel'
   import { defineMeta } from '@storybook/addon-svelte-csf'
+  import IconFilter from '@tabler/icons-svelte-runes/icons/filter'
 
   import Button from '../../actions/button/button.svelte'
   import Input from '../../forms/input/input.svelte'
@@ -59,7 +59,7 @@
   <Popover>
     <PopoverTrigger>
       {#snippet child({ props })}
-        <Button variant="outline" {...props}><FilterIcon />Filters</Button>
+        <Button variant="outline" {...props}><IconFilter />Filters</Button>
       {/snippet}
     </PopoverTrigger>
     <PopoverContent class="flex flex-col gap-4">

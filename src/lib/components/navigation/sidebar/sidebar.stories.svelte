@@ -1,8 +1,8 @@
 <script module lang="ts">
-  import SettingsIcon from '@lucide/svelte/icons/settings'
-  import ShoppingCartIcon from '@lucide/svelte/icons/shopping-cart'
-  import WarehouseIcon from '@lucide/svelte/icons/warehouse'
   import { defineMeta } from '@storybook/addon-svelte-csf'
+  import IconBuildingWarehouse from '@tabler/icons-svelte-runes/icons/building-warehouse'
+  import IconSettings from '@tabler/icons-svelte-runes/icons/settings'
+  import IconShoppingCart from '@tabler/icons-svelte-runes/icons/shopping-cart'
   import type { SidebarSideTheme } from './sidebar.svelte'
   import Sidebar from './sidebar.svelte'
   import SidebarContent from './sidebar-content.svelte'
@@ -44,11 +44,11 @@
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton isActive tooltip="Locations"
-                  ><WarehouseIcon />Locations</SidebarMenuButton
+                  ><IconBuildingWarehouse />Locations</SidebarMenuButton
                 >
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton tooltip="Orders"><ShoppingCartIcon />Orders</SidebarMenuButton>
+                <SidebarMenuButton tooltip="Orders"><IconShoppingCart />Orders</SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroup>
@@ -56,7 +56,7 @@
             <SidebarGroupLabel>Settings</SidebarGroupLabel>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton tooltip="General"><SettingsIcon />General</SidebarMenuButton>
+                <SidebarMenuButton tooltip="General"><IconSettings />General</SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroup>

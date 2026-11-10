@@ -1,11 +1,11 @@
 <script module lang="ts">
-  import BanIcon from '@lucide/svelte/icons/ban'
-  import CircleCheckIcon from '@lucide/svelte/icons/circle-check'
-  import ClockIcon from '@lucide/svelte/icons/clock'
-  import FilePlusIcon from '@lucide/svelte/icons/file-plus'
-  import HeadsetIcon from '@lucide/svelte/icons/headset'
-  import UserIcon from '@lucide/svelte/icons/user'
   import { defineMeta } from '@storybook/addon-svelte-csf'
+  import IconBan from '@tabler/icons-svelte-runes/icons/ban'
+  import IconCircleCheck from '@tabler/icons-svelte-runes/icons/circle-check'
+  import IconClock from '@tabler/icons-svelte-runes/icons/clock'
+  import IconFilePlus from '@tabler/icons-svelte-runes/icons/file-plus'
+  import IconHeadset from '@tabler/icons-svelte-runes/icons/headset'
+  import IconUser from '@tabler/icons-svelte-runes/icons/user'
 
   import { TONES } from '../../../utils/tone.js'
   import Card from '../../layout/card/card.svelte'
@@ -43,7 +43,7 @@
       <CardTitle>Activity</CardTitle>
       <Timeline>
         <TimelineItem>
-          <TimelineDot tone="critical"><BanIcon /></TimelineDot>
+          <TimelineDot tone="critical"><IconBan /></TimelineDot>
           <TimelineConnector />
           <TimelineTitle>Order cancelled</TimelineTitle>
           <TimelineContent>
@@ -52,13 +52,13 @@
           </TimelineContent>
         </TimelineItem>
         <TimelineItem>
-          <TimelineDot tone="success"><CircleCheckIcon /></TimelineDot>
+          <TimelineDot tone="success"><IconCircleCheck /></TimelineDot>
           <TimelineConnector />
           <TimelineTitle>Order confirmed</TimelineTitle>
           <TimelineContent><p>System · 10 Jul 2026, 11:00</p></TimelineContent>
         </TimelineItem>
         <TimelineItem>
-          <TimelineDot><FilePlusIcon /></TimelineDot>
+          <TimelineDot><IconFilePlus /></TimelineDot>
           <TimelineTitle>Order created</TimelineTitle>
           <TimelineContent><p>Dana Reyes · 10 Jul 2026, 09:00</p></TimelineContent>
         </TimelineItem>
@@ -72,7 +72,7 @@
   <Timeline class="max-w-md">
     {#each TONES as tone, index (tone)}
       <TimelineItem>
-        <TimelineDot {tone}><ClockIcon /></TimelineDot>
+        <TimelineDot {tone}><IconClock /></TimelineDot>
         {#if index < TONES.length - 1}
           <TimelineConnector />
         {/if}
@@ -96,13 +96,13 @@
 <Story name="With presence" asChild>
   <Timeline class="max-w-md">
     <TimelineItem>
-      <TimelineDot tone="primary" indicator={hereNow}><HeadsetIcon /></TimelineDot>
+      <TimelineDot tone="primary" indicator={hereNow}><IconHeadset /></TimelineDot>
       <TimelineConnector />
       <TimelineTitle>Mia · Support</TimelineTitle>
       <TimelineContent><p>Try reseating the paper roll.</p></TimelineContent>
     </TimelineItem>
     <TimelineItem>
-      <TimelineDot tone="neutral"><UserIcon /></TimelineDot>
+      <TimelineDot tone="neutral"><IconUser /></TimelineDot>
       <TimelineTitle>Eli Santos</TimelineTitle>
       <TimelineContent><p>The receipt printer prints blank.</p></TimelineContent>
     </TimelineItem>

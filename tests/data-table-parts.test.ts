@@ -24,7 +24,7 @@ describe('DataTableColumnHeader', () => {
     )
 
     expect(screen.getByRole('button', { name: 'Serial' }).querySelector('svg')).toHaveClass(
-      'lucide-arrow-down',
+      'tabler-icon-arrow-down',
     )
   })
 

@@ -4,7 +4,7 @@
     the size the clean-code guide allows. Not exported.
 -->
 <script lang="ts">
-  import CheckIcon from '@lucide/svelte/icons/check'
+  import IconCheck from '@tabler/icons-svelte-runes/icons/check'
 
   import { cn } from '../../../utils/cn.js'
   import type { StepperLayoutProps } from './stepper.svelte'
@@ -42,7 +42,7 @@
                 class="bg-primary flex size-8 items-center justify-center rounded-full"
                 aria-current={current ? 'step' : undefined}
               >
-                <CheckIcon class="text-primary-foreground size-4" />
+                <IconCheck class="text-primary-foreground size-4" />
               </div>
             {:else}
               <div

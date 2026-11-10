@@ -1,5 +1,5 @@
 <script lang="ts">
-  import WarehouseIcon from '@lucide/svelte/icons/warehouse'
+  import IconBuildingWarehouse from '@tabler/icons-svelte-runes/icons/building-warehouse'
 
   import { FactList, FactListItem } from '../../src/lib/index.js'
 
@@ -19,7 +19,7 @@
 </script>
 
 {#snippet icon()}
-  <WarehouseIcon />
+  <IconBuildingWarehouse />
 {/snippet}
 
 <FactList {compact}>

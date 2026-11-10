@@ -1,10 +1,10 @@
 <script module lang="ts">
-  import FileTextIcon from '@lucide/svelte/icons/file-text'
-  import SettingsIcon from '@lucide/svelte/icons/settings'
-  import CartIcon from '@lucide/svelte/icons/shopping-cart'
-  import UserIcon from '@lucide/svelte/icons/user'
-  import WarehouseIcon from '@lucide/svelte/icons/warehouse'
   import { defineMeta } from '@storybook/addon-svelte-csf'
+  import IconBuildingWarehouse from '@tabler/icons-svelte-runes/icons/building-warehouse'
+  import IconFileText from '@tabler/icons-svelte-runes/icons/file-text'
+  import IconSettings from '@tabler/icons-svelte-runes/icons/settings'
+  import IconShoppingCart from '@tabler/icons-svelte-runes/icons/shopping-cart'
+  import IconUser from '@tabler/icons-svelte-runes/icons/user'
 
   import Button from '../button/button.svelte'
   import Command from './command.svelte'
@@ -31,14 +31,14 @@
   <CommandList>
     <CommandEmpty>No results found.</CommandEmpty>
     <CommandGroup heading="Navigate">
-      <CommandItem><CartIcon />Orders<CommandShortcut>⌘O</CommandShortcut></CommandItem>
-      <CommandItem><WarehouseIcon />Locations</CommandItem>
-      <CommandItem><UserIcon />Customers</CommandItem>
+      <CommandItem><IconShoppingCart />Orders<CommandShortcut>⌘O</CommandShortcut></CommandItem>
+      <CommandItem><IconBuildingWarehouse />Locations</CommandItem>
+      <CommandItem><IconUser />Customers</CommandItem>
     </CommandGroup>
     <CommandSeparator />
     <CommandGroup heading="Actions">
-      <CommandItem><FileTextIcon />New adjustment</CommandItem>
-      <CommandItem disabled><SettingsIcon />Settings</CommandItem>
+      <CommandItem><IconFileText />New adjustment</CommandItem>
+      <CommandItem disabled><IconSettings />Settings</CommandItem>
     </CommandGroup>
   </CommandList>
 {/snippet}

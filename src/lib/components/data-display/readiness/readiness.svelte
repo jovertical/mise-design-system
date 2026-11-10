@@ -1,9 +1,7 @@
 <!--
   Origin: the React package 2.23.0 `readiness.tsx` (`ReadinessChecklist`)
-  Diverged: the folder's root part, exported as ReadinessChecklist. Lucide's
-    circle-check (filled by class), loader, circle-dashed and circle-small
-    (filled) for Tabler's. Spreads the rest onto the list, as every component
-    does.
+  Diverged: the folder's root part, exported as ReadinessChecklist. Spreads the
+    rest onto the list, as every component does.
 -->
 <script lang="ts" module>
   import type { HTMLAttributes } from 'svelte/elements'
@@ -30,10 +28,10 @@
 </script>
 
 <script lang="ts">
-  import CircleCheckIcon from '@lucide/svelte/icons/circle-check'
-  import CircleDashedIcon from '@lucide/svelte/icons/circle-dashed'
-  import CircleSmallIcon from '@lucide/svelte/icons/circle-small'
-  import LoaderIcon from '@lucide/svelte/icons/loader'
+  import IconCircleCheckFilled from '@tabler/icons-svelte-runes/icons/circle-check-filled'
+  import IconCircleDashed from '@tabler/icons-svelte-runes/icons/circle-dashed'
+  import IconLoader from '@tabler/icons-svelte-runes/icons/loader'
+  import IconPointFilled from '@tabler/icons-svelte-runes/icons/point-filled'
 
   import { cn } from '../../../utils/cn.js'
   import Text from '../../typography/text/text.svelte'
@@ -60,15 +58,15 @@
       {@const pending = item.status === 'pending'}
       <li data-status={item.status} class="flex items-start gap-2 text-sm">
         {#if met}
-          <CircleCheckIcon class={cn('text-success fill-current [&_path]:text-background', icon)} />
+          <IconCircleCheckFilled class={cn('text-success', icon)} />
         {:else if pending}
-          <LoaderIcon class={cn('text-muted-foreground animate-spin', icon)} />
+          <IconLoader class={cn('text-muted-foreground animate-spin', icon)} />
         {:else if item.optional}
           <!-- A skipped optional and a missing required are both unticked and
                are not the same news: only the second shuts the gate. -->
-          <CircleDashedIcon class={cn('text-muted-foreground', icon)} />
+          <IconCircleDashed class={cn('text-muted-foreground', icon)} />
         {:else}
-          <CircleSmallIcon class={cn('text-warning fill-current', icon)} />
+          <IconPointFilled class={cn('text-warning', icon)} />
         {/if}
 
         <div class="min-w-0 flex-1">

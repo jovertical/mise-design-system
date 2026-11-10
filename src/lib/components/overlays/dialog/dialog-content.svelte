@@ -2,7 +2,8 @@
   Origin: the React package 2.23.0 `dialog.tsx` (`DialogContent`), itself shadcn/ui new-york `dialog`
   Svelte: shadcn-svelte `dialog`
   Diverged: `portalProps` added for the bits-ui Portal, as shadcn-svelte has it.
-    The close button keeps the React classes rather than shadcn-svelte's ghost Button.
+    The close button keeps the React classes rather than shadcn-svelte's ghost
+    Button. Tabler's x for Lucide's.
 -->
 <script lang="ts" module>
   import { Dialog as DialogPrimitive } from 'bits-ui'
@@ -35,7 +36,7 @@
 </script>
 
 <script lang="ts">
-  import XIcon from '@lucide/svelte/icons/x'
+  import IconX from '@tabler/icons-svelte-runes/icons/x'
 
   import { cn } from '../../../utils/cn.js'
   import DialogOverlay from './dialog-overlay.svelte'
@@ -71,7 +72,7 @@
         data-slot="dialog-close"
         class="ring-offset-background focus:ring-ring data-[state=open]:bg-accent data-[state=open]:text-muted-foreground absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
       >
-        <XIcon />
+        <IconX />
         <span class="sr-only">Close</span>
       </DialogPrimitive.Close>
     {/if}

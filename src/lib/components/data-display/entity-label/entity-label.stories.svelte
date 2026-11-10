@@ -1,9 +1,9 @@
 <script module lang="ts">
-  import BoxIcon from '@lucide/svelte/icons/box'
-  import FileTextIcon from '@lucide/svelte/icons/file-text'
-  import PackageIcon from '@lucide/svelte/icons/package'
-  import TriangleAlertIcon from '@lucide/svelte/icons/triangle-alert'
   import { defineMeta } from '@storybook/addon-svelte-csf'
+  import IconAlertTriangle from '@tabler/icons-svelte-runes/icons/alert-triangle'
+  import IconBox from '@tabler/icons-svelte-runes/icons/box'
+  import IconFileText from '@tabler/icons-svelte-runes/icons/file-text'
+  import IconPackage from '@tabler/icons-svelte-runes/icons/package'
 
   import OnACard from '../../../../../stories/on-a-card.svelte'
   import Avatar from '../avatar/avatar.svelte'
@@ -37,16 +37,16 @@
 </script>
 
 {#snippet fileIcon()}
-  <FileTextIcon />
+  <IconFileText />
 {/snippet}
 {#snippet boxIcon()}
-  <BoxIcon />
+  <IconBox />
 {/snippet}
 {#snippet packageIcon()}
-  <PackageIcon />
+  <IconPackage />
 {/snippet}
 {#snippet warningIcon()}
-  <TriangleAlertIcon />
+  <IconAlertTriangle />
 {/snippet}
 {#snippet supplierAvatar()}
   <Avatar><AvatarFallback class="text-xs">NC</AvatarFallback></Avatar>

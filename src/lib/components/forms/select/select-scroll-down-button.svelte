@@ -1,7 +1,7 @@
 <!--
   Origin: the React package 2.23.0 `select.tsx` (`SelectScrollDownButton`), itself shadcn/ui new-york `select`
   Svelte: shadcn-svelte `select`
-  Diverged: none beyond the port.
+  Diverged: Tabler's chevron-down for Lucide's.
 -->
 <script lang="ts" module>
   import { Select as SelectPrimitive } from 'bits-ui'
@@ -13,7 +13,7 @@
 </script>
 
 <script lang="ts">
-  import ChevronDownIcon from '@lucide/svelte/icons/chevron-down'
+  import IconChevronDown from '@tabler/icons-svelte-runes/icons/chevron-down'
 
   import { cn } from '../../../utils/cn.js'
 
@@ -26,5 +26,5 @@
   class={cn('flex cursor-default items-center justify-center py-1', className)}
   {...rest}
 >
-  <ChevronDownIcon class="size-4" />
+  <IconChevronDown class="size-4" />
 </SelectPrimitive.ScrollDownButton>

@@ -1,7 +1,7 @@
 <!--
   Origin: the React package 2.23.0 `command.tsx` (`CommandInput`), itself shadcn/ui new-york `command`
   Svelte: shadcn-svelte `command`
-  Diverged: bits-ui Command for cmdk.
+  Diverged: bits-ui Command for cmdk. Tabler's search for Lucide's.
 -->
 <script lang="ts" module>
   import { Command as CommandPrimitive } from 'bits-ui'
@@ -11,7 +11,7 @@
 </script>
 
 <script lang="ts">
-  import SearchIcon from '@lucide/svelte/icons/search'
+  import IconSearch from '@tabler/icons-svelte-runes/icons/search'
 
   import { cn } from '../../../utils/cn.js'
 
@@ -24,7 +24,7 @@
 </script>
 
 <div data-slot="command-input-wrapper" class="flex h-9 items-center gap-2 border-b px-3">
-  <SearchIcon class="size-4 shrink-0 opacity-50" />
+  <IconSearch class="size-4 shrink-0 opacity-50" />
   <CommandPrimitive.Input
     bind:ref
     bind:value

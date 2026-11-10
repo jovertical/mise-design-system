@@ -1,12 +1,12 @@
 <script module lang="ts">
-  import EyeIcon from '@lucide/svelte/icons/eye'
-  import ItalicIcon from '@lucide/svelte/icons/italic'
-  import BoldIcon from '@lucide/svelte/icons/letter-b'
-  import PencilIcon from '@lucide/svelte/icons/pencil'
-  import PlusIcon from '@lucide/svelte/icons/plus'
-  import TrashIcon from '@lucide/svelte/icons/trash'
-  import UnderlineIcon from '@lucide/svelte/icons/underline'
   import { defineMeta } from '@storybook/addon-svelte-csf'
+  import IconEye from '@tabler/icons-svelte-runes/icons/eye'
+  import IconItalic from '@tabler/icons-svelte-runes/icons/italic'
+  import IconLetterB from '@tabler/icons-svelte-runes/icons/letter-b'
+  import IconPencil from '@tabler/icons-svelte-runes/icons/pencil'
+  import IconPlus from '@tabler/icons-svelte-runes/icons/plus'
+  import IconTrash from '@tabler/icons-svelte-runes/icons/trash'
+  import IconUnderline from '@tabler/icons-svelte-runes/icons/underline'
 
   import StoryAxis from '../../../../../stories/story-axis.svelte'
 
@@ -25,7 +25,7 @@
 -->
 <Story name="Playground">
   {#snippet template(args)}
-    <Toggle aria-label="Toggle bold" {...args}><BoldIcon /></Toggle>
+    <Toggle aria-label="Toggle bold" {...args}><IconLetterB /></Toggle>
   {/snippet}
 </Story>
 
@@ -37,7 +37,7 @@
 <Story name="Variants" asChild>
   <StoryAxis values={['default', 'outline', 'solid'] as const}>
     {#snippet item(variant)}
-      <Toggle {variant} pressed aria-label="Bold, {variant}"><BoldIcon /></Toggle>
+      <Toggle {variant} pressed aria-label="Bold, {variant}"><IconLetterB /></Toggle>
     {/snippet}
   </StoryAxis>
 </Story>
@@ -52,7 +52,7 @@
         disabled={state === 'disabled'}
         aria-label="Bold, {state}"
       >
-        <BoldIcon />
+        <IconLetterB />
       </Toggle>
     {/snippet}
   </StoryAxis>
@@ -65,10 +65,10 @@
 -->
 <Story name="Icon only" asChild>
   <div class="flex items-center gap-3">
-    <Toggle iconOnly size="sm" variant="outline" aria-label="Bold"><BoldIcon /></Toggle>
-    <Toggle iconOnly variant="outline" aria-label="Italic"><ItalicIcon /></Toggle>
+    <Toggle iconOnly size="sm" variant="outline" aria-label="Bold"><IconLetterB /></Toggle>
+    <Toggle iconOnly variant="outline" aria-label="Italic"><IconItalic /></Toggle>
     <Toggle iconOnly size="lg" variant="outline" pressed aria-label="Underline">
-      <UnderlineIcon />
+      <IconUnderline />
     </Toggle>
   </div>
 </Story>
@@ -83,30 +83,30 @@
   <div class="flex flex-col gap-4">
     <div class="flex items-center gap-1.5">
       <Toggle iconOnly size="sm" variant="solid" pressed aria-label="Revoke view stock">
-        <EyeIcon />
+        <IconEye />
       </Toggle>
       <Toggle iconOnly size="sm" variant="solid" pressed aria-label="Revoke edit stock">
-        <PencilIcon />
+        <IconPencil />
       </Toggle>
       <Toggle iconOnly size="sm" variant="solid" aria-label="Grant create stock">
-        <PlusIcon />
+        <IconPlus />
       </Toggle>
       <Toggle iconOnly size="sm" variant="solid" aria-label="Grant delete stock">
-        <TrashIcon />
+        <IconTrash />
       </Toggle>
     </div>
     <div class="flex items-center gap-1.5">
       <Toggle iconOnly size="sm" variant="solid" pressed disabled aria-label="View stock, granted">
-        <EyeIcon />
+        <IconEye />
       </Toggle>
       <Toggle iconOnly size="sm" variant="solid" pressed disabled aria-label="Edit stock, granted">
-        <PencilIcon />
+        <IconPencil />
       </Toggle>
       <Toggle iconOnly size="sm" variant="solid" disabled aria-label="Create stock, not granted">
-        <PlusIcon />
+        <IconPlus />
       </Toggle>
       <Toggle iconOnly size="sm" variant="solid" disabled aria-label="Delete stock, not granted">
-        <TrashIcon />
+        <IconTrash />
       </Toggle>
     </div>
   </div>
@@ -129,7 +129,7 @@
           aria-label="Revoke view stock"
           {...props}
         >
-          <EyeIcon />
+          <IconEye />
         </Toggle>
       {/snippet}
     </TooltipTrigger>

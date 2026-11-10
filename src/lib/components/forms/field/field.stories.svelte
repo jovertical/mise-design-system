@@ -1,6 +1,6 @@
 <script module lang="ts">
-  import BarcodeIcon from '@lucide/svelte/icons/barcode'
   import { defineMeta } from '@storybook/addon-svelte-csf'
+  import IconBarcode from '@tabler/icons-svelte-runes/icons/barcode'
 
   import StoryAxis from '../../../../../stories/story-axis.svelte'
 
@@ -152,7 +152,7 @@
     <FieldLabel for="sku">SKU</FieldLabel>
     <InputGroup>
       <InputGroupInput id="sku" placeholder="Generated on save" />
-      <InputGroupAddon align="inline-end"><BarcodeIcon /></InputGroupAddon>
+      <InputGroupAddon align="inline-end"><IconBarcode /></InputGroupAddon>
     </InputGroup>
     <FieldDescription>Leave empty and one is generated on save.</FieldDescription>
   </Field>
@@ -177,7 +177,7 @@
             <FieldLabel for="form-sku">SKU</FieldLabel>
             <InputGroup>
               <InputGroupInput id="form-sku" placeholder="Generated on save" />
-              <InputGroupAddon align="inline-end"><BarcodeIcon /></InputGroupAddon>
+              <InputGroupAddon align="inline-end"><IconBarcode /></InputGroupAddon>
             </InputGroup>
             <FieldDescription>Leave empty and one is generated on save.</FieldDescription>
           </Field>

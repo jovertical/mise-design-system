@@ -1,6 +1,6 @@
 <!--
   Origin: the React package 2.23.0 `task-checklist.tsx` (`TaskChecklistRow`)
-  Diverged: bits-ui Collapsible for Radix's; Lucide's chevron-down. Not exported.
+  Diverged: bits-ui Collapsible for Radix's. Not exported.
 -->
 <script lang="ts" module>
   import type { ChecklistTask } from './checklist-types.js'
@@ -13,7 +13,7 @@
 </script>
 
 <script lang="ts">
-  import ChevronDownIcon from '@lucide/svelte/icons/chevron-down'
+  import IconChevronDown from '@tabler/icons-svelte-runes/icons/chevron-down'
   import { Collapsible as CollapsiblePrimitive } from 'bits-ui'
 
   import { cn } from '../../../utils/cn.js'
@@ -75,7 +75,7 @@
         class={cn('shrink-0', focusRing)}
         aria-label={open ? 'Collapse' : 'Expand'}
       >
-        <ChevronDownIcon
+        <IconChevronDown
           aria-hidden="true"
           class={cn(
             'text-muted-foreground size-4 shrink-0 transition-transform',

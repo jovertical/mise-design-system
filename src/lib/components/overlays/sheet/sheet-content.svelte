@@ -1,9 +1,10 @@
 <!--
   Origin: the React package 2.23.0 `sheet.tsx` (`SheetContent`), itself shadcn/ui new-york `sheet`
   Svelte: shadcn-svelte `sheet`
-  Diverged: unaudited, as in the React package. The portal and overlay are drawn inline, as React draws them;
-    neither is exported, as in React. Adds `data-side`, so a caller can
-    style by side without repeating the prop.
+  Diverged: unaudited, as in the React package. The portal and overlay are drawn
+    inline, as React draws them; neither is exported, as in React. Adds
+    `data-side`, so a caller can style by side without repeating the prop.
+    Tabler's x for Lucide's.
 -->
 <script lang="ts" module>
   import { Dialog as SheetPrimitive } from 'bits-ui'
@@ -30,7 +31,7 @@
 </script>
 
 <script lang="ts">
-  import XIcon from '@lucide/svelte/icons/x'
+  import IconX from '@tabler/icons-svelte-runes/icons/x'
 
   import { cn } from '../../../utils/cn.js'
 
@@ -64,7 +65,7 @@
     <SheetPrimitive.Close
       class="ring-offset-background focus:ring-ring data-[state=open]:bg-muted absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-2 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none"
     >
-      <XIcon class="size-4" />
+      <IconX class="size-4" />
       <span class="sr-only">Close</span>
     </SheetPrimitive.Close>
   </SheetPrimitive.Content>

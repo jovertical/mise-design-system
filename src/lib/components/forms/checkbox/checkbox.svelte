@@ -4,6 +4,7 @@
   Diverged: unaudited, as in the React package. bits-ui Checkbox for Radix
     Checkbox. The indeterminate state draws a minus, as shadcn-svelte's does,
     and takes the checked fill; Radix's Indicator drew the same check for both.
+    Tabler's check and minus for Lucide's.
 -->
 <script lang="ts" module>
   import { Checkbox as CheckboxPrimitive } from 'bits-ui'
@@ -14,8 +15,8 @@
 </script>
 
 <script lang="ts">
-  import CheckIcon from '@lucide/svelte/icons/check'
-  import MinusIcon from '@lucide/svelte/icons/minus'
+  import IconCheck from '@tabler/icons-svelte-runes/icons/check'
+  import IconMinus from '@tabler/icons-svelte-runes/icons/minus'
 
   import { cn } from '../../../utils/cn.js'
 
@@ -46,9 +47,9 @@
       class="grid place-content-center text-current transition-none"
     >
       {#if indeterminate}
-        <MinusIcon class="size-3.5" />
+        <IconMinus class="size-3.5" />
       {:else if checked}
-        <CheckIcon class="size-3.5" />
+        <IconCheck class="size-3.5" />
       {/if}
     </div>
   {/snippet}

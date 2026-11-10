@@ -1,5 +1,5 @@
 <script lang="ts">
-  import PackageIcon from '@lucide/svelte/icons/package'
+  import IconPackage from '@tabler/icons-svelte-runes/icons/package'
 
   import { StatTile, type StatTileProps } from '../../src/lib/index.js'
 
@@ -11,7 +11,7 @@
 </script>
 
 {#snippet icon()}
-  <PackageIcon />
+  <IconPackage />
 {/snippet}
 {#snippet delta()}
   <span data-testid="delta">+15.7%</span>

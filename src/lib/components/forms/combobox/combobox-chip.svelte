@@ -1,8 +1,7 @@
 <!--
   Origin: the React package 2.23.0 `combobox.tsx` (`ComboboxChip`)
   Diverged: a plain element with its own remove button, since bits-ui has no
-    Chip or ChipRemove; the caller removes the value in `onRemove`. Lucide's x
-    for Tabler's.
+    Chip or ChipRemove; the caller removes the value in `onRemove`.
 -->
 <script lang="ts" module>
   import type { HTMLAttributes } from 'svelte/elements'
@@ -21,7 +20,7 @@
 </script>
 
 <script lang="ts">
-  import XIcon from '@lucide/svelte/icons/x'
+  import IconX from '@tabler/icons-svelte-runes/icons/x'
 
   import { cn } from '../../../utils/cn.js'
   import Button from '../../actions/button/button.svelte'
@@ -59,7 +58,7 @@
       {disabled}
       onclick={onRemove}
     >
-      <XIcon class="pointer-events-none" />
+      <IconX class="pointer-events-none" />
     </Button>
   {/if}
 </span>

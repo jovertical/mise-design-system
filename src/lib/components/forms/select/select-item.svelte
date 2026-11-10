@@ -1,10 +1,10 @@
 <!--
   Origin: the React package 2.23.0 `select.tsx` (`SelectItem`), itself shadcn/ui new-york `select`
   Svelte: shadcn-svelte `select`
-  Diverged: bits-ui reads the trigger text from `label`, so an item names
-    itself with `label`; children are optional and render in its place.
-    bits-ui marks the active row `data-highlighted` rather than focusing it, so
-    the `focus:` pair is mirrored on `data-[highlighted]`.
+  Diverged: bits-ui reads the trigger text from `label`, so an item names itself
+    with `label`; children are optional and render in its place. bits-ui marks
+    the active row `data-highlighted` rather than focusing it, so the `focus:`
+    pair is mirrored on `data-[highlighted]`. Tabler's check for Lucide's.
 -->
 <script lang="ts" module>
   import { Select as SelectPrimitive } from 'bits-ui'
@@ -22,7 +22,7 @@
 </script>
 
 <script lang="ts">
-  import CheckIcon from '@lucide/svelte/icons/check'
+  import IconCheck from '@tabler/icons-svelte-runes/icons/check'
 
   import { cn } from '../../../utils/cn.js'
 
@@ -53,7 +53,7 @@
       class="absolute right-2 flex size-3.5 items-center justify-center"
     >
       {#if selected}
-        <CheckIcon class="size-4" />
+        <IconCheck class="size-4" />
       {/if}
     </span>
     <span>

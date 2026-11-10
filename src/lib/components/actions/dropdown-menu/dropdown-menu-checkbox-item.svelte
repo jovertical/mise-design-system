@@ -2,8 +2,9 @@
   Origin: the React package 2.23.0 `dropdown-menu.tsx` (`DropdownMenuCheckboxItem`), itself shadcn/ui new-york `dropdown-menu`
   Svelte: shadcn-svelte `dropdown-menu`
   Diverged: bits-ui marks the active row `data-highlighted` rather than focusing
-    it, so each `focus:` utility is mirrored on `data-[highlighted]`.
-    The check is drawn from the item's `checked` snippet argument.
+    it, so each `focus:` utility is mirrored on `data-[highlighted]`. The check
+    is drawn from the item's `checked` snippet argument. Tabler's check for
+    Lucide's.
 -->
 <script lang="ts" module>
   import { DropdownMenu as DropdownMenuPrimitive } from 'bits-ui'
@@ -18,7 +19,7 @@
 </script>
 
 <script lang="ts">
-  import CheckIcon from '@lucide/svelte/icons/check'
+  import IconCheck from '@tabler/icons-svelte-runes/icons/check'
 
   import { cn } from '../../../utils/cn.js'
 
@@ -44,7 +45,7 @@
   {#snippet children({ checked })}
     <span class="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center">
       {#if checked}
-        <CheckIcon class="size-4" />
+        <IconCheck class="size-4" />
       {/if}
     </span>
     {@render content?.()}

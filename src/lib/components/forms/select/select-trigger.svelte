@@ -1,7 +1,8 @@
 <!--
   Origin: the React package 2.23.0 `select.tsx` (`SelectTrigger`), itself shadcn/ui new-york `select`
   Svelte: shadcn-svelte `select`
-  Diverged: none beyond the port. The chevron is drawn inline; bits-ui has no Icon part.
+  Diverged: Tabler's chevron-down for Lucide's. The chevron is drawn inline;
+    bits-ui has no Icon part.
 -->
 <script lang="ts" module>
   import { Select as SelectPrimitive } from 'bits-ui'
@@ -20,7 +21,7 @@
 </script>
 
 <script lang="ts">
-  import ChevronDownIcon from '@lucide/svelte/icons/chevron-down'
+  import IconChevronDown from '@tabler/icons-svelte-runes/icons/chevron-down'
 
   import { cn } from '../../../utils/cn.js'
 
@@ -44,5 +45,5 @@
   {...rest}
 >
   {@render children?.()}
-  <ChevronDownIcon class="size-4 opacity-70" />
+  <IconChevronDown class="size-4 opacity-70" />
 </SelectPrimitive.Trigger>

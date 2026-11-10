@@ -1,10 +1,9 @@
 <!--
   Origin: the React package 2.23.0 `combobox.tsx` (`ComboboxItem`)
-  Diverged: the highlighted row is `bg-muted`, as SelectItem's, where React
-    used `bg-accent`, which the React package redefined as the brand tint.
-    bits-ui reads the field's text from `label`, so an item names itself with
-    `label`; children are optional and render in its place. Lucide's check
-    for Tabler's.
+  Diverged: the highlighted row is `bg-muted`, as SelectItem's, where React used
+    `bg-accent`, which the React package redefined as the brand tint. bits-ui
+    reads the field's text from `label`, so an item names itself with `label`;
+    children are optional and render in its place.
 -->
 <script lang="ts" module>
   import { Combobox as ComboboxPrimitive } from 'bits-ui'
@@ -18,7 +17,7 @@
 </script>
 
 <script lang="ts">
-  import CheckIcon from '@lucide/svelte/icons/check'
+  import IconCheck from '@tabler/icons-svelte-runes/icons/check'
 
   import { cn } from '../../../utils/cn.js'
 
@@ -54,7 +53,7 @@
         data-slot="combobox-item-indicator"
         class="pointer-events-none absolute right-2 flex size-4 items-center justify-center"
       >
-        <CheckIcon class="pointer-events-none size-4 pointer-coarse:size-5" />
+        <IconCheck class="pointer-events-none size-4 pointer-coarse:size-5" />
       </span>
     {/if}
   {/snippet}

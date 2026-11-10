@@ -1,8 +1,8 @@
 <script module lang="ts">
-  import ArrowLeftIcon from '@lucide/svelte/icons/arrow-left'
-  import EllipsisIcon from '@lucide/svelte/icons/ellipsis'
-  import PlusIcon from '@lucide/svelte/icons/plus'
   import { defineMeta } from '@storybook/addon-svelte-csf'
+  import IconArrowLeft from '@tabler/icons-svelte-runes/icons/arrow-left'
+  import IconDots from '@tabler/icons-svelte-runes/icons/dots'
+  import IconPlus from '@tabler/icons-svelte-runes/icons/plus'
   import Button from '../../actions/button/button.svelte'
   import Badge from '../../data-display/badge/badge.svelte'
   import Breadcrumb from '../../navigation/breadcrumb/breadcrumb.svelte'
@@ -21,7 +21,7 @@
 </script>
 
 {#snippet newLocation()}
-  <Button><PlusIcon class="size-4" />New location</Button>
+  <Button><IconPlus class="size-4" />New location</Button>
 {/snippet}
 {#snippet locationsTrail()}
   <Breadcrumb>
@@ -89,9 +89,7 @@
 {/snippet}
 {#snippet closeOrMore()}
   <Button variant="outline">Close temporarily</Button>
-  <Button variant="ghost" iconOnly aria-label="More actions"
-    ><EllipsisIcon class="size-4" /></Button
-  >
+  <Button variant="ghost" iconOnly aria-label="More actions"><IconDots class="size-4" /></Button>
 {/snippet}
 {#snippet inProgress()}
   <Badge variant="outline" tone="warning">In progress</Badge>
@@ -105,7 +103,7 @@
     href="#locations"
     class="text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 text-sm"
   >
-    <ArrowLeftIcon class="size-4" />
+    <IconArrowLeft class="size-4" />
     Back to locations
   </a>
 {/snippet}

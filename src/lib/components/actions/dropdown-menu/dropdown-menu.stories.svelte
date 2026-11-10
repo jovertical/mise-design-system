@@ -1,6 +1,6 @@
 <script module lang="ts">
-  import EllipsisIcon from '@lucide/svelte/icons/ellipsis'
   import { defineMeta } from '@storybook/addon-svelte-csf'
+  import IconDots from '@tabler/icons-svelte-runes/icons/dots'
 
   import Button from '../button/button.svelte'
   import DropdownMenu from './dropdown-menu.svelte'
@@ -63,7 +63,7 @@
   <DropdownMenu>
     <DropdownMenuTrigger>
       {#snippet child({ props })}
-        <Button variant="ghost" iconOnly aria-label="More" {...props}><EllipsisIcon /></Button>
+        <Button variant="ghost" iconOnly aria-label="More" {...props}><IconDots /></Button>
       {/snippet}
     </DropdownMenuTrigger>
     <DropdownMenuContent align="end" class="w-56">

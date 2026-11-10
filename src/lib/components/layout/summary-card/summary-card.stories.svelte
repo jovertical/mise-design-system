@@ -1,10 +1,10 @@
 <script module lang="ts">
-  import ClipboardListIcon from '@lucide/svelte/icons/clipboard-list'
-  import PencilIcon from '@lucide/svelte/icons/pencil'
-  import StoreIcon from '@lucide/svelte/icons/store'
-  import TabletIcon from '@lucide/svelte/icons/tablet'
-  import TagIcon from '@lucide/svelte/icons/tag'
   import { defineMeta } from '@storybook/addon-svelte-csf'
+  import IconBuildingStore from '@tabler/icons-svelte-runes/icons/building-store'
+  import IconClipboardList from '@tabler/icons-svelte-runes/icons/clipboard-list'
+  import IconDeviceTablet from '@tabler/icons-svelte-runes/icons/device-tablet'
+  import IconPencil from '@tabler/icons-svelte-runes/icons/pencil'
+  import IconTag from '@tabler/icons-svelte-runes/icons/tag'
 
   import Button from '../../actions/button/button.svelte'
   import Badge from '../../data-display/badge/badge.svelte'
@@ -21,19 +21,19 @@
 </script>
 
 {#snippet clipboard()}
-  <ClipboardListIcon />
+  <IconClipboardList />
 {/snippet}
 {#snippet store()}
-  <StoreIcon />
+  <IconBuildingStore />
 {/snippet}
 {#snippet tag()}
-  <TagIcon />
+  <IconTag />
 {/snippet}
 {#snippet tablet()}
-  <TabletIcon />
+  <IconDeviceTablet />
 {/snippet}
 {#snippet edit()}
-  <Button variant="ghost" size="sm"><PencilIcon class="size-4" />Edit</Button>
+  <Button variant="ghost" size="sm"><IconPencil class="size-4" />Edit</Button>
 {/snippet}
 {#snippet inStock()}
   <Badge>In stock</Badge>

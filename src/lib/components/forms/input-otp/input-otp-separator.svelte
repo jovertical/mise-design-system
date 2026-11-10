@@ -1,8 +1,8 @@
 <!--
   Origin: the React package 2.23.0 `input-otp.tsx` (`InputOTPSeparator`), itself shadcn/ui new-york `input-otp`
   Svelte: shadcn-svelte `input-otp`
-  Diverged: Lucide's minus from `@lucide/svelte`. Takes `class`, and children in
-    place of the icon, as shadcn-svelte's does.
+  Diverged: Tabler's minus for Lucide's. Takes `class`, and children in place of
+    the icon, as shadcn-svelte's does.
 -->
 <script lang="ts" module>
   import type { HTMLAttributes } from 'svelte/elements'
@@ -13,7 +13,7 @@
 </script>
 
 <script lang="ts">
-  import MinusIcon from '@lucide/svelte/icons/minus'
+  import IconMinus from '@tabler/icons-svelte-runes/icons/minus'
 
   let { ref = $bindable(null), children, ...rest }: InputOTPSeparatorProps = $props()
 </script>
@@ -23,6 +23,6 @@
   {#if children}
     {@render children()}
   {:else}
-    <MinusIcon />
+    <IconMinus />
   {/if}
 </div>

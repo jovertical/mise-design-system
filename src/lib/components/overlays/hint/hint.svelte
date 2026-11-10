@@ -1,7 +1,6 @@
 <!--
   Origin: the React package 2.23.0 `hint.tsx`
-  Diverged: Lucide's circle-question-mark for Tabler's help. Spreads the rest
-    onto the button, as every component does.
+  Diverged: spreads the rest onto the button, as every component does.
 -->
 <script lang="ts" module>
   import type { Snippet } from 'svelte'
@@ -37,7 +36,7 @@
 </script>
 
 <script lang="ts">
-  import CircleQuestionMarkIcon from '@lucide/svelte/icons/circle-question-mark'
+  import IconHelp from '@tabler/icons-svelte-runes/icons/help'
 
   import { cn } from '../../../utils/cn.js'
   import Tooltip from '../tooltip/tooltip.svelte'
@@ -60,7 +59,7 @@
         {...props}
         {...rest}
       >
-        <CircleQuestionMarkIcon class="size-3.5" />
+        <IconHelp class="size-3.5" />
       </button>
     {/snippet}
   </TooltipTrigger>

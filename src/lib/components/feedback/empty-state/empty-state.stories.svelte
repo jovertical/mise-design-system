@@ -1,7 +1,7 @@
 <script module lang="ts">
-  import StoreIcon from '@lucide/svelte/icons/store'
-  import TabletIcon from '@lucide/svelte/icons/tablet'
   import { defineMeta } from '@storybook/addon-svelte-csf'
+  import IconBuildingStore from '@tabler/icons-svelte-runes/icons/building-store'
+  import IconDeviceTablet from '@tabler/icons-svelte-runes/icons/device-tablet'
 
   import Button from '../../actions/button/button.svelte'
   import EmptyState from './empty-state.svelte'
@@ -14,10 +14,10 @@
 </script>
 
 {#snippet tablet()}
-  <TabletIcon />
+  <IconDeviceTablet />
 {/snippet}
 {#snippet store()}
-  <StoreIcon />
+  <IconBuildingStore />
 {/snippet}
 {#snippet locationActions()}
   <Button variant="outline">Import locations</Button>

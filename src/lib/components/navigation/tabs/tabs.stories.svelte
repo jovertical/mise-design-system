@@ -1,10 +1,10 @@
 <script module lang="ts">
-  import BuildingIcon from '@lucide/svelte/icons/building'
-  import CalendarClockIcon from '@lucide/svelte/icons/calendar-clock'
-  import ListIcon from '@lucide/svelte/icons/list'
-  import MonitorIcon from '@lucide/svelte/icons/monitor'
-  import KanbanIcon from '@lucide/svelte/icons/square-kanban'
   import { defineMeta } from '@storybook/addon-svelte-csf'
+  import IconBuilding from '@tabler/icons-svelte-runes/icons/building'
+  import IconCalendarClock from '@tabler/icons-svelte-runes/icons/calendar-clock'
+  import IconDeviceDesktop from '@tabler/icons-svelte-runes/icons/device-desktop'
+  import IconLayoutKanban from '@tabler/icons-svelte-runes/icons/layout-kanban'
+  import IconList from '@tabler/icons-svelte-runes/icons/list'
 
   import Card from '../../layout/card/card.svelte'
   import CardContent from '../../layout/card/card-content.svelte'
@@ -27,8 +27,8 @@
   {#snippet template(args)}
     <Tabs value="table" {...args}>
       <TabsList>
-        <TabsTrigger value="table"><ListIcon />Table</TabsTrigger>
-        <TabsTrigger value="kanban"><KanbanIcon />Kanban</TabsTrigger>
+        <TabsTrigger value="table"><IconList />Table</TabsTrigger>
+        <TabsTrigger value="kanban"><IconLayoutKanban />Kanban</TabsTrigger>
       </TabsList>
     </Tabs>
   {/snippet}
@@ -51,8 +51,8 @@
 <Story name="With content" asChild>
   <Tabs value="schedule" class="max-w-2xl">
     <TabsList>
-      <TabsTrigger value="schedule"><CalendarClockIcon />Register schedule</TabsTrigger>
-      <TabsTrigger value="activity"><ListIcon />Recent activity</TabsTrigger>
+      <TabsTrigger value="schedule"><IconCalendarClock />Register schedule</TabsTrigger>
+      <TabsTrigger value="activity"><IconList />Recent activity</TabsTrigger>
     </TabsList>
     <TabsContent value="schedule" class="text-muted-foreground py-4 text-sm">
       Two registers open for the afternoon shift.
@@ -72,8 +72,8 @@
   <div class="bg-muted min-h-64 p-8">
     <Tabs value="locations">
       <TabsList>
-        <TabsTrigger value="locations"><BuildingIcon />Locations</TabsTrigger>
-        <TabsTrigger value="registers"><MonitorIcon />Registers</TabsTrigger>
+        <TabsTrigger value="locations"><IconBuilding />Locations</TabsTrigger>
+        <TabsTrigger value="registers"><IconDeviceDesktop />Registers</TabsTrigger>
       </TabsList>
     </Tabs>
   </div>
@@ -127,8 +127,8 @@
   <div class="max-w-sm">
     <Tabs value="locations">
       <TabsList class="w-full">
-        <TabsTrigger value="locations"><BuildingIcon />Locations</TabsTrigger>
-        <TabsTrigger value="registers"><MonitorIcon />Registers</TabsTrigger>
+        <TabsTrigger value="locations"><IconBuilding />Locations</TabsTrigger>
+        <TabsTrigger value="registers"><IconDeviceDesktop />Registers</TabsTrigger>
       </TabsList>
     </Tabs>
   </div>

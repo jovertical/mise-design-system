@@ -4,8 +4,7 @@
     get past the React Compiler's memo, and Svelte tracks the table's state
     directly. `bind:viewMode` for `viewMode` and `onViewModeChange`. `leading`
     and `actions` are snippets. The search field drops `font-mono`, which the
-    package does not use. Lucide's search and funnel-x for Tabler's search and
-    filter-x. The table is TanStack Table 9's (R4b-1).
+    package does not use. The table is TanStack Table 9's (R4b-1).
 -->
 <script lang="ts" module>
   import type { RowData } from '@tanstack/svelte-table'
@@ -63,8 +62,8 @@
 </script>
 
 <script lang="ts" generics="TData extends RowData">
-  import FunnelXIcon from '@lucide/svelte/icons/funnel-x'
-  import SearchIcon from '@lucide/svelte/icons/search'
+  import IconFilterX from '@tabler/icons-svelte-runes/icons/filter-x'
+  import IconSearch from '@tabler/icons-svelte-runes/icons/search'
 
   import { cn } from '../../../utils/cn.js'
   import Button from '../../actions/button/button.svelte'
@@ -133,7 +132,7 @@
 <div data-slot="data-table-toolbar" class={cn('flex flex-wrap items-center gap-2', className)}>
   {#if search}
     <div class="relative w-full sm:w-56 lg:w-64">
-      <SearchIcon
+      <IconSearch
         class="text-muted-foreground pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2"
       />
       <Input
@@ -171,7 +170,7 @@
         onclick={clear}
         class="border-border bg-card size-8 rounded-full border"
       >
-        <FunnelXIcon class="size-4" />
+        <IconFilterX class="size-4" />
       </Button>
     {/if}
     {#if viewMode !== undefined}

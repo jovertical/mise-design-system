@@ -5,7 +5,7 @@
     `value` is bindable, with `onValueChange` for React's `onChange`. React's
     `disabledDates` matcher is `isDateDisabled`, with `minValue` and `maxValue`
     (R7-3). The label is `DateFormatter` with `dateStyle: 'long'` in `locale`,
-    for date-fns' `PPP`. Lucide's calendar from `@lucide/svelte`.
+    for date-fns' `PPP`. Tabler's calendar for Lucide's.
 -->
 <script lang="ts" module>
   import type { DateValue } from '@internationalized/date'
@@ -59,7 +59,7 @@
 
 <script lang="ts">
   import { DateFormatter, getLocalTimeZone } from '@internationalized/date'
-  import CalendarIcon from '@lucide/svelte/icons/calendar'
+  import IconCalendar from '@tabler/icons-svelte-runes/icons/calendar'
 
   import { cn } from '../../../utils/cn.js'
   import Button from '../../actions/button/button.svelte'
@@ -128,7 +128,7 @@
         data-slot="date-picker-trigger"
         class={cn('w-full justify-start font-normal', className)}
       >
-        <CalendarIcon />
+        <IconCalendar />
         {label ?? placeholder ?? DEFAULT_PLACEHOLDER[mode]}
       </Button>
     {/snippet}

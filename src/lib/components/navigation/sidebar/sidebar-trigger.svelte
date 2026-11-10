@@ -1,7 +1,7 @@
 <!--
   Origin: the React package 2.23.0 `sidebar.tsx` (`SidebarTrigger`), itself shadcn/ui new-york `sidebar`
   Svelte: shadcn-svelte `sidebar`
-  Diverged: none beyond the port.
+  Diverged: Tabler's layout-sidebar for Lucide's panel-left.
 -->
 <script lang="ts" module>
   import type { ButtonProps } from '../../actions/button/button.svelte'
@@ -10,7 +10,7 @@
 </script>
 
 <script lang="ts">
-  import PanelLeftIcon from '@lucide/svelte/icons/panel-left'
+  import IconLayoutSidebar from '@tabler/icons-svelte-runes/icons/layout-sidebar'
 
   import { cn } from '../../../utils/cn.js'
   import Button from '../../actions/button/button.svelte'
@@ -35,6 +35,6 @@
   }}
   {...rest}
 >
-  <PanelLeftIcon class="size-5" />
+  <IconLayoutSidebar class="size-5" />
   <span class="sr-only">Toggle Sidebar</span>
 </Button>

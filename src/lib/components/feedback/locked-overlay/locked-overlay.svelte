@@ -3,8 +3,7 @@
   Diverged: generic, per the round 5 triage (round 8 plan, R8-8): the React
     comments and stories spoke of pricing tiers; the lock here is anything the
     reader cannot open yet (access, setup, a plan). `action` and `children` are
-    snippets. Lucide's lock. Spreads the rest onto the root, as every component
-    does.
+    snippets. Spreads the rest onto the root, as every component does.
 -->
 <script lang="ts" module>
   import type { Snippet } from 'svelte'
@@ -39,7 +38,7 @@
 </script>
 
 <script lang="ts">
-  import LockIcon from '@lucide/svelte/icons/lock'
+  import IconLock from '@tabler/icons-svelte-runes/icons/lock'
 
   import { cn } from '../../../utils/cn.js'
   import Card from '../../layout/card/card.svelte'
@@ -66,7 +65,7 @@
         <span
           class="bg-foreground/[0.07] text-muted-foreground flex size-10 items-center justify-center rounded-full"
         >
-          <LockIcon class="size-5" />
+          <IconLock class="size-5" />
         </span>
         <CardTitle>{title}</CardTitle>
         <CardDescription>{message}</CardDescription>

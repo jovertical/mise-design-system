@@ -1,7 +1,7 @@
 <script module lang="ts">
-  // WithForm uses Field without a form library.
-  import DownloadIcon from '@lucide/svelte/icons/download'
   import { defineMeta } from '@storybook/addon-svelte-csf'
+  // WithForm uses Field without a form library.
+  import IconDownload from '@tabler/icons-svelte-runes/icons/download'
 
   import Button from '../../actions/button/button.svelte'
   import Progress from '../../feedback/progress/progress.svelte'
@@ -195,7 +195,7 @@
       <DialogFooter>
         <Button variant="outline" onclick={closeExport}>Close</Button>
         {#if exportJob.status === 'done'}
-          <Button onclick={closeExport}><DownloadIcon />Download</Button>
+          <Button onclick={closeExport}><IconDownload />Download</Button>
         {:else}
           <Button onclick={generate} disabled={exportJob.status === 'generating'}>
             {#if exportJob.status === 'generating'}
