@@ -50,7 +50,11 @@
      * line, but a description is worth reading past the card edge.
      */
     multiline?: boolean
-    /** Classes for the value, such as a sign colour on a total. */
+    /**
+     * Classes for the value's layout: alignment, width, wrapping. A value's
+     * colour comes from what it holds (a `Badge`, `Text` with a `tone`), not
+     * from a class.
+     */
     valueClass?: string
   }
 </script>

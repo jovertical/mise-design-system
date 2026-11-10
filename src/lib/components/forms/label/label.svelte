@@ -6,6 +6,7 @@
 <script lang="ts" module>
   import { Label as LabelPrimitive } from 'bits-ui'
 
+  /** The text naming a control: `for` points at the control's `id`. Inside a `Field`, use `FieldLabel`. */
   export type LabelProps = LabelPrimitive.RootProps
 </script>
 

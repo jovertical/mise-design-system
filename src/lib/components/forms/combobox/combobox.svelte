@@ -31,8 +31,12 @@
    * suggestion its label as its value.
    */
   export type ComboboxProps =
-    | (Omit<Single, 'type'> & { type?: 'single'; allowCustomValue?: boolean })
-    | (Multiple & { allowCustomValue?: never })
+    | (Omit<Single, 'type'> & {
+        type?: 'single'
+        /** The typed text is the value; the items are suggestions. */
+        allowCustomValue?: boolean
+      })
+    | (Omit<Multiple, 'type'> & { type: 'multiple' })
 </script>
 
 <script lang="ts">
@@ -44,7 +48,7 @@
     type = 'single',
     allowCustomValue = false,
     ...rest
-  }: ComboboxProps = $props()
+  }: ComboboxProps & { allowCustomValue?: boolean } = $props()
 
   const report = $derived(rest.onValueChange as ((next: string) => void) | undefined)
 

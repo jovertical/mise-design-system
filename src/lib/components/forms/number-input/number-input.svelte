@@ -48,7 +48,11 @@
      * 1998.9999999999998.
      */
     format?: NumberInputFieldProps['format']
-    /** The floor, in `value`'s units. A negative one lets a minus sign be typed. */
+    /**
+     * The floor, in `value`'s units: 0 when absent, so a signed amount (a
+     * coordinate, an adjustment) sets its own. A negative one lets a minus sign
+     * be typed.
+     */
     min?: number
     /** No ceiling when absent. */
     max?: number

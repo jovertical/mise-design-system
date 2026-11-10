@@ -325,7 +325,7 @@ The `dl` a column of facts sits in. An item's `dt`/`dd` pair is only valid insid
 | --- | --- | --- | --- |
 | `compact` | `boolean` | `false` | `gap-1` instead of `gap-2`, for an aside where the list is a footnote to a preview above it rather than the card's content. |
 
-Also takes: every `<dlist>` attribute.
+Also takes: every `<dl>` attribute.
 
 ### `FactListItem`
 
@@ -339,7 +339,7 @@ One labelled fact.
 | `icon` | `Snippet` |  | Vertical only. An `IconChip` ahead of the fact, for one that identifies (a location, a person, a category) rather than one field among several. |
 | `iconShape` | `'square' \| 'circle'` | `'square'` | Vertical only. `square` by default, for a column of facts under a heading; `circle` for a strip of identity facts read across, where round chips keep several of them from reading as a form. |
 | `multiline` | `boolean` | `false` | Vertical only. Lets the value wrap instead of truncating: a name is one line, but a description is worth reading past the card edge. |
-| `valueClass` | `string` |  | Classes for the value, such as a sign colour on a total. |
+| `valueClass` | `string` |  | Classes for the value's layout: alignment, width, wrapping. A value's colour comes from what it holds (a `Badge`, `Text` with a `tone`), not from a class. |
 
 Also takes: every `<div>` attribute.
 
@@ -642,7 +642,7 @@ Also takes: every `<table>` attribute.
 
 The rows. The last row drops its rule; the table edge is enough.
 
-Also takes: every `<thead>` attribute.
+Also takes: every `<thead>`, `<tbody>` or `<tfoot>` attribute.
 
 ### `TableCaption`
 
@@ -662,7 +662,7 @@ Also takes: every `<td>` attribute.
 
 Totals, on a muted band under the body.
 
-Also takes: every `<thead>` attribute.
+Also takes: every `<thead>`, `<tbody>` or `<tfoot>` attribute.
 
 ### `TableHead`
 
@@ -677,7 +677,7 @@ Also takes: every `<th>` attribute.
 
 The column labels, muted, ruled off from the body.
 
-Also takes: every `<thead>` attribute.
+Also takes: every `<thead>`, `<tbody>` or `<tfoot>` attribute.
 
 ### `TableRow`
 

@@ -62,6 +62,8 @@ Types: `CalendarCaptionLayout` (`'label' | 'dropdown' | 'dropdown-months' | 'dro
 
 `import { Checkbox } from '@jovertical/mise-design-system'`
 
+A tick: `bind:checked`, and `indeterminate` for a parent whose children are partly ticked. Pair it with a `Label` or put it in a `Field`; for several choices bound to one array, `CheckboxGroup`.
+
 Also takes: bits-ui `Checkbox.Root` props except `children`, `child`.
 
 ## CheckboxGroup
@@ -126,10 +128,10 @@ A searchable select: typing into the field narrows the list. Reach for it where 
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `type` | `'single'` | `'single'` |  |
-| `allowCustomValue` | `boolean \| never` | `false` |  |
+| `type` | `'single' \| 'multiple'` | `'single'` |  |
+| `allowCustomValue` | `boolean` | `false` | The typed text is the value; the items are suggestions. |
 
-Also takes: bits-ui `Combobox.Root` props except `type`; bits-ui `Combobox.Root` props.
+Also takes: bits-ui `Combobox.Root` props except `type`.
 
 ### `ComboboxChip`
 
@@ -377,7 +379,7 @@ Also takes: bits-ui `Form.Label` props except `child`.
 
 ### `FormLegend`
 
-text-destructive:The caption of a `FormFieldset`, red while the group is invalid.
+The caption of a `FormFieldset`, red while the group is invalid.
 
 Also takes: bits-ui `Form.Legend` props except `child`.
 
@@ -391,7 +393,7 @@ Types: `FormFieldState`.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `type` (required) | `'file' \| InputType` |  |  |
+| `type` | `'file' \| InputType` |  |  |
 | `files` | `FileList \| undefined` |  |  |
 | `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | `sm` for a dense row or a table cell, `lg` beside large buttons. `md` by default. |
 
@@ -475,6 +477,8 @@ Also takes: bits-ui `InputOTP.Cell` props.
 
 `import { Label } from '@jovertical/mise-design-system'`
 
+The text naming a control: `for` points at the control's `id`. Inside a `Field`, use `FieldLabel`.
+
 Also takes: bits-ui `Label.Root` props.
 
 ## MediaDropzone
@@ -535,7 +539,7 @@ A number typed into a text field, never `type="number"`: the native one has 8px 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `format` | `'integer' \| 'decimal' \| 'currency'` | `'decimal'` | `integer` takes whole numbers; `decimal` takes up to `precision` places; `currency` speaks minor units: `value` is an integer count of cents, shown with two places, and only two can be typed, because a third has no cent to land in. Everything crossing the boundary is then an integer, the units an API uses, and no price arrives as 19.99 and leaves as 1998.9999999999998. |
-| `min` | `number` | `0` | The floor, in `value`'s units. A negative one lets a minus sign be typed. |
+| `min` | `number` | `0` | The floor, in `value`'s units: 0 when absent, so a signed amount (a coordinate, an adjustment) sets its own. A negative one lets a minus sign be typed. |
 | `max` | `number` |  | No ceiling when absent. |
 | `step` | `number` | `1` | How far ↑, ↓ and the buttons move it, in `value`'s units. |
 | `precision` | `number` |  | The most decimal places `decimal` takes. No limit when absent. |
@@ -599,6 +603,8 @@ Types: `QuantityInputLayout` (`'unit-first' | 'quantity-first'`), `QuantityUnit`
 
 `import { RadioGroup, RadioGroupItem } from '@jovertical/mise-design-system'`
 
+One choice from a few, all visible: `bind:value` and a `RadioGroupItem` per option, each with its `Label`. When each choice needs a description or media, `ChoiceRow`; from many, `Select`.
+
 Also takes: bits-ui `RadioGroup.Root` props.
 
 ### `RadioGroupItem`
@@ -613,9 +619,9 @@ Pass `items` (`{ value, label }[]`) so the trigger can show the selected label w
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `type` | `'single'` | `'single'` |  |
+| `type` | `'single' \| 'multiple'` | `'single'` |  |
 
-Also takes: bits-ui `Select.Root` props except `type`; bits-ui `Select.Root` props.
+Also takes: bits-ui `Select.Root` props except `type`.
 
 ### `SelectContent`
 

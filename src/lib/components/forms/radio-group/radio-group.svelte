@@ -7,6 +7,11 @@
 <script lang="ts" module>
   import { RadioGroup as RadioGroupPrimitive } from 'bits-ui'
 
+  /**
+   * One choice from a few, all visible: `bind:value` and a `RadioGroupItem` per
+   * option, each with its `Label`. When each choice needs a description or
+   * media, `ChoiceRow`; from many, `Select`.
+   */
   export type RadioGroupProps = RadioGroupPrimitive.RootProps
 </script>
 

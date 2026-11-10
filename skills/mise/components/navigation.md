@@ -214,7 +214,7 @@ Where a reader is in a multi-step flow, and what is behind them.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `steps` (required) | `StepDefinition[]` |  |  |
+| `steps` (required) | `StepDefinition[]` |  | Each step's `id` and `name`, a `description` (required; `''` for none), and optionally `optional`, an `icon` component and a `badge` snippet. |
 | `currentStepId` (required) | `string` |  |  |
 | `completedSteps` | `readonly string[]` |  | Explicit completion. Any step id here is complete regardless of its position; when omitted, every step before `currentStepId` is. |
 | `variant` | `'vertical' \| 'horizontal' \| 'condensed' \| 'compact'` | `'vertical'` |  |
