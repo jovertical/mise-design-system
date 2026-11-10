@@ -26,7 +26,7 @@ and the next round starts only on an explicit go.
 
 Svelte 5 · SvelteKit 3 as build tooling only (config in `vite.config.ts`) ·
 `@sveltejs/package` 3 · TypeScript ~6.0 · Tailwind CSS 4 · bits-ui 2 ·
-class-variance-authority · `@lucide/svelte` · Vitest 5 + Testing Library
+class-variance-authority · `@tabler/icons-svelte-runes` · Vitest 5 + Testing Library
 (jsdom) · Storybook 10 (`@storybook/sveltekit`, `addon-svelte-csf`) ·
 Biome 2.6 (including `.svelte`) · pnpm 12.
 

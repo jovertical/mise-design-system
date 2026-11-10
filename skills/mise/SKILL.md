@@ -48,6 +48,9 @@ takes.
   colours, radius or type through `class`; change the theme ([theming.md](theming.md)).
 - **A neutral fill on the page** is `bg-foreground/[0.07]`, the same wash mise's neutral badges
   use. `bg-muted` is the page canvas, so a `bg-muted` chip disappears on it.
+- **Icons are Tabler.** mise draws `@tabler/icons-svelte-runes`, as the apps it came from do. An
+  `icon` prop takes any Svelte component; to match, import Tabler one file per icon
+  (`import IconPackage from '@tabler/icons-svelte-runes/icons/package'`), never the package root.
 - **The app formats, mise displays.** Money, dates and statuses are formatted by the app.
   `NumberInput` with `format="currency"` takes and reports integer cents.
 - **Every component** takes `class` and spreads other attributes onto its root, and every part

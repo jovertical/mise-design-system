@@ -38,7 +38,7 @@ describe('names', () => {
 
   it('allows descriptive names, the allowances and imports', () => {
     const text = [
-      "import X from '@lucide/svelte/icons/x'",
+      "import IconX from '@tabler/icons-svelte-runes/icons/x'",
       'const point = (x: number, y: number) => ({ x, y })',
       'function pick<T>(items: T[], index: number, _unused: string) { return items[index] }',
       'const handler = (event: Event, args: unknown, id: string, ref: unknown) => event',

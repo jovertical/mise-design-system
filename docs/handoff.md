@@ -179,7 +179,7 @@ repository.
   Raise the iframe height with `sed -i '' 's/height:300px/height:500px/' sheet.html` for tall stories.
 - **Story ids** come from the title: `Data display/IconChip` → `data-display-iconchip--<story>`. They are listed in `storybook-static/index.json` after a build.
 - **An overlay held open by internal state** (DatePicker, NavigationProgress) is screenshotted by flipping its default in the file, rebuilding, and reverting. Storybook URL args did not reach some props (Drawer's `direction`).
-- **A stale dev server** fails with "Failed to fetch dynamically imported module" and a `504 Outdated Optimize Dep` on a Lucide icon. Not a code bug; restart it.
+- **A stale dev server** fails with "Failed to fetch dynamically imported module" and a `504 Outdated Optimize Dep` on an icon. Not a code bug; restart it.
 
 ## Lessons that are not in the code
 
@@ -221,7 +221,7 @@ repository.
 **Libraries**
 
 - **TanStack Table 9:** features are declared up front (`dataTableFeatures`), columns built with `dataTableColumns<Row>()`, state read with `table.store.get()`; v9 resets expansion on every row-model rebuild, so `DataTable` sets `autoResetExpanded: false`. A part that needs a live table in a story uses `stories/fixtures/device-table.svelte`.
-- **Lucide:** some names are aliases; use the canonical file (`trash`, not `trash-2`). Import a type from one icon, not from the `@lucide/svelte` root, which makes svelte-check load all ~4,300 icons. Lucide has no filled icons; a filled check is `circle-check` with `fill-current [&_path]:text-background`.
+- **Tabler** (`@tabler/icons-svelte-runes`, since 2026-11-10; Lucide before): import one file per icon (`import IconX from '@tabler/icons-svelte-runes/icons/x'`), never the root, which makes svelte-check load all ~6,000 icons; `import type { Icon }` from the root is fine. `tests/icons.test.ts` enforces both and keeps Lucide out. Filled icons are their own files (`circle-check-filled`, `point-filled`). A rendered icon carries `tabler-icon tabler-icon-<name>`, which tests assert on. The lucide-to-tabler table is in `docs/superpowers/plans/2026-11-10-tabler-icons-and-command-trigger.md`.
 - **vaul-svelte** is the `1.0.0-next` line, the Svelte 5 one; `latest` is Svelte 4.
 
 **The React package carried product-specific choices; mise fixed them, each on a `Diverged:` line**

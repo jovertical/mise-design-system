@@ -61,7 +61,7 @@ Storybook before the next one starts.
 | D5 | Names of multi-part components | Flat names from the root entry: `Dialog`, `DialogContent`, `DialogTitle`. Names follow React unless a `Diverged:` line says otherwise. `docs/naming.md` carries over. *Amended 2026-11-05 by `2026-11-05-structure-design.md`; it said "names that match React".* |
 | D6 | Framework coupling | Components are plain Svelte 5 and never import `$app/*`. SvelteKit is build tooling only, so plain Svelte + Vite apps can consume the package |
 | D7 | Stories | `*.stories.svelte` via `@storybook/addon-svelte-csf` |
-| D8 | Icons | `@lucide/svelte` only. The React package carries both lucide and tabler; one set is enough here |
+| D8 | Icons | `@tabler/icons-svelte-runes` only, one file per icon. *Amended 2026-11-10: it said `@lucide/svelte` only; the user ruled that mise follows the React package, which draws Tabler (it keeps Lucide only in the shadcn primitives it never touched). One set is still enough.* |
 | D9 | Svelte reference | shadcn-svelte, for bits-ui wiring and Svelte mechanics only. The React package is the reference for look and behaviour; mise owns its API. *Amended 2026-11-05 by `2026-11-05-structure-design.md`; it said "the React package stays the source of the API".* |
 | D10 | Publishing | *Decided 2026-11-09.* release-please on `main`: merging its release PR tags the version, writes `CHANGELOG.md`, creates the GitHub release and publishes to npm with provenance (`.github/workflows/release.yml`). The first release is 1.0.0, from a fresh single-commit history. Until then it said: deferred to v1 |
 | D11 | Default theme | `zinc` base, `indigo` brand (see Theming) |
