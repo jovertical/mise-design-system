@@ -148,9 +148,12 @@ describe('Board dragging', () => {
 
     expect(column).toHaveClass('min-h-0', 'max-h-full')
 
+    // Room on every side for a card's focus ring, and a gutter for the scrollbar.
     expect(column.querySelector('[data-slot="board-column-cards"]')).toHaveClass(
       'min-h-0',
       'overflow-y-auto',
+      'p-1.5',
+      '[scrollbar-gutter:stable]',
     )
   })
 
@@ -163,7 +166,8 @@ describe('Board dragging', () => {
 
     const [received, , cancelled] = container.querySelectorAll('[data-slot="board-column"]')
 
-    expect(cancelled).toHaveClass('data-[drop=accepts]:ring-2')
+    // Inset, so the board's sideways-scrolling row cannot clip it.
+    expect(cancelled).toHaveClass('data-[drop=accepts]:ring-2', 'data-[drop=accepts]:ring-inset')
     expect(received).toHaveClass('data-[drop=refuses]:opacity-50')
     expect(screen.getByRole('link', { name: /OR-2053/ })).toHaveClass('data-[held]:opacity-50')
   })

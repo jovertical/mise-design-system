@@ -111,7 +111,8 @@
   {@attach (node) => droppable?.attach(node)}
   class={cn(
     'flex max-h-full min-h-0 w-72 shrink-0 flex-col gap-2 rounded-xl bg-foreground/[0.04] p-2 transition-[opacity,box-shadow]',
-    'data-[drop=accepts]:ring-2 data-[drop=refuses]:cursor-not-allowed data-[drop=refuses]:opacity-50',
+    // Inset: the board's row scrolls sideways and would clip a ring drawn outside.
+    'data-[drop=accepts]:ring-2 data-[drop=accepts]:ring-inset data-[drop=refuses]:cursor-not-allowed data-[drop=refuses]:opacity-50',
     DROP_RING_CLASS[tone],
     className,
   )}
@@ -141,7 +142,7 @@
   {#if children}
     <div
       data-slot="board-column-cards"
-      class="-mx-1 flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto px-1 pb-1"
+      class="-m-1.5 flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto p-1.5 [scrollbar-gutter:stable]"
     >
       {@render children()}
     </div>
