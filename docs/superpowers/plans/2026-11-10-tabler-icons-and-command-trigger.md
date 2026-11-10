@@ -1,8 +1,8 @@
-# Tabler icons and CommandTrigger Implementation Plan
+# Tabler icons, CommandTrigger and SidebarNav Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: superpowers:executing-plans, inline in the main session (the user's choice for this repo). Activate the authors-components, vitest-testing, git-workflow, documents-updates and writes-clean-code skills. Steps use checkbox (`- [ ]`) syntax.
 
-**Goal:** mise draws Tabler icons, as the React package and the client portal do, and ships a filled `CommandTrigger` for the "Type to search… ⌘K" field that opens a command palette.
+**Goal:** mise draws Tabler icons, as the React package and the client portal do, ships a filled `CommandTrigger` for the "Type to search… ⌘K" field that opens a command palette, and draws the portals' sidebar itself (`panel` by default, `SidebarNav` from data).
 
 **Architecture:** Phase 1 swaps `@lucide/svelte` for `@tabler/icons-svelte-runes` everywhere (package, stories, test fixtures, the logistics example) through a one-off codemod driven by the lucide-to-tabler table below, then fixes by hand the few places that faked a filled icon. A test keeps Lucide out. Phase 2 adds `CommandTrigger` to the command family: a filled, input-shaped button with a search icon, a label and a `⌘K` hint, which toggles a bound `open` on click and on ⌘K / Ctrl K, so `<CommandTrigger bind:open />` and `<CommandDialog bind:open>` are the whole wiring.
 
@@ -35,7 +35,7 @@
 - Story copy: generic operations (orders, shipments, stock), `$` money.
 - Commit only when `pnpm test` and `pnpm build:storybook` both exit 0, checked by exit code. Run `pnpm fix:spacing` then `pnpm format` first. Example commits are `chore(example)`; the example's gate is `pnpm --filter mise-logistics-example test` and `smoke`.
 - Work on branch `feat/tabler-icons`; it reaches `main` by a pull request after both phase gates are approved.
-- Phase gates after Task 5 and Task 8: phase-gates report, screenshots in both schemes, wait for an explicit go before pushing.
+- Phase gates after Tasks 5, 8 and 13: phase-gates report, screenshots in both schemes, wait for an explicit go before continuing. The branch is pushed once, after Task 13.
 
 ## The lucide-to-tabler table
 
@@ -619,4 +619,337 @@ Expected: PASS.
 - [ ] **Step 2:** `skills/mise/SKILL.md`, in the picking list: "- A "Type to search… ⌘K" field that opens a palette: `CommandTrigger` with `bind:open`, beside a `CommandDialog` bound to the same value". Run `pnpm build:skill`.
 - [ ] **Step 3:** Handoff: add CommandTrigger to "Where it stands", and add an open item: bertos-bakery-ops moves its own icons to Tabler (it added `@lucide/svelte` itself) and bumps mise to 2.0.0.
 - [ ] **Step 4:** `pnpm build`, the example's `test` and `smoke`; the header screenshot shows the filled trigger. Commit the example as `chore(example): the header search is CommandTrigger`, the docs as `docs: CommandTrigger in the consumer skill and the handoff`.
-- [ ] **Step 5: Phase gate.** Report with screenshots; on a go, push the branch and open the pull request into `main`; watch CI.
+- [ ] **Step 5: Phase gate.** Report with screenshots; wait for a go before Phase 3.
+
+## Phase 3: The sidebar, as the portals draw it
+
+*Added 2026-11-10, after phase 1's gate.* The user compared the master portal's sidebar ("Control Center") with the demo's and ruled that what the portal's `nav-main.tsx` hand-writes belongs in mise: "why the hassle of app code when we offer the sidebar blocks ourselves". This closes open item 1 of the handoff (sidebar rows). The reference is `/Volumes/External/Code/veritypos/veritypos-master-portal/src/components/nav-main.tsx` and its screenshot in the session; where it and the React package's `panel` theme disagree, the portal wins (reference priority).
+
+### Decisions
+
+| # | Decision | Ruling |
+| --- | --- | --- |
+| S1 | Default theme | `Sidebar`'s `sidetheme` defaults to `panel` (was `primary`). Rides in 2.0.0 with the icons; the `Diverged:` line says so |
+| S2 | `panel` absorbs the portal's overrides | A page row (`SidebarMenuButton`) that is active is the solid pill, `bg-sidebar-primary text-sidebar-primary-foreground`, no ring; an open group that is not active keeps `bg-sidebar-accent`. Icons are `size-[1.125rem]`. `SidebarMenuAction` and `SidebarMenuBadge` sit `top-1.5 right-2` on every size, since a panel row is 32px whatever its `size`. `SidebarMenuSub` drops its right margin and padding and gets `pt-1`; `SidebarMenuSubButton` is `mx-2 h-8 rounded-xl px-2.5 py-2`, no `-translate-x-px`. `SidebarMenu` rows are `gap-0.5`. All scoped by `group-data-[sidetheme=panel]`, so `primary` and `light` are unchanged |
+| S3 | `SidebarNav` | A new part in the sidebar family, `Origin: mise`, modelled on the portal's `nav-main.tsx`: the menu drawn from data. Exported from the sidebar barrel with its types; its inner parts are not exported |
+| S4 | Data | `SidebarNavSection = { label?: string; items: SidebarNavItem[] }`; `SidebarNavItem = SidebarNavLink \| SidebarNavGroup`; `SidebarNavLink = { label; href; icon?: Component; badge?: string \| number; badgeTone?: Tone; disabled?: boolean }`; `SidebarNavGroup = { label; icon?: Component; href?: string; items: SidebarNavSubLink[] }`; `SidebarNavSubLink = Omit<SidebarNavLink, 'icon'>`. Sections are explicit, not inferred from a flat list as the portal does |
+| S5 | Which row is current | `current` (a path) is matched against every link's `href`: a row matches its own path and everything under it (`/orders` owns `/orders/OR-2041`); `/` matches only itself; the longest matching `href` wins, so one row lights up. A pure function, `activeHref(sections, current)`, in `sidebar-nav.ts` |
+| S6 | Groups | A group row toggles its sub-list, with a chevron (right closed, down open). With an `href`, the row is a link that also opens the group, and the chevron is a `SidebarMenuAction` that only toggles. A group is never the active pill; its active sub-row is. The group holding the current row always opens. Open groups persist in `localStorage` under `persistKey` when one is given (the portal's behaviour, opt-in here); storage that throws is ignored. The sub-list animates with `grid-template-rows` and is `inert` while closed, so its links leave the tab order (the portal's did not) |
+| S7 | Collapsed to icons | A group becomes a `DropdownMenu` opening to the right of its icon, listing its sub-links; a link keeps its tooltip |
+| S8 | Badges and roadmap rows | `badge` renders a mise `Badge` (`variant="soft"`, `tone` from `badgeTone`, default `neutral`; `count` when it is a number) at the row's end. `disabled` renders the row as an `aria-disabled` `<span>` at `opacity-60`, not a link: the portal's "Soon" rows |
+| S9 | Routing | `SidebarNav` renders `<a href>`. An app whose router needs its own link (Inertia's `Link`) passes `link`, a snippet `{ href, props, content }`; SvelteKit needs none. `href`s arrive resolved (base path included); `current` is the path to match them against |
+
+### Task 9: `panel` as the portals draw it
+
+**Files:**
+- Modify: `src/lib/components/navigation/sidebar/{sidebar.svelte,sidebar-variants.ts,sidebar-menu.svelte,sidebar-menu-action.svelte,sidebar-menu-badge.svelte,sidebar-menu-sub.svelte,sidebar-menu-sub-button.svelte}`, `sidebar.stories.svelte` (its `?? 'primary'` fallback and the Themes copy)
+- Test: `tests/sidebar.test.ts`
+
+- [ ] **Step 1: Failing tests**, added to `tests/sidebar.test.ts`:
+
+```ts
+it('defaults to the panel theme', () => {
+  const { container } = render(SidebarDefaultTheme)
+
+  expect(container.querySelector('[data-slot="sidebar"]')).toHaveAttribute('data-sidetheme', 'panel')
+})
+
+it('draws an active panel row as the solid pill, not a tint', () => {
+  const { container } = render(AppShell)
+  const active = container.querySelector('[data-slot="sidebar-menu-button"][data-active="true"]')
+
+  expect(active?.className).toContain('group-data-[sidetheme=panel]:data-[active=true]:bg-sidebar-primary')
+  expect(active?.className).not.toContain('group-data-[sidetheme=panel]:data-[active=true]:ring-1')
+})
+```
+
+`SidebarDefaultTheme` is a new fixture, `tests/fixtures/sidebar-default-theme.svelte`: `app-shell.svelte` with `sidetheme` left out.
+
+- [ ] **Step 2:** `pnpm exec vitest run tests/sidebar.test.ts`: both fail.
+- [ ] **Step 3:** `sidetheme = 'panel'` in `sidebar.svelte`, and the `Diverged:` line adds "`panel` is the default, as the portals draw it (React's was `primary`)". In `sidebar-variants.ts` the `panel` lines become:
+
+```ts
+    // sidetheme=panel, as the portals draw it: muted resting text, an accent
+    // hover, and the current page as a solid pill. An open group that is not
+    // the current page keeps the hover surface; the pill belongs to its child.
+    'group-data-[sidetheme=panel]:rounded-xl group-data-[sidetheme=panel]:h-8 group-data-[sidetheme=panel]:py-1.5 group-data-[sidetheme=panel]:px-2.5 group-data-[sidetheme=panel]:text-sm group-data-[sidetheme=panel]:text-sidebar-foreground/70 group-data-[sidetheme=panel]:hover:bg-sidebar-accent group-data-[sidetheme=panel]:hover:text-sidebar-foreground group-data-[sidetheme=panel]:focus-visible:ring-sidebar-ring group-data-[sidetheme=panel]:[&>svg]:size-[1.125rem]',
+    'group-data-[sidetheme=panel]:data-[active=true]:bg-sidebar-primary group-data-[sidetheme=panel]:data-[active=true]:text-sidebar-primary-foreground group-data-[sidetheme=panel]:data-[active=true]:shadow-none',
+    'group-data-[sidetheme=panel]:data-[state=open]:data-[active=false]:bg-sidebar-accent group-data-[sidetheme=panel]:data-[state=open]:data-[active=false]:text-sidebar-foreground',
+```
+
+and the header's `Diverged:` adds "the `panel` active row is the solid `sidebar-primary` pill the portals draw, not React's tint and ring". The other parts take the S2 classes, each under `group-data-[sidetheme=panel]:`: `sidebar-menu.svelte` `gap-0.5`; `sidebar-menu-action.svelte` and `sidebar-menu-badge.svelte` `top-1.5! right-2` and the active colour `text-sidebar-primary-foreground`; `sidebar-menu-sub.svelte` `mr-0 pr-0 pt-1`; `sidebar-menu-sub-button.svelte` `mx-2 h-8 translate-x-0 rounded-xl px-2.5 py-2`.
+- [ ] **Step 4:** Stories: `shell(args.sidetheme ?? 'panel', …)`; the Themes copy names `panel` first, as the default. Run the tests; gate; screenshot `navigation-sidebar--themes` in both schemes next to the portal screenshot.
+- [ ] **Step 5:** Commit `feat(sidebar)!: panel is the default, drawn as the portals draw it` with a `BREAKING CHANGE:` footer naming the default.
+
+### Task 10: Which row is current
+
+**Files:**
+- Create: `src/lib/components/navigation/sidebar/sidebar-nav.ts`
+- Test: `tests/sidebar-nav.test.ts`
+
+**Interfaces:**
+- Produces: the S4 types; `isNavGroup(item): item is SidebarNavGroup`; `matchesPath(current: string, href: string): boolean`; `activeHref(sections: SidebarNavSection[], current: string): string | undefined`; `groupsHolding(sections, href): string[]` (group labels).
+
+- [ ] **Step 1: Failing tests**
+
+```ts
+import { describe, expect, it } from 'vitest'
+
+import {
+  activeHref,
+  groupsHolding,
+  matchesPath,
+  type SidebarNavSection,
+} from '../src/lib/components/navigation/sidebar/sidebar-nav.js'
+
+const SECTIONS: SidebarNavSection[] = [
+  {
+    label: 'Operations',
+    items: [
+      { label: 'Overview', href: '/' },
+      { label: 'Orders', href: '/orders' },
+      {
+        label: 'Sales',
+        href: '/sales',
+        items: [
+          { label: 'Invoices', href: '/sales/invoices' },
+          { label: 'Refunds', href: '/sales/refunds' },
+        ],
+      },
+    ],
+  },
+]
+
+describe('matchesPath', () => {
+  it('matches a path and everything under it', () => {
+    expect(matchesPath('/orders', '/orders')).toBe(true)
+    expect(matchesPath('/orders/OR-2041', '/orders')).toBe(true)
+    expect(matchesPath('/ordersx', '/orders')).toBe(false)
+  })
+
+  it('matches the root only on itself', () => {
+    expect(matchesPath('/', '/')).toBe(true)
+    expect(matchesPath('/orders', '/')).toBe(false)
+  })
+})
+
+describe('activeHref', () => {
+  it('picks the most specific match, so one row lights up', () => {
+    expect(activeHref(SECTIONS, '/sales/invoices/INV-9')).toBe('/sales/invoices')
+  })
+
+  it('falls back to a group link when no sub-link matches', () => {
+    expect(activeHref(SECTIONS, '/sales')).toBe('/sales')
+  })
+
+  it('finds nothing for a path outside the menu', () => {
+    expect(activeHref(SECTIONS, '/elsewhere')).toBeUndefined()
+  })
+})
+
+describe('groupsHolding', () => {
+  it('names the group whose sub-link is current', () => {
+    expect(groupsHolding(SECTIONS, '/sales/refunds')).toEqual(['Sales'])
+    expect(groupsHolding(SECTIONS, '/orders')).toEqual([])
+  })
+})
+```
+
+- [ ] **Step 2:** Run: fails, the module does not exist.
+- [ ] **Step 3: The module**
+
+```ts
+/**
+ * Origin: mise
+ * Diverged: none. The data `SidebarNav` draws, and which row is current:
+ *   the master portal's `nav-main.tsx` resolved it, mise owns it (2026-11-10).
+ */
+import type { Component } from 'svelte'
+
+import type { Tone } from '../../../utils/tone.js'
+
+/** A destination. `disabled` is a page not built yet: drawn, not linked. */
+export type SidebarNavLink = {
+  label: string
+  href: string
+  icon?: Component
+  /** A count or a word at the row's end: `3`, `'Soon'`. */
+  badge?: string | number
+  /** Defaults to `neutral`. */
+  badgeTone?: Tone
+  disabled?: boolean
+}
+
+/** A row inside a group. Sub-rows carry no icon. */
+export type SidebarNavSubLink = Omit<SidebarNavLink, 'icon'>
+
+/**
+ * A row that opens a list. With an `href`, the row is also the section's main
+ * page; without one it only toggles.
+ */
+export type SidebarNavGroup = {
+  label: string
+  icon?: Component
+  href?: string
+  items: SidebarNavSubLink[]
+}
+
+export type SidebarNavItem = SidebarNavLink | SidebarNavGroup
+
+/** A labelled run of rows. The first section may go unlabelled. */
+export type SidebarNavSection = { label?: string; items: SidebarNavItem[] }
+
+export function isNavGroup(item: SidebarNavItem): item is SidebarNavGroup {
+  return 'items' in item
+}
+
+/** `/orders` owns `/orders/OR-2041`; `/` owns only itself. */
+export function matchesPath(current: string, href: string): boolean {
+  if (href === '/') {
+    return current === '/'
+  }
+
+  return current === href || current.startsWith(`${href}/`)
+}
+
+function hrefsOf(item: SidebarNavItem): string[] {
+  if (!isNavGroup(item)) {
+    return [item.href]
+  }
+
+  const children = item.items.map((child) => child.href)
+
+  return item.href ? [item.href, ...children] : children
+}
+
+/**
+ * The one row that owns `current`. On `/sales/invoices` both `/sales` and
+ * `/sales/invoices` match; the longer is the more specific, so it wins.
+ */
+export function activeHref(sections: SidebarNavSection[], current: string): string | undefined {
+  return sections
+    .flatMap((section) => section.items.flatMap(hrefsOf))
+    .filter((href) => matchesPath(current, href))
+    .sort((first, second) => second.length - first.length)
+    .at(0)
+}
+
+/** The groups that must be open for `href`'s row to show. */
+export function groupsHolding(sections: SidebarNavSection[], href: string | undefined): string[] {
+  return sections
+    .flatMap((section) => section.items)
+    .filter(isNavGroup)
+    .filter((group) => group.items.some((child) => child.href === href))
+    .map((group) => group.label)
+}
+```
+
+- [ ] **Step 4:** Run: passes. No commit yet; it lands with Task 11.
+
+### Task 11: `SidebarNav`
+
+**Files:**
+- Create: `src/lib/components/navigation/sidebar/sidebar-nav.svelte`, `sidebar-nav-link.svelte`, `sidebar-nav-group.svelte`
+- Create: `tests/fixtures/sidebar-nav-harness.svelte` (a `SidebarProvider` and `Sidebar` around a `SidebarNav` with the Task 10 sections plus a badged link, a disabled "Soon" link, and a `current` prop)
+- Modify: `src/lib/components/navigation/sidebar/index.ts`, `tests/barrel.test.ts` (`'SidebarNav'`), `tests/sidebar-nav.test.ts`
+
+**Interfaces:**
+- Consumes: Task 10's module.
+- Produces: `SidebarNav`, `SidebarNavProps = { sections: SidebarNavSection[]; current: string; persistKey?: string; link?: Snippet<[SidebarNavLinkSnippetProps]>; class?: string }`, `SidebarNavLinkSnippetProps = { href: string; props: Record<string, unknown>; content: Snippet }`; the barrel also exports the Task 10 types and `activeHref`.
+
+- [ ] **Step 1: Failing tests**, in `tests/sidebar-nav.test.ts`:
+
+```ts
+describe('SidebarNav', () => {
+  it('draws each section under its label', () => {
+    render(SidebarNavHarness, { props: { current: '/' } })
+
+    expect(screen.getByText('Operations')).toHaveAttribute('data-slot', 'sidebar-group-label')
+  })
+
+  it('marks only the most specific row current', () => {
+    render(SidebarNavHarness, { props: { current: '/sales/invoices/INV-9' } })
+
+    expect(screen.getByRole('link', { name: 'Invoices' })).toHaveAttribute('data-active', 'true')
+    expect(screen.getByRole('link', { name: 'Sales' })).toHaveAttribute('data-active', 'false')
+    expect(screen.getByRole('link', { name: 'Invoices' })).toHaveAttribute('aria-current', 'page')
+  })
+
+  it('opens the group holding the current row', () => {
+    render(SidebarNavHarness, { props: { current: '/sales/refunds' } })
+
+    expect(screen.getByRole('button', { name: 'Collapse Sales' })).toHaveAttribute('aria-expanded', 'true')
+  })
+
+  it('toggles a group from its chevron, and keeps closed links out of the tab order', async () => {
+    const { container } = render(SidebarNavHarness, { props: { current: '/' } })
+    const toggle = screen.getByRole('button', { name: 'Expand Sales' })
+
+    expect(container.querySelector('[data-slot="sidebar-nav-sub"]')).toHaveAttribute('inert')
+
+    await userEvent.click(toggle)
+
+    expect(screen.getByRole('button', { name: 'Collapse Sales' })).toHaveAttribute('aria-expanded', 'true')
+    expect(container.querySelector('[data-slot="sidebar-nav-sub"]')).not.toHaveAttribute('inert')
+  })
+
+  it('remembers open groups under persistKey', async () => {
+    localStorage.clear()
+    const first = render(SidebarNavHarness, { props: { current: '/', persistKey: 'test-nav' } })
+
+    await userEvent.click(screen.getByRole('button', { name: 'Expand Sales' }))
+    first.unmount()
+
+    expect(JSON.parse(localStorage.getItem('test-nav') ?? '[]')).toEqual(['Sales'])
+
+    render(SidebarNavHarness, { props: { current: '/', persistKey: 'test-nav' } })
+
+    expect(screen.getByRole('button', { name: 'Collapse Sales' })).toBeInTheDocument()
+  })
+
+  it('draws a badge, and a disabled row as text rather than a link', () => {
+    render(SidebarNavHarness, { props: { current: '/' } })
+
+    expect(screen.getByText('3')).toHaveAttribute('data-slot', 'badge')
+    expect(screen.queryByRole('link', { name: /Marketplace/ })).toBeNull()
+    expect(screen.getByText('Marketplace').closest('[aria-disabled="true"]')).not.toBeNull()
+  })
+
+  it('renders links through the link snippet when given', () => {
+    render(SidebarNavHarness, { props: { current: '/', customLink: true } })
+
+    expect(screen.getByRole('link', { name: 'Orders' })).toHaveAttribute('data-router', 'custom')
+  })
+})
+```
+
+The harness's `customLink` passes a `link` snippet rendering `<a {href} {...props} data-router="custom">{@render content()}</a>`.
+
+- [ ] **Step 2:** Run: fails.
+- [ ] **Step 3: The parts.** `sidebar-nav.svelte` (exported) loops sections into `SidebarGroup` / `SidebarGroupLabel` / `SidebarGroupContent` / `SidebarMenu`, computes `active = $derived(activeHref(sections, current))`, keeps `open = new SvelteSet<string>()` (from `svelte/reactivity`) seeded from `localStorage[persistKey]` inside a `try`, adds `groupsHolding(sections, active)` in an `$effect` whenever `active` changes, and writes the set back in another `$effect` when `persistKey` is set. Each item goes to `sidebar-nav-link.svelte` or `sidebar-nav-group.svelte` (not exported), passing `active`, `link`, and for groups `open.has(label)` with `ontoggle` / `onopen`.
+  - `sidebar-nav-link.svelte`: a `SidebarMenuItem` with a `SidebarMenuButton` (`isActive`, `tooltip={label}`); its `child` snippet renders, when `disabled`, `<span aria-disabled="true" class="opacity-60" {...props}>`, otherwise the caller's `link` snippet or `<a {href} aria-current={isActive ? 'page' : undefined} {...props}>`. The content snippet: the icon, `<span class="truncate group-data-[collapsible=icon]:hidden">{label}</span>`, and the badge as `<Badge variant="soft" tone={badgeTone ?? 'neutral'} count={typeof badge === 'number'} class="ml-auto group-data-[collapsible=icon]:hidden">`. The label hides itself in the icon rail rather than relying on `[&>span:last-child]:hidden`, which takes the badge on a badged row (the portal's comment explains the bug).
+  - `sidebar-nav-group.svelte`: when the sidebar is collapsed to icons and not on a phone (`useSidebar()`), a `DropdownMenu` whose trigger is the group's `SidebarMenuButton` and whose content (`side="right" align="start" sideOffset={8}`) lists the sub-links as `DropdownMenuItem`s rendered through the same link logic. Otherwise: with `href`, the row is a link (`onclick` opens the group) plus a `SidebarMenuAction` (`aria-label` "Expand X"/"Collapse X", `aria-expanded`) holding `IconChevronRight`/`IconChevronDown`; without `href`, the row is a button that toggles, with the chevron at its end and the same `aria-expanded`. Neither is ever `isActive`. The sub-list: `<div class="grid transition-[grid-template-rows] duration-200 ease-out" style:grid-template-rows={open ? '1fr' : '0fr'}><div class="min-h-0 overflow-hidden" data-slot="sidebar-nav-sub" inert={!open}><SidebarMenuSub>` with a `SidebarMenuSubItem` / `SidebarMenuSubButton` (`isActive`, the link or disabled span, the badge) per sub-link.
+  - Headers: `Origin: mise`; `Diverged: none. Modelled on the master portal's nav-main.tsx (2026-11-10): sections are explicit, persisting open groups is opt-in, and a closed group's links are inert.`
+- [ ] **Step 4:** Barrel: `export { default as SidebarNav, type SidebarNavProps, type SidebarNavLinkSnippetProps } from './sidebar-nav.svelte'` and `export { activeHref, type SidebarNavGroup, type SidebarNavItem, type SidebarNavLink, type SidebarNavSection, type SidebarNavSubLink } from './sidebar-nav.js'`; `EXPECTED_EXPORTS` gains `'SidebarNav'` and `'activeHref'`.
+- [ ] **Step 5:** Run the sidebar-nav, barrel and provenance tests. No commit: a component lands with its stories (Task 12).
+
+### Task 12: Stories
+
+**Files:**
+- Modify: `src/lib/components/navigation/sidebar/sidebar.stories.svelte`
+
+- [ ] **Step 1:** Add, on the skeleton with `asChild`: `With nav` (the portal's shape in generic copy: an unlabelled Overview group with two sub-links, then Locations, Hardware and Commercial groups, Support with a `3` warning badge, Marketplace disabled with "Soon"; an Administration section with a Team group) at `current="/locations"`; `Collapsed to icons` (the same, `open={false}` on the provider, `collapsible="icon"`).
+- [ ] **Step 2:** Gate; screenshot both stories in both schemes beside the portal screenshot. Row height, the pill, the sub-rail, the chevrons and the badge should match it; fix S2 classes there if not, and record any change in the decisions table.
+- [ ] **Step 3:** Commit Tasks 10–12 together: `feat(sidebar): SidebarNav, the menu drawn from data`.
+
+### Task 13: The demo, the skill, the record
+
+**Files:**
+- Modify: `examples/logistics/src/modules/shell/components/app-sidebar.svelte`, `examples/logistics/src/modules/shell/utils/navigation.ts`
+- Modify: `skills/mise/SKILL.md`, `docs/handoff.md`
+
+- [ ] **Step 1:** `navigation.ts`: `NAVIGATION` becomes `SidebarNavSection[]`-shaped, regrouped so a heading holds several rows: Operations (Overview `/`, Orders, Shipments, Fleet), Inventory (Products, Warehouses), Partners (Clients), Settings (General). `locate()` keeps feeding the breadcrumb (it reads the same list); the stale "Icons are Lucide's canonical files" comment goes.
+- [ ] **Step 2:** `app-sidebar.svelte`: drop `sidetheme="light"` (the default is `panel`); the menu is `<SidebarNav sections={NAVIGATION} current={page.url.pathname.replace(resolve('/'), '/')} />` with `href`s resolved through `resolve()` when the sections are built. The header keeps its brand row.
+- [ ] **Step 3:** `skills/mise/SKILL.md`, in the picking list under the sidebar line: "- The app's menu from data, with sections, groups, badges and the current row: `SidebarNav` inside `Sidebar` (`panel` is the default theme)". Run `pnpm build:skill`. Handoff: open item 1 closed by this phase; the bakery follow-up (Tabler, 2.0.0, `SidebarNav`) recorded.
+- [ ] **Step 4:** `pnpm build`, the example's `test` and `smoke`; compare the sidebar in the smoke screenshots with the portal's. Commit `chore(example): the sidebar is SidebarNav on the panel theme` and `docs: SidebarNav in the consumer skill and the handoff`.
+- [ ] **Step 5: Phase gate.** Report with screenshots; on a go, push and open the pull request into `main`; watch CI.
