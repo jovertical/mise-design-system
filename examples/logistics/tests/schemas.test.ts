@@ -1,14 +1,14 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 
-import { createClient } from '../src/lib/data/clients/index.js'
-import { clientSchema } from '../src/lib/data/clients/schema.js'
-import { createOrder } from '../src/lib/data/orders/index.js'
-import { orderSchema } from '../src/lib/data/orders/schema.js'
-import { updateProduct } from '../src/lib/data/products/index.js'
-import { productSchema } from '../src/lib/data/products/schema.js'
-import { getSettings, saveSettings } from '../src/lib/data/settings/index.js'
-import { settingsSchema } from '../src/lib/data/settings/schema.js'
-import { createStore, type Store } from '../src/lib/data/store.svelte.js'
+import { createClient } from '../src/modules/clients/data/index.js'
+import { clientSchema } from '../src/modules/clients/data/schema.js'
+import { createStore, type Store } from '../src/modules/core/data/store.svelte.js'
+import { createOrder } from '../src/modules/orders/data/index.js'
+import { orderSchema } from '../src/modules/orders/data/schema.js'
+import { updateProduct } from '../src/modules/products/data/index.js'
+import { productSchema } from '../src/modules/products/data/schema.js'
+import { getSettings, saveSettings } from '../src/modules/settings/data/index.js'
+import { settingsSchema } from '../src/modules/settings/data/schema.js'
 
 let source: Store
 

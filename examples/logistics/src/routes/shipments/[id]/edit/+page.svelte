@@ -4,17 +4,17 @@
 -->
 <script lang="ts">
   import { Button, ErrorState, PageLayout, toast } from '@jovertical/mise-design-system'
-  import { markThisPage } from '#lib/breadcrumb.svelte.js'
-  import ShipmentForm from '#lib/components/shipment-form.svelte'
+  import { store } from '#modules/core/data/store.svelte.js'
+  import { markThisPage } from '#modules/shell/utils/breadcrumb.svelte.js'
+  import ShipmentForm from '#modules/shipments/components/shipment-form.svelte'
   import {
     getShipment,
     isShipmentEditable,
     shipmentToInput,
     updateShipment,
-  } from '#lib/data/shipments/index.js'
-  import type { ShipmentInput } from '#lib/data/shipments/schema.js'
-  import { store } from '#lib/data/store.svelte.js'
-  import { SHIPMENT_STATUS } from '#lib/status.js'
+  } from '#modules/shipments/data/index.js'
+  import type { ShipmentInput } from '#modules/shipments/data/schema.js'
+  import { SHIPMENT_STATUS } from '#modules/shipments/utils/status.js'
   import { goto } from '$app/navigation'
   import { resolve } from '$app/paths'
   import { page } from '$app/state'

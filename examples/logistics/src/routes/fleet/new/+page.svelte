@@ -1,11 +1,11 @@
 <!-- New vehicle: an empty vehicle form; it joins the fleet idle. -->
 <script lang="ts">
   import { toast } from '@jovertical/mise-design-system'
-  import { markThisPage } from '#lib/breadcrumb.svelte.js'
-  import VehicleForm from '#lib/components/vehicle-form.svelte'
-  import { createVehicle } from '#lib/data/fleet/index.js'
-  import type { VehicleInput } from '#lib/data/fleet/schema.js'
-  import { store } from '#lib/data/store.svelte.js'
+  import { store } from '#modules/core/data/store.svelte.js'
+  import VehicleForm from '#modules/fleet/components/vehicle-form.svelte'
+  import { createVehicle } from '#modules/fleet/data/index.js'
+  import type { VehicleInput } from '#modules/fleet/data/schema.js'
+  import { markThisPage } from '#modules/shell/utils/breadcrumb.svelte.js'
   import { goto } from '$app/navigation'
   import { resolve } from '$app/paths'
 

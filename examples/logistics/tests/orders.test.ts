@@ -3,6 +3,7 @@
  * store, so one test's writes never reach the next.
  */
 import { beforeEach, describe, expect, it } from 'vitest'
+import { createStore, type Store } from '../src/modules/core/data/store.svelte.js'
 import {
   cancelOrder,
   createOrder,
@@ -13,10 +14,9 @@ import {
   ordersByStatus,
   orderToInput,
   updateOrder,
-} from '../src/lib/data/orders/index.js'
-import { orderSchema } from '../src/lib/data/orders/schema.js'
-import { createStore, type Store } from '../src/lib/data/store.svelte.js'
-import type { Order } from '../src/lib/data/types.js'
+} from '../src/modules/orders/data/index.js'
+import { orderSchema } from '../src/modules/orders/data/schema.js'
+import type { Order } from '../src/modules/orders/data/types.js'
 
 let source: Store
 

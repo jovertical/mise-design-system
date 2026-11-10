@@ -11,16 +11,16 @@
     Sparkline,
     StatTile,
   } from '@jovertical/mise-design-system'
-  import OverviewActiveShipments from '#lib/components/overview-active-shipments.svelte'
-  import OverviewDeliveries from '#lib/components/overview-deliveries.svelte'
-  import OverviewFleetCondition from '#lib/components/overview-fleet-condition.svelte'
-  import OverviewFleetStatus from '#lib/components/overview-fleet-status.svelte'
-  import OverviewPipeline from '#lib/components/overview-pipeline.svelte'
-  import { fleetStatus } from '#lib/data/fleet/index.js'
-  import { latency } from '#lib/data/latency.js'
-  import { deliveredThisWeek, deliveryTrend, ordersToday } from '#lib/data/overview.js'
-  import { activeShipments } from '#lib/data/shipments/index.js'
-  import { store } from '#lib/data/store.svelte.js'
+  import { latency } from '#modules/core/data/latency.js'
+  import { store } from '#modules/core/data/store.svelte.js'
+  import { fleetStatus } from '#modules/fleet/data/index.js'
+  import OverviewActiveShipments from '#modules/overview/components/overview-active-shipments.svelte'
+  import OverviewDeliveries from '#modules/overview/components/overview-deliveries.svelte'
+  import OverviewFleetCondition from '#modules/overview/components/overview-fleet-condition.svelte'
+  import OverviewFleetStatus from '#modules/overview/components/overview-fleet-status.svelte'
+  import OverviewPipeline from '#modules/overview/components/overview-pipeline.svelte'
+  import { deliveredThisWeek, deliveryTrend, ordersToday } from '#modules/overview/data/index.js'
+  import { activeShipments } from '#modules/shipments/data/index.js'
 
   let loading = $state(true)
 

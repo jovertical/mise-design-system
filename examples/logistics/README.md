@@ -31,21 +31,36 @@ saving screenshots to `.smoke/`.
 - **Its own theme.** `mise.theme.js` (teal on stone, `0.5rem` radius) is turned
   into `src/mise-theme.css` by `pnpm theme`, which `src/app.css` imports in place
   of mise's `theme.css`. A test fails when the committed file is stale.
-- **No local look-alikes.** `src/lib/components/` holds compositions for this app
-  only (a vehicle card, the entity forms, the search palette). When a screen needs
+- **No local look-alikes.** The modules' `components/` folders hold compositions
+  for this app only (a vehicle card, the entity forms, the search palette). When a screen needs
   something mise does not have, it is added to mise first: `Board` and the
   `SidebarInset` fix came from here.
 
+## Modules
+
+The app's code lives in `src/modules/<module>/`, one module per screen area,
+each with `components/`, `data/` and `utils/` as it needs them, imported as
+`#modules/<module>/…`:
+
+| Module | What it holds |
+| --- | --- |
+| `orders`, `shipments`, `fleet`, `products`, `warehouses`, `clients`, `settings` | an entity: its forms and cards, its reads and writes, schema, readiness rows and types, and its status labels |
+| `overview` | the overview's cards and the figures behind them |
+| `core` | the store, the seed, the shared types and helpers, formatting, and the create-and-edit frame every form uses |
+| `shell` | the header, sidebar, search palette, user menu, navigation and breadcrumb |
+
+`src/routes/` only arranges what the modules provide.
+
 ## The data
 
-- `src/lib/data/seed/` is a fixed, hand-written dataset: 60 orders, 18
+- `src/modules/core/data/seed/` is a fixed, hand-written dataset: 60 orders, 18
   shipments, 12 vehicles, 24 products and the rest, dated relative to
   `DEMO_TODAY` so the demo never looks stale. Money is integer cents.
-- `src/lib/data/store.svelte.ts` holds it in one `$state` object, saved to
+- `src/modules/core/data/store.svelte.ts` holds it in one `$state` object, saved to
   `localStorage` a moment after any change. **Reset demo data** in the user menu
   puts the seed back.
 - Pages read and change data only through the functions in
-  `src/lib/data/<entity>/index.ts`, one folder per entity,
+  `src/modules/<entity>/data/index.ts`, one module per entity,
   which compute every figure on screen and are unit-tested against the seed.
   Writes go through the zod schema in the entity's `schema.ts`, the same one its
   form uses.
@@ -57,10 +72,10 @@ portal lays its own: a way back above the title, Cancel and Save in the header,
 the form in a two-thirds card split into sections, and a live summary and a
 readiness checklist beside it.
 
-- **One form per entity** (`src/lib/components/<entity>-form.svelte`) draws the
+- **One form per entity** (`src/modules/<entity>/components/<entity>-form.svelte`) draws the
   whole page through `form-page.svelte`; both routes render it, the edit route
   inside `{#key}` so moving between two records starts afresh.
-- **superforms and `mise/form`.** `entityForm()` in `src/lib/entity-form.svelte.ts`
+- **superforms and `mise/form`.** `entityForm()` in `src/modules/core/utils/entity-form.svelte.ts`
   sets up every form the same way: in the browser (SPA), as JSON so packages
   and zones stay arrays, validated by the entity's schema. The same schema is
   parsed again by the store's `create…` and `update…`, which also refuse what a

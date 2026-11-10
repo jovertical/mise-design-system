@@ -1,11 +1,11 @@
 <!-- Edit product: the product form on an existing product, its stock read-only. -->
 <script lang="ts">
   import { Button, ErrorState, PageLayout, toast } from '@jovertical/mise-design-system'
-  import { markThisPage } from '#lib/breadcrumb.svelte.js'
-  import ProductForm from '#lib/components/product-form.svelte'
-  import { getProduct, productToInput, updateProduct } from '#lib/data/products/index.js'
-  import type { ProductInput } from '#lib/data/products/schema.js'
-  import { store } from '#lib/data/store.svelte.js'
+  import { store } from '#modules/core/data/store.svelte.js'
+  import ProductForm from '#modules/products/components/product-form.svelte'
+  import { getProduct, productToInput, updateProduct } from '#modules/products/data/index.js'
+  import type { ProductInput } from '#modules/products/data/schema.js'
+  import { markThisPage } from '#modules/shell/utils/breadcrumb.svelte.js'
   import { goto } from '$app/navigation'
   import { resolve } from '$app/paths'
   import { page } from '$app/state'

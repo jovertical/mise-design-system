@@ -20,16 +20,17 @@
     TableRow,
   } from '@jovertical/mise-design-system'
   import Pencil from '@lucide/svelte/icons/pencil'
-  import { nameThisPage } from '#lib/breadcrumb.svelte.js'
-  import { store } from '#lib/data/store.svelte.js'
+  import { store } from '#modules/core/data/store.svelte.js'
+  import { VEHICLE_STATUS } from '#modules/fleet/utils/status.js'
+  import { nameThisPage } from '#modules/shell/utils/breadcrumb.svelte.js'
+  import { SHIPMENT_STATUS } from '#modules/shipments/utils/status.js'
   import {
     getLocation,
     locationActivity,
     locationStock,
     utilisation,
     zoneShare,
-  } from '#lib/data/warehouses/index.js'
-  import { SHIPMENT_STATUS, VEHICLE_STATUS } from '#lib/status.js'
+  } from '#modules/warehouses/data/index.js'
   import { resolve } from '$app/paths'
   import { page } from '$app/state'
 

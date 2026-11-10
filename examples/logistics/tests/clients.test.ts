@@ -12,9 +12,9 @@ import {
   listClients,
   openOrderValue,
   updateClient,
-} from '../src/lib/data/clients/index.js'
-import { clientSchema } from '../src/lib/data/clients/schema.js'
-import { createStore, type Store } from '../src/lib/data/store.svelte.js'
+} from '../src/modules/clients/data/index.js'
+import { clientSchema } from '../src/modules/clients/data/schema.js'
+import { createStore, type Store } from '../src/modules/core/data/store.svelte.js'
 
 let source: Store
 

@@ -1,11 +1,11 @@
 <!-- New client: an empty client form; they start active, with the ops manager. -->
 <script lang="ts">
   import { toast } from '@jovertical/mise-design-system'
-  import { markThisPage } from '#lib/breadcrumb.svelte.js'
-  import ClientForm from '#lib/components/client-form.svelte'
-  import { createClient } from '#lib/data/clients/index.js'
-  import type { ClientInput } from '#lib/data/clients/schema.js'
-  import { store } from '#lib/data/store.svelte.js'
+  import ClientForm from '#modules/clients/components/client-form.svelte'
+  import { createClient } from '#modules/clients/data/index.js'
+  import type { ClientInput } from '#modules/clients/data/schema.js'
+  import { store } from '#modules/core/data/store.svelte.js'
+  import { markThisPage } from '#modules/shell/utils/breadcrumb.svelte.js'
   import { goto } from '$app/navigation'
   import { resolve } from '$app/paths'
 

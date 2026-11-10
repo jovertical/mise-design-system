@@ -1,11 +1,11 @@
 <!-- New site: an empty site form with one zone to start from. -->
 <script lang="ts">
   import { toast } from '@jovertical/mise-design-system'
-  import { markThisPage } from '#lib/breadcrumb.svelte.js'
-  import SiteForm from '#lib/components/site-form.svelte'
-  import { store } from '#lib/data/store.svelte.js'
-  import { createSite } from '#lib/data/warehouses/index.js'
-  import type { SiteInput } from '#lib/data/warehouses/schema.js'
+  import { store } from '#modules/core/data/store.svelte.js'
+  import { markThisPage } from '#modules/shell/utils/breadcrumb.svelte.js'
+  import SiteForm from '#modules/warehouses/components/site-form.svelte'
+  import { createSite } from '#modules/warehouses/data/index.js'
+  import type { SiteInput } from '#modules/warehouses/data/schema.js'
   import { goto } from '$app/navigation'
   import { resolve } from '$app/paths'
 

@@ -3,7 +3,7 @@
  * store, so one test's writes never reach the next.
  */
 import { beforeEach, describe, expect, it } from 'vitest'
-import { createStore, type Store } from '../src/lib/data/store.svelte.js'
+import { createStore, type Store } from '../src/modules/core/data/store.svelte.js'
 import {
   createSite,
   getLocation,
@@ -13,7 +13,7 @@ import {
   updateSite,
   utilisation,
   zoneShare,
-} from '../src/lib/data/warehouses/index.js'
+} from '../src/modules/warehouses/data/index.js'
 
 let source: Store
 

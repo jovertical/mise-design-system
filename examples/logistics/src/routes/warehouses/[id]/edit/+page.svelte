@@ -1,11 +1,11 @@
 <!-- Edit site: the site form on an existing site, each zone showing what it holds. -->
 <script lang="ts">
   import { Button, ErrorState, PageLayout, toast } from '@jovertical/mise-design-system'
-  import { markThisPage } from '#lib/breadcrumb.svelte.js'
-  import SiteForm from '#lib/components/site-form.svelte'
-  import { store } from '#lib/data/store.svelte.js'
-  import { getLocation, siteToInput, updateSite } from '#lib/data/warehouses/index.js'
-  import type { SiteInput } from '#lib/data/warehouses/schema.js'
+  import { store } from '#modules/core/data/store.svelte.js'
+  import { markThisPage } from '#modules/shell/utils/breadcrumb.svelte.js'
+  import SiteForm from '#modules/warehouses/components/site-form.svelte'
+  import { getLocation, siteToInput, updateSite } from '#modules/warehouses/data/index.js'
+  import type { SiteInput } from '#modules/warehouses/data/schema.js'
   import { goto } from '$app/navigation'
   import { resolve } from '$app/paths'
   import { page } from '$app/state'

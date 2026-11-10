@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { dateToDay, dayToDate } from '../src/lib/data/days.js'
+import { dateToDay, dayToDate } from '../src/modules/core/data/days.js'
 
 describe('day offsets and calendar dates', () => {
   it('puts day 0 on the demo date', () => {

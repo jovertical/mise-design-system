@@ -3,10 +3,10 @@
  * store, so one test's writes never reach the next.
  */
 import { beforeEach, describe, expect, it } from 'vitest'
-import { getVehicle, vehicleShipments } from '../src/lib/data/fleet/index.js'
-import { getProduct } from '../src/lib/data/products/index.js'
-import { createStore, type Store } from '../src/lib/data/store.svelte.js'
-import { getLocation, locationActivity } from '../src/lib/data/warehouses/index.js'
+import { createStore, type Store } from '../src/modules/core/data/store.svelte.js'
+import { getVehicle, vehicleShipments } from '../src/modules/fleet/data/index.js'
+import { getProduct } from '../src/modules/products/data/index.js'
+import { getLocation, locationActivity } from '../src/modules/warehouses/data/index.js'
 
 let source: Store
 

@@ -1,0 +1,11 @@
+import type { Source } from '#modules/core/data/shared.js'
+import { settingsSchema } from './schema.js'
+import type { Settings } from './types.js'
+
+export const getSettings = (source: Source): Settings => source.data.settings
+
+export function saveSettings(source: Source, next: Settings): Settings {
+  source.data.settings = settingsSchema.parse(next)
+
+  return source.data.settings
+}

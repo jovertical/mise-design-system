@@ -1,16 +1,16 @@
 <!-- Edit client: the client form on an existing client. Every client can be edited. -->
 <script lang="ts">
   import { Button, ErrorState, PageLayout, toast } from '@jovertical/mise-design-system'
-  import { markThisPage } from '#lib/breadcrumb.svelte.js'
-  import ClientForm from '#lib/components/client-form.svelte'
+  import ClientForm from '#modules/clients/components/client-form.svelte'
   import {
     clientToInput,
     getClient,
     openOrderValue,
     updateClient,
-  } from '#lib/data/clients/index.js'
-  import type { ClientInput } from '#lib/data/clients/schema.js'
-  import { store } from '#lib/data/store.svelte.js'
+  } from '#modules/clients/data/index.js'
+  import type { ClientInput } from '#modules/clients/data/schema.js'
+  import { store } from '#modules/core/data/store.svelte.js'
+  import { markThisPage } from '#modules/shell/utils/breadcrumb.svelte.js'
   import { goto } from '$app/navigation'
   import { resolve } from '$app/paths'
   import { page } from '$app/state'

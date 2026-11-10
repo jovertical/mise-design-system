@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { SEED } from '../src/lib/data/seed/index.js'
+import { SEED } from '../src/modules/core/data/seed/index.js'
 
 const ids = <T extends { id: string }>(rows: T[]) => new Set(rows.map((row) => row.id))
 

@@ -1,11 +1,11 @@
 <!-- Plan a run: an empty run planner; the run is scheduled and its orders move into fulfilment. -->
 <script lang="ts">
   import { toast } from '@jovertical/mise-design-system'
-  import { markThisPage } from '#lib/breadcrumb.svelte.js'
-  import ShipmentForm from '#lib/components/shipment-form.svelte'
-  import { createShipment } from '#lib/data/shipments/index.js'
-  import type { ShipmentInput } from '#lib/data/shipments/schema.js'
-  import { store } from '#lib/data/store.svelte.js'
+  import { store } from '#modules/core/data/store.svelte.js'
+  import { markThisPage } from '#modules/shell/utils/breadcrumb.svelte.js'
+  import ShipmentForm from '#modules/shipments/components/shipment-form.svelte'
+  import { createShipment } from '#modules/shipments/data/index.js'
+  import type { ShipmentInput } from '#modules/shipments/data/schema.js'
   import { goto } from '$app/navigation'
   import { resolve } from '$app/paths'
 

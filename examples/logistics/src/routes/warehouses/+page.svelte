@@ -2,10 +2,9 @@
 <script lang="ts">
   import { Button, CardGrid, PageHeader, PageLayout } from '@jovertical/mise-design-system'
   import Plus from '@lucide/svelte/icons/plus'
-
-  import WarehouseCard from '#lib/components/warehouse-card.svelte'
-  import { store } from '#lib/data/store.svelte.js'
-  import { listLocations } from '#lib/data/warehouses/index.js'
+  import { store } from '#modules/core/data/store.svelte.js'
+  import WarehouseCard from '#modules/warehouses/components/warehouse-card.svelte'
+  import { listLocations } from '#modules/warehouses/data/index.js'
   import { resolve } from '$app/paths'
 
   const locations = $derived(listLocations(store))

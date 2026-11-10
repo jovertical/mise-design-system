@@ -33,13 +33,12 @@
   import { untrack } from 'svelte'
   import { defaults, superForm } from 'sveltekit-superforms'
   import { zod4 } from 'sveltekit-superforms/adapters'
-
-  import SettingsBranding from '#lib/components/settings-branding.svelte'
-  import SettingsPreferences from '#lib/components/settings-preferences.svelte'
-  import { getSettings, saveSettings } from '#lib/data/settings/index.js'
-  import { settingsSchema } from '#lib/data/settings/schema.js'
-  import { store } from '#lib/data/store.svelte.js'
-  import type { Settings } from '#lib/data/types.js'
+  import { store } from '#modules/core/data/store.svelte.js'
+  import SettingsBranding from '#modules/settings/components/settings-branding.svelte'
+  import SettingsPreferences from '#modules/settings/components/settings-preferences.svelte'
+  import { getSettings, saveSettings } from '#modules/settings/data/index.js'
+  import { settingsSchema } from '#modules/settings/data/schema.js'
+  import type { Settings } from '#modules/settings/data/types.js'
 
   // Built once from the saved settings. SPA mode validates in the browser;
   // applyAction is off because there is no server action to hand results to;

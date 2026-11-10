@@ -1,11 +1,11 @@
 <!-- Edit vehicle: the vehicle form on an existing vehicle. Status is not edited here. -->
 <script lang="ts">
   import { Button, ErrorState, PageLayout, toast } from '@jovertical/mise-design-system'
-  import { markThisPage } from '#lib/breadcrumb.svelte.js'
-  import VehicleForm from '#lib/components/vehicle-form.svelte'
-  import { getVehicle, updateVehicle, vehicleToInput } from '#lib/data/fleet/index.js'
-  import type { VehicleInput } from '#lib/data/fleet/schema.js'
-  import { store } from '#lib/data/store.svelte.js'
+  import { store } from '#modules/core/data/store.svelte.js'
+  import VehicleForm from '#modules/fleet/components/vehicle-form.svelte'
+  import { getVehicle, updateVehicle, vehicleToInput } from '#modules/fleet/data/index.js'
+  import type { VehicleInput } from '#modules/fleet/data/schema.js'
+  import { markThisPage } from '#modules/shell/utils/breadcrumb.svelte.js'
   import { goto } from '$app/navigation'
   import { resolve } from '$app/paths'
   import { page } from '$app/state'

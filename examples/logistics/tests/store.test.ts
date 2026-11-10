@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 
-import { SEED } from '../src/lib/data/seed/index.js'
-import { createStore, STORAGE_KEY } from '../src/lib/data/store.svelte.js'
+import { SEED } from '../src/modules/core/data/seed/index.js'
+import { createStore, STORAGE_KEY } from '../src/modules/core/data/store.svelte.js'
 
 beforeEach(() => localStorage.clear())
 

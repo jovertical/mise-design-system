@@ -4,12 +4,17 @@
 -->
 <script lang="ts">
   import { Button, ErrorState, PageLayout, toast } from '@jovertical/mise-design-system'
-  import { markThisPage } from '#lib/breadcrumb.svelte.js'
-  import OrderForm from '#lib/components/order-form.svelte'
-  import { getOrder, isOrderEditable, orderToInput, updateOrder } from '#lib/data/orders/index.js'
-  import type { OrderInput } from '#lib/data/orders/schema.js'
-  import { store } from '#lib/data/store.svelte.js'
-  import { ORDER_STATUS } from '#lib/status.js'
+  import { store } from '#modules/core/data/store.svelte.js'
+  import OrderForm from '#modules/orders/components/order-form.svelte'
+  import {
+    getOrder,
+    isOrderEditable,
+    orderToInput,
+    updateOrder,
+  } from '#modules/orders/data/index.js'
+  import type { OrderInput } from '#modules/orders/data/schema.js'
+  import { ORDER_STATUS } from '#modules/orders/utils/status.js'
+  import { markThisPage } from '#modules/shell/utils/breadcrumb.svelte.js'
   import { goto } from '$app/navigation'
   import { resolve } from '$app/paths'
   import { page } from '$app/state'

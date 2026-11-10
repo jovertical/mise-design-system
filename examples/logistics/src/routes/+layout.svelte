@@ -8,11 +8,11 @@
     ThemeProvider,
     Toaster,
   } from '@jovertical/mise-design-system'
-  import AppHeader from '#lib/components/app-header.svelte'
-  import AppSidebar from '#lib/components/app-sidebar.svelte'
-  import ResetDemoDialog from '#lib/components/reset-demo-dialog.svelte'
-  import SchemeFromUrl from '#lib/components/scheme-from-url.svelte'
-  import { store } from '#lib/data/store.svelte.js'
+  import { store } from '#modules/core/data/store.svelte.js'
+  import AppHeader from '#modules/shell/components/app-header.svelte'
+  import AppSidebar from '#modules/shell/components/app-sidebar.svelte'
+  import ResetDemoDialog from '#modules/shell/components/reset-demo-dialog.svelte'
+  import SchemeFromUrl from '#modules/shell/components/scheme-from-url.svelte'
   import { navigating } from '$app/state'
 
   let { children } = $props()

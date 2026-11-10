@@ -1,11 +1,11 @@
 <!-- New order: an empty order form; it arrives as Received, ready for review. -->
 <script lang="ts">
   import { toast } from '@jovertical/mise-design-system'
-  import { markThisPage } from '#lib/breadcrumb.svelte.js'
-  import OrderForm from '#lib/components/order-form.svelte'
-  import { createOrder } from '#lib/data/orders/index.js'
-  import type { OrderInput } from '#lib/data/orders/schema.js'
-  import { store } from '#lib/data/store.svelte.js'
+  import { store } from '#modules/core/data/store.svelte.js'
+  import OrderForm from '#modules/orders/components/order-form.svelte'
+  import { createOrder } from '#modules/orders/data/index.js'
+  import type { OrderInput } from '#modules/orders/data/schema.js'
+  import { markThisPage } from '#modules/shell/utils/breadcrumb.svelte.js'
   import { goto } from '$app/navigation'
   import { resolve } from '$app/paths'
 

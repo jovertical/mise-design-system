@@ -245,8 +245,10 @@ repository.
 - **TypeScript stays on ~6.0.** SvelteKit 3.1 reads `tsconfig` through
   TypeScript's JS API (`ts.sys`), which 7.0 does not have; 7.0 fails the build
   in `load_tsconfig`.
-- **`$lib` is gone; use subpath imports.** The example maps `#lib/*` to
-  `./src/lib/*` in `package.json` `imports`. `kit.alias` is deprecated, and
+- **`$lib` is gone; use subpath imports.** The example maps `#modules/*` to
+  `./src/modules/*` in `package.json` `imports`; its code is one module per
+  screen area (`src/modules/<module>/{components,data,utils}`, with `core` and
+  `shell` for what is shared). See its README. `kit.alias` is deprecated, and
   `svelte-package` applied an alias to a string in a doc comment, so mise uses
   `tsconfig` `paths` (type-checking only) to check its recipes.
 - **Routes:** `resolve('/orders/[id]', { id })` from `$app/paths`; nav items
@@ -274,7 +276,7 @@ repository.
   needs its own value (`'none'`) mapped to `null`.
 - **`@internationalized/date` is a direct dependency of the example**: pnpm
   does not let it import mise's copy, and `DatePicker` speaks `CalendarDate`.
-  `src/lib/data/days.ts` converts to and from the data's day offsets.
+  `src/modules/core/data/days.ts` converts to and from the data's day offsets.
 - **A record made by the store comes back from the store** (`getShipment` after
   the push): `$state` keeps its own proxy, and later edits to the object that
   was pushed do not reach it.

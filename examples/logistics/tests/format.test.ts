@@ -1,6 +1,13 @@
 import { describe, expect, it } from 'vitest'
 
-import { compactMoney, dateOf, dateTime, money, shortDate, weight } from '../src/lib/format.js'
+import {
+  compactMoney,
+  dateOf,
+  dateTime,
+  money,
+  shortDate,
+  weight,
+} from '../src/modules/core/utils/format.js'
 
 describe('format', () => {
   it('formats cents as dollars', () => {

@@ -37,13 +37,18 @@
   import Phone from '@lucide/svelte/icons/phone'
   import Truck from '@lucide/svelte/icons/truck'
   import Warehouse from '@lucide/svelte/icons/warehouse'
-  import { nameThisPage } from '#lib/breadcrumb.svelte.js'
-  import { clientOf, driverOf, locationName, vehicleOf } from '#lib/data/lookups.js'
-  import { getOrder } from '#lib/data/orders/index.js'
-  import { getShipment, isShipmentEditable, shipmentProgress } from '#lib/data/shipments/index.js'
-  import { store } from '#lib/data/store.svelte.js'
-  import { dateTime, money } from '#lib/format.js'
-  import { ORDER_STATUS, SHIPMENT_STATUS } from '#lib/status.js'
+  import { clientOf, driverOf, locationName, vehicleOf } from '#modules/core/data/lookups.js'
+  import { store } from '#modules/core/data/store.svelte.js'
+  import { dateTime, money } from '#modules/core/utils/format.js'
+  import { getOrder } from '#modules/orders/data/index.js'
+  import { ORDER_STATUS } from '#modules/orders/utils/status.js'
+  import { nameThisPage } from '#modules/shell/utils/breadcrumb.svelte.js'
+  import {
+    getShipment,
+    isShipmentEditable,
+    shipmentProgress,
+  } from '#modules/shipments/data/index.js'
+  import { SHIPMENT_STATUS } from '#modules/shipments/utils/status.js'
   import { resolve } from '$app/paths'
   import { page } from '$app/state'
 

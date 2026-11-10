@@ -53,9 +53,11 @@ from.
 One concern per module. A module holding two things a reader would look for in
 two places is split.
 
-- Code about one thing lives together. In the logistics example an entity's
-  reads and writes, its schema and its readiness rows sit in one folder,
-  `src/lib/data/<entity>/`, not spread across files shared by every entity.
+- Code about one thing lives together. The logistics example is split into
+  modules, `src/modules/<module>/{components,data,utils}`: an entity's forms,
+  reads and writes, schema, readiness rows, types and status labels sit in its
+  module, not in folders shared by every entity. Cross-cutting code has its own
+  modules (`core`, `shell`), never a generic `lib/components` or `lib/data`.
 - State with its own life (a dialog's open state, a store) is its own module,
   not a passenger in the module that happens to use it first.
 - In a `.ts` module, public exports first, private helpers below.
