@@ -1,0 +1,18 @@
+{
+  "$schema": "../node_modules/@biomejs/biome/configuration_schema.json",
+  "root": false,
+  "extends": "//",
+  "files": {
+    "includes": [
+      "src/**",
+      "tests/**",
+      "scripts/**",
+      "vite/**",
+      "*.ts",
+      "*.js",
+      "!**/*.css",
+      "!**/*.md",
+      "!src/app.html"
+    ]
+  }
+}

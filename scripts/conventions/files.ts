@@ -1,12 +1,14 @@
 /**
  * Which files the clean-code check reads: every `.ts` and `.svelte` file under
- * mise's sources and the examples' sources, never anything built or installed.
+ * mise's sources, the examples' and the docs site's, never anything built or
+ * installed.
  */
 import { readdirSync, statSync } from 'node:fs'
 import { join, relative, sep } from 'node:path'
 
 const MISE_ROOTS = ['src', 'tests', 'scripts', 'stories']
 const EXAMPLE_ROOTS = ['src', 'tests', 'scripts']
+const SITE_ROOTS = ['site/src', 'site/tests', 'site/scripts', 'site/vite']
 
 const SKIPPED = new Set([
   'node_modules',
@@ -24,7 +26,7 @@ export function checkedFiles(root: string): string[] {
     EXAMPLE_ROOTS.map((folder) => join('examples', example, folder)),
   )
 
-  return [...MISE_ROOTS, ...examples]
+  return [...MISE_ROOTS, ...examples, ...SITE_ROOTS]
     .flatMap((folder) => walk(join(root, folder)))
     .map((path) => relative(root, path).split(sep).join('/'))
     .toSorted()
