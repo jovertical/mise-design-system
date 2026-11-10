@@ -132,12 +132,17 @@ In rough order of how much they block the apps:
    - `ComboboxInput` does not show the selected item's label for a starting
      value; bits-ui fills the field only when an item is picked. The order
      form passes `defaultValue` itself.
-6. **`homepage` in `package.json`** could point at the demo instead of the
+6. **`Separator` cannot be shortened.** A vertical `Separator` sets
+   `data-[orientation=vertical]:h-full`, which beats a caller's plain `h-4`, so
+   the header's 16px tick ran the full bar (removed from the example's header
+   2026-11-10). A caller must write `data-[orientation=vertical]:h-4`; decide
+   whether mise should let a plain height win.
+7. **`homepage` in `package.json`** could point at the demo instead of the
    README; needs a yes.
-7. **bertos-bakery-ops after this release:** it added `@lucide/svelte` itself; it
+8. **bertos-bakery-ops after this release:** it added `@lucide/svelte` itself; it
    moves its own icons to `@tabler/icons-svelte-runes`, bumps mise, and takes
    `CommandTrigger` and (after phase 3) `SidebarNav`.
-8. **The deferred components:** generic Draggable, Droppable and Sortable, and
+9. **The deferred components:** generic Draggable, Droppable and Sortable, and
    MermaidDiagram (heavy). Wait until a screen asks. `Board` drags since
    2026-11-10 (`docs/specs/2026-11-10-board-drag-design.md`), on
    `@dnd-kit/svelte`, which raised mise's `svelte` peer to `^5.29.0`; generic

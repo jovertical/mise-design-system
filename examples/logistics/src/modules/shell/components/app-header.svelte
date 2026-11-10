@@ -7,7 +7,6 @@
     BreadcrumbList,
     BreadcrumbPage,
     BreadcrumbSeparator,
-    Separator,
     SidebarTrigger,
     ThemeToggle,
   } from '@jovertical/mise-design-system'
@@ -54,7 +53,6 @@
   <div class="mx-auto w-full max-w-content px-4 lg:px-6">
     <div class="bg-card flex h-12 w-full items-center gap-2 rounded-xl border px-2">
       <SidebarTrigger />
-      <Separator orientation="vertical" class="mx-1 h-4" />
       {#if here}
         <Breadcrumb>
           <BreadcrumbList>
