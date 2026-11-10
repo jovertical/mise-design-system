@@ -122,6 +122,7 @@ const EXPECTED_EXPORTS = [
   'chartGrid',
   'chartLineStrokeWidth',
   'Checkbox',
+  'CheckboxGroup',
   'Checklist',
   'ChecklistCard',
   'ChoiceRow',

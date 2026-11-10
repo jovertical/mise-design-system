@@ -86,6 +86,7 @@ type and default.
 - One choice from many: `Select`; searchable or several values: `Combobox`
 - On or off: `Switch`; with a label and description in a row: `SwitchField`; a tick:
   `Checkbox`
+- Several choices from a short list, as ticks bound to an array: `CheckboxGroup`
 - A date: `DatePicker`; a calendar on the page: `Calendar`; a time: `TimePicker`
 - A one-time code: `InputOTP`
 - An image or file upload: `MediaDropzone`

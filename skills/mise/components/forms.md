@@ -64,6 +64,29 @@ Types: `CalendarCaptionLayout` (`'label' | 'dropdown' | 'dropdown-months' | 'dro
 
 Also takes: bits-ui `Checkbox.Root` props except `children`, `child`.
 
+## CheckboxGroup
+
+`import { CheckboxGroup } from '@jovertical/mise-design-system'`
+
+Several choices from a short list, as ticks: a legend, one checkbox per option, and the field's error. `value` is the ticked options' values, kept in the order of `options` however they were ticked, so a form posts the same array for the same choice.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `value` | `string[]` | `[]` |  |
+| `onValueChange` | `(value: string[]) => void` |  |  |
+| `options` (required) | `CheckboxGroupOption[]` |  |  |
+| `legend` (required) | `string` |  |  |
+| `description` | `string` |  |  |
+| `errors` | `Array<{ message?: string } \| undefined>` |  | As `FieldError` takes them; any message marks the set invalid. |
+| `empty` | `string` | `'Nothing to choose from.'` | Shown in place of the boxes when `options` is empty. |
+| `orientation` | `'vertical' \| 'horizontal'` | `'vertical'` | `horizontal` wraps the options along a row, for short labels. |
+| `disabled` | `boolean` | `false` |  |
+| `name` | `string` |  | Each ticked box submits as `name[]`. |
+
+Also takes: every `<fieldset>` attribute except `children`.
+
+Types: `CheckboxGroupOption`.
+
 ## ChoiceRow
 
 `import { ChoiceRow, ChoiceRowReadonly } from '@jovertical/mise-design-system'`
