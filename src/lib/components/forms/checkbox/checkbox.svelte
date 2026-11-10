@@ -3,8 +3,8 @@
   Svelte: shadcn-svelte `checkbox`
   Diverged: unaudited, as in the React package. bits-ui Checkbox for Radix
     Checkbox. The indeterminate state draws a minus, as shadcn-svelte's does,
-    and takes the checked fill; Radix's Indicator drew the same check for both.
-    Tabler's check and minus for Lucide's.
+    and takes the checked fill, in dark too; Radix's Indicator drew the same
+    check for both. Tabler's check and minus for Lucide's.
 -->
 <script lang="ts" module>
   import { Checkbox as CheckboxPrimitive } from 'bits-ui'
@@ -36,7 +36,7 @@
   data-slot="checkbox"
   class={cn(
     'peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50',
-    'data-[state=indeterminate]:bg-primary data-[state=indeterminate]:text-primary-foreground data-[state=indeterminate]:border-primary',
+    'data-[state=indeterminate]:bg-primary dark:data-[state=indeterminate]:bg-primary data-[state=indeterminate]:text-primary-foreground data-[state=indeterminate]:border-primary',
     className,
   )}
   {...rest}

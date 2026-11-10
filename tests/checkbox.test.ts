@@ -54,6 +54,16 @@ describe('Checkbox', () => {
     expect(box).toHaveAttribute('aria-checked', 'mixed')
   })
 
+  it('fills the indeterminate box in dark too, as it does the checked one', () => {
+    render(BoundCheckbox, { indeterminate: true })
+
+    // `dark:bg-input/30` outranks a plain state fill in dark, so each filled
+    // state needs its own `dark:` rule.
+    expect(screen.getByRole('checkbox').className).toContain(
+      'dark:data-[state=indeterminate]:bg-primary',
+    )
+  })
+
   it('ignores clicks when disabled', async () => {
     render(BoundCheckbox, { disabled: true })
 
