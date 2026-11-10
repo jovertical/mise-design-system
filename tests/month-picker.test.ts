@@ -1,4 +1,4 @@
-import { CalendarDate } from '@internationalized/date'
+import type { CalendarDate } from '@internationalized/date'
 import { render, screen, waitFor } from '@testing-library/svelte'
 import { userEvent } from '@testing-library/user-event'
 import { describe, expect, it } from 'vitest'
