@@ -6,13 +6,14 @@ and plans do not say. In progress: branch `feat/tabler-icons`, below.
 
 ## Where it stands
 
-- **In progress (2026-11-10), branch `feat/tabler-icons`, not pushed.** Plan:
+- **Branch `feat/tabler-icons` (2026-11-10), for 2.0.0.** Plan:
   `docs/superpowers/plans/2026-11-10-tabler-icons-and-command-trigger.md`.
-  Phase 1 (Tabler icons everywhere, `feat!`, so the next release is 2.0.0)
-  and phase 2 (`CommandTrigger`, the filled "Type to search… ⌘K" field, used
-  by the example's header) are done, with the dark indeterminate `Checkbox`
-  fix. Phase 3 (`panel` as the default sidebar theme, and `SidebarNav`)
-  is next; the branch is pushed and its pull request opened after it.
+  Three phases, all done: Tabler icons everywhere (`feat!`); `CommandTrigger`,
+  the filled "Type to search… ⌘K" field; and the sidebar as the portals draw
+  it, with `panel` the default theme (`feat!`) and `SidebarNav`, the menu
+  drawn from data (sections, groups, badges, the current row). The example
+  uses all three. Also the dark indeterminate `Checkbox` fix. Merging its
+  pull request lets release-please cut 2.0.0.
 - **The package.** `@jovertical/mise-design-system` is public on npm and GitHub
   (`github.com/jovertical/mise-design-system`, branch `main`). **1.2.0** is the
   latest release: 1.0.0 was the port, 1.1.x added the consumer skill and
@@ -99,10 +100,9 @@ Later decisions, with the user:
 
 In rough order of how much they block the apps:
 
-1. **Sidebar rows.** The client portal overrides mise's `SidebarMenuButton`
-   heavily (`h-8` rows, icon chips, `!` overrides in `nav-main.tsx`); mise's
-   default rows are tall by comparison, which the demo shows. Decide whether
-   mise's default or a `density` prop should match the portal.
+1. *Closed 2026-11-10:* sidebar rows. `panel` is the default and draws what
+   the portals' `nav-main.tsx` overrode; `SidebarNav` replaces the hand-written
+   menu.
 2. **Notifications in the top bar.** The portal has a `NotificationBell` and a
    What's new button with no mise equivalent. A mise component would need a
    plan; the demo has neither.
