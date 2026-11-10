@@ -13,7 +13,7 @@
     CommandList,
     CommandSeparator,
   } from '@jovertical/mise-design-system'
-  import Search from '@lucide/svelte/icons/search'
+  import IconSearch from '@tabler/icons-svelte-runes/icons/search'
   import { clientOf } from '#modules/core/data/lookups.js'
   import { store } from '#modules/core/data/store.svelte.js'
   import { NAVIGATION } from '#modules/shell/utils/navigation.js'
@@ -45,7 +45,7 @@
   class="text-muted-foreground ml-auto w-48 min-w-0 shrink justify-start md:w-72"
   onclick={() => (open = true)}
 >
-  <Search />
+  <IconSearch />
   Type to search…
   <kbd class="bg-muted ml-auto hidden rounded px-1.5 py-0.5 text-xs sm:inline-block">⌘K</kbd>
 </Button>

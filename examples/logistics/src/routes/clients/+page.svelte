@@ -16,7 +16,7 @@
     PageHeader,
     PageLayout,
   } from '@jovertical/mise-design-system'
-  import Plus from '@lucide/svelte/icons/plus'
+  import IconPlus from '@tabler/icons-svelte-runes/icons/plus'
   import { renderComponent, renderSnippet } from '@tanstack/svelte-table'
   import { clientOrders, listClients, openOrderValue } from '#modules/clients/data/index.js'
   import type { Client } from '#modules/clients/data/types.js'
@@ -94,7 +94,7 @@
   <Badge tone={CLIENT_STATUS[client.status].tone}>{CLIENT_STATUS[client.status].label}</Badge>
 {/snippet}
 {#snippet headerActions()}
-  <Button href={resolve('/clients/new')}><Plus />Add client</Button>
+  <Button href={resolve('/clients/new')}><IconPlus />Add client</Button>
 {/snippet}
 
 {#snippet noMatches()}

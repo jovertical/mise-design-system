@@ -14,7 +14,7 @@
     PageLayout,
     Progress,
   } from '@jovertical/mise-design-system'
-  import Plus from '@lucide/svelte/icons/plus'
+  import IconPlus from '@tabler/icons-svelte-runes/icons/plus'
   import { renderComponent, renderSnippet } from '@tanstack/svelte-table'
   import NoMatches from '#modules/core/components/no-matches.svelte'
   import { latency } from '#modules/core/data/latency.js'
@@ -115,7 +115,7 @@
 <PageLayout>
   <PageHeader title="Shipments" description="Everything scheduled, on the road, or delivered.">
     {#snippet actions()}
-      <Button href={resolve('/shipments/new')}><Plus />Plan a run</Button>
+      <Button href={resolve('/shipments/new')}><IconPlus />Plan a run</Button>
     {/snippet}
   </PageHeader>
 

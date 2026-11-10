@@ -21,7 +21,7 @@
     ToggleGroupItem,
     toast,
   } from '@jovertical/mise-design-system'
-  import Plus from '@lucide/svelte/icons/plus'
+  import IconPlus from '@tabler/icons-svelte-runes/icons/plus'
   import { latency } from '#modules/core/data/latency.js'
   import { store } from '#modules/core/data/store.svelte.js'
   import OrdersBoard from '#modules/orders/components/orders-board.svelte'
@@ -69,7 +69,7 @@
 </script>
 
 {#snippet headerActions()}
-  <Button href={resolve('/orders/new')}><Plus />Create order</Button>
+  <Button href={resolve('/orders/new')}><IconPlus />Create order</Button>
 {/snippet}
 
 {#snippet trendOf(trend: number[])}

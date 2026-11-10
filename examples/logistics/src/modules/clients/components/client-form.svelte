@@ -10,9 +10,9 @@
     FormFieldErrors,
     FormLabel,
   } from '@jovertical/mise-design-system/form'
-  import BadgeCheck from '@lucide/svelte/icons/badge-check'
-  import Building from '@lucide/svelte/icons/building'
-  import UserRound from '@lucide/svelte/icons/user-round'
+  import IconBuilding from '@tabler/icons-svelte-runes/icons/building'
+  import IconRosetteDiscountCheck from '@tabler/icons-svelte-runes/icons/rosette-discount-check'
+  import IconUser from '@tabler/icons-svelte-runes/icons/user'
   import { untrack } from 'svelte'
   import { type ClientInput, clientSchema } from '#modules/clients/data/schema.js'
   import FormPage, { type FormPageText } from '#modules/core/components/form-page.svelte'
@@ -60,7 +60,11 @@
   <form method="POST" id="client-form" use:enhance>
     <Card>
       <CardContent class="flex flex-col gap-6">
-        <FormSection icon={Building} title="Company" hint="Who the client is and where they are.">
+        <FormSection
+          icon={IconBuilding}
+          title="Company"
+          hint="Who the client is and where they are."
+        >
           <div class="grid gap-4 sm:grid-cols-3">
             {@render textField('name', 'Name', 'Pine Street Deli')}
             {@render textField('industry', 'Industry', 'Food')}
@@ -70,7 +74,7 @@
 
         <Separator />
 
-        <FormSection icon={UserRound} title="Contact" hint="Who to talk to about their orders.">
+        <FormSection icon={IconUser} title="Contact" hint="Who to talk to about their orders.">
           <div class="grid gap-4 sm:grid-cols-2">
             {@render textField('contact', 'Contact name', 'H. Boyd')}
             {@render textField('email', 'Email', 'orders@pinestreet.example', 'email')}
@@ -80,7 +84,7 @@
         <Separator />
 
         <FormSection
-          icon={BadgeCheck}
+          icon={IconRosetteDiscountCheck}
           title="Account"
           hint="Who looks after them, and whether they can order."
         >

@@ -6,13 +6,13 @@
     type ReadinessItem,
     ReadinessSummary,
   } from '@jovertical/mise-design-system'
-  import ListChecks from '@lucide/svelte/icons/list-checks'
+  import IconListCheck from '@tabler/icons-svelte-runes/icons/list-check'
 
   let { items, title = 'Ready to save' }: { items: ReadinessItem[]; title?: string } = $props()
 </script>
 
 {#snippet checks()}
-  <ListChecks />
+  <IconListCheck />
 {/snippet}
 
 <AsideCard icon={checks} {title}>

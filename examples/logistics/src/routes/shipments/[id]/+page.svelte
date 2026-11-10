@@ -30,13 +30,13 @@
     TimelineItem,
     TimelineTitle,
   } from '@jovertical/mise-design-system'
-  import Check from '@lucide/svelte/icons/check'
-  import IdCard from '@lucide/svelte/icons/id-card'
-  import MapPin from '@lucide/svelte/icons/map-pin'
-  import Pencil from '@lucide/svelte/icons/pencil'
-  import Phone from '@lucide/svelte/icons/phone'
-  import Truck from '@lucide/svelte/icons/truck'
-  import Warehouse from '@lucide/svelte/icons/warehouse'
+  import IconBuildingWarehouse from '@tabler/icons-svelte-runes/icons/building-warehouse'
+  import IconCheck from '@tabler/icons-svelte-runes/icons/check'
+  import IconId from '@tabler/icons-svelte-runes/icons/id'
+  import IconMapPin from '@tabler/icons-svelte-runes/icons/map-pin'
+  import IconPencil from '@tabler/icons-svelte-runes/icons/pencil'
+  import IconPhone from '@tabler/icons-svelte-runes/icons/phone'
+  import IconTruck from '@tabler/icons-svelte-runes/icons/truck'
   import { clientOf, driverOf, locationName, vehicleOf } from '#modules/core/data/lookups.js'
   import { store } from '#modules/core/data/store.svelte.js'
   import { dateTime, money } from '#modules/core/utils/format.js'
@@ -71,16 +71,16 @@
   <Button href={resolve('/shipments')}>Back to shipments</Button>
 {/snippet}
 {#snippet truckIcon()}
-  <Truck />
+  <IconTruck />
 {/snippet}
 {#snippet idIcon()}
-  <IdCard />
+  <IconId />
 {/snippet}
 {#snippet phoneIcon()}
-  <Phone />
+  <IconPhone />
 {/snippet}
 {#snippet warehouseIcon()}
-  <Warehouse />
+  <IconBuildingWarehouse />
 {/snippet}
 
 {#if !shipment}
@@ -101,12 +101,12 @@
   {#snippet actions()}
     {#if isShipmentEditable(shipment)}
       <Button variant="outline" href={resolve('/shipments/[id]/edit', { id: shipment.number })}>
-        <Pencil />Edit
+        <IconPencil />Edit
       </Button>
     {/if}
     {#if vehicle}
       <Button variant="outline" href={resolve('/fleet/[id]', { id: vehicle.code })}
-        ><Truck />View vehicle</Button
+        ><IconTruck />View vehicle</Button
       >
     {/if}
   {/snippet}
@@ -149,9 +149,9 @@
                 <TimelineItem>
                   <TimelineDot tone={stop.deliveredAt ? 'success' : 'neutral'}>
                     {#if stop.deliveredAt}
-                      <Check />
+                      <IconCheck />
                     {:else}
-                      <MapPin />
+                      <IconMapPin />
                     {/if}
                   </TimelineDot>
                   {#if index < shipment.stops.length - 1}

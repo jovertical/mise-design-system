@@ -23,13 +23,13 @@
     TableHeader,
     TableRow,
   } from '@jovertical/mise-design-system'
-  import CalendarClock from '@lucide/svelte/icons/calendar-clock'
-  import Gauge from '@lucide/svelte/icons/gauge'
-  import IdCard from '@lucide/svelte/icons/id-card'
-  import Pencil from '@lucide/svelte/icons/pencil'
-  import Phone from '@lucide/svelte/icons/phone'
-  import Warehouse from '@lucide/svelte/icons/warehouse'
-  import Wrench from '@lucide/svelte/icons/wrench'
+  import IconBuildingWarehouse from '@tabler/icons-svelte-runes/icons/building-warehouse'
+  import IconCalendarClock from '@tabler/icons-svelte-runes/icons/calendar-clock'
+  import IconGauge from '@tabler/icons-svelte-runes/icons/gauge'
+  import IconId from '@tabler/icons-svelte-runes/icons/id'
+  import IconPencil from '@tabler/icons-svelte-runes/icons/pencil'
+  import IconPhone from '@tabler/icons-svelte-runes/icons/phone'
+  import IconTool from '@tabler/icons-svelte-runes/icons/tool'
   import { driverOf, locationName } from '#modules/core/data/lookups.js'
   import { store } from '#modules/core/data/store.svelte.js'
   import { shortDate } from '#modules/core/utils/format.js'
@@ -53,19 +53,19 @@
   <Button href={resolve('/fleet')}>Back to the fleet</Button>
 {/snippet}
 {#snippet idIcon()}
-  <IdCard />
+  <IconId />
 {/snippet}
 {#snippet phoneIcon()}
-  <Phone />
+  <IconPhone />
 {/snippet}
 {#snippet homeIcon()}
-  <Warehouse />
+  <IconBuildingWarehouse />
 {/snippet}
 {#snippet gaugeIcon()}
-  <Gauge />
+  <IconGauge />
 {/snippet}
 {#snippet serviceIcon()}
-  <CalendarClock />
+  <IconCalendarClock />
 {/snippet}
 
 {#if !vehicle}
@@ -94,14 +94,14 @@
     >
       {#snippet actions()}
         <Button variant="outline" href={resolve('/fleet/[id]/edit', { id: vehicle.code })}>
-          <Pencil />Edit
+          <IconPencil />Edit
         </Button>
       {/snippet}
     </PageHeader>
 
     {#if due <= 7}
       <Alert variant="warning">
-        <Wrench />
+        <IconTool />
         <AlertTitle
           >{due < 0 ? `Service ${-due} days overdue` : `Service due in ${due} days`}</AlertTitle
         >

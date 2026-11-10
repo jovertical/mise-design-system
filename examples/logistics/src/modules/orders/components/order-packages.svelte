@@ -12,9 +12,9 @@
     FormLabel,
     FormLegend,
   } from '@jovertical/mise-design-system/form'
-  import Package from '@lucide/svelte/icons/package'
-  import Plus from '@lucide/svelte/icons/plus'
-  import X from '@lucide/svelte/icons/x'
+  import IconPackage from '@tabler/icons-svelte-runes/icons/package'
+  import IconPlus from '@tabler/icons-svelte-runes/icons/plus'
+  import IconX from '@tabler/icons-svelte-runes/icons/x'
   import type { SuperForm } from 'sveltekit-superforms'
 
   import FormSection from '#modules/core/components/form-section.svelte'
@@ -35,7 +35,11 @@
   }
 </script>
 
-<FormSection icon={Package} title="Packages" hint="One row per package. Labels number themselves.">
+<FormSection
+  icon={IconPackage}
+  title="Packages"
+  hint="One row per package. Labels number themselves."
+>
   <FormFieldset {form} name="packages" class="flex flex-col gap-3">
     <FormLegend class="sr-only">Packages</FormLegend>
     {#each $values.packages as _, index (index)}
@@ -76,14 +80,14 @@
           disabled={$values.packages.length === 1}
           onclick={() => removePackage(index)}
         >
-          <X />
+          <IconX />
         </Button>
       </div>
     {/each}
     <FormFieldErrors class="empty:hidden" />
     <div>
       <Button type="button" variant="ghost" size="sm" onclick={addPackage}>
-        <Plus />
+        <IconPlus />
         Add package
       </Button>
     </div>

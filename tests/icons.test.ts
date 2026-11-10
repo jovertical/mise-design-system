@@ -6,11 +6,11 @@
 import { globSync, readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 
-/** Task 5 adds `examples/logistics/src` once the example is moved. */
 const SOURCES = globSync([
   'src/**/*.{svelte,ts}',
   'stories/**/*.{svelte,ts}',
   'tests/fixtures/**/*.svelte',
+  'examples/logistics/src/**/*.{svelte,ts}',
 ])
 
 const LUCIDE = /from '@lucide\//

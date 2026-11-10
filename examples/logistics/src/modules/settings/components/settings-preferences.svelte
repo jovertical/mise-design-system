@@ -23,9 +23,9 @@
     FormFieldErrors,
     FormLabel,
   } from '@jovertical/mise-design-system/form'
-  import Globe from '@lucide/svelte/icons/globe'
-  import Hash from '@lucide/svelte/icons/hash'
-  import Ruler from '@lucide/svelte/icons/ruler'
+  import IconHash from '@tabler/icons-svelte-runes/icons/hash'
+  import IconRuler from '@tabler/icons-svelte-runes/icons/ruler'
+  import IconWorld from '@tabler/icons-svelte-runes/icons/world'
   import type { SuperForm } from 'sveltekit-superforms'
   import { store } from '#modules/core/data/store.svelte.js'
   import { TIMEZONES } from '#modules/settings/data/schema.js'
@@ -93,13 +93,13 @@
 </script>
 
 {#snippet globe()}
-  <Globe />
+  <IconWorld />
 {/snippet}
 {#snippet ruler()}
-  <Ruler />
+  <IconRuler />
 {/snippet}
 {#snippet hash()}
-  <Hash />
+  <IconHash />
 {/snippet}
 
 {#snippet selectField(name: SelectKey, label: string)}

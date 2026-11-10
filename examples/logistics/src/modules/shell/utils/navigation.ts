@@ -3,14 +3,14 @@
  * added in one place. Icons are Lucide's canonical files, not aliases.
  */
 
-import Boxes from '@lucide/svelte/icons/boxes'
-import LayoutDashboard from '@lucide/svelte/icons/layout-dashboard'
-import Package from '@lucide/svelte/icons/package'
-import Settings from '@lucide/svelte/icons/settings'
-import ShoppingCart from '@lucide/svelte/icons/shopping-cart'
-import Truck from '@lucide/svelte/icons/truck'
-import Users from '@lucide/svelte/icons/users'
-import Warehouse from '@lucide/svelte/icons/warehouse'
+import IconBuildingWarehouse from '@tabler/icons-svelte-runes/icons/building-warehouse'
+import IconLayoutDashboard from '@tabler/icons-svelte-runes/icons/layout-dashboard'
+import IconPackage from '@tabler/icons-svelte-runes/icons/package'
+import IconPackages from '@tabler/icons-svelte-runes/icons/packages'
+import IconSettings from '@tabler/icons-svelte-runes/icons/settings'
+import IconShoppingCart from '@tabler/icons-svelte-runes/icons/shopping-cart'
+import IconTruck from '@tabler/icons-svelte-runes/icons/truck'
+import IconUsers from '@tabler/icons-svelte-runes/icons/users'
 import type { Component } from 'svelte'
 import type { RouteId } from '$app/types'
 
@@ -23,27 +23,27 @@ export type NavGroup = { label: string; items: NavItem[] }
 export const NAVIGATION: NavGroup[] = [
   {
     label: 'Overview',
-    items: [{ label: 'Operations overview', href: '/', icon: LayoutDashboard }],
+    items: [{ label: 'Operations overview', href: '/', icon: IconLayoutDashboard }],
   },
   {
     label: 'Orders',
     items: [
-      { label: 'Orders', href: '/orders', icon: ShoppingCart },
-      { label: 'Shipments', href: '/shipments', icon: Package },
+      { label: 'Orders', href: '/orders', icon: IconShoppingCart },
+      { label: 'Shipments', href: '/shipments', icon: IconPackage },
     ],
   },
-  { label: 'Fleet', items: [{ label: 'Fleet', href: '/fleet', icon: Truck }] },
+  { label: 'Fleet', items: [{ label: 'Fleet', href: '/fleet', icon: IconTruck }] },
   {
     label: 'Inventory',
     items: [
-      { label: 'Products', href: '/products', icon: Boxes },
-      { label: 'Warehouses', href: '/warehouses', icon: Warehouse },
+      { label: 'Products', href: '/products', icon: IconPackages },
+      { label: 'Warehouses', href: '/warehouses', icon: IconBuildingWarehouse },
     ],
   },
-  { label: 'Partners', items: [{ label: 'Clients', href: '/clients', icon: Users }] },
+  { label: 'Partners', items: [{ label: 'Clients', href: '/clients', icon: IconUsers }] },
   {
     label: 'Settings',
-    items: [{ label: 'General', href: '/settings/general', icon: Settings }],
+    items: [{ label: 'General', href: '/settings/general', icon: IconSettings }],
   },
 ]
 

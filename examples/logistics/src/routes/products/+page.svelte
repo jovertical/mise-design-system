@@ -20,8 +20,8 @@
     PageLayout,
     SegmentedBar,
   } from '@jovertical/mise-design-system'
-  import Plus from '@lucide/svelte/icons/plus'
-  import TriangleAlert from '@lucide/svelte/icons/triangle-exclamation-point'
+  import IconAlertTriangle from '@tabler/icons-svelte-runes/icons/alert-triangle'
+  import IconPlus from '@tabler/icons-svelte-runes/icons/plus'
   import { renderComponent, renderSnippet } from '@tanstack/svelte-table'
   import NoMatches from '#modules/core/components/no-matches.svelte'
   import { latency } from '#modules/core/data/latency.js'
@@ -142,13 +142,13 @@
 <PageLayout>
   <PageHeader title="Products" description="Stock across every warehouse.">
     {#snippet actions()}
-      <Button href={resolve('/products/new')}><Plus />New product</Button>
+      <Button href={resolve('/products/new')}><IconPlus />New product</Button>
     {/snippet}
   </PageHeader>
 
   {#if low.length}
     <Alert variant="warning">
-      <TriangleAlert />
+      <IconAlertTriangle />
       <AlertTitle>{low.length} products below their reorder point</AlertTitle>
       <AlertDescription>{low.map((product) => product.name).join(', ')}</AlertDescription>
     </Alert>
