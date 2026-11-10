@@ -22,6 +22,28 @@
   import TableHead from './table-head.svelte'
   import TableHeader from './table-header.svelte'
   import TableRow from './table-row.svelte'
+  import TableSectionRow from './table-section-row.svelte'
+
+  const LEDGER = [
+    {
+      section: 'Assets',
+      rows: [
+        { account: 'Cash on hand', location: 'North depot', balance: '1,240.00' },
+        { account: 'Cash on hand', location: 'South depot', balance: '860.50' },
+      ],
+    },
+    {
+      section: 'Income',
+      rows: [{ account: 'Sales', location: 'All locations', balance: '12,400.00' }],
+    },
+    {
+      section: 'Expenses',
+      rows: [
+        { account: 'Freight', location: 'All locations', balance: '1,120.00' },
+        { account: 'Packaging', location: 'North depot', balance: '310.25' },
+      ],
+    },
+  ]
 
   const { Story } = defineMeta({
     title: 'Data display/Table',
@@ -257,6 +279,34 @@
       </TableBody>
     </Table>
   </div>
+</Story>
+
+<!--
+  Rows grouped under a heading row each: `TableSectionRow` spans every column,
+  counted from the header, so a chart of accounts reads by account type.
+-->
+<Story name="With sections" asChild>
+  <Table>
+    <TableHeader>
+      <TableRow>
+        <TableHead>Account</TableHead>
+        <TableHead>Location</TableHead>
+        <TableHead numeric>Balance</TableHead>
+      </TableRow>
+    </TableHeader>
+    <TableBody>
+      {#each LEDGER as group (group.section)}
+        <TableSectionRow>{group.section}</TableSectionRow>
+        {#each group.rows as row (row.account + row.location)}
+          <TableRow>
+            <TableCell>{row.account}</TableCell>
+            <TableCell>{row.location}</TableCell>
+            <TableCell numeric>{row.balance}</TableCell>
+          </TableRow>
+        {/each}
+      {/each}
+    </TableBody>
+  </Table>
 </Story>
 
 <!--

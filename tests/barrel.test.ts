@@ -327,6 +327,7 @@ const EXPECTED_EXPORTS = [
   'TableHead',
   'TableHeader',
   'TableRow',
+  'TableSectionRow',
   'Tabs',
   'TabsContent',
   'TabsList',

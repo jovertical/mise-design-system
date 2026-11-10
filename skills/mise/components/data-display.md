@@ -630,7 +630,7 @@ Types: `StatIconAlignment` (`'center' | 'top'`), `StatIconSize` (`'sm' | 'md' | 
 
 ## Table
 
-`import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@jovertical/mise-design-system'`
+`import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow, TableSectionRow } from '@jovertical/mise-design-system'`
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -682,6 +682,16 @@ Also takes: every `<thead>` attribute.
 ### `TableRow`
 
 One row. `data-state="selected"` tints it as the active nav row is tinted.
+
+Also takes: every `<tr>` attribute.
+
+### `TableSectionRow`
+
+A heading row inside `TableBody` that names the group of rows under it (assets, income, expenses): one `th scope="colgroup"` across the table.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `colspan` | `number` |  |  |
 
 Also takes: every `<tr>` attribute.
 
