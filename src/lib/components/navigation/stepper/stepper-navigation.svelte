@@ -43,7 +43,6 @@
 <script lang="ts">
   import IconChevronLeft from '@tabler/icons-svelte-runes/icons/chevron-left'
   import IconChevronRight from '@tabler/icons-svelte-runes/icons/chevron-right'
-  import IconLoader from '@tabler/icons-svelte-runes/icons/loader'
 
   import { cn } from '../../../utils/cn.js'
   import Button from '../../actions/button/button.svelte'
@@ -98,10 +97,7 @@
     <div class={group}>
       {@render trailing?.()}
       {#if onNext}
-        <Button onclick={onNext} disabled={nextDisabled} type="button">
-          {#if nextLoading}
-            <IconLoader class="size-4 animate-spin" />
-          {/if}
+        <Button onclick={onNext} disabled={nextDisabled} loading={nextLoading} type="button">
           {nextLabel}
           <IconChevronRight class="size-4" />
         </Button>

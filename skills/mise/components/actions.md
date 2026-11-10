@@ -12,6 +12,7 @@
 | `tone` | `'neutral' \| 'primary' \| 'info' \| 'success' \| 'warning' \| 'critical'` |  | Defaults to `primary` for `solid` and `link`, `neutral` for the rest. |
 | `size` | `'sm' \| 'md' \| 'lg'` | `'md'` |  |
 | `iconOnly` | `boolean` | `false` | One glyph and no label: square, round, and it needs an `aria-label`. |
+| `loading` | `boolean` | `false` | Waiting on what the press started: a spinner before the label, `aria-busy`, and disabled so a second press cannot repeat it. A loading link drops its `href`, as a disabled one does. |
 | `children` | `Snippet` |  |  |
 
 Also takes: every `<button>` attribute; every `<a>` attribute.

@@ -100,4 +100,37 @@ describe('Button', () => {
 
     expect(clicks).toBe(1)
   })
+
+  it('draws a spinner, says it is busy and refuses a second press while loading', () => {
+    render(Button, { loading: true, children: text('Post') })
+
+    const button = screen.getByRole('button', { name: 'Post' })
+
+    expect(button).toBeDisabled()
+    expect(button).toHaveAttribute('aria-busy', 'true')
+    expect(button).toHaveAttribute('data-loading', '')
+    expect(button.querySelector('[data-slot="button-spinner"]')).not.toBeNull()
+  })
+
+  it('draws no spinner when not loading', () => {
+    render(Button, { children: text('Post') })
+
+    const button = screen.getByRole('button', { name: 'Post' })
+
+    expect(button).not.toHaveAttribute('aria-busy')
+    expect(button.querySelector('[data-slot="button-spinner"]')).toBeNull()
+  })
+
+  it('takes a loading link out of navigation', () => {
+    const { container } = render(Button, {
+      href: '/orders',
+      loading: true,
+      children: text('Orders'),
+    })
+
+    const link = container.querySelector('a') as HTMLAnchorElement
+
+    expect(link).not.toHaveAttribute('href')
+    expect(link).toHaveAttribute('aria-busy', 'true')
+  })
 })
