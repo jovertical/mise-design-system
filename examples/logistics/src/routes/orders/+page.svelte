@@ -1,6 +1,7 @@
 <!--
-  Orders: the open counts, then every order in a searchable, filterable table.
-  Create order goes to its own page; cancelling asks first.
+  Orders: the counts, then every order as a searchable table or a board.
+  Create order goes to its own page; cancelling asks first. On the board, a
+  drop marks an order ready, asks which run it goes on, or asks to cancel.
 -->
 <script lang="ts">
   import {
@@ -12,6 +13,7 @@
     AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogTitle,
+    type BoardMove,
     Button,
     PageHeader,
     PageLayout,
@@ -26,7 +28,14 @@
   import { store } from '#modules/core/data/store.svelte.js'
   import OrdersBoard from '#modules/orders/components/orders-board.svelte'
   import OrdersTable from '#modules/orders/components/orders-table.svelte'
-  import { cancelOrder, FLOW_STATUSES, orderStats } from '#modules/orders/data/index.js'
+  import PutOnRunDialog from '#modules/orders/components/put-on-run-dialog.svelte'
+  import {
+    cancelOrder,
+    FLOW_STATUSES,
+    getOrder,
+    markReady,
+    orderStats,
+  } from '#modules/orders/data/index.js'
   import type { Order } from '#modules/orders/data/types.js'
   import { ORDER_STATUS } from '#modules/orders/utils/status.js'
   import { goto } from '$app/navigation'
@@ -40,6 +49,31 @@
   })
 
   let cancelling = $state<Order | null>(null)
+  let placing = $state<Order | null>(null)
+
+  /** A drop the board accepted: each column's action, as the rest of the demo does it. */
+  const DROPS: Record<string, (order: Order) => void> = {
+    ready: (order) => {
+      markReady(store, order.id)
+
+      toast.success(`${order.number} is ready`)
+    },
+    'in-fulfilment': (order) => (placing = order),
+    cancelled: (order) => (cancelling = order),
+  }
+
+  function onmove({ id, to }: BoardMove) {
+    const order = getOrder(store, id)
+    const drop = DROPS[to]
+
+    if (!order || !drop) return
+
+    try {
+      drop(order)
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : String(error))
+    }
+  }
 
   const stats = $derived(orderStats(store))
 
@@ -114,7 +148,7 @@
   </ToggleGroup>
 
   {#if view === 'board'}
-    <OrdersBoard />
+    <OrdersBoard {onmove} />
   {:else}
     <OrdersTable {loading} oncancel={(order) => (cancelling = order)} />
   {/if}
@@ -137,3 +171,5 @@
     </AlertDialogFooter>
   </AlertDialogContent>
 </AlertDialog>
+
+<PutOnRunDialog bind:order={placing} />
