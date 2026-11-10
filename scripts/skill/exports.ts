@@ -5,6 +5,7 @@ export type ExportDoc = { name: string; from: string; component: boolean; typeOn
 
 export function folderExports(indexSource: string): ExportDoc[] {
   const source = ts.createSourceFile('index.ts', indexSource, ts.ScriptTarget.Latest, true)
+
   return source.statements.flatMap((statement) => {
     if (
       !ts.isExportDeclaration(statement) ||
@@ -14,7 +15,9 @@ export function folderExports(indexSource: string): ExportDoc[] {
     ) {
       return []
     }
+
     const from = (statement.moduleSpecifier as ts.StringLiteral).text
+
     return statement.exportClause.elements.map((element) => ({
       name: element.name.text,
       from,

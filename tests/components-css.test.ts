@@ -19,6 +19,7 @@ describe('components.css', () => {
   it('closes every comment it opens, in order', () => {
     const tokens = [...css.matchAll(/\/\*|\*\//g)].map((match) => match[0])
     const unbalanced = tokens.some((token, index) => token !== (index % 2 === 0 ? '/*' : '*/'))
+
     expect(unbalanced).toBe(false)
     expect(tokens.length % 2).toBe(0)
   })
@@ -26,11 +27,15 @@ describe('components.css', () => {
   it('closes every block it opens', () => {
     const code = css.replace(/\/\*[\s\S]*?\*\//g, '')
     let depth = 0
+
     for (const character of code) {
       if (character === '{') depth++
+
       if (character === '}') depth--
+
       expect(depth).toBeGreaterThanOrEqual(0)
     }
+
     expect(depth).toBe(0)
   })
 })

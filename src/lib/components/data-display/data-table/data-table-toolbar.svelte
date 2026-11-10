@@ -93,10 +93,12 @@
   /** The search waits for the reader to pause before it filters. */
   $effect(() => {
     const value = searchValue
+
     const timer = setTimeout(
       () => table.setGlobalFilter(value),
       search?.debounceMs ?? DEFAULT_SEARCH_DEBOUNCE_MS,
     )
+
     return () => clearTimeout(timer)
   })
 
@@ -114,13 +116,16 @@
   const present = $derived(
     filters.flatMap((filter) => {
       const column = table.getColumn(filter.columnId)
+
       return column ? [{ filter, column }] : []
     }),
   )
 
   function clear() {
     table.resetColumnFilters()
+
     searchValue = ''
+
     table.setGlobalFilter('')
   }
 </script>

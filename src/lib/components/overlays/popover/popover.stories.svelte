@@ -17,6 +17,7 @@
   })
 
   const shortList = ['Shift opened', 'Stock count posted', 'Register paired']
+
   const longList = [
     'Shift opened',
     'Stock count posted',

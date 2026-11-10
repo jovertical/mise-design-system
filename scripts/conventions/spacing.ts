@@ -183,7 +183,19 @@ function startLine(node: ts.Node, source: ts.SourceFile) {
   return lineOf(comments[0]?.pos ?? node.getStart(source), source)
 }
 
-const endLine = (node: ts.Node, source: ts.SourceFile) => lineOf(node.getEnd(), source)
+/**
+ * Where a statement's code ends: a semicolon Biome moved to the start of the
+ * next line (`;(callback as Handler)(value)`) belongs to that line, not here.
+ */
+function codeEnd(node: ts.Node, source: ts.SourceFile) {
+  let end = node.getEnd()
+
+  while (end > node.getStart(source) && /[\s;]/.test(source.text[end - 1])) end -= 1
+
+  return end
+}
+
+const endLine = (node: ts.Node, source: ts.SourceFile) => lineOf(codeEnd(node, source), source)
 
 const isMultiLine = (node: ts.Node, source: ts.SourceFile) =>
   lineOf(node.getStart(source), source) !== endLine(node, source)
@@ -204,7 +216,7 @@ function blankLinesBetween(source: ts.SourceFile, after: number, before: number)
 
 /** A newline inserted at the end of the statement's last line. */
 function insertAfter(unit: ScriptUnit, previous: ts.Node): SpacingEdit {
-  const newline = unit.source.text.indexOf('\n', previous.getEnd())
+  const newline = unit.source.text.indexOf('\n', codeEnd(previous, unit.source))
   const position = newline === -1 ? unit.source.text.length : newline
 
   return { offset: unit.offset + position, insert: '\n', deleteCount: 0 }

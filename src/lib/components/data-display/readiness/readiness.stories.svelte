@@ -21,11 +21,13 @@
     { id: 'photo', label: 'Photo', status: 'unmet', optional: true },
     { id: 'tax', label: 'Tax code', status: 'not-applicable' },
   ]
+
   const PROVISIONING: ReadinessItem[] = [
     { id: 'db', label: 'Database created', status: 'met' },
     { id: 'seed', label: 'Initial data loaded', status: 'pending' },
     { id: 'registers', label: 'Registers paired', status: 'unmet' },
   ]
+
   const DONE: ReadinessItem[] = [
     { id: 'name', label: 'Name', status: 'met' },
     { id: 'price', label: 'Selling price', status: 'met' },

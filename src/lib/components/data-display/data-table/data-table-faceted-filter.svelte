@@ -61,11 +61,14 @@
    * server-side filter should cost the counts, nothing more.
    */
   const facets = $derived(column?.accessorFn ? column.getFacetedUniqueValues() : undefined)
+
   const chosen = $derived(
     new Set(selected ?? (column?.getFilterValue() as string[] | undefined) ?? []),
   )
+
   const emptyLabel = $derived(allLabel ?? `All ${title?.toLowerCase() ?? 'items'}`)
   const chosenOptions = $derived(options.filter((option) => chosen.has(option.value)))
+
   const triggerLabel = $derived(
     chosenOptions.length === 0
       ? emptyLabel
@@ -76,8 +79,10 @@
 
   function toggle(value: string) {
     const next = new Set(chosen)
+
     if (next.has(value)) next.delete(value)
     else next.add(value)
+
     column?.setFilterValue(next.size ? [...next] : undefined)
   }
 </script>

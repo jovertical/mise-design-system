@@ -38,7 +38,9 @@ export function parseFile(path: string, text: string): ParsedFile {
   const scripts = [ast.module, ast.instance]
     .filter((block) => block !== null && block !== undefined)
     .map((block) => {
-      const start = text.indexOf('>', block.start) + 1
+      // Past the last attribute, so a `>` inside `generics="…"` is not taken for the tag's end.
+      const attributesEnd = block.attributes.at(-1)?.end ?? block.start
+      const start = text.indexOf('>', attributesEnd) + 1
       const end = text.lastIndexOf('</script>', block.end)
 
       return script(path, text.slice(start, end), start, lineOf(start) - 1)

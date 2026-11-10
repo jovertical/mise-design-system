@@ -22,7 +22,9 @@ const FORM_EXPORTS = [
 describe('Form', () => {
   it('labels its control and describes it', () => {
     render(FormHarness)
+
     const control = screen.getByRole('textbox', { name: /Location name/ })
+
     expect(control).toHaveAccessibleDescription(/Shown on receipts/)
     expect(document.querySelector('[data-slot="form-item"]')).toHaveClass('space-y-2')
     expect(screen.getByText('*')).toHaveAttribute('aria-hidden', 'true')
@@ -30,13 +32,18 @@ describe('Form', () => {
 
   it('shows the validation errors and marks the control invalid', async () => {
     render(FormHarness)
+
     await userEvent.click(screen.getByRole('button', { name: 'Save' }))
+
     await waitFor(() =>
       expect(screen.getByText('A location name is required.')).toBeInTheDocument(),
     )
+
     const control = screen.getByRole('textbox', { name: /Location name/ })
+
     expect(control).toHaveAttribute('aria-invalid', 'true')
     expect(document.querySelector('[data-slot="form-label"]')).toHaveAttribute('data-fs-error')
+
     expect(screen.getByText('A location name is required.').parentElement).toHaveClass(
       'text-destructive',
       'font-medium',

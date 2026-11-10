@@ -28,6 +28,7 @@
   const confirm = $state({ open: false })
   const edit = $state({ open: false, saving: false, name: 'Riverside', opens: '06:00' })
   const palette = $state({ open: false })
+
   const exportJob = $state<{ open: boolean; status: 'idle' | 'generating' | 'done' }>({
     open: false,
     status: 'idle',
@@ -35,6 +36,7 @@
 
   function generate() {
     exportJob.status = 'generating'
+
     setTimeout(() => {
       if (exportJob.status === 'generating') exportJob.status = 'done'
     }, 2000)
@@ -53,7 +55,9 @@
 
   function save(event: SubmitEvent) {
     event.preventDefault()
+
     edit.saving = true
+
     setTimeout(() => {
       edit.saving = false
       edit.open = false

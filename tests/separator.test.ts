@@ -9,6 +9,7 @@ const separator = (container: HTMLElement) =>
 describe('Separator', () => {
   it('is a decorative horizontal rule by default', () => {
     const el = separator(render(Separator).container)
+
     expect(el).toHaveAttribute('data-orientation', 'horizontal')
     expect(el).toHaveAttribute('role', 'none')
     expect(el).toHaveClass('bg-border')
@@ -18,6 +19,7 @@ describe('Separator', () => {
     const el = separator(
       render(Separator, { orientation: 'vertical', decorative: false }).container,
     )
+
     expect(el).toHaveAttribute('data-orientation', 'vertical')
     expect(el).toHaveAttribute('role', 'separator')
     expect(el).toHaveAttribute('aria-orientation', 'vertical')

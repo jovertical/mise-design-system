@@ -31,12 +31,17 @@
    */
   $effect(() => {
     const root = document.documentElement
+
     const read = () => {
       pageIsDark = root.classList.contains('dark')
     }
+
     read()
+
     const observer = new MutationObserver(read)
+
     observer.observe(root, { attributes: true, attributeFilter: ['class'] })
+
     return () => observer.disconnect()
   })
 
@@ -46,6 +51,7 @@
 
   const resolvedTheme = $derived.by((): 'light' | 'dark' => {
     if (theme === 'light' || theme === 'dark') return theme
+
     if (theme === 'system') return systemTheme()
 
     return pageIsDark ? 'dark' : 'light'

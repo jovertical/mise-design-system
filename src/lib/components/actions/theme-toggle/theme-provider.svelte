@@ -37,11 +37,14 @@
   // The key and default are read once, at mount, as React's useState initialiser read them.
   // svelte-ignore state_referenced_locally
   const state = new ThemeState(storageKey, defaultTheme)
+
   setThemeContext(state)
 
   $effect(() => {
     const root = document.documentElement
+
     root.classList.remove('light', 'dark')
+
     root.classList.add(state.resolved)
   })
 </script>

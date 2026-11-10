@@ -44,6 +44,7 @@
   }: ButtonProps = $props()
 
   const resolvedTone = $derived(tone ?? defaultButtonTone(variant))
+
   const classes = $derived(
     cn(buttonVariants({ variant, tone: resolvedTone, size, iconOnly }), className),
   )

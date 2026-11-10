@@ -16,8 +16,10 @@
   } = $props()
 
   const placeholder = new CalendarDate(2026, 3, 14)
+
   const isWeekend = (date: DateValue) => {
     const day = date.toDate('UTC').getUTCDay()
+
     return day === 0 || day === 6
   }
 </script>

@@ -11,7 +11,9 @@ import Probe from './fixtures/probe.svelte'
 describe('toolchain', () => {
   it('renders a Svelte 5 component and reacts to an event', async () => {
     render(Probe, { props: { label: 'Orders' } })
+
     await userEvent.click(screen.getByRole('button'))
+
     expect(screen.getByRole('button')).toHaveTextContent('Orders: 1')
   })
 })

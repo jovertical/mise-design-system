@@ -24,6 +24,7 @@
   export type StatSize = 'sm' | 'md' | 'lg'
 
   const SIZE_CLASS: Record<StatSize, string> = { sm: 'text-xl', md: 'text-2xl', lg: 'text-3xl' }
+
   const SIZE_SKELETON_CLASS: Record<StatSize, string> = {
     sm: 'h-6 w-16',
     md: 'h-7 w-20',

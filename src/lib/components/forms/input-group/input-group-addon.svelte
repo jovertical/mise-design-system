@@ -30,6 +30,7 @@
 
   function focusControl(event: MouseEvent & { currentTarget: EventTarget & HTMLDivElement }) {
     onclick?.(event)
+
     if ((event.target as HTMLElement).closest('button')) return
 
     event.currentTarget.parentElement?.querySelector<HTMLElement>('input, textarea')?.focus()

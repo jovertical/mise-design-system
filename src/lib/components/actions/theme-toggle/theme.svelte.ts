@@ -18,10 +18,12 @@ export class ThemeState {
 
   constructor(storageKey: string, defaultTheme: Theme) {
     this.#storageKey = storageKey
+
     const stored =
       typeof localStorage === 'undefined'
         ? null
         : (localStorage.getItem(storageKey) as Theme | null)
+
     this.#theme = stored || defaultTheme
   }
 
@@ -31,6 +33,7 @@ export class ThemeState {
 
   setTheme = (next: Theme) => {
     localStorage.setItem(this.#storageKey, next)
+
     this.#theme = next
   }
 
@@ -42,7 +45,9 @@ export class ThemeState {
    */
   get resolved(): 'dark' | 'light' {
     if (this.#theme !== 'system') return this.#theme
+
     if (typeof window === 'undefined') return 'light'
+
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
   }
 }
@@ -52,6 +57,8 @@ export const setThemeContext = (state: ThemeState) => setContext(KEY, state)
 /** The theme from the nearest `ThemeProvider`. */
 export function useTheme(): ThemeState {
   const state = getContext<ThemeState | undefined>(KEY)
+
   if (!state) throw new Error('useTheme must be used within a <ThemeProvider>')
+
   return state
 }

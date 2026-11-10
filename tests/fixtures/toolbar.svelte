@@ -14,6 +14,7 @@
     $props()
 
   let mode = $state<DataTableViewMode>('table')
+
   const filters = [
     { columnId: 'status', title: 'Status', options: STATUS_OPTIONS },
     { columnId: 'missing', title: 'Missing', options: STATUS_OPTIONS },

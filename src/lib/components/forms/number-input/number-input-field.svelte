@@ -70,37 +70,47 @@
 
   function commit(next: number | null) {
     const settled = next === null && !clearable ? min : next
+
     value = settled
+
     onValueChange?.(settled)
   }
 
   const handleInput: NumberInputFieldProps['oninput'] = (event) => {
     const field = event.currentTarget
     const next = sanitize(field.value, min < 0, places)
+
     if (field.value !== next) field.value = next
+
     draft = next
 
     const parsed = parse(next)
+
     if (next === '') {
       if (clearable) commit(null)
     } else if (parsed !== null) {
       commit(clamp(toValue(parsed), min, max))
     }
+
     oninput?.(event)
   }
 
   const handleFocus: NumberInputFieldProps['onfocus'] = (event) => {
     draft = committed
     selectingOnFocus = true
+
     event.currentTarget.select()
+
     onfocus?.(event)
   }
 
   const handleMouseUp: NumberInputFieldProps['onmouseup'] = (event) => {
     if (selectingOnFocus) {
       event.preventDefault()
+
       selectingOnFocus = false
     }
+
     onmouseup?.(event)
   }
 
@@ -109,10 +119,13 @@
     // out-of-range value does not quietly rewrite it.
     if (draft !== null && draft !== committed) {
       const parsed = parse(draft)
+
       commit(parsed === null ? null : clamp(toValue(parsed), min, max))
     }
+
     draft = null
     selectingOnFocus = false
+
     onblur?.(event)
   }
 
@@ -120,17 +133,23 @@
     // Focus from the keyboard has no mouseup to spend the flag on, and a stale
     // one would swallow the next click meant to place the caret.
     selectingOnFocus = false
+
     onkeydown?.(event)
+
     if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown') return
+
     event.preventDefault()
 
     const direction = event.key === 'ArrowUp' ? 1 : -1
     const current = parse(draft ?? committed)
+
     const next =
       current === null
         ? clamp(Math.max(min, 0), min, max)
         : clamp(add(toValue(current), direction * step * (event.shiftKey ? 10 : 1)), min, max)
+
     commit(next)
+
     draft = textOf(next)
   }
 </script>

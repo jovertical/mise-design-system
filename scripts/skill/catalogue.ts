@@ -31,25 +31,35 @@ const cell = (text: string) => text.replace(/\|/g, '\\|')
 function typeSources(dir: string): string[] {
   return readdirSync(dir, { withFileTypes: true }).flatMap((dirent) => {
     const path = join(dir, dirent.name)
+
     if (dirent.isDirectory()) return typeSources(path)
+
     if (dirent.name.endsWith('.ts') && !dirent.name.endsWith('.d.ts')) {
       return [readFileSync(path, 'utf8')]
     }
+
     if (dirent.name.endsWith('.svelte') && !dirent.name.endsWith('.stories.svelte')) {
       const { module } = scripts(readFileSync(path, 'utf8'))
+
       return module ? [module] : []
     }
+
     return []
   })
 }
 
 function partDoc(folderPath: string, entry: ExportDoc): (PropsDoc & { name: string }) | null {
   const file = join(folderPath, entry.from)
+
   if (!existsSync(file)) return null
+
   const { module, instance } = scripts(readFileSync(file, 'utf8'))
   const doc = module ? propsDoc(module, `${entry.name}Props`) : null
+
   if (!doc) return null
+
   const defaults = instance ? propDefaults(instance) : new Map<string, string | null>()
+
   return {
     name: entry.name,
     ...doc,
@@ -67,10 +77,13 @@ function readableType(
   siblings: Map<string, PropsDoc>,
 ): string {
   const indexed = type.match(/^(\w+)Props\['(\w+)'\]$/)
+
   const sibling = indexed
     ? siblings.get(indexed[1])?.props.find((p) => p.name === indexed[2])
     : null
+
   const resolved = sibling?.type ?? type
+
   return aliases.get(resolved) ?? resolved
 }
 
@@ -81,18 +94,25 @@ function renderPart(
   siblings: Map<string, PropsDoc>,
 ): string[] {
   const lines = [heading, '']
+
   if (part.summary) lines.push(part.summary, '')
+
   if (part.props.length > 0) {
     lines.push('| Prop | Type | Default | Description |', '| --- | --- | --- | --- |')
+
     for (const prop of part.props) {
       const name = `\`${prop.name}\`${prop.optional ? '' : ' (required)'}`
       const fallback = prop.default === null ? '' : `\`${cell(prop.default)}\``
       const type = readableType(prop.type, aliases, siblings)
+
       lines.push(`| ${name} | \`${cell(type)}\` | ${fallback} | ${cell(prop.description)} |`)
     }
+
     lines.push('')
   }
+
   if (part.alsoTakes.length > 0) lines.push(`Also takes: ${part.alsoTakes.join('; ')}.`, '')
+
   return lines
 }
 
@@ -113,49 +133,64 @@ function renderFolder(
   const imported = [...components, ...values].map((part) => part.name)
 
   const lines = [`## ${rootPart?.name ?? folder}`, '']
+
   if (imported.length > 0) lines.push(`\`import { ${imported.join(', ')} } from '${entry}'\``, '')
 
   const ordered = rootPart ? [rootPart, ...components.filter((part) => part !== rootPart)] : []
   const docs = new Map(ordered.map((part) => [part.name, partDoc(folderPath, part)]))
+
   const siblings = new Map(
     [...docs].filter((pair): pair is [string, PropsDoc & { name: string }] => pair[1] !== null),
   )
+
   ordered.forEach((part, index) => {
     const doc = docs.get(part.name) ?? null
+
     if (!doc) {
       lines.push(index === 0 ? '' : `### \`${part.name}\``, '')
+
       return
     }
+
     const rendered = renderPart(doc, index === 0 ? '' : `### \`${part.name}\``, aliases, siblings)
+
     lines.push(...(index === 0 ? rendered.slice(2) : rendered))
   })
 
   if (values.length > 0)
     lines.push(`Also exports: ${values.map((v) => `\`${v.name}\``).join(', ')}.`, '')
+
   if (types.length > 0) {
     const named = types.map((type) => {
       const values = aliases.get(type.name)
+
       return values ? `\`${type.name}\` (\`${values}\`)` : `\`${type.name}\``
     })
+
     lines.push(`Types: ${named.join(', ')}.`, '')
   }
+
   return lines
 }
 
 export function catalogue(root: string): Map<string, string> {
   const componentsDir = join(root, 'src', 'lib', 'components')
   const formEntry = readFileSync(join(root, 'src', 'lib', 'form.ts'), 'utf8')
+
   const formFolders = new Set(
     [...formEntry.matchAll(/components\/([\w-]+\/[\w-]+)\/index\.js/g)].map((match) => match[1]),
   )
 
   const aliases = literalAliases(typeSources(join(root, 'src', 'lib')))
   const files = new Map<string, string>()
+
   for (const group of subfolders(componentsDir)) {
     const lines = [HEADER, '', `# ${title(group)}`, '']
+
     for (const folder of subfolders(join(componentsDir, group))) {
       lines.push(...renderFolder(root, group, folder, formFolders, aliases))
     }
+
     files.set(
       group,
       `${lines
@@ -164,5 +199,6 @@ export function catalogue(root: string): Map<string, string> {
         .trimEnd()}\n`,
     )
   }
+
   return files
 }

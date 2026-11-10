@@ -13,6 +13,7 @@ export type BaseName = (typeof BASES)[number]
  */
 const SYSTEM_SANS =
   "ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'"
+
 const SYSTEM_MONO =
   "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace"
 

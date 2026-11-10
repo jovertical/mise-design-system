@@ -58,6 +58,7 @@ export function defineTheme(config: ThemeConfig): ThemeConfig {
 export function resolveRamp(role: string, value: HueOrRamp): Ramp {
   if (typeof value === 'string') {
     const ramp = (tailwindPalette as Record<string, Ramp | undefined>)[value]
+
     if (!ramp) {
       throw new Error(
         `Unknown hue "${value}" for ${role}. Use a Tailwind hue name or a 50–950 ramp.`,
@@ -68,6 +69,7 @@ export function resolveRamp(role: string, value: HueOrRamp): Ramp {
   }
 
   const missing = STEPS.filter((step) => !value[step])
+
   if (missing.length > 0) {
     throw new Error(`The ${role} ramp is missing steps: ${missing.join(', ')}`)
   }
@@ -77,11 +79,13 @@ export function resolveRamp(role: string, value: HueOrRamp): Ramp {
 
 export function resolveTheme(config: ThemeConfig = {}): ResolvedTheme {
   const base = config.base ?? defaultTheme.base
+
   if (!(BASES as readonly string[]).includes(base)) {
     throw new Error(`Unknown base "${base}". Use one of: ${BASES.join(', ')}.`)
   }
 
   const status = { ...defaultTheme.status, ...config.status }
+
   const [c1, c2, c3, c4, c5] = (config.charts ?? defaultTheme.charts).map((hue) =>
     resolveRamp('charts', hue),
   )

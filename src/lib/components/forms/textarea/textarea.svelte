@@ -32,6 +32,7 @@
   }: TextareaProps = $props()
 
   const length = $derived(String(value ?? '').length)
+
   const isBelowMinimum = $derived(
     minlength !== undefined && minlength !== null && length > 0 && length < minlength,
   )

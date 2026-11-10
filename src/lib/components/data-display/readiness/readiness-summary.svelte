@@ -37,14 +37,18 @@
 
   const summary = $derived(summariseReadiness(items))
   const resolved = $derived(ready ?? summary.complete)
+
   // A caller can pass ready={false} with every row ticked: the gate is shut for
   // a reason this list does not know, and claiming readiness would be a lie.
   const message = $derived.by(() => {
     if (resolved) return readyMessage
+
     if (summary.blocking.length > 0)
       return `Still needed: ${summary.blocking.map((item) => item.label).join(', ')}.`
+
     if (summary.pending.length > 0)
       return `Waiting on: ${summary.pending.map((item) => item.label).join(', ')}.`
+
     return 'Not ready yet.'
   })
 </script>

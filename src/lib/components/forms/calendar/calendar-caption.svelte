@@ -50,7 +50,9 @@
 
   function pickMonth(event: Event & { currentTarget: HTMLSelectElement }) {
     if (!placeholder) return
+
     const picked = placeholder.set({ month: Number.parseInt(event.currentTarget.value, 10) })
+
     placeholder = picked.subtract({ months: monthIndex })
   }
 </script>

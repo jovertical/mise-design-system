@@ -361,11 +361,13 @@ describe('public barrel', () => {
         /export \* from '\.\/components\/([a-z-]+\/[a-z-]+)\/index\.js'/g,
       ),
     ].map((match) => match[1])
+
     expect(referenced.sort()).toEqual(folders)
   })
 
   it('provides every expected runtime export', () => {
     const missing = EXPECTED_EXPORTS.filter((name) => !(name in entry))
+
     expect(missing).toEqual([])
   })
 

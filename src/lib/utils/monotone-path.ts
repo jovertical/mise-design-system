@@ -11,26 +11,32 @@ export function monotonePath(points: readonly (readonly [number, number])[]): st
   if (points.length < 2) return ''
 
   const [[x0, y0], [x1, y1]] = points
+
   if (points.length === 2) return `M${x0},${y0}L${x1},${y1}`
 
   const tangents = interiorTangents(points)
   const last = points.length - 1
+
   tangents[0] = endTangent(points[0], points[1], tangents[1])
   tangents[last] = endTangent(points[last - 1], points[last], tangents[last - 1])
 
   let path = `M${x0},${y0}`
+
   for (let index = 0; index < last; index++) {
     path += segment(points[index], points[index + 1], tangents[index], tangents[index + 1])
   }
+
   return path
 }
 
 /** The tangent at every interior point; the two ends are filled in after. */
 function interiorTangents(points: readonly (readonly [number, number])[]): number[] {
   const tangents = new Array<number>(points.length).fill(0)
+
   for (let index = 1; index < points.length - 1; index++) {
     tangents[index] = interiorTangent(points[index - 1], points[index], points[index + 1])
   }
+
   return tangents
 }
 
@@ -45,6 +51,7 @@ function interiorTangent(
   const s0 = h0 === 0 ? 0 : (y1 - y0) / h0
   const s1 = h1 === 0 ? 0 : (y2 - y1) / h1
   const p = (s0 * h1 + s1 * h0) / (h0 + h1)
+
   return (Math.sign(s0) + Math.sign(s1)) * Math.min(Math.abs(s0), Math.abs(s1), 0.5 * Math.abs(p))
 }
 
@@ -55,6 +62,7 @@ function endTangent(
   neighbour: number,
 ): number {
   const h = x1 - x0
+
   return h === 0 ? neighbour : (3 * ((y1 - y0) / h) - neighbour) / 2
 }
 
@@ -66,5 +74,6 @@ function segment(
   t1: number,
 ): string {
   const dx = (x1 - x0) / 3
+
   return `C${x0 + dx},${y0 + dx * t0},${x1 - dx},${y1 - dx * t1},${x1},${y1}`
 }

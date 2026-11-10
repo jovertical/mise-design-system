@@ -30,10 +30,12 @@ describe('component stories', () => {
   it('render their markup as is, never inside the meta component', () => {
     const wrapped = storyFiles.flatMap((file) => {
       const source = readFileSync(join(components, file), 'utf8')
+
       return [...source.matchAll(/<Story\b([^>]*)>\s*(\S{0,20})/g)]
         .filter(([, attributes, next]) => !/\basChild\b/.test(attributes) && next !== '{#snippet')
         .map(([, attributes]) => `${file}: <Story${attributes}>`)
     })
+
     expect(wrapped).toEqual([])
   })
 
@@ -46,8 +48,10 @@ describe('component stories', () => {
       const story = join(path, `${name}.stories.svelte`)
       const title = readFileSync(join(components, story), 'utf8').match(/title:\s*'([^']+)'/)?.[1]
       const expected = `${GROUPS[group as keyof typeof GROUPS]}/${pascal(name)}`
+
       return title === expected ? [] : [`${story}: '${title}', expected '${expected}'`]
     })
+
     expect(wrong).toEqual([])
   })
 })
@@ -67,6 +71,7 @@ const AXES = [
   'Densities',
   'Formats',
 ]
+
 const BANNED = ['Default', 'Basic', 'Plain', 'Small']
 
 /**
@@ -75,12 +80,19 @@ const BANNED = ['Default', 'Basic', 'Plain', 'Small']
  */
 function rank(name: string): number {
   if (name === 'Playground') return 1
+
   if (name === 'Matrix') return 2
+
   if (AXES.includes(name)) return 3
+
   if (name === 'States') return 4
+
   if (name.startsWith('With ')) return 5
+
   if (name === 'Long content') return 6
+
   if (/^(In|On) /.test(name)) return 7
+
   return 8
 }
 
@@ -96,6 +108,7 @@ describe('the story skeleton', () => {
 
   it('opens every file with a Playground', () => {
     const wrong = files.filter((file) => storiesIn(read(file))[0]?.name !== 'Playground')
+
     expect(wrong).toEqual([])
   })
 
@@ -105,22 +118,27 @@ describe('the story skeleton', () => {
         .filter(({ name }) => BANNED.includes(name))
         .map(({ name }) => `${file}: ${name}`),
     )
+
     expect(wrong).toEqual([])
   })
 
   it('keeps the skeleton order, scenarios last', () => {
     const wrong = files.filter((file) => {
       const ranks = storiesIn(read(file)).map(({ name }) => rank(name))
+
       return ranks.some((value, index) => index > 0 && value < ranks[index - 1])
     })
+
     expect(wrong).toEqual([])
   })
 
   it('draws a Matrix with StoryMatrix', () => {
     const wrong = files.filter((file) => {
       const source = read(file)
+
       return /<Story\s+name="Matrix"/.test(source) && !source.includes('story-matrix.svelte')
     })
+
     expect(wrong).toEqual([])
   })
 
@@ -131,6 +149,7 @@ describe('the story skeleton', () => {
         .filter(({ commented }) => !commented)
         .map(({ name }) => `${file}: ${name}`),
     )
+
     expect(wrong).toEqual([])
   })
 })

@@ -87,6 +87,7 @@
     const dataLabel = tooltipData != null ? chartCtx.x(tooltipData) : undefined
 
     const key = labelKey ?? item?.label ?? item?.key ?? 'value'
+
     const itemConfig = getPayloadConfigFromPayload(
       chart.config,
       item,
@@ -95,6 +96,7 @@
     )
 
     let value: unknown
+
     if (!labelKey && typeof label === 'string') {
       value = chart.config[label as keyof typeof chart.config]?.label ?? label
     } else if (labelKey) {
@@ -104,7 +106,9 @@
     }
 
     if (value === undefined) return null
+
     if (!labelFormatter) return value
+
     return labelFormatter(value, visibleSeries)
   })
 

@@ -24,6 +24,7 @@
   function segmentsOf(characters: string, groups: readonly number[]): string[] {
     return groups.map((groupLength, index) => {
       const groupStart = groups.slice(0, index).reduce((total, length) => total + length, 0)
+
       return characters.slice(groupStart, groupStart + groupLength)
     })
   }

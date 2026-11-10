@@ -40,6 +40,7 @@
     { name: 'Fresh milk', from: '180ml', to: '252ml' },
     { name: 'Condensed milk', from: '30ml', to: '42ml' },
   ]
+
   const CRASHES = [
     {
       name: 'TypeError',

@@ -105,10 +105,13 @@
   function pressStep(direction: 1 | -1) {
     // An empty field has nothing to step down from; stepping up starts it at the floor.
     if (isEmpty && direction === -1) return
+
     const next = isEmpty
       ? clamp(Math.max(min, 0), min, max)
       : clamp(add(value as number, direction * step), min, max)
+
     value = next
+
     onValueChange?.(next)
   }
 </script>

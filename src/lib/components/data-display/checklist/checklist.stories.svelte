@@ -57,18 +57,23 @@
       ],
     },
   ]
+
   const PARTIAL = $derived(
     groups(['completed', 'completed', 'pending'], ['pending', 'pending'], [67, 0]),
   )
+
   const PENDING = $derived(
     groups(['pending', 'pending', 'pending'], ['pending', 'pending'], [0, 0]),
   )
+
   const DONE = $derived(
     groups(['completed', 'completed', 'completed'], ['completed', 'skipped'], [100, 100]),
   )
+
   const MIXED = $derived(
     groups(['completed', 'skipped', 'pending'], ['pending', 'pending'], [33, 0]),
   )
+
   const WITH_MEDIA: ChecklistGroup[] = $derived([
     {
       key: 'menu',
@@ -88,6 +93,7 @@
       ],
     },
   ])
+
   const EDGES: ChecklistGroup[] = $derived([
     {
       key: 'fraction',

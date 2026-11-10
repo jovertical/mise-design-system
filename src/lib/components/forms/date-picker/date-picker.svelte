@@ -16,6 +16,7 @@
     value?: DateValue
     onValueChange?: (value: DateValue | undefined) => void
   }
+
   type Range = {
     mode: 'range'
     value?: DateRange
@@ -89,21 +90,29 @@
 
   const label = $derived.by(() => {
     if (mode === 'single') return value ? formatDate(value as DateValue) : null
+
     const range = value as DateRange | undefined
+
     if (!range?.start) return null
+
     if (!range.end) return formatDate(range.start)
+
     return `${formatDate(range.start)} – ${formatDate(range.end)}`
   })
 
   function pickDay(next: DateValue | undefined) {
     value = next
+
     ;(onValueChange as Single['onValueChange'])?.(next)
+
     open = false
   }
 
   function pickRange(next: DateRange) {
     value = next
+
     ;(onValueChange as Range['onValueChange'])?.(next)
+
     if (next.start && next.end) open = false
   }
 </script>

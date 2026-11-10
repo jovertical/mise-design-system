@@ -54,6 +54,7 @@
     const margin = (2 / height) * SIZE
     const low = Math.min(...data)
     const range = Math.max(...data) - low
+
     return data.map((value, index): [number, number] => [
       (index / (data.length - 1)) * SIZE,
       range === 0 ? SIZE / 2 : SIZE - margin - ((value - low) / range) * (SIZE - 2 * margin),

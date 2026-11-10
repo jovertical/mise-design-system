@@ -95,67 +95,90 @@ export class MediaUploader {
   addFiles = (files: FileList | File[] | null) => {
     const { adapter, disabled, accept, maxSize, onError } = this.#options()
     const candidates = Array.from(files ?? [])
+
     if (disabled || candidates.length === 0) return
+
     if (!adapter.ready) {
       onError?.(new Error('Media service is not ready yet.'))
+
       return
     }
+
     if (this.uploading) return
 
     for (const failed of this.queue) this.#settle(failed.id)
+
     const acceptedTypes = accept
       .split(',')
       .map((type) => type.trim())
       .filter(Boolean)
+
     const [first, ...extra] = candidates
+
     const refusals: RejectedFile[] = extra.map((file) => ({
       id: newId(),
       name: file.name,
       reason: 'limit',
       message: 'No slots left.',
     }))
+
     const refusal = refuse(first, acceptedTypes, maxSize)
+
     if (refusal) {
       this.rejected = [{ id: newId(), name: first.name, ...refusal }, ...refusals]
+
       return
     }
+
     this.rejected = refusals
 
     // A single slot is replaced, not filled: make room for the new file.
     this.#evict()
+
     const id = newId()
+
     this.queue = [{ id, name: first.name, progress: 0, status: 'uploading' }]
+
     this.#attempts.set(id, (options) => adapter.upload(first, options))
+
     void this.#run(id)
   }
 
   retry = (id: string) => {
     if (this.queue.find((item) => item.id === id)?.status !== 'failed') return
+
     void this.#run(id)
   }
 
   cancel = (id: string) => {
     this.#controllers.get(id)?.abort()
+
     this.#settle(id)
   }
 
   /** Clears the slot. An unlink that fails is reported, not rolled back. */
   remove = () => {
     this.rejected = []
+
     this.#evict()
   }
 
   /** Stops every request; call when the zone goes away. */
   destroy = () => {
     for (const controller of this.#controllers.values()) controller.abort()
+
     this.#controllers.clear()
   }
 
   #evict() {
     const { value, onChange, linkMode, adapter, onError } = this.#options()
+
     if (!value) return
+
     onChange(null)
+
     if (linkMode !== 'immediate' || !adapter.unlink) return
+
     adapter.unlink(value).catch((error: unknown) => {
       onError?.(new Error(messageOf(error, 'Failed to detach the image.')))
     })
@@ -163,7 +186,9 @@ export class MediaUploader {
 
   #settle(id: string) {
     this.#controllers.delete(id)
+
     this.#attempts.delete(id)
+
     this.queue = this.queue.filter((item) => item.id !== id)
   }
 
@@ -173,24 +198,34 @@ export class MediaUploader {
 
   async #run(id: string) {
     const attempt = this.#attempts.get(id)
+
     if (!attempt) return
+
     const controller = new AbortController()
+
     this.#controllers.set(id, controller)
+
     this.#update(id, { status: 'uploading', error: undefined, progress: 0 })
+
     try {
       const asset = await attempt({
         signal: controller.signal,
         onProgress: (percent) => this.#update(id, { progress: percent }),
       })
+
       this.#settle(id)
+
       this.#options().onChange(asset)
     } catch (error) {
       this.#controllers.delete(id)
+
       // An abort is a person removing the upload, not a failure to report.
       if (controller.signal.aborted) {
         this.#settle(id)
+
         return
       }
+
       this.#update(id, { status: 'failed', error: messageOf(error, 'Upload failed') })
     }
   }
@@ -198,6 +233,7 @@ export class MediaUploader {
 
 function newId(): string {
   if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID()
+
   return `media-${Math.random().toString(36).slice(2)}`
 }
 
@@ -212,8 +248,11 @@ function messageOf(error: unknown, fallback: string): string {
  */
 function matches(file: File, pattern: string): boolean {
   if (pattern.startsWith('.')) return file.name.toLowerCase().endsWith(pattern.toLowerCase())
+
   if (pattern === file.type) return true
+
   if (!pattern.endsWith('/*')) return false
+
   return file.type.startsWith(pattern.slice(0, -1))
 }
 
@@ -225,9 +264,11 @@ function refuse(
   if (!acceptedTypes.some((pattern) => matches(file, pattern))) {
     return { reason: 'type', message: `${describe(acceptedTypes)} only.` }
   }
+
   if (file.size > maxSize) {
     return { reason: 'size', message: `Larger than ${formatSize(maxSize)}.` }
   }
+
   return null
 }
 
@@ -236,14 +277,18 @@ function describe(acceptedTypes: string[]): string {
   const labels = acceptedTypes
     .map((pattern) => {
       if (pattern.startsWith('.')) return pattern.slice(1).toUpperCase()
+
       if (pattern.endsWith('/*')) return pattern.split('/')[0]?.toUpperCase()
+
       return pattern.split('/')[1]?.toUpperCase()
     })
     .filter(Boolean)
+
   return Array.from(new Set(labels)).join(', ')
 }
 
 function formatSize(bytes: number): string {
   const megabytes = bytes / 1024 / 1024
+
   return megabytes >= 1 ? `${Math.round(megabytes)}MB` : `${Math.round(bytes / 1024)}KB`
 }

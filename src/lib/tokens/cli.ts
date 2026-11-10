@@ -38,11 +38,13 @@ export async function runThemeCli(
   if (argv[0] === 'info') return runInfo(argv.includes('--json'), cwd, version)
 
   const [configPath, flag, outputPath] = argv
+
   if (!configPath || flag !== '-o' || !outputPath) return { code: 1, message: USAGE }
 
   try {
     const module = await import(pathToFileURL(resolve(cwd, configPath)).href)
     const config: ThemeConfig | undefined = module.default
+
     if (!config || typeof config !== 'object') {
       return { code: 1, message: `${configPath} has no default export.` }
     }
@@ -50,7 +52,9 @@ export async function runThemeCli(
     const overrides = await readFile(COMPONENTS_CSS, 'utf8')
     const css = themeStylesheet(config, overrides)
     const target = resolve(cwd, outputPath)
+
     await mkdir(dirname(target), { recursive: true })
+
     await writeFile(target, css)
 
     return { code: 0, message: `${outputPath}: ${css.split('\n').length} lines` }
@@ -66,11 +70,13 @@ export async function runThemeCli(
 async function runInfo(json: boolean, cwd: string, version: string): Promise<CliResult> {
   try {
     const info = await projectInfo(cwd, version)
+
     const message = json
       ? JSON.stringify(info, null, 2)
       : Object.entries(info)
           .map(([key, value]) => `${key}: ${value ?? '—'}`)
           .join('\n')
+
     return { code: 0, message }
   } catch (error) {
     return { code: 1, message: error instanceof Error ? error.message : String(error) }

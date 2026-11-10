@@ -31,6 +31,7 @@
     applyAction: false,
     validators: zod4(schema),
   })
+
   const { form: data } = form
 </script>
 

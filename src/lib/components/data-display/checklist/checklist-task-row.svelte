@@ -25,6 +25,7 @@
   let { task, open, onExpandedChange }: ChecklistTaskRowProps = $props()
 
   const hasBody = $derived(Boolean(task.description || task.media || task.learnMore))
+
   const focusRing =
     'focus-visible:border-ring focus-visible:ring-ring/50 rounded-md outline-none focus-visible:ring-[3px]'
 </script>

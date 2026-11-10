@@ -16,6 +16,7 @@
 
   function navigate(state: { pending: boolean }, holdMs: number) {
     state.pending = true
+
     setTimeout(() => {
       state.pending = false
     }, holdMs)

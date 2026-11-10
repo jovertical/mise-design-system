@@ -41,6 +41,7 @@ export const inputGroupButtonVariants = cva('text-sm shadow-none flex gap-2 item
 export type InputGroupAddonAlign = NonNullable<
   VariantProps<typeof inputGroupAddonVariants>['align']
 >
+
 export type InputGroupButtonSize = NonNullable<
   VariantProps<typeof inputGroupButtonVariants>['size']
 >

@@ -35,12 +35,15 @@ export function sanitize(raw: string, allowsNegative: boolean, places: number | 
 /** A finished number, or `null` for an empty or half-typed one ("-", "."). */
 export function parse(text: string): number | null {
   if (text === '' || text === '-' || text === '.' || text === '-.') return null
+
   const parsed = Number(text)
+
   return Number.isFinite(parsed) ? parsed : null
 }
 
 export function clamp(value: number, min: number, max: number | undefined): number {
   const floored = Math.max(min, value)
+
   return max === undefined ? floored : Math.min(max, floored)
 }
 
@@ -49,5 +52,6 @@ const decimalPlaces = (value: number) => String(value).split('.')[1]?.length ?? 
 /** Rounded to the finer of the two precisions, so 0.1 + 0.2 lands on 0.3. */
 export function add(current: number, delta: number): number {
   const places = Math.max(decimalPlaces(current), decimalPlaces(delta))
+
   return Number((current + delta).toFixed(places))
 }

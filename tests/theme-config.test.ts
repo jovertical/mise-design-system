@@ -32,6 +32,7 @@ const SPEC_HUES = [
 describe('tailwind palette', () => {
   it('carries every Tailwind v4 hue the spec relies on', () => {
     const missing = SPEC_HUES.filter((hue) => !(hue in tailwindPalette))
+
     expect(missing).toEqual([])
   })
 
@@ -45,6 +46,7 @@ describe('tailwind palette', () => {
 describe('resolveTheme', () => {
   it('defaults to a zinc base, an indigo brand and the spec statuses (D11)', () => {
     const theme = resolveTheme()
+
     expect(theme.ramps.base).toBe(tailwindPalette.zinc)
     expect(theme.ramps.primary).toBe(tailwindPalette.indigo)
     expect(theme.ramps.info).toBe(tailwindPalette.sky)
@@ -62,6 +64,7 @@ describe('resolveTheme', () => {
 
   it('takes a base, a brand hue and one status from the config', () => {
     const theme = resolveTheme({ base: 'stone', primary: 'teal', status: { warning: 'orange' } })
+
     expect(theme.ramps.base).toBe(tailwindPalette.stone)
     expect(theme.ramps.primary).toBe(tailwindPalette.teal)
     expect(theme.ramps.warning).toBe(tailwindPalette.orange)
@@ -70,11 +73,13 @@ describe('resolveTheme', () => {
 
   it('accepts a custom 50–950 ramp for the brand', () => {
     const ramp = Object.fromEntries(STEPS.map((step) => [step, `oklch(0.5 0.1 ${step})`]))
+
     expect(resolveTheme({ primary: ramp as never }).ramps.primary).toEqual(ramp)
   })
 
   it('names the missing steps of an incomplete custom ramp', () => {
     const ramp = { 50: 'oklch(0.9 0.1 200)', 500: 'oklch(0.5 0.1 200)' }
+
     expect(() => resolveTheme({ primary: ramp as never })).toThrow(
       'The primary ramp is missing steps: 100, 200, 300, 400, 600, 700, 800, 900, 950',
     )
@@ -92,12 +97,14 @@ describe('resolveTheme', () => {
 
   it('merges fonts one face at a time', () => {
     const fonts = resolveTheme({ fonts: { sans: "'Inter', sans-serif" } }).fonts
+
     expect(fonts.sans).toBe("'Inter', sans-serif")
     expect(fonts.mono).toMatch(/ui-monospace/)
   })
 
   it('carries the light and dark escape hatches through untouched', () => {
     const theme = resolveTheme({ light: { '--sidebar': 'white' }, dark: { '--sidebar': 'black' } })
+
     expect(theme.light).toEqual({ '--sidebar': 'white' })
     expect(theme.dark).toEqual({ '--sidebar': 'black' })
   })
@@ -106,6 +113,7 @@ describe('resolveTheme', () => {
 describe('defineTheme', () => {
   it('returns the config unchanged; it exists for the types', () => {
     const config = { base: 'slate' as const }
+
     expect(defineTheme(config)).toBe(config)
   })
 })

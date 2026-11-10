@@ -13,8 +13,11 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 const target = join(skillDir(root), 'components')
 
 mkdirSync(target, { recursive: true })
+
 for (const stale of readdirSync(target)) rmSync(join(target, stale))
+
 for (const [group, markdown] of catalogue(root)) {
   writeFileSync(join(target, `${group}.md`), markdown)
+
   console.log(`skills/mise/components/${group}.md: ${markdown.split('\n').length} lines`)
 }

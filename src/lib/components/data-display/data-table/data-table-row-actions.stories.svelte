@@ -20,9 +20,11 @@
   })
 
   const column = dataTableColumns<(typeof DEVICES)[number]>()
+
   const hiddenHeading = createRawSnippet(() => ({
     render: () => '<span class="sr-only">Actions</span>',
   }))
+
   const columnsWithActions = [
     ...deviceColumns,
     column.display({

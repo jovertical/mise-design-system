@@ -38,6 +38,7 @@ const COMPONENT = `<!--
 describe('scripts', () => {
   it('splits the module script from the instance script', () => {
     const { module, instance } = scripts(COMPONENT)
+
     expect(module).toContain('export type ThingProps')
     expect(instance).toContain('$props()')
     expect(instance).not.toContain('export type')
@@ -89,12 +90,14 @@ describe('propsDoc', () => {
     ['HTMLAttributes<HTMLElement>', 'every HTML attribute'],
   ])('summarises %s', (operand, expected) => {
     const source = `export type XProps = ${operand} & { a?: string }`
+
     expect(propsDoc(source, 'XProps')?.alsoTakes).toEqual([expected])
   })
 
   it('summarises a union as one "also takes" entry per side', () => {
     const source =
       "export type XProps = ({ type?: 'single' } & SelectPrimitive.RootProps) | SelectPrimitive.RootProps"
+
     expect(propsDoc(source, 'XProps')?.alsoTakes).toEqual(['bits-ui `Select.Root` props'])
   })
 })
@@ -102,6 +105,7 @@ describe('propsDoc', () => {
 describe('propDefaults', () => {
   it('reads defaults from the $props() destructuring', () => {
     const defaults = propDefaults(scripts(COMPONENT).instance ?? '')
+
     expect(defaults.get('variant')).toBe("'soft'")
     expect(defaults.get('count')).toBeNull()
     expect(defaults.get('ref')).toBe('null')
@@ -114,6 +118,7 @@ describe('folderExports', () => {
   it('reads components, types and values from an index.ts', () => {
     const source = `export { type BadgeProps, default as Badge } from './badge.svelte'
 export { type BadgeVariant, badgeVariants } from './badge-variants.js'`
+
     expect(folderExports(source)).toEqual([
       { name: 'BadgeProps', from: './badge.svelte', component: false, typeOnly: true },
       { name: 'Badge', from: './badge.svelte', component: true, typeOnly: false },
@@ -135,6 +140,7 @@ export type GroupOrientation = NonNullable<
   VariantProps<typeof groupVariants>['orientation']
 >`,
   ]
+
   const aliases = literalAliases(files)
 
   it('reads unions of literals', () => {
@@ -179,6 +185,7 @@ type Root = SelectPrimitive.RootProps
 type Single = Extract<Root, { type: 'single' }>
 type Multiple = Extract<Root, { type: 'multiple' }>
 export type XProps = (Omit<Single, 'type'> & { type?: 'single' }) | Multiple`
+
     expect(propsDoc(source, 'XProps')?.alsoTakes).toEqual([
       'bits-ui `Select.Root` props except `type`',
       'bits-ui `Select.Root` props',
@@ -188,12 +195,14 @@ export type XProps = (Omit<Single, 'type'> & { type?: 'single' }) | Multiple`
   it('names the package a type is imported from', () => {
     const source = `import { type ToasterProps as SonnerProps } from 'svelte-sonner'
 export type XProps = SonnerProps`
+
     expect(propsDoc(source, 'XProps')?.alsoTakes).toEqual(['`svelte-sonner` `ToasterProps`'])
   })
 
   it('keeps a sibling part relative import as that part', () => {
     const source = `import type { NumberInputFieldProps } from './number-input-field.svelte'
 export type XProps = NumberInputFieldProps & { a?: string }`
+
     expect(propsDoc(source, 'XProps')?.alsoTakes).toEqual(['everything `NumberInputField` takes'])
   })
 })
@@ -203,6 +212,7 @@ describe('propsDoc, through local object aliases', () => {
     const source = `type Single = { mode: 'single'; value?: Date }
 type Range = { mode: 'range'; value?: { start: Date; end: Date } }
 export type XProps = { open?: boolean } & (Single | Range)`
+
     expect(propsDoc(source, 'XProps')?.props.map(({ name, type }) => [name, type])).toEqual([
       ['open', 'boolean'],
       ['mode', "'single' | 'range'"],
@@ -212,6 +222,7 @@ export type XProps = { open?: boolean } & (Single | Range)`
 
   it('phrases Pick as the keys it takes from a part', () => {
     const source = "export type XProps = Pick<ButtonProps, 'variant' | 'size'> & { a?: string }"
+
     expect(propsDoc(source, 'XProps')?.alsoTakes).toEqual(['`variant`, `size` from `Button`'])
   })
 })
@@ -222,8 +233,11 @@ describe('propsDoc, inside WithElementRef', () => {
   Omit<HTMLInputAttributes, 'type'> &
     ({ type: 'file'; on?: (files: FileList) => void } | { type?: 'text'; on?: (text: string) => void })
 >`
+
     const doc = propsDoc(source, 'XProps')
+
     expect(doc?.alsoTakes).toEqual(['every `<input>` attribute except `type`'])
+
     expect(doc?.props.map(({ name, type }) => [name, type])).toEqual([
       ['type', "'file' | 'text'"],
       ['on', '((files: FileList) => void) | ((text: string) => void)'],
@@ -239,14 +253,18 @@ export interface XProps extends HTMLAttributes<HTMLDivElement> {
   title: string
   description?: string
 }`
+
     const doc = propsDoc(source, 'XProps')
+
     expect(doc?.summary).toBe('A full-page stop.')
+
     expect(
       doc?.props.map(({ name, optional, description }) => [name, optional, description]),
     ).toEqual([
       ['title', false, 'What stopped.'],
       ['description', true, ''],
     ])
+
     expect(doc?.alsoTakes).toEqual(['every `<div>` attribute'])
   })
 })

@@ -40,13 +40,18 @@
 
   async function copy() {
     if (!getCopyText) return
+
     const text = getCopyText()
+
     if (!text) {
       toast.error('Nothing to copy', { description: 'Load some rows first, then try again.' })
+
       return
     }
+
     try {
       await navigator.clipboard.writeText(text)
+
       toast.success('Copied to clipboard')
     } catch {
       // Refused without a secure context or permission.

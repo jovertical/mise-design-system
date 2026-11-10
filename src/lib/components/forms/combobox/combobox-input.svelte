@@ -48,9 +48,13 @@
 
   function clear() {
     combobox?.clear()
+
     if (!(ref instanceof HTMLInputElement)) return
+
     ref.value = ''
+
     ref.dispatchEvent(new Event('input', { bubbles: true }))
+
     ref.focus()
   }
 </script>

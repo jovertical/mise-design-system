@@ -39,6 +39,7 @@ export class SidebarState {
 
   setOpen = (value: boolean) => {
     this.#props.setOpen(value)
+
     // The sidebar persists its open state to a cookie so a reload matches the
     // last choice, as upstream shadcn does.
     // biome-ignore lint/suspicious/noDocumentCookie: upstream shadcn behaviour
@@ -57,6 +58,7 @@ export class SidebarState {
   handleShortcutKeydown = (event: KeyboardEvent) => {
     if (event.key === SIDEBAR_KEYBOARD_SHORTCUT && (event.metaKey || event.ctrlKey)) {
       event.preventDefault()
+
       this.toggle()
     }
   }
@@ -71,6 +73,7 @@ export function setSidebar(props: SidebarStateProps): SidebarState {
 /** The sidebar's state, from inside a SidebarProvider. It is a class instance; do not destructure it. */
 export function useSidebar(): SidebarState {
   const sidebar = getContext<SidebarState | undefined>(KEY)
+
   if (!sidebar) throw new Error('useSidebar must be used within a SidebarProvider.')
 
   return sidebar

@@ -66,7 +66,9 @@
     const nextPeriod = next.period ?? (period || 'AM')
     const hours24 = nextPeriod === 'PM' ? (nextHour % 12) + 12 : nextHour % 12
     const time = new TimeValue(hours24, nextMinute)
+
     value = time
+
     onValueChange?.(time)
   }
 </script>

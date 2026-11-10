@@ -18,7 +18,9 @@ let dir: string
 
 beforeEach(() => {
   mkdirSync(scratch, { recursive: true })
+
   dir = mkdtempSync(join(scratch, 'mise-theme-'))
+
   writeFileSync(join(dir, 'package.json'), '{ "type": "module" }')
 })
 
@@ -33,7 +35,9 @@ describe('mise-theme', () => {
     const result = await runThemeCli(['mise.theme.js', '-o', 'src/mise-theme.css'], dir)
 
     expect(result.code).toBe(0)
+
     const css = readFileSync(join(dir, 'src', 'mise-theme.css'), 'utf8')
+
     expect(css).toContain(`--color-primary-600: ${tailwindPalette.teal[600]};`)
     expect(css).toContain('@theme inline {')
     expect(css).toContain("[data-slot='button'][aria-disabled='true']")
@@ -41,19 +45,24 @@ describe('mise-theme', () => {
 
   it('prints usage when the arguments are incomplete', async () => {
     const result = await runThemeCli(['mise.theme.js'], dir)
+
     expect(result.code).toBe(1)
     expect(result.message).toMatch(/^Usage: mise-theme <config> -o <output.css>/)
   })
 
   it('reports a config without a default export', async () => {
     writeFileSync(join(dir, 'empty.js'), 'export const theme = {}')
+
     const result = await runThemeCli(['empty.js', '-o', 'out.css'], dir)
+
     expect(result).toEqual({ code: 1, message: 'empty.js has no default export.' })
   })
 
   it('reports an invalid config instead of throwing', async () => {
     writeFileSync(join(dir, 'bad.js'), "export default { primary: 'chartreuse' }")
+
     const result = await runThemeCli(['bad.js', '-o', 'out.css'], dir)
+
     expect(result.code).toBe(1)
     expect(result.message).toContain('Unknown hue "chartreuse" for primary')
   })
@@ -65,8 +74,11 @@ describe('mise-theme info', () => {
 
   it('reports an Inertia app with its theme config and stylesheet', async () => {
     app({ '@inertiajs/svelte': '^2.0.0', svelte: '^5.41.0', tailwindcss: '^4.1.3' })
+
     writeFileSync(join(dir, 'mise.theme.js'), 'export default {}')
+
     mkdirSync(join(dir, 'resources', 'css'), { recursive: true })
+
     writeFileSync(
       join(dir, 'resources', 'css', 'app.css'),
       "@import 'tailwindcss';\n@import '@jovertical/mise-design-system/theme.css';\n",
@@ -75,6 +87,7 @@ describe('mise-theme info', () => {
     const result = await runThemeCli(['info', '--json'], dir, '1.0.0')
 
     expect(result.code).toBe(0)
+
     expect(JSON.parse(result.message)).toEqual({
       version: '1.0.0',
       stack: 'inertia',
@@ -101,31 +114,41 @@ describe('mise-theme info', () => {
 
   it('calls anything else a plain Vite app', async () => {
     app({ svelte: '^5.0.0' })
+
     const info = JSON.parse((await runThemeCli(['info', '--json'], dir, '1.0.0')).message)
+
     expect(info.stack).toBe('vite')
   })
 
   it('skips node_modules when looking for the stylesheet', async () => {
     app({ svelte: '^5.0.0' })
+
     mkdirSync(join(dir, 'node_modules', 'x'), { recursive: true })
+
     writeFileSync(
       join(dir, 'node_modules', 'x', 'a.css'),
       "@import '@jovertical/mise-design-system/theme.css';",
     )
+
     const info = JSON.parse((await runThemeCli(['info', '--json'], dir, '1.0.0')).message)
+
     expect(info.stylesheet).toBeNull()
   })
 
   it('prints lines without --json', async () => {
     app({ svelte: '^5.0.0' })
+
     const result = await runThemeCli(['info'], dir, '1.0.0')
+
     expect(result.code).toBe(0)
     expect(result.message).toContain('stack: vite')
   })
 
   it('fails without a package.json', async () => {
     rmSync(join(dir, 'package.json'))
+
     const result = await runThemeCli(['info', '--json'], dir, '1.0.0')
+
     expect(result.code).toBe(1)
     expect(result.message).toMatch(/No package.json/)
   })

@@ -86,6 +86,7 @@
     value,
     onChange: (next) => {
       value = next
+
       onValueChange?.(next)
     },
     adapter,
@@ -108,8 +109,11 @@
 
   function drop(event: DragEvent) {
     event.preventDefault()
+
     draggingOver = false
+
     if (busy) return
+
     uploader.addFiles(event.dataTransfer?.files ?? null)
   }
 </script>

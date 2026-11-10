@@ -14,8 +14,11 @@ import { TONE_SOLID_CLASS } from '../src/lib/utils/tone.js'
 /** The body of the first `<selector> {` block, without its braces. */
 function block(css: string, selector: string): string {
   const start = css.indexOf(`\n${selector} {\n`)
+
   if (start === -1) throw new Error(`no "${selector}" block`)
+
   const end = css.indexOf('\n}', start + 1)
+
   return css.slice(start + selector.length + 4, end)
 }
 
@@ -36,12 +39,14 @@ describe.each(Object.keys(presets))('preset %s', (name) => {
     for (const selector of [':root', '.dark']) {
       const declared = new Set(declarations(block(css, selector)).map(([token]) => token))
       const missing = SEMANTIC_TOKENS.filter((token) => !declared.has(token))
+
       expect(missing, selector).toEqual([])
     }
   })
 
   it('writes every ramp step of every role into :root as a literal', () => {
     const root = block(css, ':root')
+
     for (const role of RAMP_ROLES) {
       for (const step of STEPS) {
         expect(tokenValue(root, `--color-${role}-${step}`), `${role}-${step}`).toMatch(/^oklch\(/)
@@ -56,6 +61,7 @@ describe('@theme inline bridge', () => {
   it('routes every semantic utility through its own variable', () => {
     for (const token of SEMANTIC_TOKENS) {
       if (COLOR_PREFIXED.has(token)) continue
+
       expect(tokenValue(bridge, `--color-${token.slice(2)}`), token).toBe(`var(${token})`)
     }
   })
@@ -63,8 +69,10 @@ describe('@theme inline bridge', () => {
   it('never points a utility at a ramp step directly, except a ramp at itself', () => {
     const frozen = declarations(bridge).filter(([name, value]) => {
       const target = value.match(/^var\((--color-[a-z]+-\d+)\)$/)?.[1]
+
       return target !== undefined && target !== name
     })
+
     expect(frozen).toEqual([])
   })
 
@@ -77,6 +85,7 @@ describe('@theme inline bridge', () => {
     expect(tokenValue(bridge, '--color-primary-soft')).toBe(
       'color-mix(in oklab, var(--primary) 10%, transparent)',
     )
+
     expect(tokenValue(bridge, '--color-destructive-soft')).toBe(
       'color-mix(in oklab, var(--destructive) 10%, transparent)',
     )
@@ -90,6 +99,7 @@ describe('@theme inline bridge', () => {
 describe('config reaches the output', () => {
   it('emits the default theme when no config is given', () => {
     const root = block(emitThemeCss(), ':root')
+
     expect(tokenValue(root, '--color-primary-600')).toBe(tailwindPalette.indigo[600])
     expect(tokenValue(root, '--color-base-950')).toBe(tailwindPalette.zinc[950])
     expect(tokenValue(root, '--primary')).toBe('var(--color-primary-600)')
@@ -98,6 +108,7 @@ describe('config reaches the output', () => {
 
   it("takes the button corner from a config's buttonRadius", () => {
     const root = block(emitThemeCss({ buttonRadius: '0.5rem' }), ':root')
+
     expect(tokenValue(root, '--radius-button')).toBe('0.5rem')
   })
 
@@ -109,7 +120,9 @@ describe('config reaches the output', () => {
       radius: '0.5rem',
       fonts: { sans: "'Inter', sans-serif" },
     })
+
     const root = block(css, ':root')
+
     expect(tokenValue(root, '--color-base-100')).toBe(tailwindPalette.stone[100])
     expect(tokenValue(root, '--color-primary-600')).toBe(tailwindPalette.teal[600])
     expect(tokenValue(root, '--color-warning-600')).toBe(tailwindPalette.orange[600])
@@ -121,12 +134,14 @@ describe('config reaches the output', () => {
     const css = emitThemeCss({ light: { '--sidebar': 'white' }, dark: { '--sidebar': 'black' } })
     const light = declarations(block(css, ':root')).filter(([name]) => name === '--sidebar')
     const dark = declarations(block(css, '.dark')).filter(([name]) => name === '--sidebar')
+
     expect(light).toEqual([['--sidebar', 'white']])
     expect(dark).toEqual([['--sidebar', 'black']])
   })
 
   it('appends an override for a token the contract does not have', () => {
     const root = block(emitThemeCss({ light: { '--brand-glow': 'pink' } }), ':root')
+
     expect(tokenValue(root, '--brand-glow')).toBe('pink')
   })
 })
@@ -134,8 +149,10 @@ describe('config reaches the output', () => {
 describe('emitThemeVariables', () => {
   it('emits only :root and .dark, for swapping a theme at runtime', () => {
     const css = emitThemeVariables(presets.stone)
+
     expect(css).not.toContain('@theme')
     expect(css).not.toContain('@layer')
+
     expect(tokenValue(block(`\n${css}`, ':root'), '--color-base-50')).toBe(
       tailwindPalette.stone[50],
     )
@@ -149,6 +166,7 @@ describe('emitThemeVariables', () => {
  */
 describe('status inks on a solid fill', () => {
   const css = emitThemeCss()
+
   const statuses = [
     ['--destructive-foreground', 'critical'],
     ['--info-foreground', 'info'],

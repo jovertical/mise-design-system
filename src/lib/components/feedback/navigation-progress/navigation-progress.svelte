@@ -45,17 +45,23 @@
       // Start: show the bar and move to the peak on the next tick, so the
       // transition has a 0 to move away from.
       wasPending = true
+
       clearTimeout(doneTimeout)
+
       visible = true
       progress = 0
+
       peakTimeout = setTimeout(() => {
         progress = PEAK_POSITION
       }, 0)
     } else if (!pending && wasPending) {
       // Done: run to full width, then hide.
       wasPending = false
+
       clearTimeout(peakTimeout)
+
       progress = 1
+
       doneTimeout = setTimeout(() => {
         visible = false
         progress = 0
@@ -65,6 +71,7 @@
 
   $effect(() => () => {
     clearTimeout(peakTimeout)
+
     clearTimeout(doneTimeout)
   })
 

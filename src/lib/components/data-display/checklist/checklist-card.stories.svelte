@@ -11,6 +11,7 @@
     { id: 'staff', label: 'Invite a teammate', done: false },
     { id: 'sale', label: 'Record a sale', done: false },
   ]
+
   const done = (ids: string[]) => STEPS.map((step) => ({ ...step, done: ids.includes(step.id) }))
 
   const { Story } = defineMeta({

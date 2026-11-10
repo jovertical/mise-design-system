@@ -102,19 +102,23 @@
   const states = $derived.by(() => {
     const currentIndex = steps.findIndex((step) => step.id === currentStepId)
     const explicit = completedSteps ? new Set(completedSteps) : null
+
     return steps.map((step, index) => ({
       completed: explicit ? explicit.has(step.id) : index < currentIndex,
       current: step.id === currentStepId,
     }))
   })
+
   const currentIndex = $derived(
     Math.max(
       0,
       steps.findIndex((step) => step.id === currentStepId),
     ),
   )
+
   const currentStep = $derived(steps[currentIndex])
   const selectable = $derived(selectableSteps ? new Set(selectableSteps) : null)
+
   const canSelect = (stepId: string) =>
     Boolean(onStepSelect) && (selectable === null || selectable.has(stepId))
 

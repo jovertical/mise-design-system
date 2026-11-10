@@ -19,6 +19,7 @@ import { componentFolders, componentsDir as components } from './groups.js'
 const folders = componentFolders()
 
 const isStory = (name: string) => name.endsWith('.stories.svelte')
+
 const isModule = (name: string) =>
   (name.endsWith('.svelte') || name.endsWith('.ts')) && !isStory(name) && name !== 'index.ts'
 
@@ -35,11 +36,13 @@ const read = (path: string) => readFileSync(join(components, path), 'utf8')
 /** The opening comment: `<!-- … -->` in a .svelte file, a JSDoc block in a .ts file. */
 function header(path: string): string | null {
   const pattern = path.endsWith('.svelte') ? /^<!--([\s\S]*?)-->/ : /^\/\*\*([\s\S]*?)\*\//
+
   return read(path).match(pattern)?.[1] ?? null
 }
 
 function field(path: string, key: string): string | null {
   const match = (header(path) ?? '').match(new RegExp(`^[\\s*]*${key}:\\s*(.+)$`, 'm'))
+
   return match ? match[1].trim() : null
 }
 
@@ -69,8 +72,10 @@ describe('Origin headers', () => {
   it('names a shadcn-svelte component wherever a Svelte line is present', () => {
     const wrong = modules.filter((path) => {
       const value = field(path, 'Svelte')
+
       return value !== null && !SVELTE.test(value)
     })
+
     expect(wrong).toEqual([])
   })
 })
@@ -79,15 +84,18 @@ describe('Storybook tags', () => {
   it("tags every component folder's story with its provenance, and nothing else", () => {
     const wrong = folders.flatMap(({ name, path }) => {
       const story = `${path}/${name}.stories.svelte`
+
       if (!existsSync(join(components, story))) return [`${story} is missing`]
 
       const list = read(story).match(/tags:\s*\[([^\]]*)\]/)?.[1] ?? ''
       const tags = [...list.matchAll(/'([^']+)'/g)].map((match) => match[1])
       const expected = provenanceOf(`${path}/${name}.svelte`)
+
       return tags.length === 1 && tags[0] === expected
         ? []
         : [`${story} should be tagged only '${expected}'`]
     })
+
     expect(wrong).toEqual([])
   })
 })

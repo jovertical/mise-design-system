@@ -35,6 +35,7 @@
 
   function act(event: MouseEvent & { currentTarget: EventTarget & HTMLButtonElement }) {
     onclick?.(event)
+
     if (event.defaultPrevented) return
 
     close?.()

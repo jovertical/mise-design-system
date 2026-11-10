@@ -108,7 +108,9 @@
   /** The sort a `defaultSort` string asks for. */
   export function sortingFromDefault(defaultSort: string | undefined) {
     if (!defaultSort) return []
+
     const desc = defaultSort.startsWith('-')
+
     return [{ id: desc ? defaultSort.slice(1) : defaultSort, desc }]
   }
 </script>
@@ -182,6 +184,7 @@
 
   function setFilters(next: DataTableFilterState) {
     filters = next
+
     onFiltersChange?.(next)
   }
 
@@ -189,7 +192,9 @@
 
   const allColumns = $derived.by((): typeof columns => {
     if (!enableRowSelection) return columns
+
     const column = dataTableColumns<TData>()
+
     const select = column.display({
       id: '__select__',
       enableSorting: false,
@@ -208,6 +213,7 @@
           onCheckedChange: (value: boolean) => row.toggleSelected(!!value),
         }),
     })
+
     return [select, ...columns]
   })
 

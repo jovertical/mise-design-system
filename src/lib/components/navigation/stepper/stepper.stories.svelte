@@ -75,6 +75,7 @@
       icon: FileCheckIcon,
     },
   ]
+
   const SHORT = STEPS.slice(0, 4)
   const SKIPPED = ['COMPANY', 'TAX', 'ADMIN', 'DATABASE', 'LOCATION']
   const REACHED = STEPS.slice(0, 5).map((step) => step.id)

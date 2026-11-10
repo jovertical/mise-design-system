@@ -46,6 +46,7 @@
     open: () => open,
     setOpen: (value) => {
       open = value
+
       onOpenChange?.(value)
     },
     // svelte-ignore state_referenced_locally

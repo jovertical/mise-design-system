@@ -15,6 +15,7 @@ const overrides = readFileSync(join(root, 'src/lib/styles/components.css'), 'utf
 const css = themeStylesheet({}, overrides)
 
 mkdirSync(join(root, 'dist'), { recursive: true })
+
 writeFileSync(join(root, 'dist/theme.css'), css)
 
 console.log(`dist/theme.css: ${css.split('\n').length} lines`)

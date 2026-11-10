@@ -14,6 +14,7 @@
   let { value = $bindable('') }: { value?: string } = $props()
 
   let search = $state('')
+
   const matches = $derived(
     CATEGORIES.filter((category) => category.toLowerCase().includes(search.toLowerCase())),
   )

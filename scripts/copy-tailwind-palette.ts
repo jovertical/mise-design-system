@@ -14,6 +14,7 @@ const { version } = JSON.parse(readFileSync(join(tailwind, 'package.json'), 'utf
 const css = readFileSync(join(tailwind, 'theme.css'), 'utf8')
 
 const palette: Record<string, Record<string, string>> = {}
+
 for (const [, hue, step, value] of css.matchAll(/--color-([a-z]+)-(\d+):\s*(oklch\([^)]*\));/g)) {
   palette[hue] ??= {}
   palette[hue][step] = value
@@ -22,6 +23,7 @@ for (const [, hue, step, value] of css.matchAll(/--color-([a-z]+)-(\d+):\s*(oklc
 const ramps = Object.entries(palette)
   .map(([hue, ramp]) => {
     const steps = Object.entries(ramp).map(([step, value]) => `    ${step}: '${value}',`)
+
     return `  ${hue}: {\n${steps.join('\n')}\n  },`
   })
   .join('\n')
@@ -52,5 +54,7 @@ export type HueName = keyof typeof tailwindPalette
 `
 
 writeFileSync(join(root, 'src', 'lib', 'tokens', 'tailwind-palette.ts'), source)
+
 copyFileSync(join(tailwind, 'LICENSE'), join(root, 'LICENSES', 'tailwindcss.txt'))
+
 console.log(`tailwind-palette.ts: ${Object.keys(palette).length} hues from tailwindcss@${version}`)

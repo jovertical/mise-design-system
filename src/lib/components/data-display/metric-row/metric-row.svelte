@@ -90,6 +90,7 @@
 
   const clamped = $derived(Math.min(100, Math.max(0, percent)))
   const inline = $derived(barPlacement === 'inline')
+
   const barLabel = $derived(
     typeof label === 'string' ? `${label}: ${clamped.toFixed(0)}%` : undefined,
   )

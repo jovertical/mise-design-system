@@ -20,6 +20,7 @@
 
   function confirm(event: MouseEvent) {
     confirmed = true
+
     if (holdOpen) event.preventDefault()
   }
 </script>

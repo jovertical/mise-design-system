@@ -68,6 +68,7 @@
   }: MetricBarProps = $props()
 
   const clamped = $derived(Math.min(100, Math.max(0, percent)))
+
   /** The bar is data, so it needs a name of its own; the label is a separate node. */
   const barLabel = $derived(
     typeof label === 'string' ? `${label}: ${clamped.toFixed(0)}%` : undefined,

@@ -21,6 +21,7 @@
   const ITEMS = CATEGORIES.map((category) => ({ value: category, label: category }))
 
   const single = $state({ value: '', search: '' })
+
   const multiple = $state({
     value: ['Bread', 'Cakes'] as string[],
     search: '',

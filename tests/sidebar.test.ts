@@ -31,17 +31,21 @@ const sidebar = (container: HTMLElement) =>
 describe('Sidebar', () => {
   it('renders expanded on desktop and publishes the breakpoint', () => {
     const { container } = render(AppShell)
+
     expect(container.querySelector('[data-slot="sidebar-wrapper"]')).toHaveAttribute(
       'data-mobile',
       'false',
     )
+
     expect(sidebar(container)).toHaveAttribute('data-state', 'expanded')
     expect(sidebar(container)).toHaveAttribute('data-sidetheme', 'panel')
   })
 
   it('collapses to icons from the trigger and binds open back', async () => {
     const { container } = render(AppShell)
+
     await userEvent.click(screen.getByRole('button', { name: 'Toggle Sidebar' }))
+
     expect(sidebar(container)).toHaveAttribute('data-state', 'collapsed')
     expect(sidebar(container)).toHaveAttribute('data-collapsible', 'icon')
     expect(screen.getByTestId('open')).toHaveTextContent('closed')
@@ -49,28 +53,38 @@ describe('Sidebar', () => {
 
   it('toggles with Cmd or Ctrl and B', async () => {
     const { container } = render(AppShell)
+
     await userEvent.keyboard('{Control>}b{/Control}')
+
     expect(sidebar(container)).toHaveAttribute('data-state', 'collapsed')
   })
 
   it('lets the inset shrink, so wide content scrolls inside it instead of widening the page', () => {
     const { container } = render(AppShell)
+
     expect(container.querySelector('[data-slot="sidebar-inset"]')).toHaveClass('min-w-0')
   })
 
   it('marks the active row', () => {
     render(AppShell)
+
     expect(screen.getByRole('button', { name: 'Locations' })).toHaveAttribute('data-active', 'true')
     expect(screen.getByRole('button', { name: 'Orders' })).toHaveAttribute('data-active', 'false')
   })
 
   it('becomes a sheet on a phone, opened from the trigger', async () => {
     emulatePhone()
+
     render(AppShell)
+
     expect(screen.queryByRole('dialog')).toBeNull()
+
     await userEvent.click(screen.getByRole('button', { name: 'Toggle Sidebar' }))
+
     const sheet = await screen.findByRole('dialog')
+
     expect(sheet).toHaveAttribute('data-mobile', 'true')
+
     await waitFor(() => expect(sheet).toHaveTextContent('Locations'))
   })
 })

@@ -16,6 +16,7 @@
   const range = $state<{ value: DateRange | undefined }>({ value: undefined })
   // A fixed "today", so the story does not drift with the day it is opened.
   const TODAY = new CalendarDate(2026, 3, 14)
+
   const future = $state<{ value: DateRange | undefined }>({
     value: { start: TODAY, end: undefined },
   })

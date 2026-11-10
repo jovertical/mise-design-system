@@ -127,6 +127,7 @@
   // Held here so the footer can close the menu before whatever it opens takes
   // the screen.
   let menuOpen = $state(false)
+
   const closeMenu = () => {
     menuOpen = false
   }

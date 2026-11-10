@@ -34,6 +34,7 @@
     value: label.toLowerCase(),
     label,
   }))
+
   const suppliers = [
     { value: 'north-mill', label: 'North Mill' },
     { value: 'harbour-dairy', label: 'Harbour Dairy' },

@@ -20,9 +20,11 @@
 
   // Fixed dates, so the screenshots do not drift with the day they are taken.
   const single = $state<{ value: DateValue | undefined }>({ value: new CalendarDate(2026, 3, 14) })
+
   const range = $state<{ value: { start: DateValue | undefined; end: DateValue | undefined } }>({
     value: { start: new CalendarDate(2026, 3, 9), end: new CalendarDate(2026, 3, 13) },
   })
+
   const far = $state<{ value: DateValue | undefined }>({ value: new CalendarDate(1990, 6, 2) })
 </script>
 

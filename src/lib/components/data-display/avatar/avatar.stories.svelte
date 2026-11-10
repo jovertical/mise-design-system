@@ -11,6 +11,7 @@
   import PresenceDot from './presence-dot.svelte'
 
   const SIZES = ['size-6', 'size-8', 'size-10', 'size-12'] as const
+
   /** The initials a caller sets at each size; `AvatarFallback` does not scale them. */
   const INITIALS: Record<(typeof SIZES)[number], string> = {
     'size-6': 'text-[0.625rem]',
