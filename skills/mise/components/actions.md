@@ -90,7 +90,7 @@ Also takes: every `<span>` attribute.
 
 ### `CommandTrigger`
 
-The "Type to search… ⌘K" field in a header, which opens a command palette. A button shaped like an input, not an input: the palette owns the text field, so typing here would mean two search fields to keep in step. Bind `open` to the same value as the `CommandDialog`.
+The "Type to search… ⌘K" field in a header, which opens a command palette. Header-sized (`h-8`, as the portals draw it); a trigger beside form inputs takes `class="h-9 rounded-2xl"` to match them.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |

@@ -13,7 +13,8 @@ describe('CommandTrigger', () => {
 
     expect(trigger()).toHaveAccessibleName(/type to search/i)
     expect(trigger()).toHaveAttribute('data-slot', 'command-trigger')
-    expect(trigger()).toHaveClass('bg-input/50', 'rounded-2xl', 'h-9')
+    // Header-sized, as the portals draw it: 8px clear of a 48px bar.
+    expect(trigger()).toHaveClass('bg-input/50', 'rounded-xl', 'h-8')
     expect(trigger().querySelector('svg')).toHaveClass('tabler-icon-search')
   })
 
