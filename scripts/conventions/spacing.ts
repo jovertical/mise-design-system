@@ -122,7 +122,28 @@ function mayGroup(previous: ts.Node, next: ts.Node, source: ts.SourceFile) {
 
   if (isDeclaration(previous) && isDeclaration(next)) return true
 
-  return isAssignment(previous) && isAssignment(next)
+  if (isAssignment(previous) && isAssignment(next)) return true
+
+  return isAssertion(previous) && isAssertion(next)
+}
+
+/** `expect(…)…`, awaited or not: a test's assertions read as one step. */
+function isAssertion(node: ts.Node) {
+  if (!ts.isExpressionStatement(node)) return false
+
+  let expression: ts.Expression = node.expression
+
+  if (ts.isAwaitExpression(expression)) expression = expression.expression
+
+  while (ts.isCallExpression(expression) || ts.isPropertyAccessExpression(expression)) {
+    const inner = expression.expression
+
+    if (ts.isIdentifier(inner) && inner.text === 'expect') return true
+
+    expression = inner
+  }
+
+  return false
 }
 
 const isImportOrExport = (node: ts.Node) =>

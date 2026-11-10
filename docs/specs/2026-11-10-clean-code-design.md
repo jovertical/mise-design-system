@@ -88,7 +88,8 @@ In a function body, a block, or at the top level of a module:
 1. Each statement stands apart from its neighbours with a blank line: a guard, a declaration,
    a call, a `return`.
 2. Consecutive single-line declarations (`const`, `let`) may stay together, and so may
-   consecutive single-line assignments. A call never groups.
+   consecutive single-line assignments and consecutive single-line `expect(…)` assertions
+   (decided at the Phase 1 gate). Any other call never groups.
 3. A statement that spans more than one line has a blank line before and after it, even
    between declarations.
 4. A guard clause (`if (…) return` or `if (…) throw` on one line) is followed by a blank line.

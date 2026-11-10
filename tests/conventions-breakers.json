@@ -64,8 +64,6 @@
   "examples/logistics/src/routes/warehouses/[id]/+page.svelte": ["spacing"],
   "examples/logistics/src/routes/warehouses/[id]/edit/+page.svelte": ["spacing"],
   "examples/logistics/src/routes/warehouses/new/+page.svelte": ["spacing"],
-  "examples/logistics/tests/days.test.ts": ["spacing"],
-  "examples/logistics/tests/format.test.ts": ["spacing"],
   "examples/logistics/tests/readiness.test.ts": ["spacing"],
   "examples/logistics/tests/repositories.test.ts": ["file-length", "names", "spacing"],
   "examples/logistics/tests/schemas.test.ts": ["function-length", "names", "spacing"],

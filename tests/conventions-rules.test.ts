@@ -187,6 +187,24 @@ describe('spacing', () => {
     ])
   })
 
+  it('lets single-line assertions group, apart from the step before them', () => {
+    const assertions = [
+      "it('adds', async () => {",
+      '  const total = add(1, 2)',
+      '',
+      '  expect(total).toBe(3)',
+      '  expect(total).not.toBe(4)',
+      '  await expect(load()).resolves.toBe(1)',
+      '})',
+    ].join('\n')
+
+    expect(spacing(assertions, 'tests/a.test.ts')).toEqual([])
+
+    expect(
+      spacing("it('runs', () => {\n  run()\n  expect(done).toBe(true)\n})", 'tests/a.test.ts'),
+    ).toEqual(['3: add a blank line before this statement'])
+  })
+
   it('keeps a comment with the statement below it', () => {
     expect(spacing('const first = 1\n\n// The second one.\nstart()')).toEqual([])
 

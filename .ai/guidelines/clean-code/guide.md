@@ -91,8 +91,9 @@ module:
 1. Each statement stands apart from its neighbours with a blank line: a guard,
    a declaration, a call, a `return`.
 2. Consecutive single-line declarations (`const`, `let`, `type`) may stay
-   together, and so may consecutive single-line assignments. A call never
-   groups.
+   together, and so may consecutive single-line assignments, and in tests
+   consecutive single-line `expect(…)` assertions. Any other call never
+   groups, so a test reads as arrange, act, assert.
 3. A statement that spans more than one line has a blank line before and after
    it, even between declarations.
 4. A one-line guard (`if (…) return`, `throw`, `continue` or `break`) is
