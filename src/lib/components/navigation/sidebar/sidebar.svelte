@@ -8,7 +8,7 @@
     `bg-card` in dark: React kept it white under scheme-following text, which
     went white on white. `panel` is the default, as the portals draw it
     (React's was `primary`), and takes the overrides the portals' menus wrote
-    by hand (2026-11-10).
+    by hand (2026-11-10). `panel` draws no edge line.
 -->
 <script lang="ts" module>
   import type { HTMLAttributes } from 'svelte/elements'
@@ -132,6 +132,8 @@
         variant === 'floating' || variant === 'inset'
           ? 'p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4))+2px)]'
           : 'group-data-[collapsible=icon]:w-(--sidebar-width-icon) group-data-[side=left]:border-r group-data-[side=right]:border-l',
+        // The panel's own surface and corners separate it; a line would double the edge.
+        'group-data-[sidetheme=panel]:border-r-0 group-data-[sidetheme=panel]:border-l-0',
         className,
       )}
       {...rest}

@@ -58,6 +58,15 @@ describe('Sidebar', () => {
     expect(active.className).not.toContain('group-data-[sidetheme=panel]:data-[active=true]:ring-1')
   })
 
+  it('draws no edge line on the panel theme, which its own surface separates', () => {
+    const { container } = render(AppShell)
+
+    expect(container.querySelector('[data-slot="sidebar-container"]')).toHaveClass(
+      'group-data-[sidetheme=panel]:border-r-0',
+      'group-data-[sidetheme=panel]:border-l-0',
+    )
+  })
+
   it('packs panel rows closer than the other themes', () => {
     const { container } = render(AppShell)
 
