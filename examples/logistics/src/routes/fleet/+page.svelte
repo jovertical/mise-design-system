@@ -113,7 +113,7 @@
   </PageHeader>
 
   {#if due.length}
-    <Alert variant="warning">
+    <Alert tone="warning">
       <IconTool />
       <AlertTitle>{due.length} vehicles due for service within a week</AlertTitle>
       <AlertDescription>{due.map((vehicle) => vehicle.code).join(', ')}</AlertDescription>

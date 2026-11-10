@@ -120,7 +120,7 @@
     <DropdownMenuItem>Print packing slip</DropdownMenuItem>
     <DropdownMenuSeparator />
     <DropdownMenuItem
-      variant="destructive"
+      tone="critical"
       disabled={order.status === 'completed' || order.status === 'cancelled'}
       onSelect={() => oncancel(order)}
     >
