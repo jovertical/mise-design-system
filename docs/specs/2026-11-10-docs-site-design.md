@@ -101,14 +101,14 @@ The pilot pages are Button, Dialog, Select, DataTable, Sidebar and Sonner: a sim
 ## Anatomy
 
 ```svelte
-<Anatomy example="anatomy" parts={[
+<Anatomy example={examples.anatomy} parts={[
   { slot: 'dialog-content', label: 'Content' },
   { slot: 'dialog-title', label: 'Title' },
   { slot: 'dialog-close', label: 'Close button' },
 ]} />
 ```
 
-- Renders the page's `examples/anatomy.svelte` on a framed stage. An overlay's example opens it inline: `open` set and `portalProps={{ disabled: true }}`. A pilot part that cannot render inline is fixed in mise first.
+- Renders the given example (by convention the page's `examples/anatomy.svelte`) on a framed stage. An overlay's example opens it inline: `open` set and `portalProps={{ disabled: true }}`. A pilot part that cannot render inline is fixed in mise first.
 - Finds each `[data-slot="…"]` inside the stage, measures it against the stage with `getBoundingClientRect`, and draws a numbered marker and a leader line for it in an SVG layer. A `ResizeObserver` on the stage, and a theme change, redraw them.
 - The legend below the stage lists each number, the part's export name, its `data-slot`, and links to its API table. Hovering or focusing a legend row or a marker outlines that part.
 - A slot that is not found shows its marker as missing and logs an error in dev; the build check below fails on it.
@@ -117,7 +117,7 @@ The pilot pages are Button, Dialog, Select, DataTable, Sidebar and Sonner: a sim
 ## Examples and code
 
 - An example is a file in its page's `examples/`, imports only from `@jovertical/mise-design-system` and its `/form` entry, and uses generic operations copy (locations, shifts, orders, stock), as the stories do.
-- `<Preview example="basic" />` finds the file through `import.meta.glob('./examples/*.svelte', { eager: true })` and its source through the same glob with `?raw`.
+- A page imports its examples with `import examples from './examples?examples'`, a Vite plugin that turns the folder into `{ [name]: { component, source, html } }`, and writes `<Preview example={examples.basic} />`. (Amended 2026-11-10 while planning: a shared component cannot call `import.meta.glob` with a page-relative path, and a site-wide eager glob would put every example on every page.)
 - `Preview` is a mise `Card` with `Tabs`: Preview (the example, centred on a muted stage) and Code (`CodeBlock`).
 - `CodeBlock` is a site component built from mise parts: highlighted source and a copy button (`Button` `iconOnly`, then a `toast`). Highlighting is Shiki at build: mdsvex's highlighter for fenced code, and a small Vite transform for the `?raw` imports, so no Shiki reaches the browser. Shiki's `css-variables` theme maps to mise's semantic tokens in the site's CSS, so there are no palette colours and dark mode follows the theme.
 - Prose pages go through an mdsvex layout that adds heading anchors and feeds the "On this page" rail.
@@ -126,7 +126,9 @@ The pilot pages are Button, Dialog, Select, DataTable, Sidebar and Sonner: a sim
 
 - `.github/workflows/example.yml` becomes `pages.yml`. It runs on a push to `main` touching `src/**`, `skills/**`, `scripts/skill/**`, `site/**`, `examples/**`, `package.json`, `pnpm-lock.yaml` or the workflow, and on `workflow_dispatch`.
 - Its build job: `pnpm build` (mise); the site with `BASE_PATH=/mise-design-system`; the demo with `BASE_PATH=/mise-design-system/demo`, copied into `site/build/demo/`; one `upload-pages-artifact` of `site/build`; then `deploy-pages`, in the same `pages` concurrency group.
-- **The demo's deep links.** The site's root `404.html` checks the path: under `/mise-design-system/demo/` it replaces the location with `/mise-design-system/demo/?p=<the rest of the path, query and hash>`; anything else shows the site's not-found page. The demo's `app.html` has a small inline script that, given `?p=`, restores the path with `history.replaceState` before SvelteKit starts. Running the demo locally, without `?p=`, is unchanged.
+- **The not-found page** is a prerendered `/not-found` route (the same component as `+error.svelte`), copied to the root `404.html` by the assemble step. The site builds with `paths.relative: false`, so that page finds its assets at any depth. (Amended 2026-11-10 while planning.)
+- **The demo's shell at `/demo/`.** The demo's build has only a `404.html`, so the assemble step also copies it to `demo/index.html`; without it `/demo/` itself would miss and the redirect below would loop. (Amended 2026-11-10 while planning.)
+- **The demo's deep links.** The redirect is a small inline script in the site's `app.html`, so it is in `404.html` with no post-processing. It checks the path: under `/mise-design-system/demo/` it replaces the location with `/mise-design-system/demo/?p=<the rest of the path, query and hash>`; anything else shows the site's not-found page. The demo's `app.html` has a small inline script that, given `?p=`, restores the path with `history.replaceState` before SvelteKit starts. Running the demo locally, without `?p=`, is unchanged.
 - Links that move: the README, `docs/handoff.md` and `examples/logistics/README.md` point at the docs and at `/demo/`; `package.json` `homepage` becomes the docs URL.
 
 ## Checks
