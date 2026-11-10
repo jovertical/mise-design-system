@@ -37,7 +37,10 @@ function findings(file: ParsedFile): Finding[] {
     const visit = (node: ts.Node) => {
       const statements = statementList(node)
 
-      if (statements) found.push(...checkList(unit, node, statements))
+      // A lone `;` that Biome puts before a statement is not a statement to space.
+      const spaced = statements?.filter((statement) => !ts.isEmptyStatement(statement))
+
+      if (spaced) found.push(...checkList(unit, node, spaced))
 
       ts.forEachChild(node, visit)
     }

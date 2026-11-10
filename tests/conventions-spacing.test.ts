@@ -133,6 +133,11 @@ describe('spacing', () => {
 
     expect(spacing(guarded)).toEqual([])
     expect(fixSpacing('src/lib/a.ts', guarded)).toBe(guarded)
+
+    const first =
+      'function set(name: string, next: string) {\n  ;(values as Record<string, string>)[name] = next\n}'
+
+    expect(spacing(first)).toEqual([])
   })
 
   it('finds a script whose generics hold a >', () => {
