@@ -4,8 +4,6 @@
   import IconTruck from '@tabler/icons-svelte-runes/icons/truck'
 
   import CommandTrigger from '../../actions/command/command-trigger.svelte'
-  import ThemeProvider from '../../actions/theme-toggle/theme-provider.svelte'
-  import ThemeToggle from '../../actions/theme-toggle/theme-toggle.svelte'
   import Breadcrumb from '../../navigation/breadcrumb/breadcrumb.svelte'
   import BreadcrumbItem from '../../navigation/breadcrumb/breadcrumb-item.svelte'
   import BreadcrumbLink from '../../navigation/breadcrumb/breadcrumb-link.svelte'
@@ -43,30 +41,25 @@
 
 <!--
   The bar a shell puts above every page: the sidebar's trigger, where you are,
-  search and the scheme, on a card floating over a blurred band.
+  and search, on a card floating over a blurred band.
 -->
 <Story name="Playground" asChild>
-  <ThemeProvider storageKey="mise-story-site-header">
-    <SidebarProvider class="min-h-0">
-      <div class="bg-muted min-h-64 w-full">
-        <SiteHeader>
-          <SidebarTrigger />
-          <SiteHeaderSeparator />
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem
-                ><BreadcrumbLink href="#orders">Orders</BreadcrumbLink></BreadcrumbItem
-              >
-              <BreadcrumbSeparator />
-              <BreadcrumbItem><BreadcrumbPage>OR-2041</BreadcrumbPage></BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
-          <CommandTrigger hotkey={false} class="ml-auto w-48 md:w-72" />
-          <ThemeToggle />
-        </SiteHeader>
-      </div>
-    </SidebarProvider>
-  </ThemeProvider>
+  <SidebarProvider class="min-h-0">
+    <div class="bg-muted min-h-64 w-full">
+      <SiteHeader>
+        <SidebarTrigger />
+        <SiteHeaderSeparator />
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem><BreadcrumbLink href="#orders">Orders</BreadcrumbLink></BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem><BreadcrumbPage>OR-2041</BreadcrumbPage></BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+        <CommandTrigger hotkey={false} class="ml-auto w-48 md:w-72" />
+      </SiteHeader>
+    </div>
+  </SidebarProvider>
 </Story>
 
 <!--
@@ -74,23 +67,20 @@
   edges in line with the page column's.
 -->
 <Story name="In a shell" asChild>
-  <ThemeProvider storageKey="mise-story-site-header">
-    <SidebarProvider class="min-h-96">
-      <Sidebar variant="floating">
-        <SidebarContent><SidebarNav sections={NAV} current="#orders" /></SidebarContent>
-      </Sidebar>
-      <SidebarInset>
-        <SiteHeader>
-          <SidebarTrigger />
-          <SiteHeaderSeparator />
-          <span class="text-sm font-medium">Orders</span>
-          <CommandTrigger hotkey={false} class="ml-auto w-48 md:w-72" />
-          <ThemeToggle />
-        </SiteHeader>
-        <PageLayout>
-          <PageHeader title="Orders" description="Every order across your locations." />
-        </PageLayout>
-      </SidebarInset>
-    </SidebarProvider>
-  </ThemeProvider>
+  <SidebarProvider class="min-h-96">
+    <Sidebar variant="floating">
+      <SidebarContent><SidebarNav sections={NAV} current="#orders" /></SidebarContent>
+    </Sidebar>
+    <SidebarInset>
+      <SiteHeader>
+        <SidebarTrigger />
+        <SiteHeaderSeparator />
+        <span class="text-sm font-medium">Orders</span>
+        <CommandTrigger hotkey={false} class="ml-auto w-48 md:w-72" />
+      </SiteHeader>
+      <PageLayout>
+        <PageHeader title="Orders" description="Every order across your locations." />
+      </PageLayout>
+    </SidebarInset>
+  </SidebarProvider>
 </Story>
