@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.1](https://github.com/jovertical/mise-design-system/compare/v1.5.0...v1.5.1) (2026-11-10)
+
+
+### Bug Fixes
+
+* shell polish: a floating panel sidebar, a header-sized CommandTrigger ([#10](https://github.com/jovertical/mise-design-system/issues/10)) ([0b25648](https://github.com/jovertical/mise-design-system/commit/0b25648ce4a7652eb3d055299878d40915f5e204))
+
 ## [1.5.0](https://github.com/jovertical/mise-design-system/compare/v1.4.0...v1.5.0) (2026-11-10)
 
 
