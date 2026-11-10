@@ -526,6 +526,7 @@ One row per requirement, answering "what does this page still need from me". Del
 | `items` (required) | `ReadinessItem[]` |  |  |
 | `emptyMessage` | `string` | `'Nothing to check yet.'` | Shown when nothing is applicable: a server returning no rows. |
 | `showRequirement` | `boolean` | `true` | Drops the "Required" / "Optional" tag from unmet rows, for a progress list (what a server is doing), where a queued step tagged Required in warning colour reads as a problem when it simply has not started. |
+| `showDetail` | `'unmet' \| 'all'` | `'unmet'` | `unmet` shows a row's `detail` and `action` only while it is unmet; `all` shows the detail on met rows too, for a record of a check already made, where what was found matters as much as what passed. |
 
 Also takes: every `<ul>` attribute except `children`.
 
@@ -543,7 +544,7 @@ Also takes: every `<div>` attribute except `children`.
 
 Also exports: `summariseReadiness`.
 
-Types: `ReadinessItem`, `ReadinessStatus` (`'met' | 'unmet' | 'pending' | 'not-applicable'`), `ReadinessSummaryData`.
+Types: `ReadinessItem`, `ReadinessSeverity` (`'block' | 'warn'`), `ReadinessStatus` (`'met' | 'unmet' | 'pending' | 'not-applicable'`), `ReadinessSummaryData`.
 
 ## SegmentedBar
 

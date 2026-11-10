@@ -34,6 +34,55 @@
     { id: 'photo', label: 'Photo', status: 'unmet', optional: true },
   ]
 
+  const SHIFT_CLOSE: ReadinessItem[] = [
+    {
+      id: 'locations',
+      label: 'Every location closed',
+      status: 'unmet',
+      severity: 'block',
+      detail: 'South depot is still open.',
+    },
+    {
+      id: 'drawers',
+      label: 'Drawers balance',
+      status: 'met',
+      severity: 'block',
+      detail: 'Off by $0.00.',
+    },
+    {
+      id: 'count',
+      label: 'Stock count recorded',
+      status: 'unmet',
+      severity: 'warn',
+      detail: 'Last counted 2 days ago.',
+    },
+    { id: 'notes', label: 'Handover note', status: 'unmet', optional: true },
+  ]
+
+  const CLOSED_SHIFT: ReadinessItem[] = [
+    {
+      id: 'locations',
+      label: 'Every location closed',
+      status: 'met',
+      severity: 'block',
+      detail: 'Both locations closed by 19:12.',
+    },
+    {
+      id: 'drawers',
+      label: 'Drawers balance',
+      status: 'met',
+      severity: 'block',
+      detail: 'Off by $0.00.',
+    },
+    {
+      id: 'count',
+      label: 'Stock count recorded',
+      status: 'met',
+      severity: 'warn',
+      detail: 'Counted at 18:40.',
+    },
+  ]
+
   const { Story } = defineMeta({
     title: 'Data display/Readiness',
     component: ReadinessChecklist,
@@ -61,13 +110,19 @@
   {/snippet}
 </Story>
 
-<!-- A row in flight spins rather than warning; and nothing applicable says so. -->
+<!--
+  A row in flight spins rather than warning; nothing applicable says so; and
+  the severities: a blocking row unmet is critical, a `warn` row is tagged
+  "Check" and does not block, an optional one stays muted.
+-->
 <Story name="States" asChild>
-  <StoryAxis values={['pending', 'empty'] as const} orientation="vertical">
+  <StoryAxis values={['pending', 'empty', 'severities'] as const} orientation="vertical">
     {#snippet item(state)}
       <OnACard>
         <div class="w-80">
-          <ReadinessChecklist items={state === 'pending' ? PROVISIONING : []} />
+          <ReadinessChecklist
+            items={state === 'pending' ? PROVISIONING : state === 'severities' ? SHIFT_CLOSE : []}
+          />
         </div>
       </OnACard>
     {/snippet}
@@ -137,6 +192,18 @@
   <OnACard>
     <div class="w-80">
       <ReadinessSummary items={DONE.filter((item) => item.status === 'met')} ready={false} />
+    </div>
+  </OnACard>
+</Story>
+
+<!--
+  A check already made, kept as a record: `showDetail="all"` keeps what was
+  found on the rows that passed, not only on the ones that failed.
+-->
+<Story name="A past check" asChild>
+  <OnACard>
+    <div class="w-80">
+      <ReadinessChecklist items={CLOSED_SHIFT} showDetail="all" />
     </div>
   </OnACard>
 </Story>

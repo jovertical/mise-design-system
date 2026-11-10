@@ -1,12 +1,14 @@
 <!--
   Origin: the React package 2.23.0 `readiness.tsx` (`ReadinessChecklist`)
   Diverged: the folder's root part, exported as ReadinessChecklist. Spreads the
-    rest onto the list, as every component does.
+    rest onto the list, as every component does. Draws `severity` (a blocking
+    row critical, a `warn` row tagged "Check") and takes `showDetail`, for a
+    record of a past check (bertos-bakery-ops' audit, 2026-11-10).
 -->
 <script lang="ts" module>
   import type { HTMLAttributes } from 'svelte/elements'
 
-  import type { ReadinessItem } from './readiness-summarise.js'
+  import type { ReadinessItem, ReadinessRequirement } from './readiness-summarise.js'
 
   /**
    * One row per requirement, answering "what does this page still need from
@@ -24,6 +26,19 @@
      * warning colour reads as a problem when it simply has not started.
      */
     showRequirement?: boolean
+    /**
+     * `unmet` shows a row's `detail` and `action` only while it is unmet;
+     * `all` shows the detail on met rows too, for a record of a check already
+     * made, where what was found matters as much as what passed.
+     */
+    showDetail?: 'unmet' | 'all'
+  }
+
+  const TAG: Record<ReadinessRequirement, { label: string; class: string }> = {
+    required: { label: 'Required', class: 'text-warning' },
+    blocking: { label: 'Required', class: 'text-destructive' },
+    check: { label: 'Check', class: 'text-warning' },
+    optional: { label: 'Optional', class: 'text-muted-foreground' },
   }
 </script>
 
@@ -35,12 +50,13 @@
 
   import { cn } from '../../../utils/cn.js'
   import Text from '../../typography/text/text.svelte'
-  import { summariseReadiness } from './readiness-summarise.js'
+  import { requirementOf, summariseReadiness } from './readiness-summarise.js'
 
   let {
     items,
     emptyMessage = 'Nothing to check yet.',
     showRequirement = true,
+    showDetail = 'unmet',
     class: className,
     ...rest
   }: ReadinessChecklistProps = $props()
@@ -56,17 +72,22 @@
     {#each applicable as item (item.id)}
       {@const met = item.status === 'met'}
       {@const pending = item.status === 'pending'}
-      <li data-status={item.status} class="flex items-start gap-2 text-sm">
+      {@const requirement = requirementOf(item)}
+      <li
+        data-status={item.status}
+        data-severity={item.severity}
+        class="flex items-start gap-2 text-sm"
+      >
         {#if met}
           <IconCircleCheckFilled class={cn('text-success', icon)} />
         {:else if pending}
           <IconLoader class={cn('text-muted-foreground animate-spin', icon)} />
-        {:else if item.optional}
+        {:else if requirement === 'optional'}
           <!-- A skipped optional and a missing required are both unticked and
                are not the same news: only the second shuts the gate. -->
           <IconCircleDashed class={cn('text-muted-foreground', icon)} />
         {:else}
-          <IconPointFilled class={cn('text-warning', icon)} />
+          <IconPointFilled class={cn(TAG[requirement].class, icon)} />
         {/if}
 
         <div class="min-w-0 flex-1">
@@ -78,16 +99,14 @@
                  into a second list. -->
             {#if showRequirement && !met && !pending}
               <span
-                class={cn(
-                  'shrink-0 text-xs',
-                  item.optional ? 'text-muted-foreground' : 'text-warning',
-                )}
+                data-slot="readiness-tag"
+                class={cn('shrink-0 text-xs', TAG[requirement].class)}
               >
-                {item.optional ? 'Optional' : 'Required'}
+                {TAG[requirement].label}
               </span>
             {/if}
           </div>
-          {#if !met && item.detail}
+          {#if item.detail && (!met || showDetail === 'all')}
             <p class="text-muted-foreground mt-0.5 text-xs">{item.detail}</p>
           {/if}
           {#if !met && item.action}
