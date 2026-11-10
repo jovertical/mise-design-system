@@ -70,6 +70,8 @@ type and default.
 - A button, or a link that looks like one (`href`): `Button`
 - A menu of actions on a row or a page: `DropdownMenu`
 - A searchable list of commands or a palette (`CommandDialog`): `Command`
+- The "Type to search… ⌘K" field that opens a palette: `CommandTrigger` with `bind:open`, beside a
+  `CommandDialog` bound to the same value
 - The light and dark switch: `ThemeToggle`, inside a `ThemeProvider`
 
 **Forms** ([components/forms.md](components/forms.md))

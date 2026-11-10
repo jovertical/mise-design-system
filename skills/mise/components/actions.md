@@ -22,7 +22,7 @@ Types: `ButtonSize` (`'sm' | 'md' | 'lg'`), `ButtonVariant` (`'solid' | 'soft' |
 
 ## Command
 
-`import { Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator, CommandShortcut } from '@jovertical/mise-design-system'`
+`import { Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator, CommandShortcut, CommandTrigger } from '@jovertical/mise-design-system'`
 
 A filterable, keyboard-navigable list, grouped by section: the shape a command palette is built on. Bare for an inline picker; `CommandDialog` puts it in a dialog.
 
@@ -87,6 +87,18 @@ Also takes: bits-ui `Command.Separator` props.
 A keyboard shortcut, muted at the end of the item.
 
 Also takes: every `<span>` attribute.
+
+### `CommandTrigger`
+
+The "Type to search… ⌘K" field in a header, which opens a command palette. A button shaped like an input, not an input: the palette owns the text field, so typing here would mean two search fields to keep in step. Bind `open` to the same value as the `CommandDialog`.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `open` | `boolean` | `false` | Whether the palette is open. Opened on click, toggled on the hotkey. |
+| `hotkey` | `string \| false` | `'k'` | The key that, with ⌘ or Ctrl, toggles `open`. `false` registers none and hides the hint. |
+| `children` | `Snippet` |  | The label. Defaults to "Type to search…". |
+
+Also takes: every `<button>` attribute.
 
 ## DropdownMenu
 

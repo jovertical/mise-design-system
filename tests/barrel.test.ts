@@ -113,6 +113,7 @@ const EXPECTED_EXPORTS = [
   'CommandList',
   'CommandSeparator',
   'CommandShortcut',
+  'CommandTrigger',
   'ChartContainer',
   'ChartStyle',
   'ChartTooltip',

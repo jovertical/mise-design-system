@@ -7,3 +7,4 @@ export { type CommandItemProps, default as CommandItem } from './command-item.sv
 export { type CommandListProps, default as CommandList } from './command-list.svelte'
 export { type CommandSeparatorProps, default as CommandSeparator } from './command-separator.svelte'
 export { type CommandShortcutProps, default as CommandShortcut } from './command-shortcut.svelte'
+export { type CommandTriggerProps, default as CommandTrigger } from './command-trigger.svelte'
