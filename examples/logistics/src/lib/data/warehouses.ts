@@ -17,6 +17,7 @@ export function locationStock(s: Source, id: Location['id']) {
   const rows = s.data.products.flatMap((product) =>
     product.stock.filter((row) => row.locationId === id),
   )
+
   return { skus: rows.length, units: rows.reduce((sum, row) => sum + row.onHand, 0) }
 }
 
@@ -46,12 +47,15 @@ export const siteToInput = (location: Location): SiteInput => ({
 
 export function createSite(s: Source, raw: SiteInput): Location {
   const { zones, ...input } = siteSchema.parse(raw)
+
   const site: Location = {
     ...input,
     id: `loc-${input.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`,
     zones: zones.map((zone) => ({ ...zone, used: 0 })),
   }
+
   s.data.locations.push(site)
+
   return site
 }
 
@@ -61,17 +65,26 @@ export function createSite(s: Source, raw: SiteInput): Location {
  */
 export function updateSite(s: Source, id: string, raw: SiteInput): Location {
   const site = getLocation(s, id)
+
   if (!site) throw new Error(`No site ${id}`)
+
   const { zones, ...input } = siteSchema.parse(raw)
+
   for (const [index, zone] of zones.entries()) {
     const used = site.zones[index]?.used ?? 0
+
     if (zone.capacity < used) {
       throw new Error(`${zone.name} holds ${units.format(used)}; its capacity can't go below that`)
     }
   }
+
   const dropped = site.zones.slice(zones.length).find((zone) => zone.used > 0)
+
   if (dropped) throw new Error(`${dropped.name} still holds stock`)
+
   Object.assign(site, input)
+
   site.zones = zones.map((zone, index) => ({ ...zone, used: site.zones[index]?.used ?? 0 }))
+
   return site
 }

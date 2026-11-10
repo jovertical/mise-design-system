@@ -35,18 +35,24 @@ export const clientToInput = (client: Client): ClientInput => ({
 
 export function createClient(s: Source, raw: ClientInput): Client {
   const input = clientSchema.parse(raw)
+
   const client: Client = {
     ...input,
     id: `cli-${input.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${s.data.clients.length + 1}`,
     lifetimeValue: 0,
   }
+
   s.data.clients.push(client)
+
   return client
 }
 
 export function updateClient(s: Source, id: Id, raw: ClientInput): Client {
   const client = getClient(s, id)
+
   if (!client) throw new Error(`No client ${id}`)
+
   Object.assign(client, clientSchema.parse(raw))
+
   return client
 }

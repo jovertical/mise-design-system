@@ -25,12 +25,14 @@
   function onkeydown(event: KeyboardEvent) {
     if (event.key.toLowerCase() === 'k' && (event.metaKey || event.ctrlKey)) {
       event.preventDefault()
+
       open = !open
     }
   }
 
   function go(href: string) {
     open = false
+
     goto(href)
   }
 </script>

@@ -8,6 +8,7 @@ export function pipeline(s: Source) {
   const shipped = count('in-fulfilment')
   const delivered = count('completed')
   const total = packed + shipped + delivered
+
   return {
     packed: { count: packed, share: percent(packed, total) },
     shipped: { count: shipped, share: percent(shipped, total) },
@@ -23,6 +24,7 @@ export function pipelineUrgency(s: Source) {
     Object.entries(STAGE_STATUS).map(([stage, status]) => {
       const orders = s.data.orders.filter((order) => order.status === status)
       const urgent = orders.filter((order) => order.service !== 'regular').length
+
       return [stage, { count: urgent, share: percent(urgent, orders.length) }]
     }),
   ) as Record<keyof typeof STAGE_STATUS, { count: number; share: number }>
@@ -32,10 +34,13 @@ export function pipelineUrgency(s: Source) {
 export function deliveryTrend(s: Source) {
   return Array.from({ length: 7 }, (_, index) => {
     const day = index - 6
+
     const delivered = s.data.orders.filter((order) =>
       order.events.some((event) => event.status === 'completed' && event.at.day === day),
     ).length
+
     const placed = s.data.orders.filter((order) => order.placedAt.day === day).length
+
     return { day: shortDate({ day, time: '12:00' }), delivered, placed }
   })
 }
@@ -62,11 +67,13 @@ export function ordersToday(s: Source) {
   const today = placedOn(s, 0)
   const before = Array.from({ length: 6 }, (_, index) => placedOn(s, index - 6))
   const average = before.reduce((sum, count) => sum + count, 0) / before.length
+
   return { count: today, change: change(today, average) }
 }
 
 /** Orders delivered over the last seven days, and the change from the seven before. */
 export function deliveredThisWeek(s: Source) {
   const week = deliveredBetween(s, -6, 0)
+
   return { count: week, change: change(week, deliveredBetween(s, -13, -7)) }
 }

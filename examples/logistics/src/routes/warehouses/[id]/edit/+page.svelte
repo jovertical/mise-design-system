@@ -16,8 +16,11 @@
 
   function save(values: SiteInput) {
     if (!location) return
+
     const saved = updateSite(store, location.id, values)
+
     toast.success(`${saved.name} saved`)
+
     goto(resolve('/warehouses/[id]', { id: saved.id }))
   }
 </script>

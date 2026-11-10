@@ -23,7 +23,9 @@
   // field, so the effect reruns on any edit, and the timer batches a burst.
   $effect(() => {
     $state.snapshot(store.data)
+
     const timer = setTimeout(() => store.save(), 300)
+
     return () => clearTimeout(timer)
   })
 </script>

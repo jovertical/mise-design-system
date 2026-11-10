@@ -31,6 +31,7 @@
   import { resolve } from '$app/paths'
 
   let loading = $state(true)
+
   $effect(() => {
     latency().then(() => (loading = false))
   })
@@ -46,6 +47,7 @@
   }))
 
   const column = dataTableColumns<Vehicle>()
+
   const columns = column.columns([
     column.accessor('code', {
       header: ({ column }) => renderComponent(DataTableColumnHeader, { column, title: 'Vehicle' }),

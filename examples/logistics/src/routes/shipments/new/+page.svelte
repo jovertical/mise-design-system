@@ -15,7 +15,9 @@
 
   function save(values: ShipmentInput) {
     const shipment = createShipment(store, values)
+
     toast.success(`${shipment.number} scheduled`)
+
     goto(resolve('/shipments/[id]', { id: shipment.number }))
   }
 </script>

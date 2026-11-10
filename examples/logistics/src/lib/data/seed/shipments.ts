@@ -40,6 +40,7 @@ function stopsFor(orderIds: string[], status: Shipment['status'], day: number): 
     const order = ORDERS.find((candidate) => candidate.id === orderId)
     const eta = { day, time: `${String(10 + index * 2).padStart(2, '0')}:00` }
     const delivered = status === 'delivered' || (status === 'out-for-delivery' && index === 0)
+
     return { address: order?.destination ?? '', eta, deliveredAt: delivered ? eta : null }
   })
 }
@@ -48,6 +49,7 @@ export const SHIPMENTS: Shipment[] = ROWS.map(([number, vehicleId, driverId, sta
   const id = `shp-${number}`
   const orderIds = ORDERS.filter((order) => order.shipmentId === id).map((order) => order.id)
   const originId = ORDERS.find((order) => order.id === orderIds[0])?.originId ?? 'loc-riverside'
+
   return {
     id,
     number: `SHP-${number}`,

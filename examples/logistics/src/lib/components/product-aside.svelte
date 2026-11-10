@@ -32,9 +32,12 @@
       ? stock.reduce((sum, row) => sum + row.onHand - row.reserved, 0)
       : values.openingStock.reduce((sum, row) => sum + row.onHand, 0),
   )
+
   const low = $derived(available < values.reorderPoint)
+
   const units = (count: number) =>
     `${count.toLocaleString('en-US')} ${values.unit.trim() || 'units'}`
+
   const readiness = $derived(productReadiness(values))
 </script>
 

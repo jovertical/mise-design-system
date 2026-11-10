@@ -74,11 +74,13 @@
     untrack(() => initial),
     (values) => save(values),
   )
+
   const { form: values, enhance } = form
 
   const origins = $derived(
     store.data.locations.map((location) => ({ value: location.id, label: location.name })),
   )
+
   const vehicles = $derived(
     $values.originId
       ? candidateVehicles(store, $values.originId, shipmentId).map((vehicle) => ({
@@ -90,18 +92,22 @@
         }))
       : [],
   )
+
   const drivers = $derived(
     store.data.drivers
       .filter((driver) => driver.availability !== 'leave' || driver.id === $values.driverId)
       .map((driver) => ({ value: driver.id, label: driver.name })),
   )
+
   const orders = $derived(
     $values.originId ? candidateOrders(store, $values.originId, shipmentId) : [],
   )
+
   const stops = $derived(plannedStops(store, $values.orderIds))
 
   function chooseOrigin(originId: string) {
     if (originId === $values.originId) return
+
     $values.originId = originId
     $values.vehicleId = ''
     $values.driverId = ''
@@ -111,12 +117,15 @@
   // A vehicle with a driver brings them along; the driver can still be changed.
   function chooseVehicle(vehicleId: string) {
     $values.vehicleId = vehicleId
+
     const driverId = store.data.vehicles.find((vehicle) => vehicle.id === vehicleId)?.driverId
+
     if (driverId) $values.driverId = driverId
   }
 
   function tick(orderId: Id, on: boolean) {
     const rest = $values.orderIds.filter((id) => id !== orderId)
+
     $values.orderIds = on ? [...rest, orderId] : rest
   }
 

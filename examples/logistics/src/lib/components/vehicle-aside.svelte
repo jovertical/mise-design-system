@@ -34,6 +34,7 @@
     year: 'numeric',
     timeZone: 'UTC',
   })
+
   const readiness = $derived(vehicleReadiness(values))
   const look = $derived(VEHICLE_STATUS[status ?? 'idle'])
 </script>

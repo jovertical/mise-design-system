@@ -10,6 +10,7 @@
   let { vehicle }: { vehicle: Vehicle } = $props()
 
   const dueIn = $derived(vehicle.nextServiceDay)
+
   const service = $derived(
     dueIn < 0 ? `${-dueIn} days overdue` : dueIn === 0 ? 'Today' : `In ${dueIn} days`,
   )

@@ -24,7 +24,9 @@
 
   function save(values: VehicleInput) {
     const vehicle = createVehicle(store, values)
+
     toast.success(`${vehicle.code} added`)
+
     goto(resolve('/fleet/[id]', { id: vehicle.code }))
   }
 </script>

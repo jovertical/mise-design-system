@@ -14,6 +14,7 @@ const copy = <T>(value: T): T => structuredClone(value)
 function load(): Dataset {
   try {
     const saved = globalThis.localStorage?.getItem(STORAGE_KEY)
+
     return saved ? (JSON.parse(saved) as Dataset) : copy(SEED)
   } catch {
     return copy(SEED)
@@ -22,6 +23,7 @@ function load(): Dataset {
 
 export function createStore() {
   const state = $state({ data: load() })
+
   return {
     get data() {
       return state.data
@@ -34,6 +36,7 @@ export function createStore() {
     },
     reset() {
       state.data = copy(SEED)
+
       globalThis.localStorage?.removeItem(STORAGE_KEY)
     },
   }

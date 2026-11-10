@@ -27,10 +27,12 @@ export function orderStats(s: Source) {
   return Object.fromEntries(
     OPEN_STATUSES.map((status) => {
       const orders = s.data.orders.filter((order) => order.status === status)
+
       const trend = Array.from(
         { length: 7 },
         (_, index) => orders.filter((order) => order.placedAt.day === index - 6).length,
       )
+
       return [status, { count: orders.length, trend }]
     }),
   ) as Record<(typeof OPEN_STATUSES)[number], { count: number; trend: number[] }>
@@ -44,7 +46,9 @@ export function ordersByStatus(s: Source): Record<OrderStatus, Order[]> {
     completed: [],
     cancelled: [],
   }
+
   for (const order of listOrders(s)) groups[order.status].push(order)
+
   return groups
 }
 
@@ -70,6 +74,7 @@ export function createOrder(s: Source, raw: OrderInput): Order {
   const highest = Math.max(...s.data.orders.map((order) => Number(order.number.slice(3))))
   const number = `OR-${highest + 1}`
   const placedAt = { day: 0, time: '12:00' }
+
   const order: Order = {
     id: number.toLowerCase(),
     number,
@@ -85,33 +90,45 @@ export function createOrder(s: Source, raw: OrderInput): Order {
     events: [{ status: 'received', at: placedAt }],
     shipmentId: null,
   }
+
   s.data.orders.push(order)
+
   return order
 }
 
 export function updateOrder(s: Source, idOrNumber: string, raw: OrderInput): Order {
   const order = getOrder(s, idOrNumber)
+
   if (!order) throw new Error(`No order ${idOrNumber}`)
+
   if (!isOrderEditable(order)) {
     throw new Error(`${order.number} is ${order.status} and cannot be edited`)
   }
+
   const input = orderSchema.parse(raw)
+
   order.clientId = input.clientId
   order.service = input.service
   order.originId = input.originId
   order.destination = input.destination
   order.packages = labelled(input.packages)
   order.total = input.total
+
   return order
 }
 
 export function cancelOrder(s: Source, idOrNumber: string): Order {
   const order = getOrder(s, idOrNumber)
+
   if (!order) throw new Error(`No order ${idOrNumber}`)
+
   if (order.status === 'completed' || order.status === 'cancelled') {
     throw new Error(`${order.number} is ${order.status} and cannot be cancelled`)
   }
+
   order.status = 'cancelled'
+
   order.events.push({ status: 'cancelled', at: { day: 0, time: '12:00' } })
+
   return order
 }

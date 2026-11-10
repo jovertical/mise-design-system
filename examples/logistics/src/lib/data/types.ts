@@ -15,6 +15,7 @@ export type Location = {
 }
 
 export type VehicleStatus = 'on-route' | 'loading' | 'idle' | 'workshop'
+
 export type Vehicle = {
   id: Id
   code: string
@@ -62,6 +63,7 @@ export type Product = {
 
 export type OrderStatus = 'received' | 'ready' | 'in-fulfilment' | 'completed' | 'cancelled'
 export type OrderEvent = { status: OrderStatus; at: DemoTime; note?: string }
+
 export type Order = {
   id: Id
   number: string
@@ -84,7 +86,9 @@ export type ShipmentStatus =
   | 'out-for-delivery'
   | 'delivered'
   | 'delayed'
+
 export type Stop = { address: string; eta: DemoTime; deliveredAt: DemoTime | null }
+
 export type Shipment = {
   id: Id
   number: string

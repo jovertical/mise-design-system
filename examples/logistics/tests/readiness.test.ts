@@ -54,6 +54,7 @@ describe('order readiness', () => {
 
   it('wants a weight on some package, not just a row', () => {
     const items = orderReadiness({ ...fullOrder, packages: [{ contents: 'Crates', weightKg: 0 }] })
+
     expect(unmet(items)).toEqual(['At least one package with a weight'])
   })
 })
@@ -75,6 +76,7 @@ describe('client readiness', () => {
 
   it('wants an email that looks like one', () => {
     const client = { ...blankClient, name: 'Pine Deli', city: 'Riverside', contact: 'H. Boyd' }
+
     expect(unmet(clientReadiness({ ...client, email: 'boyd' }))).toEqual(['Contact and email'])
     expect(unmet(clientReadiness({ ...client, email: 'boyd@pine.example' }))).toEqual([])
   })
@@ -97,6 +99,7 @@ describe('product readiness', () => {
 
   it('wants a SKU in the right shape', () => {
     const product = { ...blankProduct, name: 'Stretch film', unit: 'roll', price: 1450 }
+
     expect(unmet(productReadiness({ ...product, sku: 'pk 1' }))).toEqual(['SKU'])
     expect(unmet(productReadiness({ ...product, sku: 'PK-0499' }))).toEqual([])
   })
@@ -120,6 +123,7 @@ describe('vehicle readiness', () => {
 
   it('wants a code in the fleet shape', () => {
     const van = { ...blankVehicle, registration: 'RV-2090', homeLocationId: 'loc-riverside' }
+
     expect(unmet(vehicleReadiness({ ...van, code: 'VAN-30' }))).toEqual(['Code'])
     expect(unmet(vehicleReadiness({ ...van, code: 'VAN-030' }))).toEqual([])
   })
@@ -152,8 +156,11 @@ describe('site readiness', () => {
       capacityUnits: 5000,
       docks: 3,
     }
+
     expect(unmet(siteReadiness(site))).toEqual(['At least one zone'])
+
     const zoned = { ...site, zones: [{ name: 'Zone A', capacity: 2500 }] }
+
     expect(unmet(siteReadiness(zoned))).toEqual([])
   })
 })
@@ -177,6 +184,7 @@ describe('shipment readiness', () => {
       driverId: 'drv-lopez',
       orderIds: ['or-2049'],
     }
+
     expect(unmet(shipmentReadiness(run))).toEqual([])
   })
 })

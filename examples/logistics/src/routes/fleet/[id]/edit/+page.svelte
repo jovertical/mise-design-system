@@ -16,8 +16,11 @@
 
   function save(values: VehicleInput) {
     if (!vehicle) return
+
     const saved = updateVehicle(store, vehicle.id, values)
+
     toast.success(`${saved.code} saved`)
+
     goto(resolve('/fleet/[id]', { id: saved.code }))
   }
 </script>

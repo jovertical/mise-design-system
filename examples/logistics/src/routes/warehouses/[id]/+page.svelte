@@ -34,9 +34,11 @@
   import { page } from '$app/state'
 
   const location = $derived(getLocation(store, page.params.id ?? ''))
+
   const activity = $derived(
     location ? locationActivity(store, location.id) : { vehicles: [], outbound: [] },
   )
+
   const stock = $derived(location ? locationStock(store, location.id) : { skus: 0, units: 0 })
 
   nameThisPage(() => location?.name)

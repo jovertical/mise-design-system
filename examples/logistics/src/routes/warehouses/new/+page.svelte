@@ -22,7 +22,9 @@
 
   function save(values: SiteInput) {
     const site = createSite(store, values)
+
     toast.success(`${site.name} added`)
+
     goto(resolve('/warehouses/[id]', { id: site.id }))
   }
 </script>

@@ -25,8 +25,10 @@ export function askToDiscard(): Promise<boolean> {
 
 export function answerDiscard(leave: boolean) {
   const resolve = discard.resolve
+
   discard.open = false
   discard.resolve = null
+
   resolve?.(leave)
 }
 
@@ -53,14 +55,18 @@ export function entityForm<S extends z.ZodObject>(
     taintedMessage: () => saved || askToDiscard(),
     onUpdate({ form: result, cancel }) {
       if (!result.valid) return
+
       saved = true
+
       try {
         onsave(result.data)
       } catch (error) {
         // Cancelling keeps superforms from treating the submit as done, which
         // would clear the changes it tracks and drop the guard.
         saved = false
+
         cancel()
+
         toast.error(error instanceof Error ? error.message : 'Could not save')
       }
     },

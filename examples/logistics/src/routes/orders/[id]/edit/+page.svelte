@@ -20,8 +20,11 @@
 
   function save(values: OrderInput) {
     if (!order) return
+
     const saved = updateOrder(store, order.id, values)
+
     toast.success(`${saved.number} saved`)
+
     goto(resolve('/orders/[id]', { id: saved.number }))
   }
 </script>

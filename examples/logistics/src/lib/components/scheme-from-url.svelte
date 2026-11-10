@@ -9,5 +9,6 @@
 
   const theme = useTheme()
   const requested = page.url.searchParams.get('scheme')
+
   if (requested === 'dark' || requested === 'light') theme.setTheme(requested)
 </script>

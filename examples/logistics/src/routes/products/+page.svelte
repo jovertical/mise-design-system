@@ -34,6 +34,7 @@
   import { resolve } from '$app/paths'
 
   let loading = $state(true)
+
   $effect(() => {
     latency().then(() => (loading = false))
   })
@@ -42,14 +43,18 @@
   const low = $derived(lowStock(store))
 
   type StockLevel = 'in-stock' | 'low' | 'out'
+
   const LEVEL: Record<StockLevel, { label: string; tone: 'success' | 'warning' | 'critical' }> = {
     'in-stock': { label: 'In stock', tone: 'success' },
     low: { label: 'Low', tone: 'warning' },
     out: { label: 'Out', tone: 'critical' },
   }
+
   function levelOf(product: Product): StockLevel {
     const { available } = productStock(product)
+
     if (available <= 0) return 'out'
+
     return available < product.reorderPoint ? 'low' : 'in-stock'
   }
 
@@ -59,6 +64,7 @@
   }))
 
   const column = dataTableColumns<Product>()
+
   const columns = column.columns([
     column.accessor('name', {
       header: ({ column }) => renderComponent(DataTableColumnHeader, { column, title: 'Product' }),

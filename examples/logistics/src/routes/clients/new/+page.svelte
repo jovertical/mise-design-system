@@ -23,7 +23,9 @@
 
   function save(values: ClientInput) {
     const client = createClient(store, values)
+
     toast.success(`${client.name} added`)
+
     goto(resolve('/clients/[id]', { id: client.id }))
   }
 </script>

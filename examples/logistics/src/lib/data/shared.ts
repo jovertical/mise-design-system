@@ -13,9 +13,11 @@ export const percent = (part: number, whole: number) =>
 /** Counts and shares for each key, in the keys' order. */
 export function tally<K extends string>(keys: readonly K[], values: K[]) {
   const total = values.length
+
   return Object.fromEntries(
     keys.map((key) => {
       const count = values.filter((value) => value === key).length
+
       return [key, { count, share: percent(count, total) }]
     }),
   ) as Record<K, { count: number; share: number }>

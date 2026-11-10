@@ -61,6 +61,7 @@
     untrack(() => initial),
     (values) => save(values),
   )
+
   const { form: values, enhance } = form
 
   let search = $state('')
@@ -71,13 +72,17 @@
       .filter((client) => client.status === 'active' || client.id === initial.clientId)
       .map((client) => ({ value: client.id, label: client.name })),
   )
+
   const matching = $derived(
     clients.filter((client) => client.label.toLowerCase().includes(search.trim().toLowerCase())),
   )
+
   const startingClient = untrack(
     () => clients.find((client) => client.value === initial.clientId)?.label,
   )
+
   const services = Object.entries(SERVICE_LABEL).map(([value, label]) => ({ value, label }))
+
   const origins = $derived(
     store.data.locations.map((location) => ({ value: location.id, label: location.name })),
   )

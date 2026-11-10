@@ -28,6 +28,7 @@
   import { resolve } from '$app/paths'
 
   let loading = $state(true)
+
   $effect(() => {
     latency().then(() => (loading = false))
   })
@@ -41,6 +42,7 @@
     value,
     label: look.label,
   }))
+
   const DRIVER_OPTIONS = $derived(
     store.data.drivers.map((driver) => ({ value: driver.id, label: driver.name })),
   )
@@ -49,6 +51,7 @@
     values.includes(String(row.getValue(id)))
 
   const column = dataTableColumns<Shipment>()
+
   const columns = column.columns([
     column.accessor('number', {
       header: ({ column }) => renderComponent(DataTableColumnHeader, { column, title: 'Shipment' }),
@@ -73,6 +76,7 @@
       header: 'Next ETA',
       cell: ({ row }) => {
         const eta = nextEta(row.original)
+
         return eta ? dateTime(eta) : '—'
       },
     }),

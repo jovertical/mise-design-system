@@ -69,13 +69,17 @@
       validators: zod4(settingsSchema),
       onUpdate({ form: result }) {
         if (!result.valid) return
+
         saveSettings(store, result.data)
+
         // The saved settings are the new baseline: Cancel goes back to them.
         form.reset({ newState: result.data })
+
         toast.success('Settings saved')
       },
     },
   )
+
   const { form: values, tainted, isTainted } = form
   const changed = $derived(isTainted($tainted))
 
@@ -124,10 +128,13 @@
     upload(file, { onProgress, signal }) {
       return new Promise((done, fail) => {
         const reader = new FileReader()
+
         reader.onprogress = (event) => {
           if (event.lengthComputable) onProgress(Math.round((event.loaded / event.total) * 100))
         }
+
         reader.onerror = () => fail(reader.error ?? new Error('Could not read the file'))
+
         reader.onload = () =>
           done({
             uuid: crypto.randomUUID(),
@@ -136,7 +143,9 @@
             mimeType: file.type,
             size: file.size,
           })
+
         signal.addEventListener('abort', () => reader.abort())
+
         reader.readAsDataURL(file)
       })
     },
@@ -149,11 +158,13 @@
   // Each preview shows the number the next document of its kind would get.
   const highest = (numbers: string[]) =>
     Math.max(0, ...numbers.map((n) => Number(n.replace(/\D/g, ''))))
+
   const NEXT = $derived({
     orderPrefix: highest(store.data.orders.map((order) => order.number)) + 1,
     shipmentPrefix: highest(store.data.shipments.map((shipment) => shipment.number)) + 1,
     invoicePrefix: 1,
   })
+
   const nextNumber = (name: 'orderPrefix' | 'shipmentPrefix' | 'invoicePrefix') =>
     `${$values[name] || '—'}${String(NEXT[name]).padStart(4, '0')}`
 

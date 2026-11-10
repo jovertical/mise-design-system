@@ -23,7 +23,9 @@
 
   function save(values: ProductInput) {
     const product = createProduct(store, values)
+
     toast.success(`${product.name} added`)
+
     goto(resolve('/products/[id]', { id: product.sku }))
   }
 </script>

@@ -50,11 +50,13 @@
   const shipment = $derived(getShipment(store, page.params.id ?? ''))
   const vehicle = $derived(shipment ? vehicleOf(store, shipment.vehicleId) : undefined)
   const driver = $derived(shipment ? driverOf(store, shipment.driverId) : undefined)
+
   const orders = $derived(
     shipment
       ? shipment.orderIds.map((id) => getOrder(store, id)).filter((order) => order !== undefined)
       : [],
   )
+
   const delivered = $derived(shipment?.stops.filter((stop) => stop.deliveredAt).length ?? 0)
 
   nameThisPage(() => shipment?.number)

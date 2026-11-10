@@ -26,12 +26,17 @@
   // named by the page or taken from the URL. A create or edit page adds its
   // step after it, and the record becomes a link back to its page.
   type Step = { label: string; href: string | null }
+
   const trail = $derived.by((): Step[] => {
     if (!here || here.item.href === '/' || path.length <= here.item.href.length) return []
+
     const [record] = path.slice(here.item.href.length + 1).split('/')
     const recordLabel = crumb.leaf ?? decodeURIComponent(record)
+
     if (!crumb.step) return [{ label: recordLabel, href: null }]
+
     if (record === 'new') return [{ label: crumb.step, href: null }]
+
     return [
       { label: recordLabel, href: `${here.item.href}/${record}` },
       { label: crumb.step, href: null },

@@ -60,11 +60,13 @@
     untrack(() => initial),
     (values) => save(values),
   )
+
   const { form: values, enhance } = form
 
   // Select speaks strings and reads '' as nothing chosen, so "no driver" travels
   // as its own value and is null in the data.
   const NO_DRIVER = 'none'
+
   const drivers = $derived([
     { value: NO_DRIVER, label: 'No driver' },
     ...assignableDrivers(store, vehicleId).map((driver) => ({
@@ -72,13 +74,16 @@
       label: driver.name,
     })),
   ])
+
   const types = [
     { value: 'van', label: 'Van' },
     { value: 'truck', label: 'Truck' },
   ]
+
   const sites = $derived(
     store.data.locations.map((location) => ({ value: location.id, label: location.name })),
   )
+
   const conditions = Object.entries(CONDITION).map(([value, look]) => ({
     value,
     label: look.label,

@@ -19,12 +19,14 @@
   let { values }: { values: ShipmentInput } = $props()
 
   const orders = $derived(store.data.orders.filter((order) => values.orderIds.includes(order.id)))
+
   const kilograms = $derived(
     orders.reduce(
       (sum, order) => sum + order.packages.reduce((total, pkg) => total + pkg.weightKg, 0),
       0,
     ),
   )
+
   const count = $derived(values.orderIds.length)
   const readiness = $derived(shipmentReadiness(values))
 </script>

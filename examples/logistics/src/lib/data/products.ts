@@ -12,6 +12,7 @@ export const listProducts = (s: Source, filters: ProductFilters = {}): Product[]
 export function productStock(product: Product) {
   const onHand = product.stock.reduce((sum, row) => sum + row.onHand, 0)
   const reserved = product.stock.reduce((sum, row) => sum + row.reserved, 0)
+
   return { onHand, reserved, available: onHand - reserved }
 }
 
@@ -31,12 +32,15 @@ export const productToInput = (product: Product): ProductInput => ({
 function parseProduct(s: Source, raw: ProductInput, id: string | null) {
   const input = productSchema.parse(raw)
   const taken = s.data.products.some((product) => product.sku === input.sku && product.id !== id)
+
   if (taken) throw new Error(`SKU ${input.sku} is already in use`)
+
   return input
 }
 
 export function createProduct(s: Source, raw: ProductInput): Product {
   const { openingStock, ...input } = parseProduct(s, raw, null)
+
   const product: Product = {
     ...input,
     id: `prd-${input.sku.toLowerCase()}`,
@@ -46,16 +50,22 @@ export function createProduct(s: Source, raw: ProductInput): Product {
       reserved: 0,
     })),
   }
+
   s.data.products.push(product)
+
   return product
 }
 
 /** Everything but stock, which moves through adjustments rather than this form. */
 export function updateProduct(s: Source, id: string, raw: ProductInput): Product {
   const product = s.data.products.find((candidate) => candidate.id === id)
+
   if (!product) throw new Error(`No product ${id}`)
+
   const { openingStock: _, ...input } = parseProduct(s, raw, product.id)
+
   Object.assign(product, input)
+
   return product
 }
 

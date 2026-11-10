@@ -22,7 +22,9 @@
 
   function save(values: OrderInput) {
     const order = createOrder(store, values)
+
     toast.success(`${order.number} created`)
+
     goto(resolve('/orders/[id]', { id: order.number }))
   }
 </script>

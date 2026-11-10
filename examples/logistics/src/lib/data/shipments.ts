@@ -62,9 +62,11 @@ export const candidateOrders = (s: Source, originId: Id, shipmentId: Id | null):
  */
 export const candidateVehicles = (s: Source, originId: Id, shipmentId: Id | null): Vehicle[] => {
   const own = s.data.shipments.find((shipment) => shipment.id === shipmentId)?.vehicleId
+
   const usable = s.data.vehicles.filter(
     (vehicle) => vehicle.status !== 'workshop' || vehicle.id === own,
   )
+
   return [
     ...usable.filter((vehicle) => vehicle.homeLocationId === originId),
     ...usable.filter((vehicle) => vehicle.homeLocationId !== originId),
@@ -87,18 +89,22 @@ const NOW: DemoTime = { day: 0, time: '12:00' }
 function move(order: Order, status: 'ready' | 'in-fulfilment', shipmentId: Id | null) {
   order.status = status
   order.shipmentId = shipmentId
+
   order.events.push({ status, at: NOW })
 }
 
 function parseRun(s: Source, raw: ShipmentInput, shipmentId: Id | null) {
   const input = shipmentSchema.parse(raw)
   const allowed = new Set(candidateOrders(s, input.originId, shipmentId).map((order) => order.id))
+
   for (const orderId of input.orderIds) {
     if (!allowed.has(orderId)) {
       const number = s.data.orders.find((order) => order.id === orderId)?.number ?? orderId
+
       throw new Error(`${number} isn't ready at this origin`)
     }
   }
+
   return input
 }
 
@@ -106,6 +112,7 @@ export function createShipment(s: Source, raw: ShipmentInput): Shipment {
   const input = parseRun(s, raw, null)
   const highest = Math.max(...s.data.shipments.map((shipment) => Number(shipment.number.slice(4))))
   const number = `SHP-${highest + 1}`
+
   const shipment: Shipment = {
     ...input,
     id: number.toLowerCase(),
@@ -113,10 +120,13 @@ export function createShipment(s: Source, raw: ShipmentInput): Shipment {
     stops: plannedStops(s, input.orderIds),
     status: 'scheduled',
   }
+
   s.data.shipments.push(shipment)
+
   for (const order of s.data.orders) {
     if (input.orderIds.includes(order.id)) move(order, 'in-fulfilment', shipment.id)
   }
+
   // The store keeps its own reactive copy; hand that back, so a caller's later
   // edits land on the stored run.
   return getShipment(s, number) ?? shipment
@@ -125,18 +135,27 @@ export function createShipment(s: Source, raw: ShipmentInput): Shipment {
 /** Applies the difference: a newly ticked order moves in, an unticked one goes back to ready. */
 export function updateShipment(s: Source, idOrNumber: string, raw: ShipmentInput): Shipment {
   const shipment = getShipment(s, idOrNumber)
+
   if (!shipment) throw new Error(`No shipment ${idOrNumber}`)
+
   if (!isShipmentEditable(shipment)) {
     const status = shipment.status.replaceAll('-', ' ')
+
     throw new Error(`${shipment.number} is ${status} and cannot be replanned`)
   }
+
   const input = parseRun(s, raw, shipment.id)
+
   for (const order of s.data.orders) {
     const was = shipment.orderIds.includes(order.id)
     const now = input.orderIds.includes(order.id)
+
     if (was && !now) move(order, 'ready', null)
+
     if (!was && now) move(order, 'in-fulfilment', shipment.id)
   }
+
   Object.assign(shipment, input, { stops: plannedStops(s, input.orderIds) })
+
   return shipment
 }

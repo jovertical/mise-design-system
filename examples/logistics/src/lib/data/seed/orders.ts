@@ -57,14 +57,19 @@ const SOURCES: Order['source'][] = ['api', 'portal', 'csv', 'manual', 'api', 'po
 
 function statusOf(index: number): OrderStatus {
   if (index <= 19) return 'completed'
+
   if (index === 20 || index === 53) return 'cancelled'
+
   if (index <= 38) return 'in-fulfilment'
+
   if (index <= 52) return 'ready'
+
   return 'received'
 }
 
 /** Day -14 for the oldest order; the six received orders all came in today. */
 const placedDay = (index: number) => (index >= 54 ? 0 : -14 + Math.floor((index * 13) / 53))
+
 const clock = (index: number) =>
   `${String(8 + (index % 9)).padStart(2, '0')}:${index % 2 ? '30' : '00'}`
 
@@ -86,6 +91,7 @@ const STEP_DAYS: Record<OrderStatus, (index: number) => number> = {
 function eventsFor(status: OrderStatus, placedAt: DemoTime, index: number): OrderEvent[] {
   const steps: OrderStatus[] =
     status === 'cancelled' ? ['received', 'cancelled'] : FLOW.slice(0, FLOW.indexOf(status) + 1)
+
   return steps.map((step, offset) => ({
     status: step,
     at: {
@@ -98,6 +104,7 @@ function eventsFor(status: OrderStatus, placedAt: DemoTime, index: number): Orde
 /** Index ranges to shipment ids, matching shipments.ts. */
 function shipmentOf(index: number): string | null {
   if (index <= 19) return `shp-${3001 + Math.floor(index / 4)}`
+
   const active: Record<number, number> = {
     21: 3006,
     22: 3006,
@@ -118,6 +125,7 @@ function shipmentOf(index: number): string | null {
     37: 3017,
     38: 3018,
   }
+
   return active[index] ? `shp-${active[index]}` : null
 }
 
@@ -127,11 +135,13 @@ function build(index: number): Order {
   const placedAt: DemoTime = { day: placedDay(index), time: clock(index) }
   const client = CLIENTS[index % CLIENTS.length]
   const packageCount = 1 + (index % 4)
+
   const packages = Array.from({ length: packageCount }, (_, n) => ({
     label: `PKG-${n + 1}`,
     contents: CONTENTS[(index + n) % CONTENTS.length],
     weightKg: 12 + ((index * 7 + n * 13) % 90),
   }))
+
   return {
     id: number.toLowerCase(),
     number,
@@ -152,6 +162,7 @@ function build(index: number): Order {
 const orders = Array.from({ length: 60 }, (_, index) => build(index))
 
 const bloom = CLIENTS.find((client) => client.name === 'Bloom & Stem')
+
 orders[40] = {
   ...orders[40],
   clientId: bloom?.id ?? orders[40].clientId,

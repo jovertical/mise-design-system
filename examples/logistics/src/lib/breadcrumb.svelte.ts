@@ -13,6 +13,7 @@ export const crumb = $state<{ leaf: string | null; step: string | null }>({
 export function nameThisPage(name: () => string | undefined) {
   $effect(() => {
     crumb.leaf = name() ?? null
+
     return () => {
       crumb.leaf = null
     }
@@ -24,6 +25,7 @@ export function markThisPage(step: string, name?: () => string | undefined) {
   $effect(() => {
     crumb.step = step
     crumb.leaf = name?.() ?? null
+
     return () => {
       crumb.step = null
       crumb.leaf = null

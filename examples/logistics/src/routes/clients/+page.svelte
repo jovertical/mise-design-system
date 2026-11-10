@@ -30,6 +30,7 @@
   import { resolve } from '$app/paths'
 
   let loading = $state(true)
+
   $effect(() => {
     latency().then(() => (loading = false))
   })
@@ -40,16 +41,19 @@
     value,
     label: look.label,
   }))
+
   const MANAGER_OPTIONS = $derived(
     [...new Set(store.data.clients.map((client) => client.manager))].map((manager) => ({
       value: manager,
       label: manager,
     })),
   )
+
   const inList = (row: { getValue: (id: string) => unknown }, id: string, values: string[]) =>
     values.includes(String(row.getValue(id)))
 
   const column = dataTableColumns<Client>()
+
   const columns = column.columns([
     column.accessor('name', {
       header: ({ column }) => renderComponent(DataTableColumnHeader, { column, title: 'Client' }),

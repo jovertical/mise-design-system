@@ -18,6 +18,7 @@
 
   function reset() {
     store.reset()
+
     toast.success('Demo data reset')
   }
 </script>

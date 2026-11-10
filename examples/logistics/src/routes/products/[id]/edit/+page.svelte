@@ -16,8 +16,11 @@
 
   function save(values: ProductInput) {
     if (!product) return
+
     const saved = updateProduct(store, product.id, values)
+
     toast.success(`${saved.name} saved`)
+
     goto(resolve('/products/[id]', { id: saved.sku }))
   }
 </script>

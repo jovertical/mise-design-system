@@ -16,8 +16,11 @@
 
   function save(values: ClientInput) {
     if (!client) return
+
     const saved = updateClient(store, client.id, values)
+
     toast.success(`${saved.name} saved`)
+
     goto(resolve('/clients/[id]', { id: saved.id }))
   }
 </script>

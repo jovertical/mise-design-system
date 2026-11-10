@@ -25,8 +25,11 @@
 
   function save(values: ShipmentInput) {
     if (!shipment) return
+
     const saved = updateShipment(store, shipment.id, values)
+
     toast.success(`${saved.number} saved`)
+
     goto(resolve('/shipments/[id]', { id: saved.number }))
   }
 </script>

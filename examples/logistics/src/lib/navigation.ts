@@ -50,14 +50,17 @@ export const NAVIGATION: NavGroup[] = [
 /** The group and item a path belongs to: `/orders/OR-2041` is under Orders › Orders. */
 export function locate(pathname: string): { group: NavGroup; item: NavItem } | null {
   let best: { group: NavGroup; item: NavItem } | null = null
+
   for (const group of NAVIGATION) {
     for (const item of group.items) {
       const matches =
         item.href === '/'
           ? pathname === '/'
           : pathname === item.href || pathname.startsWith(`${item.href}/`)
+
       if (matches && (!best || item.href.length > best.item.href.length)) best = { group, item }
     }
   }
+
   return best
 }

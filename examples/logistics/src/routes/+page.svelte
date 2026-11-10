@@ -57,6 +57,7 @@
   import { resolve } from '$app/paths'
 
   let loading = $state(true)
+
   $effect(() => {
     latency().then(() => (loading = false))
   })
@@ -88,6 +89,7 @@
     shipment.stops.find((stop) => !stop.deliveredAt) ?? shipment.stops.at(-1)
 
   const column = dataTableColumns<Shipment>()
+
   const columns = column.columns([
     column.display({
       id: 'vehicle',

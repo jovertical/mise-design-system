@@ -56,6 +56,7 @@
   import { page } from '$app/state'
 
   let loading = $state(true)
+
   $effect(() => {
     latency().then(() => (loading = false))
   })
@@ -68,11 +69,15 @@
 
   // The view lives in the URL, so it survives a reload and can be shared.
   const view = $derived(page.url.searchParams.get('view') === 'board' ? 'board' : 'table')
+
   function show(next: string) {
     if (!next || next === view) return
+
     const url = new URL(page.url.href)
+
     if (next === 'board') url.searchParams.set('view', 'board')
     else url.searchParams.delete('view')
+
     goto(url, { replace: true, reset: false })
   }
 
@@ -83,12 +88,16 @@
 
   function confirmCancel() {
     if (!cancelling) return
+
     const order = cancelOrder(store, cancelling.id)
+
     toast.success(`Order ${order.number} cancelled`)
+
     cancelling = null
   }
 
   const column = dataTableColumns<Order>()
+
   const columns = column.columns([
     column.accessor('number', {
       header: ({ column }) => renderComponent(DataTableColumnHeader, { column, title: 'Order' }),
