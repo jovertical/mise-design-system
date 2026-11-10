@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/jovertical/mise-design-system/compare/v1.4.0...v1.5.0) (2026-11-10)
+
+
+### Features
+
+* **board:** drag cards between columns; the Orders board's five columns ([#9](https://github.com/jovertical/mise-design-system/issues/9)) ([699f2db](https://github.com/jovertical/mise-design-system/commit/699f2dbdca7840422b463bf8616461549297e8b1))
+
 ## [1.4.0](https://github.com/jovertical/mise-design-system/compare/v1.3.0...v1.4.0) (2026-11-10)
 
 
