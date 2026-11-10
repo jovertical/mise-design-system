@@ -216,9 +216,10 @@
             </FormField>
             <FormField {form} name="nextServiceDay">
               <FormControl>
-                {#snippet children()}
+                {#snippet children({ props })}
                   <FormLabel>Next service</FormLabel>
                   <DatePicker
+                    {...props}
                     mode="single"
                     value={dayToDate($values.nextServiceDay)}
                     onValueChange={(date) => {
