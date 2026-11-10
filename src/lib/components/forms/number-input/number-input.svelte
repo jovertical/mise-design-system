@@ -12,11 +12,14 @@
     is the only decimal point either package reads. The typing is
     NumberInputField, which QuantityInput composes. With controls the field is
     capped with `max-w-32` rather than React's `w-32`, which Field's
-    `[&>*]:w-full` overrode, stretching it across the form.
+    `[&>*]:w-full` overrode, stretching it across the form. `size` matches
+    Input's heights, its buttons a step larger at `lg` (bertos-bakery-ops'
+    audit, 2026-11-10).
 -->
 <script lang="ts" module>
   import type { Snippet } from 'svelte'
 
+  import type { InputSize } from '../input/input.svelte'
   import type { NumberInputFieldProps } from './number-input-field.svelte'
 
   /**
@@ -66,6 +69,8 @@
     controls?: boolean
     /** Ahead of the number: a currency symbol, a unit. */
     prefix?: string | Snippet
+    /** The height `Input` draws at the same size: `sm` for a dense row. `md` by default. */
+    size?: InputSize
   }
 </script>
 
@@ -92,12 +97,16 @@
     clearable = true,
     controls = false,
     prefix,
+    size = 'md',
     disabled,
     class: className,
     'aria-label': ariaLabel,
     ...rest
   }: NumberInputProps = $props()
 
+  const GROUP_SIZE_CLASS: Record<InputSize, string> = { sm: 'h-8', md: '', lg: 'h-10' }
+
+  const buttonSize = $derived(size === 'lg' ? 'icon-sm' : 'icon-xs')
   const isEmpty = $derived(value === null || value === undefined)
   const isAtMin = $derived(isEmpty || (value as number) <= min)
   const isAtMax = $derived(max !== undefined && !isEmpty && (value as number) >= max)
@@ -120,7 +129,8 @@
   data-slot="number-input"
   data-format={format}
   data-disabled={disabled}
-  class={cn(controls && 'max-w-32', className)}
+  data-size={size}
+  class={cn(controls && 'max-w-32', GROUP_SIZE_CLASS[size], className)}
 >
   {#if controls}
     <!-- The addons' stock negative margin pulls a button past the group's
@@ -128,7 +138,7 @@
          side. Padding alone seats the buttons inside the fill. -->
     <InputGroupAddon align="inline-start" class="pl-1.5 has-[>button]:ml-0">
       <InputGroupButton
-        size="icon-xs"
+        size={buttonSize}
         aria-label={ariaLabel ? `Decrease ${ariaLabel}` : 'Decrease'}
         disabled={disabled || isAtMin}
         onclick={() => pressStep(-1)}
@@ -166,7 +176,7 @@
   {#if controls}
     <InputGroupAddon align="inline-end" class="pr-1.5 has-[>button]:mr-0">
       <InputGroupButton
-        size="icon-xs"
+        size={buttonSize}
         aria-label={ariaLabel ? `Increase ${ariaLabel}` : 'Increase'}
         disabled={disabled || isAtMax}
         onclick={() => pressStep(1)}

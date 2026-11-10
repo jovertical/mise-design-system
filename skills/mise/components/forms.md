@@ -389,8 +389,11 @@ Types: `FormFieldState`.
 | --- | --- | --- | --- |
 | `type` (required) | `'file' \| InputType` |  |  |
 | `files` | `FileList \| undefined` |  |  |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | `sm` for a dense row or a table cell, `lg` beside large buttons. `md` by default. |
 
-Also takes: every `<input>` attribute except `type`.
+Also takes: every `<input>` attribute except `type`, `size`.
+
+Types: `InputSize` (`'sm' | 'md' | 'lg'`).
 
 ## InputGroup
 
@@ -514,6 +517,7 @@ A number typed into a text field, never `type="number"`: the native one has 8px 
 | `clearable` | `boolean` | `true` | An emptied field commits `null`. Off, it commits `min`: for a count where zero is a real answer and the field should never be blank. |
 | `controls` | `boolean` | `false` | − and + either side, inside the field's own fill, so it reads as one control beside the plain inputs around it. Each disables at its end of the range. |
 | `prefix` | `string \| Snippet` |  | Ahead of the number: a currency symbol, a unit. |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | The height `Input` draws at the same size: `sm` for a dense row. `md` by default. |
 
 Also takes: everything `NumberInputField` takes.
 
@@ -533,7 +537,7 @@ The field alone: a number typed into a text field, inside an `InputGroup` the ca
 | `clearable` | `boolean` | `true` |  |
 | `ref` | `HTMLInputElement \| null` | `null` |  |
 
-Also takes: every `<input>` attribute except `type`, `value`, `min`, `max`, `step`, `prefix`, `children`, `files`.
+Also takes: every `<input>` attribute except `type`, `value`, `min`, `max`, `step`, `prefix`, `children`, `files`, `size`.
 
 Types: `NumberInputFormat` (`'integer' | 'decimal' | 'currency'`).
 

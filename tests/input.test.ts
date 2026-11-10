@@ -42,4 +42,17 @@ describe('Input and Label', () => {
 
     expect(screen.getByPlaceholderText('Quantity')).toHaveAttribute('aria-invalid', 'true')
   })
+
+  it.each([
+    ['sm', 'h-8'],
+    ['md', 'h-9'],
+    ['lg', 'h-10'],
+  ] as const)('draws size %s at %s', (size, height) => {
+    render(Input, { size, placeholder: 'Quantity' })
+
+    const input = screen.getByPlaceholderText('Quantity')
+
+    expect(input).toHaveAttribute('data-size', size)
+    expect(input).toHaveClass(height)
+  })
 })
