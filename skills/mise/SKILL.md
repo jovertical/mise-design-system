@@ -97,7 +97,9 @@ type and default.
 
 **Navigation** ([components/navigation.md](components/navigation.md))
 
-- The app's side menu: `Sidebar`
+- The app's side menu: `Sidebar` (`panel` is the default theme)
+- The menu itself, from data: sections, groups, badges and the current row: `SidebarNav`
+  inside `SidebarContent`, with `current` set to the page's path
 - Where am I: `Breadcrumb`
 - Sections of one page: `Tabs`
 - The steps of a flow: `Stepper`
