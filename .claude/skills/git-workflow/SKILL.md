@@ -1,9 +1,9 @@
 ---
 name: git-workflow
 description: >-
-  Guides git operations in mise — main as the only branch for now, component-scoped
-  conventional commits grouped by logical change, the pre-commit gate checked by exit code,
-  pushing only at an approved phase or round gate, and releases cut only by release-please. Activates when
+  Guides git operations in mise — main protected by a ruleset, work on a branch merged by a
+  pull request once CI passes, component-scoped conventional commits grouped by logical change,
+  the pre-commit gate checked by exit code, and releases cut only by release-please. Activates when
   committing, pushing, branching, or when a release or version comes up; or when the user
   mentions git, branch, commit, push, ship, PR, release, tag, or version.
 metadata:
@@ -14,10 +14,22 @@ metadata:
 
 Adapted from the React package's `git-workflow` skill.
 
-## Base branch
+## Base branch, and how work reaches it
 
-The base is **`main`**. Work commits directly to `main` while the port runs in
-rounds. A branch and PR are for when the user asks for one.
+The base is **`main`**, protected by the repository ruleset **Protect main**:
+
+- changes arrive by pull request only, merged by **squash or rebase** (history
+  stays linear; no merge commits);
+- the **`check`** job of the CI workflow must pass (it runs the package's
+  gate, the example's checks and builds, and the Storybook build);
+- `main` cannot be force-pushed or deleted;
+- the repository admin (the user) may bypass it, for an emergency. An agent
+  works with the user's credentials and so could too; it must not. Always go
+  through a pull request.
+
+Work on a branch named for the change (`feat/date-picker-id`,
+`chore/example-modules`, `docs/handoff`), one per phase or round. At the gate
+the user approves, push the branch and open a pull request into `main`.
 
 ## Commits
 
@@ -53,14 +65,20 @@ stories through Tailwind and Vite; `pnpm test` can pass with either broken.
 Then review `git status --short`: no `node_modules`, `dist`, `.svelte-kit`,
 `storybook-static` or `.tmp`.
 
-## Pushing
+## Pushing and merging
 
-Push `main` only at a phase or round gate the user has approved, then confirm CI:
+At a gate the user has approved, push the branch, open the pull request and
+watch its CI:
 
 ```bash
-git push origin main
-gh run watch --repo jovertical/mise-design-system --exit-status
+git push -u origin <branch>
+gh pr create --base main --fill
+gh pr checks --watch
 ```
+
+Merge only when `check` is green and the user has said to merge:
+`gh pr merge --squash --delete-branch` (or `--rebase` to keep each commit).
+Then confirm the push to `main` ran CI, Example and Release.
 
 ## Releases: release-please only
 
@@ -71,7 +89,9 @@ the last release: `fix` a patch, `feat` a minor, `feat!` or a
 `CHANGELOG.md`, creates the GitHub release and publishes to npm through
 npm trusted publishing (OIDC from `release.yml`; no token).
 
-- The user merges the release PR. The agent never does.
+- The user merges the release PR. The agent never does. release-please opens
+  it with the workflow's own token, which does not start CI, so `check` never
+  reports on it; the user merges it with the admin bypass.
 - Never edit `version` or `CHANGELOG.md`, `git tag`, `gh release create`, or
   `npm publish` by hand.
 - A commit's type is a release decision: a breaking API change is `feat!`, even
