@@ -2,3 +2,22 @@
 @import 'tw-animate-css';
 @import './mise-theme.css';
 @source '../node_modules/@jovertical/mise-design-system/dist';
+
+/* Shiki's css-variables theme, on mise's semantic tokens. */
+:root {
+  --shiki-foreground: var(--foreground);
+  --shiki-background: transparent;
+  --shiki-token-keyword: var(--primary);
+  --shiki-token-string: var(--success);
+  --shiki-token-string-expression: var(--success);
+  --shiki-token-comment: var(--muted-foreground);
+  --shiki-token-function: var(--info);
+  --shiki-token-constant: var(--warning);
+  --shiki-token-parameter: var(--foreground);
+  --shiki-token-punctuation: var(--muted-foreground);
+  --shiki-token-link: var(--primary);
+}
+
+pre.shiki {
+  @apply overflow-x-auto rounded-lg bg-muted p-4 text-sm leading-relaxed;
+}

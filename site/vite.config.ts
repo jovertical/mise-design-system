@@ -2,8 +2,13 @@ import adapter from '@sveltejs/adapter-static'
 import { sveltekit } from '@sveltejs/kit/vite'
 import tailwindcss from '@tailwindcss/vite'
 import { svelteTesting } from '@testing-library/svelte/vite'
-import { mdsvex } from 'mdsvex'
+import { escapeSvelte, mdsvex } from 'mdsvex'
 import { defineConfig } from 'vitest/config'
+
+import { examples } from './vite/examples.js'
+import { highlightCode } from './vite/highlight.js'
+import { baseLinks, headingIds } from './vite/markdown.js'
+import { miseApi } from './vite/mise-api.js'
 
 /**
  * Every page is prerendered by adapter-static. BASE_PATH is the repository's
@@ -20,9 +25,20 @@ const markdownOrDependency = (filename: string) =>
 export default defineConfig({
   plugins: [
     tailwindcss(),
+    miseApi(),
+    examples(),
     sveltekit({
       extensions: ['.svelte', '.md'],
-      preprocess: [mdsvex({ extensions: ['.md'] })],
+      preprocess: [
+        mdsvex({
+          extensions: ['.md'],
+          remarkPlugins: [baseLinks(base), headingIds()],
+          highlight: {
+            highlighter: async (code, language) =>
+              `{@html \`${escapeSvelte(await highlightCode(code, language ?? 'text'))}\`}`,
+          },
+        }),
+      ],
       compilerOptions: {
         runes: ({ filename }) => (markdownOrDependency(filename) ? undefined : true),
       },
