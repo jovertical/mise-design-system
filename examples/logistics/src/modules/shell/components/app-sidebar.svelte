@@ -1,29 +1,33 @@
 <!--
-  The demo's sidebar: the brand, one group per NAVIGATION group, and the
-  user menu. Links go through resolve(), so they carry the Pages base path.
+  The demo's sidebar: the brand, then NAVIGATION drawn by mise's SidebarNav.
+  Links go through resolve(), so they carry the Pages base path, and the
+  current row is matched against the full path.
 -->
 <script lang="ts">
   import {
     Badge,
     Sidebar,
     SidebarContent,
-    SidebarGroup,
-    SidebarGroupLabel,
     SidebarHeader,
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
+    SidebarNav,
+    type SidebarNavSection,
   } from '@jovertical/mise-design-system'
   import { store } from '#modules/core/data/store.svelte.js'
   import { getSettings } from '#modules/settings/data/index.js'
-  import { locate, NAVIGATION } from '#modules/shell/utils/navigation.js'
+  import { NAVIGATION } from '#modules/shell/utils/navigation.js'
   import { resolve } from '$app/paths'
   import { page } from '$app/state'
 
-  const current = $derived(locate(page.url.pathname.replace(resolve('/'), '/'))?.item.href)
+  const sections: SidebarNavSection[] = NAVIGATION.map((group) => ({
+    label: group.label,
+    items: group.items.map((item) => ({ ...item, href: resolve(item.href) })),
+  }))
 </script>
 
-<Sidebar sidetheme="light" collapsible="icon">
+<Sidebar collapsible="icon">
   <SidebarHeader>
     <SidebarMenu>
       <SidebarMenuItem>
@@ -46,24 +50,6 @@
   </SidebarHeader>
 
   <SidebarContent>
-    {#each NAVIGATION as group (group.label)}
-      <SidebarGroup>
-        <SidebarGroupLabel>{group.label}</SidebarGroupLabel>
-        <SidebarMenu>
-          {#each group.items as item (item.href)}
-            <SidebarMenuItem>
-              <SidebarMenuButton isActive={current === item.href} tooltip={item.label}>
-                {#snippet child({ props })}
-                  <a href={resolve(item.href)} {...props}>
-                    <item.icon />
-                    <span>{item.label}</span>
-                  </a>
-                {/snippet}
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          {/each}
-        </SidebarMenu>
-      </SidebarGroup>
-    {/each}
+    <SidebarNav {sections} current={page.url.pathname} />
   </SidebarContent>
 </Sidebar>

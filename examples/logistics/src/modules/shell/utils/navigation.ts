@@ -1,6 +1,7 @@
 /**
- * The sidebar's groups and the breadcrumb's source: one list, so a screen is
- * added in one place. Icons are Lucide's canonical files, not aliases.
+ * The sidebar's sections and the breadcrumb's source: one list, so a screen is
+ * added in one place. Its shape is mise's `SidebarNavSection`, with routes the
+ * sidebar resolves.
  */
 
 import IconBuildingWarehouse from '@tabler/icons-svelte-runes/icons/building-warehouse'
@@ -22,17 +23,14 @@ export type NavGroup = { label: string; items: NavItem[] }
 
 export const NAVIGATION: NavGroup[] = [
   {
-    label: 'Overview',
-    items: [{ label: 'Operations overview', href: '/', icon: IconLayoutDashboard }],
-  },
-  {
-    label: 'Orders',
+    label: 'Operations',
     items: [
+      { label: 'Overview', href: '/', icon: IconLayoutDashboard },
       { label: 'Orders', href: '/orders', icon: IconShoppingCart },
       { label: 'Shipments', href: '/shipments', icon: IconPackage },
+      { label: 'Fleet', href: '/fleet', icon: IconTruck },
     ],
   },
-  { label: 'Fleet', items: [{ label: 'Fleet', href: '/fleet', icon: IconTruck }] },
   {
     label: 'Inventory',
     items: [
