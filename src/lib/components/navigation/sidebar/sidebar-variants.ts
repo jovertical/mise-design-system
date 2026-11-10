@@ -44,6 +44,16 @@ export const sidebarMenuButtonVariants = cva(
   },
 )
 
-export type SidebarMenuButtonSize = NonNullable<
+type DrawnSidebarMenuButtonSize = NonNullable<
   VariantProps<typeof sidebarMenuButtonVariants>['size']
 >
+
+/** `md` is mise's name for the middle size; `default` is the name shadcn gave it. */
+export type SidebarMenuButtonSize = DrawnSidebarMenuButtonSize | 'md'
+
+/** The size the variants know: `md` drawn as `default`. */
+export function drawnSidebarMenuButtonSize(
+  size: SidebarMenuButtonSize,
+): DrawnSidebarMenuButtonSize {
+  return size === 'md' ? 'default' : size
+}

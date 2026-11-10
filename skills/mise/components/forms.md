@@ -733,14 +733,14 @@ One on/off control, not a group: reach for `ToggleGroup` the moment a second opt
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `variant` | `'default' \| 'outline' \| 'segmented' \| 'solid'` |  |  |
-| `size` | `'default' \| 'sm' \| 'lg'` |  |  |
+| `size` | `ToggleSize` |  |  |
 | `iconOnly` | `boolean` |  | One glyph and no label: a circle the size of the toggle's height. Needs an `aria-label`. |
 
 Also takes: bits-ui `Toggle.Root` props.
 
 Also exports: `toggleVariants`.
 
-Types: `ToggleSize` (`'default' | 'sm' | 'lg'`), `ToggleVariant` (`'default' | 'outline' | 'segmented' | 'solid'`).
+Types: `ToggleSize`, `ToggleVariant` (`'default' | 'outline' | 'segmented' | 'solid'`).
 
 ## ToggleGroup
 
@@ -751,7 +751,7 @@ A segmented group is a track, not a row of joined buttons: no gap between option
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `variant` | `'default' \| 'outline' \| 'segmented' \| 'solid'` |  |  |
-| `size` | `'default' \| 'sm' \| 'lg'` |  |  |
+| `size` | `ToggleSize` |  |  |
 | `spacing` | `number` | `0` |  |
 
 Also takes: bits-ui `ToggleGroup.Root` props.
@@ -761,6 +761,6 @@ Also takes: bits-ui `ToggleGroup.Root` props.
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `variant` | `'default' \| 'outline' \| 'segmented' \| 'solid'` |  |  |
-| `size` | `'default' \| 'sm' \| 'lg'` |  |  |
+| `size` | `ToggleSize` |  |  |
 
 Also takes: bits-ui `ToggleGroup.Item` props.

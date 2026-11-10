@@ -38,6 +38,7 @@
 <script lang="ts">
   import { cn } from '../../../utils/cn.js'
   import { segmentedTrack } from '../../../utils/segmented-control.js'
+  import { drawnToggleSize } from '../toggle/toggle-variants.js'
 
   let {
     ref = $bindable(null),
@@ -74,7 +75,7 @@
   bind:value={value as never}
   data-slot="toggle-group"
   data-variant={variant}
-  data-size={size}
+  data-size={drawnToggleSize(size)}
   data-spacing={spacing}
   style="--gap: {spacing}"
   class={cn('group/toggle-group', group, className)}

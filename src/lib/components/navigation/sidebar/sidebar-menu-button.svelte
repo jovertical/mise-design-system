@@ -3,7 +3,8 @@
   Svelte: shadcn-svelte `sidebar`
   Diverged: React's `asChild` becomes a `child` snippet that receives the
     button's props. `tooltip` takes a string or a snippet; React's
-    TooltipContent props object becomes `tooltipContentProps`.
+    TooltipContent props object becomes `tooltipContentProps`. `md` is accepted for the middle size and drawn as `default`, so docs and
+    stories write mise's `sm | md | lg` (bertos-bakery-ops' audit, 2026-11-10).
 -->
 <script lang="ts" module>
   import type { Snippet } from 'svelte'
@@ -31,7 +32,7 @@
   import TooltipContent from '../../overlays/tooltip/tooltip-content.svelte'
   import TooltipTrigger from '../../overlays/tooltip/tooltip-trigger.svelte'
   import { useSidebar } from './context.svelte.js'
-  import { sidebarMenuButtonVariants } from './sidebar-variants.js'
+  import { drawnSidebarMenuButtonSize, sidebarMenuButtonVariants } from './sidebar-variants.js'
 
   let {
     ref = $bindable(null),
@@ -51,10 +52,10 @@
   const buttonProps = $derived({
     'data-slot': 'sidebar-menu-button',
     'data-sidebar': 'menu-button',
-    'data-size': size,
+    'data-size': drawnSidebarMenuButtonSize(size),
     'data-active': isActive,
     class: cn(
-      sidebarMenuButtonVariants({ size }),
+      sidebarMenuButtonVariants({ size: drawnSidebarMenuButtonSize(size) }),
       noHover &&
         'hover:bg-transparent! active:bg-transparent! data-[active=true]:bg-transparent! data-[state=open]:bg-transparent!',
       className,

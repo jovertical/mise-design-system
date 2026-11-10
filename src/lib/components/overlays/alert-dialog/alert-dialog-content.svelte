@@ -2,6 +2,8 @@
   Origin: the React package 2.23.0 `alert-dialog.tsx` (`AlertDialogContent`), itself shadcn/ui new-york `alert-dialog`
   Svelte: shadcn-svelte `alert-dialog`
   Diverged: `portalProps` added for the bits-ui Portal, as on DialogContent.
+    `md` is accepted for the middle size and drawn as `default`, so docs and
+    stories write mise's `sm | md | lg` (bertos-bakery-ops' audit, 2026-11-10).
 -->
 <script lang="ts" module>
   import { AlertDialog as AlertDialogPrimitive } from 'bits-ui'
@@ -11,7 +13,8 @@
    * drawn like a menu. `size="sm"` for a short confirmation with no description.
    */
   export type AlertDialogContentProps = AlertDialogPrimitive.ContentProps & {
-    size?: 'default' | 'sm'
+    /** `md` (or its older name `default`) for the full dialog, `sm` for a short confirmation. */
+    size?: 'md' | 'default' | 'sm'
     portalProps?: AlertDialogPrimitive.PortalProps
   }
 </script>
@@ -35,7 +38,7 @@
   <AlertDialogPrimitive.Content
     bind:ref
     data-slot="alert-dialog-content"
-    data-size={size}
+    data-size={size === 'md' ? 'default' : size}
     class={cn(
       'bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 group/alert-dialog-content fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-[min(var(--radius-4xl),24px)] ring-1 ring-foreground/5 dark:ring-foreground/10 p-6 shadow-xl duration-200 data-[size=sm]:max-w-xs data-[size=default]:sm:max-w-lg',
       className,

@@ -56,7 +56,7 @@
   title already says everything the operator needs.
 -->
 <Story name="Sizes" asChild>
-  <StoryAxis values={['default', 'sm'] as const}>
+  <StoryAxis values={['md', 'sm'] as const}>
     {#snippet item(size)}
       <AlertDialog>
         <AlertDialogTrigger>
@@ -67,7 +67,7 @@
         <AlertDialogContent {size}>
           <AlertDialogHeader>
             <AlertDialogTitle>Discard this draft?</AlertDialogTitle>
-            {#if size === 'default'}
+            {#if size === 'md'}
               <AlertDialogDescription>
                 The 4 lines added since the last save will be lost.
               </AlertDialogDescription>

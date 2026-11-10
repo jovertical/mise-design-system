@@ -16,7 +16,8 @@
     open = $bindable(false),
     confirmed = $bindable(false),
     holdOpen = false,
-  }: { open?: boolean; confirmed?: boolean; holdOpen?: boolean } = $props()
+    size,
+  }: { open?: boolean; confirmed?: boolean; holdOpen?: boolean; size?: 'md' | 'sm' } = $props()
 
   function confirm(event: MouseEvent) {
     confirmed = true
@@ -31,7 +32,7 @@
       <Button variant="outline" {...props}>Close location</Button>
     {/snippet}
   </AlertDialogTrigger>
-  <AlertDialogContent>
+  <AlertDialogContent {size}>
     <AlertDialogHeader>
       <AlertDialogTitle>Close Riverside?</AlertDialogTitle>
       <AlertDialogDescription>This cannot be undone.</AlertDialogDescription>
