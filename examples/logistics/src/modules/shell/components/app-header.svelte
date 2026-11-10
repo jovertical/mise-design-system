@@ -7,8 +7,9 @@
     BreadcrumbList,
     BreadcrumbPage,
     BreadcrumbSeparator,
-    Separator,
     SidebarTrigger,
+    SiteHeader,
+    SiteHeaderSeparator,
     ThemeToggle,
   } from '@jovertical/mise-design-system'
   import { crumb } from '#modules/shell/utils/breadcrumb.svelte.js'
@@ -44,51 +45,42 @@
   })
 </script>
 
-<!-- A floating bar on a blurred band, as the client portal has it: the page
-     scrolls under the band, and the bar stays one card wide. The bar is capped
-     at the content column's width and padded like PageLayout, so its edges
-     line up with the page's. -->
-<header
-  class="bg-muted/80 supports-[backdrop-filter]:bg-muted/60 sticky top-0 z-20 shrink-0 py-2 backdrop-blur"
->
-  <div class="mx-auto w-full max-w-content px-4 lg:px-6">
-    <div class="bg-card flex h-12 w-full items-center gap-2 rounded-xl border px-2">
-      <SidebarTrigger />
-      <Separator orientation="vertical" class="mx-1 h-4" />
-      {#if here}
-        <Breadcrumb>
-          <BreadcrumbList>
-            {#if here.group.label !== here.item.label}
-              <BreadcrumbItem class="hidden md:block">{here.group.label}</BreadcrumbItem>
-              <BreadcrumbSeparator class="hidden md:block" />
-            {/if}
-            {#if trail.length > 0}
-              <BreadcrumbItem>
-                <BreadcrumbLink href={resolve(here.item.href)}>{here.item.label}</BreadcrumbLink>
-              </BreadcrumbItem>
-              {#each trail as step (step.label)}
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                  {#if step.href}
-                    <BreadcrumbLink href={resolve('/') + step.href.slice(1)}
-                      >{step.label}</BreadcrumbLink
-                    >
-                  {:else}
-                    <BreadcrumbPage>{step.label}</BreadcrumbPage>
-                  {/if}
-                </BreadcrumbItem>
-              {/each}
-            {:else}
-              <BreadcrumbItem><BreadcrumbPage>{here.item.label}</BreadcrumbPage></BreadcrumbItem>
-            {/if}
-          </BreadcrumbList>
-        </Breadcrumb>
-      {/if}
-      <SearchPalette />
-      <div class="flex items-center gap-2">
-        <ThemeToggle />
-        <UserMenu {onReset} />
-      </div>
-    </div>
+<!-- The floating bar the client portal has, drawn by mise's SiteHeader. -->
+<SiteHeader>
+  <SidebarTrigger />
+  <SiteHeaderSeparator />
+  {#if here}
+    <Breadcrumb>
+      <BreadcrumbList>
+        {#if here.group.label !== here.item.label}
+          <BreadcrumbItem class="hidden md:block">{here.group.label}</BreadcrumbItem>
+          <BreadcrumbSeparator class="hidden md:block" />
+        {/if}
+        {#if trail.length > 0}
+          <BreadcrumbItem>
+            <BreadcrumbLink href={resolve(here.item.href)}>{here.item.label}</BreadcrumbLink>
+          </BreadcrumbItem>
+          {#each trail as step (step.label)}
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              {#if step.href}
+                <BreadcrumbLink href={resolve('/') + step.href.slice(1)}
+                  >{step.label}</BreadcrumbLink
+                >
+              {:else}
+                <BreadcrumbPage>{step.label}</BreadcrumbPage>
+              {/if}
+            </BreadcrumbItem>
+          {/each}
+        {:else}
+          <BreadcrumbItem><BreadcrumbPage>{here.item.label}</BreadcrumbPage></BreadcrumbItem>
+        {/if}
+      </BreadcrumbList>
+    </Breadcrumb>
+  {/if}
+  <SearchPalette />
+  <div class="flex items-center gap-2">
+    <ThemeToggle />
+    <UserMenu {onReset} />
   </div>
-</header>
+</SiteHeader>
