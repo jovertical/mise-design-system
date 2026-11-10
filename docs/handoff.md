@@ -130,8 +130,11 @@ In rough order of how much they block the apps:
 7. **bertos-bakery-ops after this release:** it added `@lucide/svelte` itself; it
    moves its own icons to `@tabler/icons-svelte-runes`, bumps mise, and takes
    `CommandTrigger` and (after phase 3) `SidebarNav`.
-8. **The deferred components:** Draggable, Droppable, Sortable (need a drag and
-   drop library) and MermaidDiagram (heavy). Wait until a screen asks.
+8. **The deferred components:** generic Draggable, Droppable and Sortable, and
+   MermaidDiagram (heavy). Wait until a screen asks. `Board` drags since
+   2026-11-10 (`docs/specs/2026-11-10-board-drag-design.md`), on
+   `@dnd-kit/svelte`, which raised mise's `svelte` peer to `^5.29.0`; generic
+   parts can be drawn out of it when a second screen needs them.
 
 Not verified by a browser: uploading a logo, saving or cancelling settings,
 choosing a ⌘K result, and picking a day in a `DatePicker`. Their logic is
@@ -235,6 +238,17 @@ repository.
 - **TanStack Table 9:** features are declared up front (`dataTableFeatures`), columns built with `dataTableColumns<Row>()`, state read with `table.store.get()`; v9 resets expansion on every row-model rebuild, so `DataTable` sets `autoResetExpanded: false`. A part that needs a live table in a story uses `stories/fixtures/device-table.svelte`.
 - **Tabler** (`@tabler/icons-svelte-runes`, since 2026-11-10; Lucide before): import one file per icon (`import IconX from '@tabler/icons-svelte-runes/icons/x'`), never the root, which makes svelte-check load all ~6,000 icons; `import type { Icon }` from the root is fine. `tests/icons.test.ts` enforces both and keeps Lucide out. Filled icons are their own files (`circle-check-filled`, `point-filled`). A rendered icon carries `tabler-icon tabler-icon-<name>`, which tests assert on. The lucide-to-tabler table is in `docs/superpowers/plans/2026-11-10-tabler-icons-and-command-trigger.md`.
 - **vaul-svelte** is the `1.0.0-next` line, the Svelte 5 one; `latest` is Svelte 4.
+- **@dnd-kit/svelte** (Board's dragging): a draggable binds its sensors when
+  it registers, before the provider's `sensors` apply, so each `createDraggable`
+  passes `sensors: [PointerSensor]` itself; dnd-kit's keyboard sensor nudges
+  10px a press, and mise runs its own column-to-column keyboard path. Its
+  accessibility plugin sets `role="button"` and `aria-pressed` on every
+  draggable, which turns a link into a button: Board filters the plugin out and
+  a link card sets `role="link"`. Its listeners are on the element, so they run
+  before Svelte's delegated `onkeydown` and may have prevented the default
+  already. jsdom needs `getAnimations` stubbed (`tests/setup.ts`); pointer
+  drags are checked in a browser through the DevTools protocol (a script kept
+  outside the repository), as `Input.dispatchMouseEvent` press, moves, release.
 
 **The React package carried product-specific choices; mise fixed them, each on a `Diverged:` line**
 

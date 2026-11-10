@@ -29,6 +29,7 @@
 | K3 | Announcements | `BoardDrag` writes one polite live region (`data-slot="board-live"`, `sr-only`) for both paths, so dnd-kit's accessibility plugin is not relied on for wording |
 | K4 | A card's name | `BoardCard` takes `label?: string` for announcements ("Picked up OR-2053"); without it the card's `id` is read |
 | K5 | Tests | The keyboard path and the drop rules are tested in jsdom. Pointer dragging is checked in a browser through the DevTools protocol, from a script kept outside the repository (the handoff's practice) |
+| K6 | Built differently | The drop ring's tone map stays in `board-column.svelte` (`DROP_RING_CLASS`) rather than a new public map in `tone.ts`: one part uses it. dnd-kit's accessibility plugin is filtered out and a link card sets `role="link"` (the plugin turned links into buttons). Each draggable passes `sensors: [PointerSensor]` itself, since it binds its sensors before the provider's apply. Space picks a card up; Enter is left to the link |
 
 ---
 
@@ -76,8 +77,8 @@ describe('BoardDrag', () => {
     const { drag, onMove } = board()
 
     expect(drag.drop(card, 'received', 'OR-2060')).toBe(false)
-    expect(drag.drop({ id: 'or-2053', from: 'ready' }, 'ready', 'OR-2053')).toBe(false)
-    expect(drag.message).toBe('Ready does not accept OR-2053')
+    expect(drag.drop({ id: 'or-2053', from: 'ready' }, 'received', 'OR-2053')).toBe(false)
+    expect(drag.message).toBe('Received does not accept OR-2053')
     expect(onMove).not.toHaveBeenCalled()
   })
 

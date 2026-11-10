@@ -12,6 +12,7 @@
   import Board from './board.svelte'
   import BoardCard from './board-card.svelte'
   import BoardColumn from './board-column.svelte'
+  import type { BoardCardRef, BoardMove } from './board-drag.svelte.js'
 
   const { Story } = defineMeta({
     title: 'Data display/Board',
@@ -75,6 +76,49 @@
   ]
 
   const view = $state({ mode: 'board' })
+
+  type Lane = 'received' | 'packed' | 'shipped'
+
+  const LANES: { id: Lane; title: string; tone: Tone }[] = [
+    { id: 'received', title: 'Received', tone: 'info' },
+    { id: 'packed', title: 'Packed', tone: 'success' },
+    { id: 'shipped', title: 'Shipped', tone: 'neutral' },
+  ]
+
+  /** Shipped takes only packed orders; the others take any card from another lane. */
+  const ACCEPTS: Partial<Record<Lane, (card: BoardCardRef) => boolean>> = {
+    shipped: (card) => card.from === 'packed',
+  }
+
+  const lanes = $state<Record<Lane, Order[]>>({
+    received: Array.from({ length: 9 }, (_, index) => ({
+      number: `OR-${2120 + index}`,
+      client: ['Coastal Grocers', 'Fieldstone Farms', 'Aster Living'][index % 3],
+      total: `$${40 + index * 7}.00`,
+      service: 'Regular',
+    })),
+    packed: [
+      {
+        number: 'OR-2110',
+        client: 'Bloom & Stem',
+        total: '$81.00',
+        service: 'Express',
+        express: true,
+      },
+    ],
+    shipped: [],
+  })
+
+  function moveCard({ id, from, to }: BoardMove) {
+    const order = lanes[from as Lane].find((candidate) => candidate.number === id)
+
+    if (!order) {
+      return
+    }
+
+    lanes[from as Lane] = lanes[from as Lane].filter((candidate) => candidate !== order)
+    lanes[to as Lane] = [order, ...lanes[to as Lane]]
+  }
 </script>
 
 {#snippet orderCard(order: Order)}
@@ -144,6 +188,40 @@
     <BoardColumn title="Completed" count={340} actions={showAll}>
       {@render orderCard(COLUMNS[3].orders[0])}
     </BoardColumn>
+  </Board>
+</Story>
+
+<!--
+  With `onMove`, a card with an `id` can be dragged to a column with an `id`:
+  by pointer, by a long press on touch, or from the keyboard (Space picks it up,
+  Left and Right move it, Space drops it). Shipped takes only packed orders, so
+  it fades while a received card is over it. The story moves the card in
+  `onMove`; mise only reports the drop. Received scrolls inside its column.
+-->
+<Story name="With dragging" asChild>
+  <Board onMove={moveCard} class="h-96">
+    {#each LANES as lane (lane.id)}
+      <BoardColumn
+        id={lane.id}
+        title={lane.title}
+        tone={lane.tone}
+        count={lanes[lane.id].length}
+        accepts={ACCEPTS[lane.id]}
+        empty="Drop an order here"
+      >
+        {#if lanes[lane.id].length}
+          {#each lanes[lane.id] as order (order.number)}
+            <BoardCard id={order.number} label={order.number}>
+              <div class="flex items-center gap-2">
+                <span class="font-medium">{order.number}</span>
+                <span class="text-muted-foreground ml-auto tabular-nums">{order.total}</span>
+              </div>
+              <span class="text-muted-foreground truncate">{order.client}</span>
+            </BoardCard>
+          {/each}
+        {/if}
+      </BoardColumn>
+    {/each}
   </Board>
 </Story>
 
