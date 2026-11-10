@@ -15,3 +15,6 @@ declare module 'virtual:mise-api' {
 
   export default docs
 }
+
+/** The version in mise's package.json, defined in vite.config.ts. */
+declare const __MISE_VERSION__: string

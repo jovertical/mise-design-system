@@ -1,3 +1,6 @@
+import { readFileSync } from 'node:fs'
+import { join } from 'node:path'
+
 import adapter from '@sveltejs/adapter-static'
 import { sveltekit } from '@sveltejs/kit/vite'
 import tailwindcss from '@tailwindcss/vite'
@@ -18,11 +21,17 @@ import { miseApi } from './vite/mise-api.js'
  */
 const base = (process.env.BASE_PATH ?? '') as '' | `/${string}`
 
+// The sidebar shows the version of mise the docs were built from.
+const { version } = JSON.parse(
+  readFileSync(join(import.meta.dirname, '..', 'package.json'), 'utf8'),
+)
+
 // mdsvex output is legacy-mode Svelte ($$props), so .md files are not forced into runes.
 const markdownOrDependency = (filename: string) =>
   filename.endsWith('.md') || filename.split(/[/\\]/).includes('node_modules')
 
 export default defineConfig({
+  define: { __MISE_VERSION__: JSON.stringify(version) },
   plugins: [
     tailwindcss(),
     miseApi(),
@@ -45,7 +54,7 @@ export default defineConfig({
       adapter: adapter(),
       paths: { base, relative: false },
       prerender: {
-        entries: ['*'],
+        entries: ['*', '/not-found'],
         handleHttpError: ({ path, message }) => {
           if (path.startsWith(`${base}/demo`)) return
 
