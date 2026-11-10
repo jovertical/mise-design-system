@@ -1,13 +1,13 @@
 <script module lang="ts">
-  import CalendarIcon from '@lucide/svelte/icons/calendar'
-  import CircleCheckIcon from '@lucide/svelte/icons/circle-check'
-  import InfoIcon from '@lucide/svelte/icons/info'
-  import PackageIcon from '@lucide/svelte/icons/package'
-  import SparklesIcon from '@lucide/svelte/icons/sparkles'
-  import TriangleAlertIcon from '@lucide/svelte/icons/triangle-alert'
-  import UserIcon from '@lucide/svelte/icons/user'
-  import WarehouseIcon from '@lucide/svelte/icons/warehouse'
   import { defineMeta } from '@storybook/addon-svelte-csf'
+  import IconAlertTriangle from '@tabler/icons-svelte-runes/icons/alert-triangle'
+  import IconBuildingWarehouse from '@tabler/icons-svelte-runes/icons/building-warehouse'
+  import IconCalendar from '@tabler/icons-svelte-runes/icons/calendar'
+  import IconCircleCheck from '@tabler/icons-svelte-runes/icons/circle-check'
+  import IconInfoCircle from '@tabler/icons-svelte-runes/icons/info-circle'
+  import IconPackage from '@tabler/icons-svelte-runes/icons/package'
+  import IconSparkles from '@tabler/icons-svelte-runes/icons/sparkles'
+  import IconUser from '@tabler/icons-svelte-runes/icons/user'
   import type { Component } from 'svelte'
 
   import OnACard from '../../../../../stories/on-a-card.svelte'
@@ -31,18 +31,18 @@
   })
 
   const TONE_ICON: Record<Tone, Component> = {
-    neutral: PackageIcon,
-    primary: SparklesIcon,
-    info: InfoIcon,
-    success: CircleCheckIcon,
-    warning: TriangleAlertIcon,
-    critical: TriangleAlertIcon,
+    neutral: IconPackage,
+    primary: IconSparkles,
+    info: IconInfoCircle,
+    success: IconCircleCheck,
+    warning: IconAlertTriangle,
+    critical: IconAlertTriangle,
   }
 
   const facts = [
-    { icon: WarehouseIcon, label: 'Location', value: 'Riverside' },
-    { icon: UserIcon, label: 'Requested by', value: 'Ana Cruz' },
-    { icon: CalendarIcon, label: 'Date counted', value: '16 Jul 2026' },
+    { icon: IconBuildingWarehouse, label: 'Location', value: 'Riverside' },
+    { icon: IconUser, label: 'Requested by', value: 'Ana Cruz' },
+    { icon: IconCalendar, label: 'Date counted', value: '16 Jul 2026' },
   ]
 </script>
 
@@ -50,7 +50,7 @@
 <Story name="Playground">
   {#snippet template(args)}
     <OnACard
-      ><IconChip {...args}><PackageIcon /></IconChip></OnACard
+      ><IconChip {...args}><IconPackage /></IconChip></OnACard
     >
   {/snippet}
 </Story>
@@ -64,7 +64,7 @@
   <OnACard>
     <StoryMatrix rows={SHAPES} columns={SIZES}>
       {#snippet cell(shape, size)}
-        <IconChip {size} {shape}><PackageIcon /></IconChip>
+        <IconChip {size} {shape}><IconPackage /></IconChip>
       {/snippet}
     </StoryMatrix>
   </OnACard>

@@ -2,8 +2,8 @@
   Origin: the React package 2.23.0 `media-dropzone.tsx`
   Diverged: over MediaUploader, the one-slot part of React's useMediaUploader
     (round 8 plan, R8-7). `value` is bindable, with `onValueChange` for React's
-    `onChange`; `icon` is a snippet. Lucide's cloud-upload and trash. The
-    preview panel is its own part, `media-dropzone-preview.svelte`.
+    `onChange`; `icon` is a snippet. The preview panel is its own part,
+    `media-dropzone-preview.svelte`.
 -->
 <script lang="ts" module>
   import type { Snippet } from 'svelte'
@@ -53,7 +53,7 @@
 </script>
 
 <script lang="ts">
-  import CloudUploadIcon from '@lucide/svelte/icons/cloud-upload'
+  import IconCloudUpload from '@tabler/icons-svelte-runes/icons/cloud-upload'
 
   import { cn } from '../../../utils/cn.js'
   import Button from '../../actions/button/button.svelte'
@@ -160,7 +160,7 @@
       {:else if icon}
         {@render icon()}
       {:else}
-        <CloudUploadIcon />
+        <IconCloudUpload />
       {/if}
     </span>
     <p class="text-sm font-medium">{placeholder}</p>

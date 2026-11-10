@@ -1,7 +1,7 @@
 <!--
   Origin: the React package 2.23.0 `delta-badge.tsx`
-  Diverged: Lucide's trending-up, trending-down and minus for Tabler's. Takes
-    `class` and spreads the rest onto the root, as every component does.
+  Diverged: takes `class` and spreads the rest onto the root, as every component
+    does.
 -->
 <script lang="ts" module>
   import type { HTMLAttributes } from 'svelte/elements'
@@ -44,9 +44,9 @@
 </script>
 
 <script lang="ts">
-  import MinusIcon from '@lucide/svelte/icons/minus'
-  import TrendingDownIcon from '@lucide/svelte/icons/trending-down'
-  import TrendingUpIcon from '@lucide/svelte/icons/trending-up'
+  import IconMinus from '@tabler/icons-svelte-runes/icons/minus'
+  import IconTrendingDown from '@tabler/icons-svelte-runes/icons/trending-down'
+  import IconTrendingUp from '@tabler/icons-svelte-runes/icons/trending-up'
 
   import { cn } from '../../../utils/cn.js'
   import { TONE_SOFT_CLASS, TONE_TEXT_CLASS, type Tone } from '../../../utils/tone.js'
@@ -65,7 +65,7 @@
   const rising = $derived(value > 0)
   const flat = $derived(value === 0)
   const tone: Tone = $derived(flat ? 'neutral' : rising !== invert ? 'success' : 'critical')
-  const Icon = $derived(flat ? MinusIcon : rising ? TrendingUpIcon : TrendingDownIcon)
+  const Icon = $derived(flat ? IconMinus : rising ? IconTrendingUp : IconTrendingDown)
   const sign = $derived(rising ? '+' : value < 0 ? '-' : '')
 </script>
 

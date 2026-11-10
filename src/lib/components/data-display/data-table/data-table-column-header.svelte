@@ -1,7 +1,6 @@
 <!--
   Origin: the React package 2.23.0 `data-table-column-header.tsx`
-  Diverged: Lucide's arrow-up, arrow-down, arrow-up-down and eye-off for
-    Tabler's. The column is TanStack Table 9's (R4b-1). Takes `class`, as every
+  Diverged: the column is TanStack Table 9's (R4b-1). Takes `class`, as every
     component does.
 -->
 <script lang="ts" module>
@@ -24,10 +23,10 @@
 </script>
 
 <script lang="ts" generics="TData extends RowData, TValue">
-  import ArrowDownIcon from '@lucide/svelte/icons/arrow-down'
-  import ArrowUpIcon from '@lucide/svelte/icons/arrow-up'
-  import ArrowUpDownIcon from '@lucide/svelte/icons/arrow-up-down'
-  import EyeOffIcon from '@lucide/svelte/icons/eye-off'
+  import IconArrowDown from '@tabler/icons-svelte-runes/icons/arrow-down'
+  import IconArrowUp from '@tabler/icons-svelte-runes/icons/arrow-up'
+  import IconArrowsSort from '@tabler/icons-svelte-runes/icons/arrows-sort'
+  import IconEyeOff from '@tabler/icons-svelte-runes/icons/eye-off'
 
   import { cn } from '../../../utils/cn.js'
   import Button from '../../actions/button/button.svelte'
@@ -67,22 +66,22 @@
           >
             <span>{@render text()}</span>
             {#if direction === 'desc'}
-              <ArrowDownIcon class="size-3.5" />
+              <IconArrowDown class="size-3.5" />
             {:else if direction === 'asc'}
-              <ArrowUpIcon class="size-3.5" />
+              <IconArrowUp class="size-3.5" />
             {:else}
-              <ArrowUpDownIcon class="size-3.5" />
+              <IconArrowsSort class="size-3.5" />
             {/if}
           </Button>
         {/snippet}
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start">
         <DropdownMenuItem onSelect={() => column.toggleSorting(false)}>
-          <ArrowUpIcon class="text-muted-foreground/70 mr-1.5 size-3.5" />
+          <IconArrowUp class="text-muted-foreground/70 mr-1.5 size-3.5" />
           Asc
         </DropdownMenuItem>
         <DropdownMenuItem onSelect={() => column.toggleSorting(true)}>
-          <ArrowDownIcon class="text-muted-foreground/70 mr-1.5 size-3.5" />
+          <IconArrowDown class="text-muted-foreground/70 mr-1.5 size-3.5" />
           Desc
         </DropdownMenuItem>
         <DropdownMenuSeparator />
@@ -90,7 +89,7 @@
           disabled={!column.getCanHide()}
           onSelect={() => column.toggleVisibility(false)}
         >
-          <EyeOffIcon class="text-muted-foreground/70 mr-1.5 size-3.5" />
+          <IconEyeOff class="text-muted-foreground/70 mr-1.5 size-3.5" />
           Hide
         </DropdownMenuItem>
       </DropdownMenuContent>

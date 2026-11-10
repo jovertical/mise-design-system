@@ -1,7 +1,8 @@
 <!--
   Origin: the React package 2.23.0 `sidebar.tsx` (`SidebarMenuBadge`), itself shadcn/ui new-york `sidebar`
   Svelte: shadcn-svelte `sidebar`
-  Diverged: none beyond the port.
+  Diverged: on `panel`, it sits on the 32px row whatever the button's size,
+    as the portals placed it.
 -->
 <script lang="ts" module>
   import type { HTMLAttributes } from 'svelte/elements'
@@ -29,10 +30,11 @@
   class={cn(
     'text-sidebar-foreground pointer-events-none absolute right-1 flex h-5 min-w-5 items-center justify-center rounded-md px-1 text-xs font-medium tabular-nums select-none',
     'peer-hover/menu-button:text-sidebar-accent-foreground peer-data-[active=true]/menu-button:text-sidebar-accent-foreground group-data-[sidetheme=light]:peer-data-[active=true]/menu-button:text-white',
-    'group-data-[sidetheme=panel]:peer-data-[active=true]/menu-button:text-accent-foreground',
+    'group-data-[sidetheme=panel]:peer-data-[active=true]/menu-button:text-sidebar-primary-foreground',
     'peer-data-[size=sm]/menu-button:top-1',
     'peer-data-[size=default]/menu-button:top-1.5',
     'peer-data-[size=lg]/menu-button:top-2.5',
+    'group-data-[sidetheme=panel]:top-1.5! group-data-[sidetheme=panel]:right-2',
     'group-data-[collapsible=icon]:hidden',
     className,
   )}

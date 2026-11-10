@@ -5,6 +5,7 @@
     `theme` prop the toaster follows the `.dark` class on <html>, the same class
     every other component answers to; `system` is resolved here rather than
     handed to svelte-sonner, as in React. The per-type class is `mise-toast`.
+    Tabler's icons for Lucide's.
 -->
 <script lang="ts" module>
   import type { ToasterProps as SonnerProps } from 'svelte-sonner'
@@ -13,11 +14,11 @@
 </script>
 
 <script lang="ts">
-  import CircleCheckIcon from '@lucide/svelte/icons/circle-check'
-  import InfoIcon from '@lucide/svelte/icons/info'
-  import LoaderCircleIcon from '@lucide/svelte/icons/loader-circle'
-  import OctagonXIcon from '@lucide/svelte/icons/octagon-x'
-  import TriangleAlertIcon from '@lucide/svelte/icons/triangle-alert'
+  import IconAlertTriangle from '@tabler/icons-svelte-runes/icons/alert-triangle'
+  import IconCircleCheck from '@tabler/icons-svelte-runes/icons/circle-check'
+  import IconCircleX from '@tabler/icons-svelte-runes/icons/circle-x'
+  import IconInfoCircle from '@tabler/icons-svelte-runes/icons/info-circle'
+  import IconLoader2 from '@tabler/icons-svelte-runes/icons/loader-2'
   import { Toaster as Sonner } from 'svelte-sonner'
 
   let { theme, toastOptions, ...rest }: ToasterProps = $props()
@@ -59,19 +60,19 @@
 </script>
 
 {#snippet successIcon()}
-  <CircleCheckIcon class="size-4" />
+  <IconCircleCheck class="size-4" />
 {/snippet}
 {#snippet infoIcon()}
-  <InfoIcon class="size-4" />
+  <IconInfoCircle class="size-4" />
 {/snippet}
 {#snippet warningIcon()}
-  <TriangleAlertIcon class="size-4" />
+  <IconAlertTriangle class="size-4" />
 {/snippet}
 {#snippet errorIcon()}
-  <OctagonXIcon class="size-4" />
+  <IconCircleX class="size-4" />
 {/snippet}
 {#snippet loadingIcon()}
-  <LoaderCircleIcon class="size-4 animate-spin" />
+  <IconLoader2 class="size-4 animate-spin" />
 {/snippet}
 
 <Sonner

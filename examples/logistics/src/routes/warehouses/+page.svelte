@@ -1,7 +1,7 @@
 <!-- Warehouses: one card per site, with its capacity overall and by zone. New site adds one. -->
 <script lang="ts">
   import { Button, CardGrid, PageHeader, PageLayout } from '@jovertical/mise-design-system'
-  import Plus from '@lucide/svelte/icons/plus'
+  import IconPlus from '@tabler/icons-svelte-runes/icons/plus'
   import { store } from '#modules/core/data/store.svelte.js'
   import WarehouseCard from '#modules/warehouses/components/warehouse-card.svelte'
   import { listLocations } from '#modules/warehouses/data/index.js'
@@ -16,7 +16,7 @@
     description="Capacity and docks at each of the {locations.length} sites. Zones above 85% are marked."
   >
     {#snippet actions()}
-      <Button href={resolve('/warehouses/new')}><Plus />New site</Button>
+      <Button href={resolve('/warehouses/new')}><IconPlus />New site</Button>
     {/snippet}
   </PageHeader>
   <CardGrid columns={2}>

@@ -1,7 +1,7 @@
 <script module lang="ts">
-  import PencilIcon from '@lucide/svelte/icons/pencil'
-  import TrashIcon from '@lucide/svelte/icons/trash'
   import { defineMeta } from '@storybook/addon-svelte-csf'
+  import IconPencil from '@tabler/icons-svelte-runes/icons/pencil'
+  import IconTrash from '@tabler/icons-svelte-runes/icons/trash'
   import { renderComponent, renderSnippet } from '@tanstack/svelte-table'
   import { createRawSnippet } from 'svelte'
 
@@ -45,9 +45,9 @@
   {#snippet template(args)}
     <div class="flex w-48 justify-end">
       <DataTableRowActions label="Actions for RG-0041" {...args as object}>
-        <DropdownMenuItem><PencilIcon />Edit</DropdownMenuItem>
+        <DropdownMenuItem><IconPencil />Edit</DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem variant="destructive"><TrashIcon />Unpair</DropdownMenuItem>
+        <DropdownMenuItem variant="destructive"><IconTrash />Unpair</DropdownMenuItem>
       </DataTableRowActions>
     </div>
   {/snippet}
@@ -60,7 +60,7 @@
 <Story name="States" asChild>
   <div class="flex w-48 justify-end">
     <DataTableRowActions label="Read-only role" disabled>
-      <DropdownMenuItem><PencilIcon />Edit</DropdownMenuItem>
+      <DropdownMenuItem><IconPencil />Edit</DropdownMenuItem>
     </DataTableRowActions>
   </div>
 </Story>

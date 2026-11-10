@@ -1,9 +1,9 @@
 <script module lang="ts">
-  import ArrowUpRightIcon from '@lucide/svelte/icons/arrow-up-right'
-  import EllipsisIcon from '@lucide/svelte/icons/ellipsis'
-  import PlusIcon from '@lucide/svelte/icons/plus'
-  import TrashIcon from '@lucide/svelte/icons/trash'
   import { defineMeta } from '@storybook/addon-svelte-csf'
+  import IconArrowUpRight from '@tabler/icons-svelte-runes/icons/arrow-up-right'
+  import IconDots from '@tabler/icons-svelte-runes/icons/dots'
+  import IconPlus from '@tabler/icons-svelte-runes/icons/plus'
+  import IconTrash from '@tabler/icons-svelte-runes/icons/trash'
 
   import OnACard from '../../../../../stories/on-a-card.svelte'
   import StoryAxis from '../../../../../stories/story-axis.svelte'
@@ -87,7 +87,7 @@
   <OnACard>
     <div class="flex items-center gap-6">
       <Button variant="ghost" tone="critical" size="sm">
-        <TrashIcon />
+        <IconTrash />
         Remove line
       </Button>
       <Button tone="critical">Close location</Button>
@@ -105,11 +105,11 @@
 <Story name="Icon only" asChild>
   <OnACard>
     <div class="flex items-center gap-3">
-      <Button iconOnly size="sm" aria-label="Add"><PlusIcon /></Button>
-      <Button iconOnly variant="outline" aria-label="Add"><PlusIcon /></Button>
-      <Button iconOnly variant="ghost" size="lg" aria-label="Add"><PlusIcon /></Button>
+      <Button iconOnly size="sm" aria-label="Add"><IconPlus /></Button>
+      <Button iconOnly variant="outline" aria-label="Add"><IconPlus /></Button>
+      <Button iconOnly variant="ghost" size="lg" aria-label="Add"><IconPlus /></Button>
       <Button iconOnly variant="soft" size="sm" aria-label="Row actions">
-        <EllipsisIcon />
+        <IconDots />
       </Button>
     </div>
   </OnACard>
@@ -125,7 +125,7 @@
     <div class="flex items-center gap-3">
       <Button href="#orders" variant="outline">
         Open orders
-        <ArrowUpRightIcon />
+        <IconArrowUpRight />
       </Button>
       <Button href="#orders" variant="outline" disabled>Disabled link</Button>
     </div>

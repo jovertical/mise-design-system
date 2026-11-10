@@ -1,8 +1,8 @@
 <script module lang="ts">
+  import { defineMeta } from '@storybook/addon-svelte-csf'
   // The React package has no Empty stories; EmptyState is the usual way in.
   // This one shows the parts, for a screen with more to say than EmptyState allows.
-  import PackageIcon from '@lucide/svelte/icons/package'
-  import { defineMeta } from '@storybook/addon-svelte-csf'
+  import IconPackage from '@tabler/icons-svelte-runes/icons/package'
 
   import Button from '../../actions/button/button.svelte'
   import Empty from './empty.svelte'
@@ -19,7 +19,7 @@
   {#snippet template(args)}
     <Empty {...args}>
       <EmptyHeader>
-        <EmptyMedia variant="icon"><PackageIcon /></EmptyMedia>
+        <EmptyMedia variant="icon"><IconPackage /></EmptyMedia>
         <EmptyTitle>No stock counted at Riverside</EmptyTitle>
         <EmptyDescription>
           Start a count to see on-hand quantities. <a href="#counts">How counts work</a>

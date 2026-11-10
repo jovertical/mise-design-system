@@ -1,8 +1,7 @@
 <!--
   Origin: the React package 2.23.0 `stepper-navigation.tsx`
-  Diverged: `leading` and `trailing` are snippets. Lucide's chevron-left,
-    chevron-right and loader for Tabler's. Spreads the rest onto the row, as
-    every component does.
+  Diverged: `leading` and `trailing` are snippets. Spreads the rest onto the
+    row, as every component does.
 -->
 <script lang="ts" module>
   import type { Snippet } from 'svelte'
@@ -42,9 +41,9 @@
 </script>
 
 <script lang="ts">
-  import ChevronLeftIcon from '@lucide/svelte/icons/chevron-left'
-  import ChevronRightIcon from '@lucide/svelte/icons/chevron-right'
-  import LoaderIcon from '@lucide/svelte/icons/loader'
+  import IconChevronLeft from '@tabler/icons-svelte-runes/icons/chevron-left'
+  import IconChevronRight from '@tabler/icons-svelte-runes/icons/chevron-right'
+  import IconLoader from '@tabler/icons-svelte-runes/icons/loader'
 
   import { cn } from '../../../utils/cn.js'
   import Button from '../../actions/button/button.svelte'
@@ -82,7 +81,7 @@
     <div class={group}>
       {#if onBack}
         <Button variant="outline" onclick={onBack} disabled={backDisabled} type="button">
-          <ChevronLeftIcon class="size-4" />
+          <IconChevronLeft class="size-4" />
           {backLabel}
         </Button>
       {/if}
@@ -101,10 +100,10 @@
       {#if onNext}
         <Button onclick={onNext} disabled={nextDisabled} type="button">
           {#if nextLoading}
-            <LoaderIcon class="size-4 animate-spin" />
+            <IconLoader class="size-4 animate-spin" />
           {/if}
           {nextLabel}
-          <ChevronRightIcon class="size-4" />
+          <IconChevronRight class="size-4" />
         </Button>
       {/if}
     </div>

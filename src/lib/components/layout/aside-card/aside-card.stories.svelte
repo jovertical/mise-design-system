@@ -1,8 +1,8 @@
 <script module lang="ts">
-  import InfoIcon from '@lucide/svelte/icons/info'
-  import LightbulbIcon from '@lucide/svelte/icons/lightbulb'
-  import ShieldCheckIcon from '@lucide/svelte/icons/shield-check'
   import { defineMeta } from '@storybook/addon-svelte-csf'
+  import IconBulb from '@tabler/icons-svelte-runes/icons/bulb'
+  import IconInfoCircle from '@tabler/icons-svelte-runes/icons/info-circle'
+  import IconShieldCheck from '@tabler/icons-svelte-runes/icons/shield-check'
 
   import StoryAxis from '../../../../../stories/story-axis.svelte'
   import Card from '../card/card.svelte'
@@ -18,13 +18,13 @@
 </script>
 
 {#snippet bulb()}
-  <LightbulbIcon />
+  <IconBulb />
 {/snippet}
 {#snippet info()}
-  <InfoIcon />
+  <IconInfoCircle />
 {/snippet}
 {#snippet shield()}
-  <ShieldCheckIcon />
+  <IconShieldCheck />
 {/snippet}
 
 {#snippet tips()}

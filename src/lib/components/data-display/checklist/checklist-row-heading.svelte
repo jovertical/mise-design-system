@@ -3,9 +3,7 @@
   Diverged: one part for both components' rows (round 8 plan, R8-4): the icon,
     the state a screen reader hears, and the truncating label. ChecklistCard's
     `done` reads as `completed` and is announced "Completed:"/"Not started:",
-    where React's said "Done:"/"Not done:". Lucide's circle-check, filled by
-    class, for Tabler's filled check; circle-dashed and circle-minus. Not
-    exported.
+    where React's said "Done:"/"Not done:". Not exported.
 -->
 <script lang="ts" module>
   import type { ChecklistTaskState } from './checklist-types.js'
@@ -19,9 +17,9 @@
 </script>
 
 <script lang="ts">
-  import CircleCheckIcon from '@lucide/svelte/icons/circle-check'
-  import CircleDashedIcon from '@lucide/svelte/icons/circle-dashed'
-  import CircleMinusIcon from '@lucide/svelte/icons/circle-minus'
+  import IconCircleCheckFilled from '@tabler/icons-svelte-runes/icons/circle-check-filled'
+  import IconCircleDashed from '@tabler/icons-svelte-runes/icons/circle-dashed'
+  import IconCircleMinus from '@tabler/icons-svelte-runes/icons/circle-minus'
 
   import { cn } from '../../../utils/cn.js'
   import { CHECKLIST_STATE_LABEL } from './checklist-types.js'
@@ -32,15 +30,11 @@
 </script>
 
 {#if state === 'completed'}
-  <!-- Filled: the circle takes the colour and the check is cut out of it. -->
-  <CircleCheckIcon
-    aria-hidden="true"
-    class={cn('text-success fill-current shrink-0 [&_path]:text-background', iconSize)}
-  />
+  <IconCircleCheckFilled aria-hidden="true" class={cn('text-success shrink-0', iconSize)} />
 {:else if state === 'skipped'}
-  <CircleMinusIcon aria-hidden="true" class={cn('text-muted-foreground shrink-0', iconSize)} />
+  <IconCircleMinus aria-hidden="true" class={cn('text-muted-foreground shrink-0', iconSize)} />
 {:else}
-  <CircleDashedIcon aria-hidden="true" class={cn('text-muted-foreground shrink-0', iconSize)} />
+  <IconCircleDashed aria-hidden="true" class={cn('text-muted-foreground shrink-0', iconSize)} />
 {/if}
 
 <!-- The state is a glyph and a colour, and neither reaches a screen reader. -->

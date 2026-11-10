@@ -1,5 +1,5 @@
 <script lang="ts">
-  import WarehouseIcon from '@lucide/svelte/icons/warehouse'
+  import IconBuildingWarehouse from '@tabler/icons-svelte-runes/icons/building-warehouse'
   import type { Tone } from '../../src/lib/index.js'
   import { CardTitle } from '../../src/lib/index.js'
 
@@ -7,7 +7,7 @@
 </script>
 
 {#snippet icon()}
-  <WarehouseIcon />
+  <IconBuildingWarehouse />
 {/snippet}
 
 <CardTitle {icon} {iconTone}>Supplier information</CardTitle>

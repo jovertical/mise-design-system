@@ -1,7 +1,7 @@
 <!--
   Origin: the React package 2.23.0 `select.tsx` (`SelectScrollUpButton`), itself shadcn/ui new-york `select`
   Svelte: shadcn-svelte `select`
-  Diverged: none beyond the port.
+  Diverged: Tabler's chevron-up for Lucide's.
 -->
 <script lang="ts" module>
   import { Select as SelectPrimitive } from 'bits-ui'
@@ -13,7 +13,7 @@
 </script>
 
 <script lang="ts">
-  import ChevronUpIcon from '@lucide/svelte/icons/chevron-up'
+  import IconChevronUp from '@tabler/icons-svelte-runes/icons/chevron-up'
 
   import { cn } from '../../../utils/cn.js'
 
@@ -26,5 +26,5 @@
   class={cn('flex cursor-default items-center justify-center py-1', className)}
   {...rest}
 >
-  <ChevronUpIcon class="size-4" />
+  <IconChevronUp class="size-4" />
 </SelectPrimitive.ScrollUpButton>

@@ -2,8 +2,9 @@
   Origin: the React package 2.23.0 `dropdown-menu.tsx` (`DropdownMenuRadioItem`), itself shadcn/ui new-york `dropdown-menu`
   Svelte: shadcn-svelte `dropdown-menu`
   Diverged: bits-ui marks the active row `data-highlighted` rather than focusing
-    it, so each `focus:` utility is mirrored on `data-[highlighted]`.
-    The dot is drawn from the item's `checked` snippet argument.
+    it, so each `focus:` utility is mirrored on `data-[highlighted]`. The dot is
+    drawn from the item's `checked` snippet argument. Tabler's filled circle for
+    Lucide's circle filled by class.
 -->
 <script lang="ts" module>
   import { DropdownMenu as DropdownMenuPrimitive } from 'bits-ui'
@@ -18,7 +19,7 @@
 </script>
 
 <script lang="ts">
-  import CircleIcon from '@lucide/svelte/icons/circle'
+  import IconCircleFilled from '@tabler/icons-svelte-runes/icons/circle-filled'
 
   import { cn } from '../../../utils/cn.js'
 
@@ -42,7 +43,7 @@
   {#snippet children({ checked })}
     <span class="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center">
       {#if checked}
-        <CircleIcon class="size-2 fill-current" />
+        <IconCircleFilled class="size-2" />
       {/if}
     </span>
     {@render content?.()}

@@ -112,9 +112,9 @@ importers:
       '@internationalized/date':
         specifier: ^3.12.4
         version: 3.12.4
-      '@lucide/svelte':
-        specifier: ^1.67.0
-        version: 1.67.0(svelte@5.57.3)
+      '@tabler/icons-svelte-runes':
+        specifier: ^3.51.0
+        version: 3.51.0(svelte@5.57.3)
       '@tanstack/svelte-table':
         specifier: ^9.3.1
         version: 9.3.1(svelte@5.57.3)
@@ -254,9 +254,9 @@ importers:
       '@jovertical/mise-design-system':
         specifier: workspace:*
         version: link:../..
-      '@lucide/svelte':
-        specifier: ^1.70.0
-        version: 1.70.0(svelte@5.57.3)
+      '@tabler/icons-svelte-runes':
+        specifier: ^3.51.0
+        version: 3.51.0
       '@tanstack/svelte-table':
         specifier: ^9.3.1
         version: 9.3.1(svelte@5.57.3)
@@ -771,16 +771,6 @@ packages:
 
   '@layerstack/utils@2.0.0-next.19':
     resolution: {integrity: sha512-HyXCEz9pge4rFWklrSgFr3YIwdE1gP8WM6GPetmnKPDfYLF1/oetRFKI9FqiE+dw4brnULGPKJsVhjM3vQfD4A==}
-
-  '@lucide/svelte@1.67.0':
-    resolution: {integrity: sha512-DeqoOkMm3QihcNsrQB5drR/8azWDGuozfagDpm/anIqaJdflLUMhwLFPEANl/W3FLhXx6HmQwEWz7zBtZ6KXcQ==}
-    peerDependencies:
-      svelte: ^5
-
-  '@lucide/svelte@1.70.0':
-    resolution: {integrity: sha512-zvx7K/WLxo82c4ZYqbsfcYUPDVFrq4561xH0NHfSHJJbajj0AONTQ14EO095/WnfI4XUEl1tyS/nbjQNNiNxdQ==}
-    peerDependencies:
-      svelte: ^5
 
   '@mdx-js/react@3.1.1':
     resolution: {integrity: sha512-f++rKLQgUVYDAtECQ6fn/is15GkEH9+nZPM3MS0RcxVqoTfawHvDlSCH7JbMhAM6uJ32v3eXLvLmLvjGu7PTQw==}
@@ -1362,6 +1352,14 @@ packages:
 
   '@swc/helpers@0.5.23':
     resolution: {integrity: sha512-5lSsMOTXURePglDfvuAQUqkGek9Hg2kksOYay2m0+XR++b2NWYL/4sWyuvVBIs8oKnJaxkdi9whaL/sqN13afw==}
+
+  '@tabler/icons-svelte-runes@3.51.0':
+    resolution: {integrity: sha512-0ie/JMAXDgpS6cSX2gnfj7QXtgf4hP4l/oYLd3SWeUeuWh9hSIQ0YgnFqOLYLTHrNMkilwY+ECohIBEPGIIJvA==}
+    peerDependencies:
+      svelte: ^5.0.0
+
+  '@tabler/icons@3.51.0':
+    resolution: {integrity: sha512-0pinvPZz7YeX+OSfxuEAbnEPWbocVXW5iU8h5lh41pYG8sZuQfpWECC980lxOT0clGIcNGn8xsBr+zKaRGdA/g==}
 
   '@tailwindcss/cli@4.3.4':
     resolution: {integrity: sha512-279RsQ1SjT5PcUp6za3F9Qavw933WkMErTOArEKl+gOS4BBgW/2/w9Tn5zLSRy8t/U1Kiy4LmKjuxrFFsbbtAw==}
@@ -3367,14 +3365,6 @@ snapshots:
       d3-time: 3.1.1
       d3-time-format: 4.1.1
 
-  '@lucide/svelte@1.67.0(svelte@5.57.3)':
-    dependencies:
-      svelte: 5.57.3
-
-  '@lucide/svelte@1.70.0(svelte@5.57.3)':
-    dependencies:
-      svelte: 5.57.3
-
   '@mdx-js/react@3.1.1(@types/react@19.3.0)(react@19.3.1)':
     dependencies:
       '@types/mdx': 2.0.14
@@ -3816,6 +3806,13 @@ snapshots:
   '@swc/helpers@0.5.23':
     dependencies:
       tslib: 2.9.1
+
+  '@tabler/icons-svelte-runes@3.51.0(svelte@5.57.3)':
+    dependencies:
+      '@tabler/icons': 3.51.0
+      svelte: 5.57.3
+
+  '@tabler/icons@3.51.0': {}
 
   '@tailwindcss/cli@4.3.4':
     dependencies:

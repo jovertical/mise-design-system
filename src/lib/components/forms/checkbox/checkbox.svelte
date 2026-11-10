@@ -3,7 +3,8 @@
   Svelte: shadcn-svelte `checkbox`
   Diverged: unaudited, as in the React package. bits-ui Checkbox for Radix
     Checkbox. The indeterminate state draws a minus, as shadcn-svelte's does,
-    and takes the checked fill; Radix's Indicator drew the same check for both.
+    and takes the checked fill, in dark too; Radix's Indicator drew the same
+    check for both. Tabler's check and minus for Lucide's.
 -->
 <script lang="ts" module>
   import { Checkbox as CheckboxPrimitive } from 'bits-ui'
@@ -14,8 +15,8 @@
 </script>
 
 <script lang="ts">
-  import CheckIcon from '@lucide/svelte/icons/check'
-  import MinusIcon from '@lucide/svelte/icons/minus'
+  import IconCheck from '@tabler/icons-svelte-runes/icons/check'
+  import IconMinus from '@tabler/icons-svelte-runes/icons/minus'
 
   import { cn } from '../../../utils/cn.js'
 
@@ -35,7 +36,7 @@
   data-slot="checkbox"
   class={cn(
     'peer border-input dark:bg-input/30 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4 shrink-0 rounded-[4px] border shadow-xs transition-shadow outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50',
-    'data-[state=indeterminate]:bg-primary data-[state=indeterminate]:text-primary-foreground data-[state=indeterminate]:border-primary',
+    'data-[state=indeterminate]:bg-primary dark:data-[state=indeterminate]:bg-primary data-[state=indeterminate]:text-primary-foreground data-[state=indeterminate]:border-primary',
     className,
   )}
   {...rest}
@@ -46,9 +47,9 @@
       class="grid place-content-center text-current transition-none"
     >
       {#if indeterminate}
-        <MinusIcon class="size-3.5" />
+        <IconMinus class="size-3.5" />
       {:else if checked}
-        <CheckIcon class="size-3.5" />
+        <IconCheck class="size-3.5" />
       {/if}
     </div>
   {/snippet}

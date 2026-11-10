@@ -29,9 +29,9 @@
     FormFieldErrors,
     FormLabel,
   } from '@jovertical/mise-design-system/form'
-  import Banknote from '@lucide/svelte/icons/banknote'
-  import Route from '@lucide/svelte/icons/route'
-  import Users from '@lucide/svelte/icons/users'
+  import IconCash from '@tabler/icons-svelte-runes/icons/cash'
+  import IconRoute from '@tabler/icons-svelte-runes/icons/route'
+  import IconUsers from '@tabler/icons-svelte-runes/icons/users'
   import { untrack } from 'svelte'
   import FormPage, { type FormPageText } from '#modules/core/components/form-page.svelte'
   import FormSection from '#modules/core/components/form-section.svelte'
@@ -86,7 +86,7 @@
     <Card>
       <CardContent class="flex flex-col gap-6">
         <FormSection
-          icon={Users}
+          icon={IconUsers}
           title="Client and service"
           hint="Who it is for and how fast it goes."
         >
@@ -146,7 +146,7 @@
         <Separator />
 
         <FormSection
-          icon={Route}
+          icon={IconRoute}
           title="Route"
           hint="Where it ships from and where it is delivered."
         >
@@ -195,7 +195,7 @@
         <Separator />
 
         <FormSection
-          icon={Banknote}
+          icon={IconCash}
           title="Billing"
           hint="What the client is charged for this order."
         >

@@ -1,6 +1,6 @@
 <script module lang="ts">
-  import StoreIcon from '@lucide/svelte/icons/store'
   import { defineMeta } from '@storybook/addon-svelte-csf'
+  import IconBuildingStore from '@tabler/icons-svelte-runes/icons/building-store'
 
   import Button from '../../actions/button/button.svelte'
   import Item from '../../data-display/item/item.svelte'
@@ -148,7 +148,7 @@
       <CardList>
         {#each locations as row (row.name)}
           {#snippet icon()}
-            <StoreIcon />
+            <IconBuildingStore />
           {/snippet}
           <MetricBar
             {icon}

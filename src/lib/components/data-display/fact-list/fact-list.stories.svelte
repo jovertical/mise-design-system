@@ -1,13 +1,13 @@
 <script module lang="ts">
-  import CalendarIcon from '@lucide/svelte/icons/calendar'
-  import FlagIcon from '@lucide/svelte/icons/flag'
-  import IdCardIcon from '@lucide/svelte/icons/id-card'
-  import MailIcon from '@lucide/svelte/icons/mail'
-  import PhoneIcon from '@lucide/svelte/icons/phone'
-  import TagIcon from '@lucide/svelte/icons/tag'
-  import UserIcon from '@lucide/svelte/icons/user'
-  import WarehouseIcon from '@lucide/svelte/icons/warehouse'
   import { defineMeta } from '@storybook/addon-svelte-csf'
+  import IconBuildingWarehouse from '@tabler/icons-svelte-runes/icons/building-warehouse'
+  import IconCalendar from '@tabler/icons-svelte-runes/icons/calendar'
+  import IconFlag from '@tabler/icons-svelte-runes/icons/flag'
+  import IconId from '@tabler/icons-svelte-runes/icons/id'
+  import IconMail from '@tabler/icons-svelte-runes/icons/mail'
+  import IconPhone from '@tabler/icons-svelte-runes/icons/phone'
+  import IconTag from '@tabler/icons-svelte-runes/icons/tag'
+  import IconUser from '@tabler/icons-svelte-runes/icons/user'
   import type { Component } from 'svelte'
 
   import StoryAxis from '../../../../../stories/story-axis.svelte'
@@ -29,24 +29,24 @@
   type Fact = { icon: Component; label: string; value: string | null }
 
   const identity: Fact[] = [
-    { icon: WarehouseIcon, label: 'Location', value: 'Riverside' },
-    { icon: TagIcon, label: 'Reason', value: 'Cycle count' },
-    { icon: UserIcon, label: 'Requested by', value: 'Ana Cruz' },
-    { icon: CalendarIcon, label: 'Date counted', value: '16 Jul 2026' },
-    { icon: FlagIcon, label: 'Status', value: null },
+    { icon: IconBuildingWarehouse, label: 'Location', value: 'Riverside' },
+    { icon: IconTag, label: 'Reason', value: 'Cycle count' },
+    { icon: IconUser, label: 'Requested by', value: 'Ana Cruz' },
+    { icon: IconCalendar, label: 'Date counted', value: '16 Jul 2026' },
+    { icon: IconFlag, label: 'Status', value: null },
   ]
 
   const supplier: Fact[] = [
-    { icon: IdCardIcon, label: 'Supplier code', value: 'SUP-1001' },
-    { icon: TagIcon, label: 'Category', value: 'Dry goods' },
-    { icon: UserIcon, label: 'Account owner', value: null },
-    { icon: CalendarIcon, label: 'Onboarded', value: '8 Sep 2026' },
+    { icon: IconId, label: 'Supplier code', value: 'SUP-1001' },
+    { icon: IconTag, label: 'Category', value: 'Dry goods' },
+    { icon: IconUser, label: 'Account owner', value: null },
+    { icon: IconCalendar, label: 'Onboarded', value: '8 Sep 2026' },
   ]
 
   const contact: Fact[] = [
-    { icon: UserIcon, label: 'Contact', value: 'Ben Ortiz' },
-    { icon: MailIcon, label: 'Email', value: 'ben.ortiz@example.org' },
-    { icon: PhoneIcon, label: 'Phone', value: null },
+    { icon: IconUser, label: 'Contact', value: 'Ben Ortiz' },
+    { icon: IconMail, label: 'Email', value: 'ben.ortiz@example.org' },
+    { icon: IconPhone, label: 'Phone', value: null },
   ]
 </script>
 

@@ -1,6 +1,6 @@
 <script module lang="ts">
-  import PackageIcon from '@lucide/svelte/icons/package'
   import { defineMeta } from '@storybook/addon-svelte-csf'
+  import IconPackage from '@tabler/icons-svelte-runes/icons/package'
 
   import StatTile from '../../data-display/stat-tile/stat-tile.svelte'
   import Card from '../../layout/card/card.svelte'
@@ -19,7 +19,7 @@
 </script>
 
 {#snippet packageIcon()}
-  <PackageIcon />
+  <IconPackage />
 {/snippet}
 
 {#snippet pairingHint()}

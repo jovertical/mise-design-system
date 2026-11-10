@@ -5,7 +5,8 @@
     bits-ui RangeCalendar, because its value is a `DateRange` (`{ start, end }`
     of `@internationalized/date` dates) rather than a day (round 7 plan, R7-1,
     R7-2). It shares Calendar's class map, so the two cannot drift. The range's
-    span is `bg-muted`, where React used the brand-tinted `bg-accent`.
+    span is `bg-muted`, where React used the brand-tinted `bg-accent`. Tabler's
+    chevrons for Lucide's.
 -->
 <script lang="ts" module>
   import { RangeCalendar as RangeCalendarPrimitive } from 'bits-ui'
@@ -28,8 +29,8 @@
 </script>
 
 <script lang="ts">
-  import ChevronLeftIcon from '@lucide/svelte/icons/chevron-left'
-  import ChevronRightIcon from '@lucide/svelte/icons/chevron-right'
+  import IconChevronLeft from '@tabler/icons-svelte-runes/icons/chevron-left'
+  import IconChevronRight from '@tabler/icons-svelte-runes/icons/chevron-right'
 
   import { cn } from '../../../utils/cn.js'
   import CalendarCaption from './calendar-caption.svelte'
@@ -61,10 +62,10 @@
     <div class={CALENDAR_CLASS.months}>
       <nav class={CALENDAR_CLASS.nav}>
         <RangeCalendarPrimitive.PrevButton class={CALENDAR_CLASS.navButton}>
-          <ChevronLeftIcon class="size-4" />
+          <IconChevronLeft class="size-4" />
         </RangeCalendarPrimitive.PrevButton>
         <RangeCalendarPrimitive.NextButton class={CALENDAR_CLASS.navButton}>
-          <ChevronRightIcon class="size-4" />
+          <IconChevronRight class="size-4" />
         </RangeCalendarPrimitive.NextButton>
       </nav>
       {#each months as month, monthIndex (month)}

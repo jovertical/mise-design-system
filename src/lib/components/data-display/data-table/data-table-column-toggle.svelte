@@ -1,7 +1,6 @@
 <!--
   Origin: the React package 2.23.0 `data-table-column-toggle.tsx`
-  Diverged: Lucide's columns-3 for Tabler's layout-columns. The table is
-    TanStack Table 9's (R4b-1).
+  Diverged: the table is TanStack Table 9's (R4b-1).
 -->
 <script lang="ts" module>
   import type { RowData } from '@tanstack/svelte-table'
@@ -18,7 +17,7 @@
 </script>
 
 <script lang="ts" generics="TData extends RowData">
-  import Columns3Icon from '@lucide/svelte/icons/columns-3'
+  import IconLayoutColumns from '@tabler/icons-svelte-runes/icons/layout-columns'
 
   import Button from '../../actions/button/button.svelte'
   import DropdownMenu from '../../actions/dropdown-menu/dropdown-menu.svelte'
@@ -48,7 +47,7 @@
         class="border-border bg-card size-8 rounded-full border"
         {...props}
       >
-        <Columns3Icon class="size-4" />
+        <IconLayoutColumns class="size-4" />
       </Button>
     {/snippet}
   </DropdownMenuTrigger>

@@ -3,6 +3,7 @@
   Svelte: shadcn-svelte `radio-group`
   Diverged: unaudited, as in the React package. The indicator is drawn from the
     item's `checked` snippet argument rather than Radix's Indicator part.
+    Tabler's circle for Lucide's.
 -->
 <script lang="ts" module>
   import { RadioGroup as RadioGroupPrimitive } from 'bits-ui'
@@ -13,7 +14,7 @@
 </script>
 
 <script lang="ts">
-  import CircleIcon from '@lucide/svelte/icons/circle'
+  import IconCircle from '@tabler/icons-svelte-runes/icons/circle'
 
   import { cn } from '../../../utils/cn.js'
 
@@ -32,7 +33,7 @@
   {#snippet children({ checked })}
     <div data-slot="radio-group-indicator" class="relative flex items-center justify-center">
       {#if checked}
-        <CircleIcon
+        <IconCircle
           class="fill-primary absolute top-1/2 left-1/2 size-2 -translate-x-1/2 -translate-y-1/2"
         />
       {/if}

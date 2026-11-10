@@ -38,7 +38,32 @@ describe('Sidebar', () => {
     )
 
     expect(sidebar(container)).toHaveAttribute('data-state', 'expanded')
+  })
+
+  it('defaults to the panel theme, as the portals draw it', () => {
+    const { container } = render(AppShell)
+
     expect(sidebar(container)).toHaveAttribute('data-sidetheme', 'panel')
+  })
+
+  it('draws the current panel row as a solid pill, not a tint', () => {
+    render(AppShell)
+
+    const active = screen.getByRole('button', { name: 'Locations' })
+
+    expect(active.className).toContain(
+      'group-data-[sidetheme=panel]:data-[active=true]:bg-sidebar-primary',
+    )
+
+    expect(active.className).not.toContain('group-data-[sidetheme=panel]:data-[active=true]:ring-1')
+  })
+
+  it('packs panel rows closer than the other themes', () => {
+    const { container } = render(AppShell)
+
+    expect(container.querySelector('[data-slot="sidebar-menu"]')?.className).toContain(
+      'group-data-[sidetheme=panel]:gap-0.5',
+    )
   })
 
   it('collapses to icons from the trigger and binds open back', async () => {

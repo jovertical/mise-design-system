@@ -3,7 +3,6 @@
   Diverged: the trigger drops `font-mono`, which the package does not use. A
     passed `onPrint` counts as an action, so a print-only menu shows; React
     counted only CSV and copy, and its own print-only story drew nothing.
-    Lucide's printer, file-spreadsheet, copy and chevron-down for Tabler's.
 -->
 <script lang="ts" module>
   /**
@@ -24,10 +23,10 @@
 </script>
 
 <script lang="ts">
-  import ChevronDownIcon from '@lucide/svelte/icons/chevron-down'
-  import CopyIcon from '@lucide/svelte/icons/copy'
-  import FileSpreadsheetIcon from '@lucide/svelte/icons/file-spreadsheet'
-  import PrinterIcon from '@lucide/svelte/icons/printer'
+  import IconChevronDown from '@tabler/icons-svelte-runes/icons/chevron-down'
+  import IconCopy from '@tabler/icons-svelte-runes/icons/copy'
+  import IconFileTypeCsv from '@tabler/icons-svelte-runes/icons/file-type-csv'
+  import IconPrinter from '@tabler/icons-svelte-runes/icons/printer'
   import { toast } from 'svelte-sonner'
 
   import Button from '../../actions/button/button.svelte'
@@ -72,24 +71,24 @@
           {...props}
         >
           Export
-          <ChevronDownIcon class="size-4 opacity-60" />
+          <IconChevronDown class="size-4 opacity-60" />
         </Button>
       {/snippet}
     </DropdownMenuTrigger>
     <DropdownMenuContent align="end" class="min-w-40">
       <DropdownMenuItem onSelect={() => (onPrint ?? (() => window.print()))()}>
-        <PrinterIcon class="size-4" />
+        <IconPrinter class="size-4" />
         Print
       </DropdownMenuItem>
       {#if onExportCsv}
         <DropdownMenuItem onSelect={onExportCsv}>
-          <FileSpreadsheetIcon class="size-4" />
+          <IconFileTypeCsv class="size-4" />
           CSV
         </DropdownMenuItem>
       {/if}
       {#if getCopyText}
         <DropdownMenuItem onSelect={() => void copy()}>
-          <CopyIcon class="size-4" />
+          <IconCopy class="size-4" />
           Copy
         </DropdownMenuItem>
       {/if}

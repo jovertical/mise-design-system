@@ -1,7 +1,7 @@
 <!-- Beside the product form: price and stock against the reorder point, and what is missing. -->
 <script lang="ts">
   import { AsideCard, Badge, FactList, FactListItem } from '@jovertical/mise-design-system'
-  import ReceiptText from '@lucide/svelte/icons/receipt-text'
+  import IconFileInvoice from '@tabler/icons-svelte-runes/icons/file-invoice'
 
   import ReadinessCard from '#modules/core/components/readiness-card.svelte'
   import { money } from '#modules/core/utils/format.js'
@@ -35,7 +35,7 @@
 </script>
 
 {#snippet receipt()}
-  <ReceiptText />
+  <IconFileInvoice />
 {/snippet}
 {#snippet level()}
   <Badge tone={low ? 'warning' : 'success'}>{low ? 'Low stock' : 'In stock'}</Badge>

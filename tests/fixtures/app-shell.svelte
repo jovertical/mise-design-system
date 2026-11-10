@@ -10,14 +10,17 @@
     SidebarMenuButton,
     SidebarMenuItem,
     SidebarProvider,
+    type SidebarSideTheme,
     SidebarTrigger,
   } from '../../src/lib/index.js'
 
-  let { open = $bindable(true) }: { open?: boolean } = $props()
+  // No `sidetheme` unless a test passes one, so the shell shows the default.
+  let { open = $bindable(true), sidetheme }: { open?: boolean; sidetheme?: SidebarSideTheme } =
+    $props()
 </script>
 
 <SidebarProvider bind:open>
-  <Sidebar collapsible="icon" sidetheme="panel">
+  <Sidebar collapsible="icon" {sidetheme}>
     <SidebarHeader>Riverside</SidebarHeader>
     <SidebarContent>
       <SidebarGroup>

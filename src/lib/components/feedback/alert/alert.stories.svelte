@@ -1,12 +1,12 @@
 <script module lang="ts">
-  import ArrowRightIcon from '@lucide/svelte/icons/arrow-right'
-  import CircleCheckIcon from '@lucide/svelte/icons/circle-check'
-  import ClockIcon from '@lucide/svelte/icons/clock'
-  import InfoIcon from '@lucide/svelte/icons/info'
-  import OctagonAlertIcon from '@lucide/svelte/icons/octagon-alert'
-  import TerminalIcon from '@lucide/svelte/icons/terminal'
-  import TriangleAlertIcon from '@lucide/svelte/icons/triangle-alert'
   import { defineMeta } from '@storybook/addon-svelte-csf'
+  import IconAlertOctagon from '@tabler/icons-svelte-runes/icons/alert-octagon'
+  import IconAlertTriangle from '@tabler/icons-svelte-runes/icons/alert-triangle'
+  import IconArrowRight from '@tabler/icons-svelte-runes/icons/arrow-right'
+  import IconCircleCheck from '@tabler/icons-svelte-runes/icons/circle-check'
+  import IconClock from '@tabler/icons-svelte-runes/icons/clock'
+  import IconInfoCircle from '@tabler/icons-svelte-runes/icons/info-circle'
+  import IconTerminal from '@tabler/icons-svelte-runes/icons/terminal'
 
   import StoryAxis from '../../../../../stories/story-axis.svelte'
 
@@ -24,7 +24,7 @@
 <Story name="Playground">
   {#snippet template(args)}
     <Alert class="max-w-3xl" {...args}>
-      <InfoIcon />
+      <IconInfoCircle />
       <AlertDescription
         >Registers can be paired to a location from the registers page.</AlertDescription
       >
@@ -42,7 +42,7 @@
     {#snippet item(variant)}
       {#if variant === 'info'}
         <Alert variant="info">
-          <InfoIcon />
+          <IconInfoCircle />
           <AlertDescription>
             Each transfer creates two stock-ledger rows: a <strong>negative entry</strong> for the
             source location and a <strong>positive entry</strong> for the destination. Total stock
@@ -51,14 +51,14 @@
         </Alert>
       {:else if variant === 'success'}
         <Alert variant="success">
-          <CircleCheckIcon />
+          <IconCircleCheck />
           <AlertDescription>
             Location created. Registers can be paired to it from the registers page.
           </AlertDescription>
         </Alert>
       {:else if variant === 'warning'}
         <Alert variant="warning">
-          <TriangleAlertIcon />
+          <IconAlertTriangle />
           <AlertDescription>
             This register last synced <strong>3 days ago</strong>. Orders taken on it are still on
             it.
@@ -66,14 +66,14 @@
         </Alert>
       {:else if variant === 'destructive'}
         <Alert variant="destructive">
-          <OctagonAlertIcon />
+          <IconAlertOctagon />
           <AlertDescription
             >Three registers could not be set up. Nothing was charged.</AlertDescription
           >
         </Alert>
       {:else if variant === 'default'}
         <Alert>
-          <TerminalIcon />
+          <IconTerminal />
           <AlertDescription>
             The default variant states something without colouring it at all.
           </AlertDescription>
@@ -89,7 +89,7 @@
 <Story name="With title" asChild>
   <div class="grid max-w-3xl gap-3">
     <Alert variant="destructive">
-      <OctagonAlertIcon />
+      <IconAlertOctagon />
       <AlertTitle>Sync has not run for 3 days</AlertTitle>
       <AlertDescription>
         Orders taken on this register are still on it and have not reached the server.
@@ -105,7 +105,7 @@
 <Story name="With icon" asChild>
   <div class="grid max-w-2xl gap-4">
     <Alert>
-      <InfoIcon />
+      <IconInfoCircle />
       <AlertTitle>With an icon</AlertTitle>
       <AlertDescription>The text is indented to the second column.</AlertDescription>
     </Alert>
@@ -124,18 +124,18 @@
 <Story name="With action" asChild>
   <div class="grid max-w-3xl gap-3">
     <Alert variant="warning">
-      <ClockIcon />
+      <IconClock />
       <AlertTitle>Waiting for approval</AlertTitle>
       <AlertDescription>
         Price change: minimum $13.00 → $12.00 · <strong>0 of 2</strong> approvals. Its fields stay
         as they are until it is decided.
       </AlertDescription>
       <AlertAction>
-        <Button variant="outline" size="sm">Review<ArrowRightIcon /></Button>
+        <Button variant="outline" size="sm">Review<IconArrowRight /></Button>
       </AlertAction>
     </Alert>
     <Alert variant="destructive">
-      <OctagonAlertIcon />
+      <IconAlertOctagon />
       <AlertDescription
         >Invoice <strong>INV-2026-0014</strong> is overdue by 9 days.</AlertDescription
       >
@@ -147,7 +147,7 @@
 <!-- Two actions, the main one solid. More than two is a form, not an alert. -->
 <Story name="With actions" asChild>
   <Alert class="max-w-3xl">
-    <InfoIcon />
+    <IconInfoCircle />
     <AlertTitle>Setup stopped at Registers</AlertTitle>
     <AlertDescription>Pick up where it left off, or discard the draft.</AlertDescription>
     <AlertAction>
@@ -167,11 +167,11 @@
   globals={{ viewport: { value: 'mobile1', isRotated: false } }}
 >
   <Alert variant="warning">
-    <ClockIcon />
+    <IconClock />
     <AlertTitle>Waiting for approval</AlertTitle>
     <AlertDescription>Close Riverside · <strong>1 of 2</strong> approvals.</AlertDescription>
     <AlertAction>
-      <Button variant="outline" size="sm">Review<ArrowRightIcon /></Button>
+      <Button variant="outline" size="sm">Review<IconArrowRight /></Button>
     </AlertAction>
   </Alert>
 </Story>
@@ -183,7 +183,7 @@
 <Story name="Long content" asChild>
   <div class="grid max-w-2xl gap-4">
     <Alert variant="warning">
-      <TriangleAlertIcon />
+      <IconAlertTriangle />
       <AlertTitle>
         This title is deliberately long enough to run past the end of the alert and be clamped
       </AlertTitle>
@@ -206,17 +206,18 @@
 <Story name="On a page" asChild parameters={{ layout: 'fullscreen' }}>
   <div class="bg-background grid gap-3 p-8">
     <Alert variant="info"
-      ><InfoIcon /><AlertDescription>Informational, on the page surface.</AlertDescription></Alert
+      ><IconInfoCircle />
+      <AlertDescription>Informational, on the page surface.</AlertDescription></Alert
     >
     <Alert variant="success"
-      ><CircleCheckIcon /><AlertDescription>Something finished.</AlertDescription></Alert
+      ><IconCircleCheck /><AlertDescription>Something finished.</AlertDescription></Alert
     >
     <Alert variant="warning">
-      <TriangleAlertIcon />
+      <IconAlertTriangle />
       <AlertDescription>Something needs attention but still works.</AlertDescription>
     </Alert>
     <Alert variant="destructive"
-      ><OctagonAlertIcon /><AlertDescription>Something failed.</AlertDescription></Alert
+      ><IconAlertOctagon /><AlertDescription>Something failed.</AlertDescription></Alert
     >
   </div>
 </Story>
@@ -228,11 +229,11 @@
 <Story name="Parts alone" asChild>
   <div class="grid max-w-2xl gap-4">
     <Alert>
-      <TerminalIcon />
+      <IconTerminal />
       <AlertTitle>Title only</AlertTitle>
     </Alert>
     <Alert>
-      <TerminalIcon />
+      <IconTerminal />
       <AlertDescription>Description only, with no heading above it.</AlertDescription>
     </Alert>
   </div>
@@ -241,7 +242,7 @@
 <!-- A list inside the description lines up on the left edge of the text. -->
 <Story name="Rich description" asChild>
   <Alert class="max-w-2xl" variant="destructive">
-    <OctagonAlertIcon />
+    <IconAlertOctagon />
     <AlertTitle>Three registers could not be set up</AlertTitle>
     <AlertDescription>
       <p>Each one reported a different reason:</p>

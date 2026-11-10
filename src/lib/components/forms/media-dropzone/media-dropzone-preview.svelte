@@ -18,7 +18,7 @@
 </script>
 
 <script lang="ts">
-  import TrashIcon from '@lucide/svelte/icons/trash'
+  import IconTrash from '@tabler/icons-svelte-runes/icons/trash'
 
   import Button from '../../actions/button/button.svelte'
   import Text from '../../typography/text/text.svelte'
@@ -48,7 +48,7 @@
             onclick={onremove}
             aria-label="Remove {value.name || label}"
           >
-            <TrashIcon class="size-3.5" />
+            <IconTrash class="size-3.5" />
           </Button>
         {/if}
       </div>

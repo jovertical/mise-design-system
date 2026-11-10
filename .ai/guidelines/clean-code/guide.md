@@ -41,7 +41,7 @@ control's snippet), `x` and `y` as chart coordinates, `id`, `ref`, a type
 parameter (`T`), and a name starting with `_` for a value deliberately unused.
 
 **Import names are not checked.** An import takes the exporting library's name
-(`import X from '@lucide/svelte/icons/x'`); renaming it hides where it comes
+(`import IconX from '@tabler/icons-svelte-runes/icons/x'`); renaming it hides where it comes
 from.
 
 **Banned**, besides every single letter outside the allowances: `acc`, `arr`,

@@ -16,11 +16,11 @@
     SegmentedBar,
     StatTile,
   } from '@jovertical/mise-design-system'
-  import Barcode from '@lucide/svelte/icons/barcode'
-  import Box from '@lucide/svelte/icons/box'
-  import DollarSign from '@lucide/svelte/icons/dollar-sign'
-  import Pencil from '@lucide/svelte/icons/pencil'
-  import Tag from '@lucide/svelte/icons/tag'
+  import IconBarcode from '@tabler/icons-svelte-runes/icons/barcode'
+  import IconBox from '@tabler/icons-svelte-runes/icons/box'
+  import IconCurrencyDollar from '@tabler/icons-svelte-runes/icons/currency-dollar'
+  import IconPencil from '@tabler/icons-svelte-runes/icons/pencil'
+  import IconTag from '@tabler/icons-svelte-runes/icons/tag'
   import { locationName } from '#modules/core/data/lookups.js'
   import { store } from '#modules/core/data/store.svelte.js'
   import { money } from '#modules/core/utils/format.js'
@@ -41,16 +41,16 @@
   <Button href={resolve('/products')}>Back to products</Button>
 {/snippet}
 {#snippet skuIcon()}
-  <Barcode />
+  <IconBarcode />
 {/snippet}
 {#snippet tagIcon()}
-  <Tag />
+  <IconTag />
 {/snippet}
 {#snippet boxIcon()}
-  <Box />
+  <IconBox />
 {/snippet}
 {#snippet priceIcon()}
-  <DollarSign />
+  <IconCurrencyDollar />
 {/snippet}
 
 {#if !product}
@@ -68,7 +68,7 @@
   {/snippet}
   {#snippet actions()}
     <Button variant="outline" href={resolve('/products/[id]/edit', { id: product.sku })}>
-      <Pencil />Edit
+      <IconPencil />Edit
     </Button>
   {/snippet}
   <PageLayout>

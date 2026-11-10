@@ -1,7 +1,7 @@
 <!-- Beside the vehicle form: the vehicle as it would be saved, and what it still needs. -->
 <script lang="ts">
   import { AsideCard, Badge, FactList, FactListItem } from '@jovertical/mise-design-system'
-  import ReceiptText from '@lucide/svelte/icons/receipt-text'
+  import IconFileInvoice from '@tabler/icons-svelte-runes/icons/file-invoice'
 
   import ReadinessCard from '#modules/core/components/readiness-card.svelte'
   import { driverOf, locationName } from '#modules/core/data/lookups.js'
@@ -33,7 +33,7 @@
 </script>
 
 {#snippet receipt()}
-  <ReceiptText />
+  <IconFileInvoice />
 {/snippet}
 {#snippet statusBadge()}
   <Badge tone={look.tone}>{look.label}</Badge>

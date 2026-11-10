@@ -48,6 +48,9 @@ takes.
   colours, radius or type through `class`; change the theme ([theming.md](theming.md)).
 - **A neutral fill on the page** is `bg-foreground/[0.07]`, the same wash mise's neutral badges
   use. `bg-muted` is the page canvas, so a `bg-muted` chip disappears on it.
+- **Icons are Tabler.** mise draws `@tabler/icons-svelte-runes`, as the apps it came from do. An
+  `icon` prop takes any Svelte component; to match, import Tabler one file per icon
+  (`import IconPackage from '@tabler/icons-svelte-runes/icons/package'`), never the package root.
 - **The app formats, mise displays.** Money, dates and statuses are formatted by the app.
   `NumberInput` with `format="currency"` takes and reports integer cents.
 - **Every component** takes `class` and spreads other attributes onto its root, and every part
@@ -67,6 +70,8 @@ type and default.
 - A button, or a link that looks like one (`href`): `Button`
 - A menu of actions on a row or a page: `DropdownMenu`
 - A searchable list of commands or a palette (`CommandDialog`): `Command`
+- The "Type to search… ⌘K" field that opens a palette: `CommandTrigger` with `bind:open`, beside a
+  `CommandDialog` bound to the same value
 - The light and dark switch: `ThemeToggle`, inside a `ThemeProvider`
 
 **Forms** ([components/forms.md](components/forms.md))
@@ -92,7 +97,9 @@ type and default.
 
 **Navigation** ([components/navigation.md](components/navigation.md))
 
-- The app's side menu: `Sidebar`
+- The app's side menu: `Sidebar` (`panel` is the default theme)
+- The menu itself, from data: sections, groups, badges and the current row: `SidebarNav`
+  inside `SidebarContent`, with `current` set to the page's path
 - Where am I: `Breadcrumb`
 - Sections of one page: `Tabs`
 - The steps of a flow: `Stepper`

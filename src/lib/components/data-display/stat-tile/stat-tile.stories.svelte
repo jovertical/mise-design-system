@@ -1,21 +1,21 @@
 <script module lang="ts">
-  import ArrowDownIcon from '@lucide/svelte/icons/arrow-down'
-  import ArrowUpIcon from '@lucide/svelte/icons/arrow-up'
-  import BookmarkIcon from '@lucide/svelte/icons/bookmark'
-  import CircleAlertIcon from '@lucide/svelte/icons/circle-alert'
-  import CircleCheckIcon from '@lucide/svelte/icons/circle-check'
-  import DollarIcon from '@lucide/svelte/icons/circle-dollar-sign'
-  import ClipboardCheckIcon from '@lucide/svelte/icons/clipboard-check'
-  import ClipboardListIcon from '@lucide/svelte/icons/clipboard-list'
-  import FileTextIcon from '@lucide/svelte/icons/file-text'
-  import ListChecksIcon from '@lucide/svelte/icons/list-checks'
-  import PackageIcon from '@lucide/svelte/icons/package'
-  import PackageXIcon from '@lucide/svelte/icons/package-x'
-  import ScaleIcon from '@lucide/svelte/icons/scale'
-  import CartIcon from '@lucide/svelte/icons/shopping-cart'
-  import TruckIcon from '@lucide/svelte/icons/truck'
-  import WalletIcon from '@lucide/svelte/icons/wallet'
   import { defineMeta } from '@storybook/addon-svelte-csf'
+  import IconAlertCircle from '@tabler/icons-svelte-runes/icons/alert-circle'
+  import IconArrowDown from '@tabler/icons-svelte-runes/icons/arrow-down'
+  import IconArrowUp from '@tabler/icons-svelte-runes/icons/arrow-up'
+  import IconBookmark from '@tabler/icons-svelte-runes/icons/bookmark'
+  import IconCircleCheck from '@tabler/icons-svelte-runes/icons/circle-check'
+  import IconClipboardCheck from '@tabler/icons-svelte-runes/icons/clipboard-check'
+  import IconClipboardList from '@tabler/icons-svelte-runes/icons/clipboard-list'
+  import IconCoin from '@tabler/icons-svelte-runes/icons/coin'
+  import IconFileText from '@tabler/icons-svelte-runes/icons/file-text'
+  import IconListCheck from '@tabler/icons-svelte-runes/icons/list-check'
+  import IconPackage from '@tabler/icons-svelte-runes/icons/package'
+  import IconPackageOff from '@tabler/icons-svelte-runes/icons/package-off'
+  import IconScale from '@tabler/icons-svelte-runes/icons/scale'
+  import IconShoppingCart from '@tabler/icons-svelte-runes/icons/shopping-cart'
+  import IconTruck from '@tabler/icons-svelte-runes/icons/truck'
+  import IconWallet from '@tabler/icons-svelte-runes/icons/wallet'
 
   import StoryAxis from '../../../../../stories/story-axis.svelte'
   import { TONES } from '../../../utils/tone.js'
@@ -52,34 +52,34 @@
 </script>
 
 {#snippet packageIcon()}
-  <PackageIcon />
+  <IconPackage />
 {/snippet}
 {#snippet dollarIcon()}
-  <DollarIcon />
+  <IconCoin />
 {/snippet}
 {#snippet cartIcon()}
-  <CartIcon />
+  <IconShoppingCart />
 {/snippet}
 {#snippet alertIcon()}
-  <CircleAlertIcon />
+  <IconAlertCircle />
 {/snippet}
 {#snippet checkIcon()}
-  <CircleCheckIcon />
+  <IconCircleCheck />
 {/snippet}
 {#snippet clipboardCheckIcon()}
-  <ClipboardCheckIcon />
+  <IconClipboardCheck />
 {/snippet}
 {#snippet clipboardListIcon()}
-  <ClipboardListIcon />
+  <IconClipboardList />
 {/snippet}
 {#snippet scaleIcon()}
-  <ScaleIcon />
+  <IconScale />
 {/snippet}
 {#snippet walletIcon()}
-  <WalletIcon />
+  <IconWallet />
 {/snippet}
 {#snippet packageXIcon()}
-  <PackageXIcon />
+  <IconPackageOff />
 {/snippet}
 {#snippet rising()}
   <DeltaBadge value={15.7} />
@@ -713,20 +713,20 @@
 </Story>
 
 {#snippet fileTextIcon()}
-  <FileTextIcon />
+  <IconFileText />
 {/snippet}
 {#snippet truckIcon()}
-  <TruckIcon />
+  <IconTruck />
 {/snippet}
 {#snippet arrowDownIcon()}
-  <ArrowDownIcon />
+  <IconArrowDown />
 {/snippet}
 {#snippet arrowUpIcon()}
-  <ArrowUpIcon />
+  <IconArrowUp />
 {/snippet}
 {#snippet listChecksIcon()}
-  <ListChecksIcon />
+  <IconListCheck />
 {/snippet}
 {#snippet bookmarkIcon()}
-  <BookmarkIcon />
+  <IconBookmark />
 {/snippet}

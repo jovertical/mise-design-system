@@ -48,14 +48,14 @@ Also takes: every `<li>` attribute.
 
 ## Sidebar
 
-`import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupAction, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarInput, SidebarInset, SidebarMenu, SidebarMenuAction, SidebarMenuBadge, SidebarMenuButton, SidebarMenuItem, SidebarMenuSkeleton, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem, SidebarProvider, SidebarRail, SidebarSeparator, SidebarTrigger, SidebarState, useSidebar, sidebarMenuButtonVariants } from '@jovertical/mise-design-system'`
+`import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupAction, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarInput, SidebarInset, SidebarMenu, SidebarMenuAction, SidebarMenuBadge, SidebarMenuButton, SidebarMenuItem, SidebarMenuSkeleton, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem, SidebarNav, SidebarProvider, SidebarRail, SidebarSeparator, SidebarTrigger, SidebarState, useSidebar, activeHref, sidebarMenuButtonVariants } from '@jovertical/mise-design-system'`
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `side` | `'left' \| 'right'` | `'left'` |  |
 | `variant` | `'sidebar' \| 'floating' \| 'inset'` | `'sidebar'` |  |
 | `collapsible` | `'offcanvas' \| 'icon' \| 'none'` | `'offcanvas'` |  |
-| `sidetheme` | `'primary' \| 'light' \| 'panel'` | `'primary'` |  |
+| `sidetheme` | `'primary' \| 'light' \| 'panel'` | `'panel'` |  |
 
 Also takes: every `<div>` attribute.
 
@@ -165,6 +165,19 @@ Also takes: every `<a>` attribute.
 
 Also takes: every `<li>` attribute.
 
+### `SidebarNav`
+
+The app's menu drawn from data, inside `Sidebar`: sections of rows and groups, with the row that owns `current` lit and the group holding it open. Built on the sidebar's own parts, so it follows the `sidetheme`.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `sections` (required) | `SidebarNavSection[]` |  |  |
+| `current` (required) | `string` |  | The path to match the rows' `href`s against, e.g. the page's pathname. |
+| `persistKey` | `string` |  | Remembers which groups are open in `localStorage` under this key. |
+| `link` | `Snippet<[SidebarNavLinkSnippetProps]>` |  | Renders a row's link, for a router with its own (Inertia's `Link`). Without it a row is an `<a href>`, which SvelteKit routes. |
+
+Also takes: every `<div>` attribute.
+
 ### `SidebarProvider`
 
 Owns the open and collapsed state and the CSS variables the whole family reads. It always wraps `Sidebar` and its page, never `Sidebar` alone.
@@ -189,9 +202,9 @@ Also takes: everything `Separator` takes.
 
 Also takes: everything `Button` takes.
 
-Also exports: `SidebarState`, `useSidebar`, `sidebarMenuButtonVariants`.
+Also exports: `SidebarState`, `useSidebar`, `activeHref`, `sidebarMenuButtonVariants`.
 
-Types: `SidebarSideTheme` (`'primary' | 'light' | 'panel'`), `SidebarMenuButtonSize` (`'default' | 'sm' | 'lg'`).
+Types: `SidebarSideTheme` (`'primary' | 'light' | 'panel'`), `SidebarNavGroup`, `SidebarNavItem`, `SidebarNavLink`, `SidebarNavSection`, `SidebarNavSubLink`, `SidebarMenuButtonSize` (`'default' | 'sm' | 'lg'`).
 
 ## Stepper
 

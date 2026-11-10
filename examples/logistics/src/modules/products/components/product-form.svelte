@@ -29,9 +29,9 @@
     FormFieldErrors,
     FormLabel,
   } from '@jovertical/mise-design-system/form'
-  import Package from '@lucide/svelte/icons/package'
-  import Tag from '@lucide/svelte/icons/tag'
-  import Warehouse from '@lucide/svelte/icons/warehouse'
+  import IconBuildingWarehouse from '@tabler/icons-svelte-runes/icons/building-warehouse'
+  import IconPackage from '@tabler/icons-svelte-runes/icons/package'
+  import IconTag from '@tabler/icons-svelte-runes/icons/tag'
   import { untrack } from 'svelte'
 
   import FormPage, { type FormPageText } from '#modules/core/components/form-page.svelte'
@@ -72,7 +72,7 @@
   <form method="POST" id="product-form" use:enhance>
     <Card>
       <CardContent class="flex flex-col gap-6">
-        <FormSection icon={Package} title="Product" hint="What it is and how it is counted.">
+        <FormSection icon={IconPackage} title="Product" hint="What it is and how it is counted.">
           <div class="grid gap-4 sm:grid-cols-2">
             <FormField {form} name="name">
               <FormControl>
@@ -132,7 +132,11 @@
 
         <Separator />
 
-        <FormSection icon={Tag} title="Pricing" hint="What it sells for, and when to order more.">
+        <FormSection
+          icon={IconTag}
+          title="Pricing"
+          hint="What it sells for, and when to order more."
+        >
           <div class="grid gap-4 sm:grid-cols-2">
             <FormField {form} name="price">
               <FormControl>
@@ -169,7 +173,7 @@
         <Separator />
 
         <FormSection
-          icon={Warehouse}
+          icon={IconBuildingWarehouse}
           title={stock ? 'Stock by site' : 'Opening stock'}
           hint={stock
             ? 'Stock moves through adjustments, not this form.'

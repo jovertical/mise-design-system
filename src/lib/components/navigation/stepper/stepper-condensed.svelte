@@ -4,7 +4,7 @@
     the size the clean-code guide allows. Not exported.
 -->
 <script lang="ts">
-  import CheckIcon from '@lucide/svelte/icons/check'
+  import IconCheck from '@tabler/icons-svelte-runes/icons/check'
 
   import { cn } from '../../../utils/cn.js'
   import type { StepperLayoutProps } from './stepper.svelte'
@@ -66,7 +66,7 @@
             aria-current={current ? 'step' : undefined}
           >
             {#if completed && !current}
-              <CheckIcon />
+              <IconCheck />
             {:else if step.icon}
               <step.icon />
             {:else}

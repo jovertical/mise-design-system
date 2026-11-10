@@ -1,10 +1,10 @@
 <!--
   Origin: the React package 2.23.0 `data-table-faceted-filter.tsx`
   Diverged: the trigger and the counts drop `font-mono`, which the package does
-    not use; counts are `tabular-nums`. Lucide's chevron-down and check for
-    Tabler's. The column is TanStack Table 9's (R4b-1). The selection is read
-    off the column's filter value, which Svelte tracks; React needed it passed
-    as a prop to re-render, and `selected` stays for a caller who holds it.
+    not use; counts are `tabular-nums`. The column is TanStack Table 9's
+    (R4b-1). The selection is read off the column's filter value, which Svelte
+    tracks; React needed it passed as a prop to re-render, and `selected` stays
+    for a caller who holds it.
 -->
 <script lang="ts" module>
   import type { Column, RowData } from '@tanstack/svelte-table'
@@ -37,8 +37,8 @@
 </script>
 
 <script lang="ts" generics="TData extends RowData, TValue">
-  import CheckIcon from '@lucide/svelte/icons/check'
-  import ChevronDownIcon from '@lucide/svelte/icons/chevron-down'
+  import IconCheck from '@tabler/icons-svelte-runes/icons/check'
+  import IconChevronDown from '@tabler/icons-svelte-runes/icons/chevron-down'
 
   import { cn } from '../../../utils/cn.js'
   import Button from '../../actions/button/button.svelte'
@@ -99,7 +99,7 @@
         {...props}
       >
         <span class="truncate">{triggerLabel}</span>
-        <ChevronDownIcon class="size-4 shrink-0 opacity-60" />
+        <IconChevronDown class="size-4 shrink-0 opacity-60" />
       </Button>
     {/snippet}
   </PopoverTrigger>
@@ -112,7 +112,7 @@
           <CommandItem value={emptyLabel} onSelect={() => column?.setFilterValue(undefined)}>
             <span class="flex-1">{emptyLabel}</span>
             {#if chosen.size === 0}
-              <CheckIcon class="size-4 shrink-0" />
+              <IconCheck class="size-4 shrink-0" />
             {/if}
           </CommandItem>
           {#each options as option (option.value)}
@@ -127,7 +127,7 @@
                 >
               {/if}
               {#if chosen.has(option.value)}
-                <CheckIcon class="size-4 shrink-0" />
+                <IconCheck class="size-4 shrink-0" />
               {/if}
             </CommandItem>
           {/each}

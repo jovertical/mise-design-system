@@ -1,6 +1,6 @@
 <script module lang="ts">
-  import StoreIcon from '@lucide/svelte/icons/store'
   import { defineMeta } from '@storybook/addon-svelte-csf'
+  import IconBuildingStore from '@tabler/icons-svelte-runes/icons/building-store'
 
   import StoryAxis from '../../../../../stories/story-axis.svelte'
   import { TONES } from '../../../utils/tone.js'
@@ -72,7 +72,7 @@
     <CardContent stack="md">
       {#each locations as row (row.name)}
         {#snippet icon()}
-          <StoreIcon />
+          <IconBuildingStore />
         {/snippet}
         <MetricBar
           {icon}

@@ -2,10 +2,20 @@
 
 Read this first when resuming. It records where things stand, what is open and
 waiting on a decision, how the work is run, and what was learned that the code
-and plans do not say. Nothing is in progress.
+and plans do not say. In progress: branch `feat/tabler-icons`, below.
 
 ## Where it stands
 
+- **Branch `feat/tabler-icons` (2026-11-10), a minor release.** Plan:
+  `docs/superpowers/plans/2026-11-10-tabler-icons-and-command-trigger.md`.
+  Three phases, all done: Tabler icons everywhere; `CommandTrigger`,
+  the filled "Type to search… ⌘K" field; and the sidebar as the portals draw
+  it, with `panel` the default theme and `SidebarNav`, the menu
+  drawn from data (sections, groups, badges, the current row). The example
+  uses all three. Also the dark indeterminate `Checkbox` fix. Merging its
+  pull request lets release-please cut the next minor. The icon swap and the
+  new default would be breaking for an outside consumer; with the user's
+  own apps the only consumers, they ship as `feat`, not `feat!`.
 - **The package.** `@jovertical/mise-design-system` is public on npm and GitHub
   (`github.com/jovertical/mise-design-system`, branch `main`). **1.2.0** is the
   latest release: 1.0.0 was the port, 1.1.x added the consumer skill and
@@ -34,7 +44,7 @@ and plans do not say. Nothing is in progress.
   built package through the pnpm workspace, so mise is rebuilt
   (`pnpm build`, or the watcher in `pnpm dev:example`) before the example sees
   a change.
-- **Gate:** `pnpm test` (550 tests, the clean-code check included), `pnpm build` (publint) and
+- **Gate:** `pnpm test` (561 tests, the clean-code check included), `pnpm build` (publint) and
   `pnpm build:storybook` for mise; `pnpm --filter mise-logistics-example test`
   (83 tests) and `smoke` (27 routes and 2 not-found routes, light and dark) for
   the example. Run `pnpm fix:spacing` then `pnpm format` before it.
@@ -92,10 +102,9 @@ Later decisions, with the user:
 
 In rough order of how much they block the apps:
 
-1. **Sidebar rows.** The client portal overrides mise's `SidebarMenuButton`
-   heavily (`h-8` rows, icon chips, `!` overrides in `nav-main.tsx`); mise's
-   default rows are tall by comparison, which the demo shows. Decide whether
-   mise's default or a `density` prop should match the portal.
+1. *Closed 2026-11-10:* sidebar rows. `panel` is the default and draws what
+   the portals' `nav-main.tsx` overrode; `SidebarNav` replaces the hand-written
+   menu.
 2. **Notifications in the top bar.** The portal has a `NotificationBell` and a
    What's new button with no mise equivalent. A mise component would need a
    plan; the demo has neither.
@@ -118,7 +127,10 @@ In rough order of how much they block the apps:
      form passes `defaultValue` itself.
 6. **`homepage` in `package.json`** could point at the demo instead of the
    README; needs a yes.
-7. **The deferred components:** Draggable, Droppable, Sortable (need a drag and
+7. **bertos-bakery-ops after this release:** it added `@lucide/svelte` itself; it
+   moves its own icons to `@tabler/icons-svelte-runes`, bumps mise, and takes
+   `CommandTrigger` and (after phase 3) `SidebarNav`.
+8. **The deferred components:** Draggable, Droppable, Sortable (need a drag and
    drop library) and MermaidDiagram (heavy). Wait until a screen asks.
 
 Not verified by a browser: uploading a logo, saving or cancelling settings,
@@ -179,7 +191,7 @@ repository.
   Raise the iframe height with `sed -i '' 's/height:300px/height:500px/' sheet.html` for tall stories.
 - **Story ids** come from the title: `Data display/IconChip` → `data-display-iconchip--<story>`. They are listed in `storybook-static/index.json` after a build.
 - **An overlay held open by internal state** (DatePicker, NavigationProgress) is screenshotted by flipping its default in the file, rebuilding, and reverting. Storybook URL args did not reach some props (Drawer's `direction`).
-- **A stale dev server** fails with "Failed to fetch dynamically imported module" and a `504 Outdated Optimize Dep` on a Lucide icon. Not a code bug; restart it.
+- **A stale dev server** fails with "Failed to fetch dynamically imported module" and a `504 Outdated Optimize Dep` on an icon. Not a code bug; restart it.
 
 ## Lessons that are not in the code
 
@@ -221,7 +233,7 @@ repository.
 **Libraries**
 
 - **TanStack Table 9:** features are declared up front (`dataTableFeatures`), columns built with `dataTableColumns<Row>()`, state read with `table.store.get()`; v9 resets expansion on every row-model rebuild, so `DataTable` sets `autoResetExpanded: false`. A part that needs a live table in a story uses `stories/fixtures/device-table.svelte`.
-- **Lucide:** some names are aliases; use the canonical file (`trash`, not `trash-2`). Import a type from one icon, not from the `@lucide/svelte` root, which makes svelte-check load all ~4,300 icons. Lucide has no filled icons; a filled check is `circle-check` with `fill-current [&_path]:text-background`.
+- **Tabler** (`@tabler/icons-svelte-runes`, since 2026-11-10; Lucide before): import one file per icon (`import IconX from '@tabler/icons-svelte-runes/icons/x'`), never the root, which makes svelte-check load all ~6,000 icons; `import type { Icon }` from the root is fine. `tests/icons.test.ts` enforces both and keeps Lucide out. Filled icons are their own files (`circle-check-filled`, `point-filled`). A rendered icon carries `tabler-icon tabler-icon-<name>`, which tests assert on. The lucide-to-tabler table is in `docs/superpowers/plans/2026-11-10-tabler-icons-and-command-trigger.md`.
 - **vaul-svelte** is the `1.0.0-next` line, the Svelte 5 one; `latest` is Svelte 4.
 
 **The React package carried product-specific choices; mise fixed them, each on a `Diverged:` line**

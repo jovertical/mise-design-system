@@ -12,19 +12,19 @@ describe('DeltaBadge', () => {
 
     expect(badge(container)).toHaveTextContent('+6.4%')
     expect(badge(container)).toHaveClass('rounded-full', 'bg-success-soft')
-    expect(badge(container).querySelector('svg')).toHaveClass('lucide-trending-up')
+    expect(badge(container).querySelector('svg')).toHaveClass('tabler-icon-trending-up')
   })
 
   it('tints a fall critical, and a zero flat and neutral', () => {
     const fall = render(DeltaBadge, { value: -2.8 }).container
 
     expect(badge(fall)).toHaveTextContent('-2.8%')
-    expect(badge(fall).querySelector('svg')).toHaveClass('lucide-trending-down')
+    expect(badge(fall).querySelector('svg')).toHaveClass('tabler-icon-trending-down')
 
     const flat = render(DeltaBadge, { value: 0 }).container
 
     expect(badge(flat)).toHaveTextContent('0.0%')
-    expect(badge(flat).querySelector('svg')).toHaveClass('lucide-minus')
+    expect(badge(flat).querySelector('svg')).toHaveClass('tabler-icon-minus')
     expect(badge(flat)).not.toHaveClass('bg-success-soft')
   })
 
@@ -32,7 +32,7 @@ describe('DeltaBadge', () => {
     const { container } = render(DeltaBadge, { value: -2.8, invert: true })
 
     expect(badge(container)).toHaveClass('bg-success-soft')
-    expect(badge(container).querySelector('svg')).toHaveClass('lucide-trending-down')
+    expect(badge(container).querySelector('svg')).toHaveClass('tabler-icon-trending-down')
   })
 
   it('takes a unit, a prefix after the sign, and a precision', () => {

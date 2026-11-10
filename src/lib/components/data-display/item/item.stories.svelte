@@ -1,11 +1,11 @@
 <script module lang="ts">
-  import ChevronRightIcon from '@lucide/svelte/icons/chevron-right'
-  import DatabaseIcon from '@lucide/svelte/icons/database'
-  import MapPinIcon from '@lucide/svelte/icons/map-pin'
-  import ServerIcon from '@lucide/svelte/icons/server'
-  import SmartphoneIcon from '@lucide/svelte/icons/smartphone'
-  import TriangleAlertIcon from '@lucide/svelte/icons/triangle-alert'
   import { defineMeta } from '@storybook/addon-svelte-csf'
+  import IconAlertTriangle from '@tabler/icons-svelte-runes/icons/alert-triangle'
+  import IconChevronRight from '@tabler/icons-svelte-runes/icons/chevron-right'
+  import IconDatabase from '@tabler/icons-svelte-runes/icons/database'
+  import IconDeviceMobile from '@tabler/icons-svelte-runes/icons/device-mobile'
+  import IconMapPin from '@tabler/icons-svelte-runes/icons/map-pin'
+  import IconServer from '@tabler/icons-svelte-runes/icons/server'
 
   import OnACard from '../../../../../stories/on-a-card.svelte'
   import StoryAxis from '../../../../../stories/story-axis.svelte'
@@ -74,21 +74,21 @@
     <OnACard>
       <ItemGroup class="w-[28rem]">
         <Item {...args}>
-          <ItemMedia variant="icon"><ServerIcon /></ItemMedia>
+          <ItemMedia variant="icon"><IconServer /></ItemMedia>
           <ItemContent>
             <ItemTitle>Environment ready</ItemTitle>
             <ItemDescription>A new location's environment finished provisioning.</ItemDescription>
           </ItemContent>
-          <ItemActions><ChevronRightIcon class="text-muted-foreground size-4" /></ItemActions>
+          <ItemActions><IconChevronRight class="text-muted-foreground size-4" /></ItemActions>
         </Item>
         <ItemSeparator />
         <Item {...args}>
-          <ItemMedia variant="icon"><DatabaseIcon /></ItemMedia>
+          <ItemMedia variant="icon"><IconDatabase /></ItemMedia>
           <ItemContent>
             <ItemTitle>Setup complete</ItemTitle>
             <ItemDescription>North depot has finished setup and is now active.</ItemDescription>
           </ItemContent>
-          <ItemActions><ChevronRightIcon class="text-muted-foreground size-4" /></ItemActions>
+          <ItemActions><IconChevronRight class="text-muted-foreground size-4" /></ItemActions>
         </Item>
       </ItemGroup>
     </OnACard>
@@ -105,7 +105,7 @@
     <StoryAxis values={['md', 'sm', 'flush'] as const} orientation="vertical">
       {#snippet item(size)}
         <Item {size} variant="outline" class="w-96">
-          <ItemMedia variant="icon"><ServerIcon /></ItemMedia>
+          <ItemMedia variant="icon"><IconServer /></ItemMedia>
           <ItemContent>
             <ItemTitle>Outpost server</ItemTitle>
             <ItemDescription>Reporting normally.</ItemDescription>
@@ -125,7 +125,7 @@
   <OnACard>
     <ItemGroup class="w-96">
       <Item size="sm">
-        <ItemMedia variant="icon"><SmartphoneIcon /></ItemMedia>
+        <ItemMedia variant="icon"><IconDeviceMobile /></ItemMedia>
         <ItemContent>
           <ItemTitle>Register 1</ItemTitle>
           <ItemDescription>Synced 2 minutes ago</ItemDescription>
@@ -133,7 +133,7 @@
       </Item>
       <ItemSeparator />
       <Item size="sm">
-        <ItemMedia variant="icon" tone="warning"><TriangleAlertIcon /></ItemMedia>
+        <ItemMedia variant="icon" tone="warning"><IconAlertTriangle /></ItemMedia>
         <ItemContent>
           <ItemTitle>Register 2</ItemTitle>
           <ItemDescription>Not seen for 3 days</ItemDescription>
@@ -155,7 +155,7 @@
         <ItemSeparator />
       {/if}
       <Item size="sm">
-        <ItemMedia variant="icon"><DatabaseIcon /></ItemMedia>
+        <ItemMedia variant="icon"><IconDatabase /></ItemMedia>
         <ItemContent>
           <ItemTitle>{name}</ItemTitle>
           <ItemDescription>398 / 500 units</ItemDescription>
@@ -233,7 +233,7 @@
     <CardHeader><CardTitle>Addresses</CardTitle></CardHeader>
     <CardContent>
       <Item size="flush">
-        <ItemMedia variant="icon" size="md"><MapPinIcon /></ItemMedia>
+        <ItemMedia variant="icon" size="md"><IconMapPin /></ItemMedia>
         <ItemContent>
           <ItemTitle>Head office <Badge>Primary</Badge></ItemTitle>
           <ItemDescription class="line-clamp-none">
@@ -258,7 +258,7 @@
       <ItemGroup class="gap-2">
         {#each CRASHES as group (group.name)}
           <Item variant="outline" size="sm">
-            <ItemMedia variant="icon"><DatabaseIcon /></ItemMedia>
+            <ItemMedia variant="icon"><IconDatabase /></ItemMedia>
             <ItemContent>
               <ItemTitle>{group.name}</ItemTitle>
               <ItemDescription>{group.detail} · {group.message}</ItemDescription>
@@ -289,18 +289,18 @@
   <OnACard>
     <ItemGroup class="w-96">
       <Item size="sm" href="#device">
-        <ItemMedia variant="icon"><SmartphoneIcon /></ItemMedia>
+        <ItemMedia variant="icon"><IconDeviceMobile /></ItemMedia>
         <ItemContent>
           <ItemTitle>Register 1</ItemTitle>
           <ItemDescription>Opens the device's page: a link, because it navigates.</ItemDescription>
         </ItemContent>
-        <ItemActions><ChevronRightIcon class="text-muted-foreground size-4" /></ItemActions>
+        <ItemActions><IconChevronRight class="text-muted-foreground size-4" /></ItemActions>
       </Item>
       <ItemSeparator />
       <Item size="sm">
         {#snippet child({ props })}
           <button type="button" {...props}>
-            <ItemMedia variant="icon"><ServerIcon /></ItemMedia>
+            <ItemMedia variant="icon"><IconServer /></ItemMedia>
             <ItemContent>
               <ItemTitle>Outpost server</ItemTitle>
               <ItemDescription

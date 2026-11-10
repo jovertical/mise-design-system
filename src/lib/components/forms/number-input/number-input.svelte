@@ -70,8 +70,8 @@
 </script>
 
 <script lang="ts">
-  import MinusIcon from '@lucide/svelte/icons/minus'
-  import PlusIcon from '@lucide/svelte/icons/plus'
+  import IconMinus from '@tabler/icons-svelte-runes/icons/minus'
+  import IconPlus from '@tabler/icons-svelte-runes/icons/plus'
 
   import { cn } from '../../../utils/cn.js'
   import InputGroup from '../input-group/input-group.svelte'
@@ -133,7 +133,7 @@
         disabled={disabled || isAtMin}
         onclick={() => pressStep(-1)}
       >
-        <MinusIcon />
+        <IconMinus />
       </InputGroupButton>
     </InputGroupAddon>
   {/if}
@@ -171,7 +171,7 @@
         disabled={disabled || isAtMax}
         onclick={() => pressStep(1)}
       >
-        <PlusIcon />
+        <IconPlus />
       </InputGroupButton>
     </InputGroupAddon>
   {/if}

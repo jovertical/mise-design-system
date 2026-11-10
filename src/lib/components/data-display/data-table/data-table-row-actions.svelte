@@ -1,7 +1,6 @@
 <!--
   Origin: the React package 2.23.0 `data-table-row-actions.tsx`
-  Diverged: Lucide's ellipsis for Tabler's dots. Takes `class`, as every
-    component does.
+  Diverged: takes `class`, as every component does.
 -->
 <script lang="ts" module>
   import type { Snippet } from 'svelte'
@@ -33,7 +32,7 @@
 </script>
 
 <script lang="ts">
-  import EllipsisIcon from '@lucide/svelte/icons/ellipsis'
+  import IconDots from '@tabler/icons-svelte-runes/icons/dots'
 
   import { cn } from '../../../utils/cn.js'
   import Button from '../../actions/button/button.svelte'
@@ -70,7 +69,7 @@
           class="rounded-full"
           {...props}
         >
-          <EllipsisIcon />
+          <IconDots />
         </Button>
       {/snippet}
     </DropdownMenuTrigger>

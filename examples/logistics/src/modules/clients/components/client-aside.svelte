@@ -1,7 +1,7 @@
 <!-- Beside the client form: who the client is so far, and what it still needs. -->
 <script lang="ts">
   import { AsideCard, Badge, FactList, FactListItem } from '@jovertical/mise-design-system'
-  import ReceiptText from '@lucide/svelte/icons/receipt-text'
+  import IconFileInvoice from '@tabler/icons-svelte-runes/icons/file-invoice'
   import { clientReadiness } from '#modules/clients/data/readiness.js'
   import type { ClientInput } from '#modules/clients/data/schema.js'
   import { CLIENT_STATUS } from '#modules/clients/utils/status.js'
@@ -22,7 +22,7 @@
 </script>
 
 {#snippet receipt()}
-  <ReceiptText />
+  <IconFileInvoice />
 {/snippet}
 {#snippet status()}
   <Badge tone={CLIENT_STATUS[values.status].tone}>{CLIENT_STATUS[values.status].label}</Badge>

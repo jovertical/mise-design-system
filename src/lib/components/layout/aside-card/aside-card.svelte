@@ -1,8 +1,8 @@
 <!--
   Origin: the React package 2.23.0 `aside-card.tsx`
   Diverged: `icon` is a snippet; `open` is bindable, React's `defaultOpen` its
-    initial value (round 8 plan, R8-9). Lucide's chevron-down. Spreads the rest
-    onto the card, as every component does.
+    initial value (round 8 plan, R8-9). Spreads the rest onto the card, as every
+    component does.
 -->
 <script lang="ts" module>
   import type { Snippet } from 'svelte'
@@ -26,7 +26,7 @@
 </script>
 
 <script lang="ts">
-  import ChevronDownIcon from '@lucide/svelte/icons/chevron-down'
+  import IconChevronDown from '@tabler/icons-svelte-runes/icons/chevron-down'
 
   import { cn } from '../../../utils/cn.js'
   import Button from '../../actions/button/button.svelte'
@@ -64,7 +64,7 @@
             class="size-7"
             aria-label={open ? `Collapse ${title}` : `Expand ${title}`}
           >
-            <ChevronDownIcon class={cn('size-4 transition-transform', open && 'rotate-180')} />
+            <IconChevronDown class={cn('size-4 transition-transform', open && 'rotate-180')} />
           </Button>
         {/snippet}
       </CollapsibleTrigger>

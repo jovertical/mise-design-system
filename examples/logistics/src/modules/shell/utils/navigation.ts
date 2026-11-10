@@ -1,16 +1,17 @@
 /**
- * The sidebar's groups and the breadcrumb's source: one list, so a screen is
- * added in one place. Icons are Lucide's canonical files, not aliases.
+ * The sidebar's sections and the breadcrumb's source: one list, so a screen is
+ * added in one place. Its shape is mise's `SidebarNavSection`, with routes the
+ * sidebar resolves.
  */
 
-import Boxes from '@lucide/svelte/icons/boxes'
-import LayoutDashboard from '@lucide/svelte/icons/layout-dashboard'
-import Package from '@lucide/svelte/icons/package'
-import Settings from '@lucide/svelte/icons/settings'
-import ShoppingCart from '@lucide/svelte/icons/shopping-cart'
-import Truck from '@lucide/svelte/icons/truck'
-import Users from '@lucide/svelte/icons/users'
-import Warehouse from '@lucide/svelte/icons/warehouse'
+import IconBuildingWarehouse from '@tabler/icons-svelte-runes/icons/building-warehouse'
+import IconLayoutDashboard from '@tabler/icons-svelte-runes/icons/layout-dashboard'
+import IconPackage from '@tabler/icons-svelte-runes/icons/package'
+import IconPackages from '@tabler/icons-svelte-runes/icons/packages'
+import IconSettings from '@tabler/icons-svelte-runes/icons/settings'
+import IconShoppingCart from '@tabler/icons-svelte-runes/icons/shopping-cart'
+import IconTruck from '@tabler/icons-svelte-runes/icons/truck'
+import IconUsers from '@tabler/icons-svelte-runes/icons/users'
 import type { Component } from 'svelte'
 import type { RouteId } from '$app/types'
 
@@ -22,28 +23,25 @@ export type NavGroup = { label: string; items: NavItem[] }
 
 export const NAVIGATION: NavGroup[] = [
   {
-    label: 'Overview',
-    items: [{ label: 'Operations overview', href: '/', icon: LayoutDashboard }],
-  },
-  {
-    label: 'Orders',
+    label: 'Operations',
     items: [
-      { label: 'Orders', href: '/orders', icon: ShoppingCart },
-      { label: 'Shipments', href: '/shipments', icon: Package },
+      { label: 'Overview', href: '/', icon: IconLayoutDashboard },
+      { label: 'Orders', href: '/orders', icon: IconShoppingCart },
+      { label: 'Shipments', href: '/shipments', icon: IconPackage },
+      { label: 'Fleet', href: '/fleet', icon: IconTruck },
     ],
   },
-  { label: 'Fleet', items: [{ label: 'Fleet', href: '/fleet', icon: Truck }] },
   {
     label: 'Inventory',
     items: [
-      { label: 'Products', href: '/products', icon: Boxes },
-      { label: 'Warehouses', href: '/warehouses', icon: Warehouse },
+      { label: 'Products', href: '/products', icon: IconPackages },
+      { label: 'Warehouses', href: '/warehouses', icon: IconBuildingWarehouse },
     ],
   },
-  { label: 'Partners', items: [{ label: 'Clients', href: '/clients', icon: Users }] },
+  { label: 'Partners', items: [{ label: 'Clients', href: '/clients', icon: IconUsers }] },
   {
     label: 'Settings',
-    items: [{ label: 'General', href: '/settings/general', icon: Settings }],
+    items: [{ label: 'General', href: '/settings/general', icon: IconSettings }],
   },
 ]
 

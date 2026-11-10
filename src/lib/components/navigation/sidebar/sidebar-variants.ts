@@ -2,7 +2,8 @@
  * Origin: the React package 2.23.0 `sidebar.tsx` (`sidebarMenuButtonVariants`), itself shadcn/ui new-york `sidebar`
  * Diverged: split out of the component file, as badge-variants.ts is. The
  *   `panel` theme drops `font-mono`, which only restated the React package's mono body
- *   face; everything else unchanged.
+ *   face, and its current row is the solid `sidebar-primary` pill the portals
+ *   draw, not React's tint and ring.
  */
 import { cva, type VariantProps } from 'class-variance-authority'
 
@@ -22,11 +23,11 @@ export const sidebarMenuButtonVariants = cva(
     'group-data-[sidetheme=primary]:data-[state=open]:data-[active=false]:!bg-white/20 group-data-[sidetheme=primary]:data-[state=open]:data-[active=false]:!text-white group-data-[sidetheme=primary]:data-[state=open]:data-[active=false]:!shadow-none',
     // sidetheme=light: foreground text, hover = black/5; active = primary-600 + white text; open-but-not-active = white/20
     'group-data-[sidetheme=light]:text-foreground group-data-[sidetheme=light]:hover:bg-black/5 group-data-[sidetheme=light]:active:bg-white/20 group-data-[sidetheme=light]:data-[active=true]:bg-primary-600 group-data-[sidetheme=light]:data-[active=true]:text-white group-data-[sidetheme=light]:data-[state=open]:bg-white/20 group-data-[sidetheme=light]:data-[active=true]:data-[state=open]:!bg-primary-600 group-data-[sidetheme=light]:focus-visible:ring-border',
-    // sidetheme=panel: muted resting text, accent-surface hover; active is a
-    // brand tint with a hairline ring so the row reads as selected without
-    // becoming a solid block. Open-but-inactive groups get the hover surface.
-    'group-data-[sidetheme=panel]:rounded-xl group-data-[sidetheme=panel]:h-8 group-data-[sidetheme=panel]:py-1.5 group-data-[sidetheme=panel]:px-2.5 group-data-[sidetheme=panel]:text-sm group-data-[sidetheme=panel]:text-sidebar-foreground/70 group-data-[sidetheme=panel]:hover:bg-sidebar-accent group-data-[sidetheme=panel]:hover:text-sidebar-foreground group-data-[sidetheme=panel]:focus-visible:ring-sidebar-ring',
-    'group-data-[sidetheme=panel]:data-[active=true]:bg-accent group-data-[sidetheme=panel]:data-[active=true]:text-accent-foreground group-data-[sidetheme=panel]:data-[active=true]:ring-1 group-data-[sidetheme=panel]:data-[active=true]:ring-primary/20 group-data-[sidetheme=panel]:data-[active=true]:shadow-none',
+    // sidetheme=panel, as the portals draw it: muted resting text, an accent
+    // hover, and the current page as a solid pill. An open group that is not
+    // the current page keeps the hover surface; the pill belongs to its child.
+    'group-data-[sidetheme=panel]:rounded-xl group-data-[sidetheme=panel]:h-8 group-data-[sidetheme=panel]:py-1.5 group-data-[sidetheme=panel]:px-2.5 group-data-[sidetheme=panel]:text-sm group-data-[sidetheme=panel]:text-sidebar-foreground/70 group-data-[sidetheme=panel]:hover:bg-sidebar-accent group-data-[sidetheme=panel]:hover:text-sidebar-foreground group-data-[sidetheme=panel]:focus-visible:ring-sidebar-ring group-data-[sidetheme=panel]:[&>svg]:size-[1.125rem]',
+    'group-data-[sidetheme=panel]:data-[active=true]:bg-sidebar-primary group-data-[sidetheme=panel]:data-[active=true]:text-sidebar-primary-foreground group-data-[sidetheme=panel]:data-[active=true]:shadow-none',
     'group-data-[sidetheme=panel]:data-[state=open]:data-[active=false]:bg-sidebar-accent group-data-[sidetheme=panel]:data-[state=open]:data-[active=false]:text-sidebar-foreground',
   ],
   {

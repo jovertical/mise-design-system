@@ -20,12 +20,12 @@
     TableHeader,
     TableRow,
   } from '@jovertical/mise-design-system'
-  import Briefcase from '@lucide/svelte/icons/briefcase'
-  import Mail from '@lucide/svelte/icons/mail'
-  import MapPin from '@lucide/svelte/icons/map-pin'
-  import Pencil from '@lucide/svelte/icons/pencil'
-  import User from '@lucide/svelte/icons/user'
-  import UserCog from '@lucide/svelte/icons/user-cog'
+  import IconBriefcase from '@tabler/icons-svelte-runes/icons/briefcase'
+  import IconMail from '@tabler/icons-svelte-runes/icons/mail'
+  import IconMapPin from '@tabler/icons-svelte-runes/icons/map-pin'
+  import IconPencil from '@tabler/icons-svelte-runes/icons/pencil'
+  import IconUser from '@tabler/icons-svelte-runes/icons/user'
+  import IconUserCog from '@tabler/icons-svelte-runes/icons/user-cog'
   import { clientOrders, getClient, openOrderValue } from '#modules/clients/data/index.js'
   import { CLIENT_STATUS } from '#modules/clients/utils/status.js'
   import { store } from '#modules/core/data/store.svelte.js'
@@ -45,19 +45,19 @@
   <Button href={resolve('/clients')}>Back to clients</Button>
 {/snippet}
 {#snippet userIcon()}
-  <User />
+  <IconUser />
 {/snippet}
 {#snippet mailIcon()}
-  <Mail />
+  <IconMail />
 {/snippet}
 {#snippet pinIcon()}
-  <MapPin />
+  <IconMapPin />
 {/snippet}
 {#snippet industryIcon()}
-  <Briefcase />
+  <IconBriefcase />
 {/snippet}
 {#snippet managerIcon()}
-  <UserCog />
+  <IconUserCog />
 {/snippet}
 
 {#if !client}
@@ -75,7 +75,7 @@
   {/snippet}
   {#snippet actions()}
     <Button variant="outline" href={resolve('/clients/[id]/edit', { id: client.id })}>
-      <Pencil />Edit
+      <IconPencil />Edit
     </Button>
   {/snippet}
   <PageLayout>

@@ -1,7 +1,7 @@
 <script module lang="ts">
-  import SearchIcon from '@lucide/svelte/icons/search'
-  import XIcon from '@lucide/svelte/icons/x'
   import { defineMeta } from '@storybook/addon-svelte-csf'
+  import IconSearch from '@tabler/icons-svelte-runes/icons/search'
+  import IconX from '@tabler/icons-svelte-runes/icons/x'
 
   import InputGroup from './input-group.svelte'
   import InputGroupAddon from './input-group-addon.svelte'
@@ -20,11 +20,11 @@
 <Story name="Playground">
   {#snippet template(args)}
     <InputGroup class="max-w-xs" {...args}>
-      <InputGroupAddon><SearchIcon class="size-4" /></InputGroupAddon>
+      <InputGroupAddon><IconSearch class="size-4" /></InputGroupAddon>
       <InputGroupInput placeholder="Search stock…" aria-label="Search stock" />
       <InputGroupAddon align="inline-end">
         <InputGroupButton size="icon-xs" aria-label="Clear"
-          ><XIcon class="size-3.5" /></InputGroupButton
+          ><IconX class="size-3.5" /></InputGroupButton
         >
       </InputGroupAddon>
     </InputGroup>

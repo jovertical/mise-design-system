@@ -1,7 +1,7 @@
 <script module lang="ts">
-  import LayoutGridIcon from '@lucide/svelte/icons/layout-grid'
-  import WarehouseIcon from '@lucide/svelte/icons/warehouse'
   import { defineMeta } from '@storybook/addon-svelte-csf'
+  import IconBuildingWarehouse from '@tabler/icons-svelte-runes/icons/building-warehouse'
+  import IconLayoutGrid from '@tabler/icons-svelte-runes/icons/layout-grid'
 
   import Button from '../../actions/button/button.svelte'
   import Card from '../../layout/card/card.svelte'
@@ -81,10 +81,10 @@
 </script>
 
 {#snippet warehouse()}
-  <WarehouseIcon />
+  <IconBuildingWarehouse />
 {/snippet}
 {#snippet category()}
-  <LayoutGridIcon />
+  <IconLayoutGrid />
 {/snippet}
 
 <!-- A subject, three labelled figures, and a bar under the whole row. -->

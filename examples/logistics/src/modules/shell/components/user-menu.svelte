@@ -13,8 +13,8 @@
     DropdownMenuSeparator,
     DropdownMenuTrigger,
   } from '@jovertical/mise-design-system'
-  import Info from '@lucide/svelte/icons/info'
-  import RotateCcw from '@lucide/svelte/icons/rotate-ccw'
+  import IconInfoCircle from '@tabler/icons-svelte-runes/icons/info-circle'
+  import IconRotate from '@tabler/icons-svelte-runes/icons/rotate'
 
   let { onReset }: { onReset?: () => void } = $props()
 </script>
@@ -32,11 +32,11 @@
       <span class="text-muted-foreground text-xs font-normal">Riverside DC</span>
     </DropdownMenuLabel>
     <DropdownMenuSeparator />
-    <DropdownMenuItem onSelect={() => onReset?.()}><RotateCcw />Reset demo data</DropdownMenuItem>
+    <DropdownMenuItem onSelect={() => onReset?.()}><IconRotate />Reset demo data</DropdownMenuItem>
     <DropdownMenuItem>
       {#snippet child({ props })}
         <a href="https://github.com/jovertical/mise-design-system" {...props}
-          ><Info />About this demo</a
+          ><IconInfoCircle />About this demo</a
         >
       {/snippet}
     </DropdownMenuItem>

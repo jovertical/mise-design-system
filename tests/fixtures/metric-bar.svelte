@@ -1,5 +1,5 @@
 <script lang="ts">
-  import StoreIcon from '@lucide/svelte/icons/store'
+  import IconBuildingStore from '@tabler/icons-svelte-runes/icons/building-store'
 
   import { MetricBar, type Tone } from '../../src/lib/index.js'
 
@@ -12,7 +12,7 @@
 </script>
 
 {#snippet icon()}
-  <StoreIcon />
+  <IconBuildingStore />
 {/snippet}
 
 <MetricBar

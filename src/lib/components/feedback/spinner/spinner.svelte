@@ -1,13 +1,14 @@
 <!--
   Origin: the React package 2.23.0 `spinner.tsx`, itself shadcn/ui new-york `spinner`
   Svelte: shadcn-svelte `spinner`
-  Diverged: takes an optional caption as children, absorbing React's `LoadingStatus`
-    (`loading-status.tsx`). Captioned, it renders a `<span>` rather than LoadingStatus's
-    `<p>`, so it can sit inside a button or a line of text. Otherwise unaudited, as in
-    the React package.
+  Diverged: takes an optional caption as children, absorbing React's
+    `LoadingStatus` (`loading-status.tsx`). Captioned, it renders a `<span>`
+    rather than LoadingStatus's `<p>`, so it can sit inside a button or a line
+    of text. Tabler's loader-2 for Lucide's, so it takes Tabler's icon props.
+    Otherwise unaudited, as in the React package.
 -->
 <script lang="ts" module>
-  import LoaderCircleIcon from '@lucide/svelte/icons/loader-circle'
+  import IconLoader2 from '@tabler/icons-svelte-runes/icons/loader-2'
   import type { ComponentProps, Snippet } from 'svelte'
 
   /**
@@ -18,7 +19,7 @@
    * nothing the spinner does not. Captioned, the status announces the caption
    * and the icon is hidden from assistive technology.
    */
-  export type SpinnerProps = ComponentProps<typeof LoaderCircleIcon> & {
+  export type SpinnerProps = ComponentProps<typeof IconLoader2> & {
     /** A short sentence naming what is being waited on. */
     children?: Snippet
   }
@@ -36,11 +37,11 @@
     data-slot="spinner"
     class="text-muted-foreground inline-flex items-center gap-2 text-sm"
   >
-    <LoaderCircleIcon aria-hidden="true" class={cn('size-4 animate-spin', className)} {...rest} />
+    <IconLoader2 aria-hidden="true" class={cn('size-4 animate-spin', className)} {...rest} />
     <span>{@render children()}</span>
   </span>
 {:else}
-  <LoaderCircleIcon
+  <IconLoader2
     role="status"
     aria-label="Loading"
     data-slot="spinner"

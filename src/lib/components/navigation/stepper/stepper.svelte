@@ -1,17 +1,16 @@
 <!--
   Origin: the React package 2.23.0 `stepper.tsx` (`Stepper`)
   Diverged: React's `orientation` is `variant`, since only two of its four
-    values are orientations (round 7 plan, R7-5). A step's `icon` is a
-    component (a Lucide icon) rather than a node, so a steps array can live in a
-    script; its `badge` is a snippet. `tourTarget` is dropped. The vertical rail
-    honours `onStepSelect`, which React's ignored (its Selectable story, on the
-    rail, could not be clicked), and marks the current step `aria-current`, as
-    the other variants do. A step not yet reached, and compact's track, are
+    values are orientations (round 7 plan, R7-5). A step's `icon` is a component
+    (a Tabler icon) rather than a node, so a steps array can live in a script;
+    its `badge` is a snippet. `tourTarget` is dropped. The vertical rail honours
+    `onStepSelect`, which React's ignored (its Selectable story, on the rail,
+    could not be clicked), and marks the current step `aria-current`, as the
+    other variants do. A step not yet reached, and compact's track, are
     `bg-foreground/[0.07]` rather than React's `bg-muted`, which vanished on the
-    muted canvas a stepper sits on above a step body; a foreground wash reads
-    on the page and on a card alike, as Skeleton's does. Lucide's check and
-    chevron-right. Each variant is its own part (`stepper-compact.svelte` and
-    its siblings), picked here.
+    muted canvas a stepper sits on above a step body; a foreground wash reads on
+    the page and on a card alike, as Skeleton's does. Each variant is its own
+    part (`stepper-compact.svelte` and its siblings), picked here.
 -->
 <script lang="ts" module>
   import type { Component, Snippet } from 'svelte'

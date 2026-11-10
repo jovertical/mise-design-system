@@ -23,9 +23,9 @@
     FormFieldErrors,
     FormLabel,
   } from '@jovertical/mise-design-system/form'
-  import MapPin from '@lucide/svelte/icons/map-pin'
-  import Truck from '@lucide/svelte/icons/truck'
-  import Wrench from '@lucide/svelte/icons/wrench'
+  import IconMapPin from '@tabler/icons-svelte-runes/icons/map-pin'
+  import IconTool from '@tabler/icons-svelte-runes/icons/tool'
+  import IconTruck from '@tabler/icons-svelte-runes/icons/truck'
   import { untrack } from 'svelte'
 
   import FormPage, { type FormPageText } from '#modules/core/components/form-page.svelte'
@@ -125,7 +125,11 @@
   <form method="POST" id="vehicle-form" use:enhance>
     <Card>
       <CardContent class="flex flex-col gap-6">
-        <FormSection icon={Truck} title="Vehicle" hint="How the fleet knows it, and what it is.">
+        <FormSection
+          icon={IconTruck}
+          title="Vehicle"
+          hint="How the fleet knows it, and what it is."
+        >
           <div class="grid gap-4 sm:grid-cols-3">
             <FormField {form} name="code">
               <FormControl>
@@ -157,7 +161,7 @@
         <Separator />
 
         <FormSection
-          icon={MapPin}
+          icon={IconMapPin}
           title="Assignment"
           hint="Where it is based and who drives it. A driver moves off any other vehicle."
         >
@@ -189,7 +193,11 @@
 
         <Separator />
 
-        <FormSection icon={Wrench} title="Service" hint="Its mileage, and when it is next due in.">
+        <FormSection
+          icon={IconTool}
+          title="Service"
+          hint="Its mileage, and when it is next due in."
+        >
           <div class="grid gap-4 sm:grid-cols-3">
             <FormField {form} name="mileageKm">
               <FormControl>

@@ -38,13 +38,13 @@
     TimelineTitle,
     toast,
   } from '@jovertical/mise-design-system'
-  import Ban from '@lucide/svelte/icons/ban'
-  import CircleCheck from '@lucide/svelte/icons/circle-check'
-  import FilePlus from '@lucide/svelte/icons/file-plus'
-  import PackageCheck from '@lucide/svelte/icons/package-check'
-  import Pencil from '@lucide/svelte/icons/pencil'
-  import Printer from '@lucide/svelte/icons/printer'
-  import Truck from '@lucide/svelte/icons/truck'
+  import IconBan from '@tabler/icons-svelte-runes/icons/ban'
+  import IconCircleCheck from '@tabler/icons-svelte-runes/icons/circle-check'
+  import IconFilePlus from '@tabler/icons-svelte-runes/icons/file-plus'
+  import IconPackageImport from '@tabler/icons-svelte-runes/icons/package-import'
+  import IconPencil from '@tabler/icons-svelte-runes/icons/pencil'
+  import IconPrinter from '@tabler/icons-svelte-runes/icons/printer'
+  import IconTruck from '@tabler/icons-svelte-runes/icons/truck'
   import type { Component } from 'svelte'
   import { clientOf, locationName } from '#modules/core/data/lookups.js'
   import { store } from '#modules/core/data/store.svelte.js'
@@ -58,11 +58,11 @@
   import { page } from '$app/state'
 
   const EVENT_ICON: Record<OrderStatus, Component> = {
-    received: FilePlus,
-    ready: PackageCheck,
-    'in-fulfilment': Truck,
-    completed: CircleCheck,
-    cancelled: Ban,
+    received: IconFilePlus,
+    ready: IconPackageImport,
+    'in-fulfilment': IconTruck,
+    completed: IconCircleCheck,
+    cancelled: IconBan,
   }
 
   const order = $derived(getOrder(store, page.params.id ?? ''))
@@ -100,10 +100,10 @@
     <Badge tone={ORDER_STATUS[order.status].tone}>{ORDER_STATUS[order.status].label}</Badge>
   {/snippet}
   {#snippet actions()}
-    <Button variant="outline" onclick={() => window.print()}><Printer />Print</Button>
+    <Button variant="outline" onclick={() => window.print()}><IconPrinter />Print</Button>
     {#if isOrderEditable(order)}
       <Button variant="outline" href={resolve('/orders/[id]/edit', { id: order.number })}>
-        <Pencil />Edit
+        <IconPencil />Edit
       </Button>
     {/if}
     <Button
@@ -116,7 +116,7 @@
     </Button>
   {/snippet}
   {#snippet truckIcon()}
-    <Truck />
+    <IconTruck />
   {/snippet}
 
   <PageLayout>

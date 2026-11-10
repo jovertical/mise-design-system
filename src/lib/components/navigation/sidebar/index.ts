@@ -45,6 +45,19 @@ export {
   default as SidebarMenuSubItem,
   type SidebarMenuSubItemProps,
 } from './sidebar-menu-sub-item.svelte'
+export {
+  activeHref,
+  type SidebarNavGroup,
+  type SidebarNavItem,
+  type SidebarNavLink,
+  type SidebarNavSection,
+  type SidebarNavSubLink,
+} from './sidebar-nav.js'
+export {
+  default as SidebarNav,
+  type SidebarNavLinkSnippetProps,
+  type SidebarNavProps,
+} from './sidebar-nav.svelte'
 export { default as SidebarProvider, type SidebarProviderProps } from './sidebar-provider.svelte'
 export { default as SidebarRail, type SidebarRailProps } from './sidebar-rail.svelte'
 export { default as SidebarSeparator, type SidebarSeparatorProps } from './sidebar-separator.svelte'

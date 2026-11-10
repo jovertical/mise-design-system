@@ -2,7 +2,8 @@
   Origin: the React package 2.23.0 `sidebar.tsx` (`SidebarMenuSubButton`), itself shadcn/ui new-york `sidebar`
   Svelte: shadcn-svelte `sidebar`
   Diverged: React's `asChild` becomes a `child` snippet that receives the
-    part's props, as in BreadcrumbLink.
+    part's props, as in BreadcrumbLink. On `panel`, a sub-row is a full
+    32px rounded row inset from the rail, as the portals draw it.
 -->
 <script lang="ts" module>
   import type { Snippet } from 'svelte'
@@ -46,7 +47,7 @@
       'group-data-[sidetheme=primary]:data-[active=true]:bg-white group-data-[sidetheme=primary]:data-[active=true]:text-black group-data-[sidetheme=primary]:data-[active=true]:font-medium group-data-[sidetheme=primary]:data-[active=true]:shadow-sm',
       'group-data-[sidetheme=light]:text-muted-foreground group-data-[sidetheme=light]:hover:bg-black/5 group-data-[sidetheme=light]:hover:text-foreground',
       'group-data-[sidetheme=light]:data-[active=true]:bg-primary-600 group-data-[sidetheme=light]:data-[active=true]:text-white group-data-[sidetheme=light]:data-[active=true]:font-medium',
-      'group-data-[sidetheme=panel]:rounded-xl group-data-[sidetheme=panel]:text-muted-foreground group-data-[sidetheme=panel]:hover:bg-sidebar-accent group-data-[sidetheme=panel]:hover:text-sidebar-foreground',
+      'group-data-[sidetheme=panel]:mx-2 group-data-[sidetheme=panel]:h-8 group-data-[sidetheme=panel]:translate-x-0 group-data-[sidetheme=panel]:px-2.5 group-data-[sidetheme=panel]:py-2 group-data-[sidetheme=panel]:rounded-xl group-data-[sidetheme=panel]:text-muted-foreground group-data-[sidetheme=panel]:hover:bg-sidebar-accent group-data-[sidetheme=panel]:hover:text-sidebar-foreground',
       'group-data-[sidetheme=panel]:data-[active=true]:bg-sidebar-primary group-data-[sidetheme=panel]:data-[active=true]:text-sidebar-primary-foreground group-data-[sidetheme=panel]:data-[active=true]:font-medium',
       size === 'sm' && 'text-xs',
       size === 'md' && 'text-sm',

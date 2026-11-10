@@ -28,9 +28,9 @@
     FormFieldErrors,
     FormLabel,
   } from '@jovertical/mise-design-system/form'
-  import Flag from '@lucide/svelte/icons/flag'
-  import MapPin from '@lucide/svelte/icons/map-pin'
-  import Route from '@lucide/svelte/icons/route'
+  import IconFlag from '@tabler/icons-svelte-runes/icons/flag'
+  import IconMapPin from '@tabler/icons-svelte-runes/icons/map-pin'
+  import IconRoute from '@tabler/icons-svelte-runes/icons/route'
   import { untrack } from 'svelte'
 
   import FormPage, { type FormPageText } from '#modules/core/components/form-page.svelte'
@@ -152,7 +152,7 @@
   <form method="POST" id="shipment-form" use:enhance>
     <Card>
       <CardContent class="flex flex-col gap-6">
-        <FormSection icon={Route} title="Run" hint="Where it leaves from, and who takes it.">
+        <FormSection icon={IconRoute} title="Run" hint="Where it leaves from, and who takes it.">
           <div class="grid gap-4 sm:grid-cols-3">
             {@render choice('originId', 'Origin', origins, chooseOrigin, 'Choose a site…')}
             {@render choice(
@@ -179,7 +179,7 @@
         <Separator />
 
         <FormSection
-          icon={Flag}
+          icon={IconFlag}
           title="Stops"
           hint="One per order, in the order ticked, from 09:00 tomorrow and 45 minutes apart."
         >
@@ -189,7 +189,7 @@
             <Timeline>
               {#each stops as stop, index (index)}
                 <TimelineItem>
-                  <TimelineDot tone="primary"><MapPin /></TimelineDot>
+                  <TimelineDot tone="primary"><IconMapPin /></TimelineDot>
                   {#if index < stops.length - 1}
                     <TimelineConnector />
                   {/if}

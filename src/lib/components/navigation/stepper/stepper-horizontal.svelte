@@ -4,7 +4,7 @@
     the size the clean-code guide allows. Not exported.
 -->
 <script lang="ts">
-  import ChevronRightIcon from '@lucide/svelte/icons/chevron-right'
+  import IconChevronRight from '@tabler/icons-svelte-runes/icons/chevron-right'
 
   import { cn } from '../../../utils/cn.js'
   import type { StepperLayoutProps } from './stepper.svelte'
@@ -35,7 +35,7 @@
         <!-- Its own li, so it drops out where the row stacks and an arrow
              pointing right would point at nothing. -->
         <li aria-hidden="true" class="mt-2.5 self-start max-md:hidden">
-          <ChevronRightIcon class="text-muted-foreground size-4" />
+          <IconChevronRight class="text-muted-foreground size-4" />
         </li>
       {/if}
       <li class="flex shrink-0 items-start gap-4">

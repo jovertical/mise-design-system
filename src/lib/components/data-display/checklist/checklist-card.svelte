@@ -2,8 +2,8 @@
   Origin: the React package 2.23.0 `checklist-card.tsx`
   Diverged: one of the checklist family (round 8 plan, R8-4), its rows drawn by
     the family's shared row heading. `action`, `footer`, `collapsedControl` and
-    each item's `action` are snippets. Lucide's list-checks. Spreads the rest
-    onto the card, as every component does.
+    each item's `action` are snippets. Spreads the rest onto the card, as every
+    component does.
 -->
 <script lang="ts" module>
   import type { Snippet } from 'svelte'
@@ -55,7 +55,7 @@
 </script>
 
 <script lang="ts">
-  import ListChecksIcon from '@lucide/svelte/icons/list-checks'
+  import IconChecklist from '@tabler/icons-svelte-runes/icons/checklist'
 
   import { cn } from '../../../utils/cn.js'
   import Card from '../../layout/card/card.svelte'
@@ -103,7 +103,7 @@
         aria-label={ringLabel}
         class="bg-primary text-primary-foreground flex size-10 items-center justify-center rounded-md"
       >
-        <ListChecksIcon aria-hidden="true" class="size-6" />
+        <IconChecklist aria-hidden="true" class="size-6" />
       </div>
     {/if}
   </div>

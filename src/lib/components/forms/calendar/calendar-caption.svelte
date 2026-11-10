@@ -4,7 +4,8 @@
   Diverged: the caption as its own part, drawn for Calendar and RangeCalendar
     alike from whichever bits-ui primitive renders it. Not exported. The
     dropdowns are bits-ui's MonthSelect and YearSelect behind React's invisible
-    native select, as react-day-picker drew them. Lucide's chevron-down.
+    native select, as react-day-picker drew them. Tabler's chevron-down for
+    Lucide's.
 -->
 <script lang="ts" module>
   import type { DateValue } from '@internationalized/date'
@@ -29,7 +30,7 @@
 
 <script lang="ts">
   import { DateFormatter, getLocalTimeZone } from '@internationalized/date'
-  import ChevronDownIcon from '@lucide/svelte/icons/chevron-down'
+  import IconChevronDown from '@tabler/icons-svelte-runes/icons/chevron-down'
 
   import { CALENDAR_CLASS } from './calendar-classes.js'
 
@@ -74,7 +75,7 @@
             </select>
             <span class={CALENDAR_CLASS.dropdownLabel} aria-hidden="true">
               {format(month, { month: 'short' })}
-              <ChevronDownIcon />
+              <IconChevronDown />
             </span>
           {/snippet}
         </primitive.MonthSelect>
@@ -93,7 +94,7 @@
             </select>
             <span class={CALENDAR_CLASS.dropdownLabel} aria-hidden="true">
               {month.year}
-              <ChevronDownIcon />
+              <IconChevronDown />
             </span>
           {/snippet}
         </primitive.YearSelect>

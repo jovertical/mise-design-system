@@ -1,9 +1,9 @@
 <!--
   Origin: the React package 2.23.0 `combobox.tsx` (`ComboboxInput`)
-  Diverged: Lucide's chevron-down and x for Tabler's. The clear button is
-    drawn here from the root's context rather than as Base UI's `Clear`; like
-    it, it shows only while there is a value, and it empties the typed text
-    too, through an `input` event the caller's filter hears.
+  Diverged: the clear button is drawn here from the root's context rather than
+    as Base UI's `Clear`; like it, it shows only while there is a value, and it
+    empties the typed text too, through an `input` event the caller's filter
+    hears.
 -->
 <script lang="ts" module>
   import { Combobox as ComboboxPrimitive } from 'bits-ui'
@@ -24,8 +24,8 @@
 </script>
 
 <script lang="ts">
-  import ChevronDownIcon from '@lucide/svelte/icons/chevron-down'
-  import XIcon from '@lucide/svelte/icons/x'
+  import IconChevronDown from '@tabler/icons-svelte-runes/icons/chevron-down'
+  import IconX from '@tabler/icons-svelte-runes/icons/x'
 
   import { cn } from '../../../utils/cn.js'
   import InputGroup from '../input-group/input-group.svelte'
@@ -77,7 +77,7 @@
             class="group-has-data-[slot=combobox-clear]/input-group:hidden data-pressed:bg-transparent [&_svg:not([class*='size-'])]:size-4"
             {disabled}
           >
-            <ChevronDownIcon
+            <IconChevronDown
               data-slot="combobox-trigger-icon"
               class="text-muted-foreground pointer-events-none size-4"
             />
@@ -94,7 +94,7 @@
         {disabled}
         onclick={clear}
       >
-        <XIcon class="pointer-events-none" />
+        <IconX class="pointer-events-none" />
       </InputGroupButton>
     {/if}
   </InputGroupAddon>

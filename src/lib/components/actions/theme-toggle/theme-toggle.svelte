@@ -1,7 +1,6 @@
 <!--
   Origin: the React package 2.23.0 `theme-toggle.tsx`
-  Diverged: Lucide's sun and moon for Tabler's. Spreads the rest onto the
-    button, as every component does.
+  Diverged: spreads the rest onto the button, as every component does.
 -->
 <script lang="ts" module>
   import type { ButtonProps } from '../button/button.svelte'
@@ -18,8 +17,8 @@
 </script>
 
 <script lang="ts">
-  import MoonIcon from '@lucide/svelte/icons/moon'
-  import SunIcon from '@lucide/svelte/icons/sun'
+  import IconMoon from '@tabler/icons-svelte-runes/icons/moon'
+  import IconSun from '@tabler/icons-svelte-runes/icons/sun'
 
   import { cn } from '../../../utils/cn.js'
   import Button from '../button/button.svelte'
@@ -41,8 +40,8 @@
   {...rest}
 >
   {#if dark}
-    <SunIcon class="size-4" />
+    <IconSun class="size-4" />
   {:else}
-    <MoonIcon class="size-4" />
+    <IconMoon class="size-4" />
   {/if}
 </Button>

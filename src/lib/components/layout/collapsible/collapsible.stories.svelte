@@ -1,6 +1,6 @@
 <script module lang="ts">
-  import ChevronDownIcon from '@lucide/svelte/icons/chevron-down'
   import { defineMeta } from '@storybook/addon-svelte-csf'
+  import IconChevronDown from '@tabler/icons-svelte-runes/icons/chevron-down'
 
   import Button from '../../actions/button/button.svelte'
   import Collapsible from './collapsible.svelte'
@@ -27,7 +27,7 @@
         {#snippet child({ props })}
           <Button variant="outline" class="w-full justify-between" {...props}>
             Show details
-            <ChevronDownIcon class="size-4" />
+            <IconChevronDown class="size-4" />
           </Button>
         {/snippet}
       </CollapsibleTrigger>

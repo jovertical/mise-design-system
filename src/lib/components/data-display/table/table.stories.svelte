@@ -1,8 +1,8 @@
 <script module lang="ts">
-  import CoinsIcon from '@lucide/svelte/icons/coins'
-  import LayersIcon from '@lucide/svelte/icons/layers'
-  import ReceiptIcon from '@lucide/svelte/icons/receipt'
   import { defineMeta } from '@storybook/addon-svelte-csf'
+  import IconCoins from '@tabler/icons-svelte-runes/icons/coins'
+  import IconReceipt from '@tabler/icons-svelte-runes/icons/receipt'
+  import IconStack2 from '@tabler/icons-svelte-runes/icons/stack-2'
   import type { Component } from 'svelte'
 
   import StoryAxis from '../../../../../stories/story-axis.svelte'
@@ -101,9 +101,9 @@
   ]
 
   const summary: { icon: Component; label: string; value: string }[] = [
-    { icon: LayersIcon, label: 'Subtotal', value: '$52.98' },
-    { icon: ReceiptIcon, label: 'Tax', value: '$5.67' },
-    { icon: CoinsIcon, label: 'Total', value: '$58.65' },
+    { icon: IconStack2, label: 'Subtotal', value: '$52.98' },
+    { icon: IconReceipt, label: 'Tax', value: '$5.67' },
+    { icon: IconCoins, label: 'Total', value: '$58.65' },
   ]
 </script>
 

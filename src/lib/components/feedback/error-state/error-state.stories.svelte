@@ -1,7 +1,7 @@
 <script module lang="ts">
-  import CircleAlertIcon from '@lucide/svelte/icons/circle-alert'
-  import LockIcon from '@lucide/svelte/icons/lock'
   import { defineMeta } from '@storybook/addon-svelte-csf'
+  import IconAlertCircle from '@tabler/icons-svelte-runes/icons/alert-circle'
+  import IconLock from '@tabler/icons-svelte-runes/icons/lock'
 
   import Button from '../../actions/button/button.svelte'
   import ErrorState from './error-state.svelte'
@@ -29,10 +29,10 @@
   <Button variant="outline">Try again</Button>
 {/snippet}
 {#snippet lock()}
-  <LockIcon />
+  <IconLock />
 {/snippet}
 {#snippet alert()}
-  <CircleAlertIcon />
+  <IconAlertCircle />
 {/snippet}
 
 <!--

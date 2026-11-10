@@ -1,6 +1,6 @@
 <script module lang="ts">
-  import ClipboardCheckIcon from '@lucide/svelte/icons/clipboard-check'
   import { defineMeta } from '@storybook/addon-svelte-csf'
+  import IconClipboardCheck from '@tabler/icons-svelte-runes/icons/clipboard-check'
 
   import OnACard from '../../../../../stories/on-a-card.svelte'
   import StoryAxis from '../../../../../stories/story-axis.svelte'
@@ -43,7 +43,7 @@
 </script>
 
 {#snippet clipboard()}
-  <ClipboardCheckIcon />
+  <IconClipboardCheck />
 {/snippet}
 
 <!--

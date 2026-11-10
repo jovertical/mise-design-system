@@ -1,8 +1,8 @@
 <script module lang="ts">
-  import ArrowUpRightIcon from '@lucide/svelte/icons/arrow-up-right'
-  import StoreIcon from '@lucide/svelte/icons/store'
-  import WarehouseIcon from '@lucide/svelte/icons/warehouse'
   import { defineMeta } from '@storybook/addon-svelte-csf'
+  import IconArrowUpRight from '@tabler/icons-svelte-runes/icons/arrow-up-right'
+  import IconBuildingStore from '@tabler/icons-svelte-runes/icons/building-store'
+  import IconBuildingWarehouse from '@tabler/icons-svelte-runes/icons/building-warehouse'
   import StoryAxis from '../../../../../stories/story-axis.svelte'
   import Button from '../../actions/button/button.svelte'
   import FactList from '../../data-display/fact-list/fact-list.svelte'
@@ -29,7 +29,7 @@
 </script>
 
 {#snippet warehouse()}
-  <WarehouseIcon />
+  <IconBuildingWarehouse />
 {/snippet}
 
 <!--
@@ -223,7 +223,7 @@
     <CardFooter bleed divided>
       <Button variant="ghost" class="h-12 w-full justify-between rounded-none">
         View all stock items
-        <ArrowUpRightIcon class="size-4" />
+        <IconArrowUpRight class="size-4" />
       </Button>
     </CardFooter>
   </Card>
@@ -245,7 +245,7 @@
           { name: 'Harbour', where: 'Waterfront · 19 items', used: 321, cap: 500 },
         ] as row (row.name)}
           {#snippet icon()}
-            <StoreIcon />
+            <IconBuildingStore />
           {/snippet}
           <MetricBar
             {icon}

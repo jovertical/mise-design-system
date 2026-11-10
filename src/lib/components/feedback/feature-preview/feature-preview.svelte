@@ -3,8 +3,7 @@
   Diverged: generic, per the round 5 triage (round 8 plan, R8-8): the React
     comments and stories pitched a pricing tier; here it is a preview of
     anything not yet available to the reader. `preview` and the actions are
-    snippets. Lucide's lock. Spreads the rest onto the section, as every
-    component does.
+    snippets. Spreads the rest onto the section, as every component does.
 -->
 <script lang="ts" module>
   import type { Snippet } from 'svelte'
@@ -42,7 +41,7 @@
 </script>
 
 <script lang="ts">
-  import LockIcon from '@lucide/svelte/icons/lock'
+  import IconLock from '@tabler/icons-svelte-runes/icons/lock'
 
   import { cn } from '../../../utils/cn.js'
   import Card from '../../layout/card/card.svelte'
@@ -79,7 +78,7 @@
         <span
           class="bg-foreground/[0.07] text-muted-foreground flex size-10 items-center justify-center rounded-full"
         >
-          <LockIcon class="size-5" />
+          <IconLock class="size-5" />
         </span>
         <CardTitle>{title}</CardTitle>
         <CardDescription>{headline}</CardDescription>

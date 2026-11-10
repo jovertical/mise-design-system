@@ -28,8 +28,8 @@
     FormFieldErrors,
     FormLabel,
   } from '@jovertical/mise-design-system/form'
-  import Bell from '@lucide/svelte/icons/bell'
-  import Building from '@lucide/svelte/icons/building'
+  import IconBell from '@tabler/icons-svelte-runes/icons/bell'
+  import IconBuilding from '@tabler/icons-svelte-runes/icons/building'
   import { untrack } from 'svelte'
   import { defaults, superForm } from 'sveltekit-superforms'
   import { zod4 } from 'sveltekit-superforms/adapters'
@@ -103,10 +103,10 @@
 {/snippet}
 
 {#snippet building()}
-  <Building />
+  <IconBuilding />
 {/snippet}
 {#snippet bell()}
-  <Bell />
+  <IconBell />
 {/snippet}
 
 {#snippet actions()}

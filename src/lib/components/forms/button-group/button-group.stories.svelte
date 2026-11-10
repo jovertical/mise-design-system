@@ -1,7 +1,7 @@
 <script module lang="ts">
-  import MinusIcon from '@lucide/svelte/icons/minus'
-  import PlusIcon from '@lucide/svelte/icons/plus'
   import { defineMeta } from '@storybook/addon-svelte-csf'
+  import IconMinus from '@tabler/icons-svelte-runes/icons/minus'
+  import IconPlus from '@tabler/icons-svelte-runes/icons/plus'
 
   import StoryAxis from '../../../../../stories/story-axis.svelte'
   import Button from '../../actions/button/button.svelte'
@@ -54,9 +54,9 @@
 <!-- A stepper: two buttons and the input they act on, read as one control. -->
 <Story name="With input" asChild>
   <ButtonGroup>
-    <Button variant="outline" iconOnly aria-label="Decrease"><MinusIcon class="size-4" /></Button>
+    <Button variant="outline" iconOnly aria-label="Decrease"><IconMinus class="size-4" /></Button>
     <Input class="w-16 rounded-none text-center" value="4" />
-    <Button variant="outline" iconOnly aria-label="Increase"><PlusIcon class="size-4" /></Button>
+    <Button variant="outline" iconOnly aria-label="Increase"><IconPlus class="size-4" /></Button>
   </ButtonGroup>
 </Story>
 

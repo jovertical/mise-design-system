@@ -16,8 +16,8 @@
     PageHeader,
     PageLayout,
   } from '@jovertical/mise-design-system'
-  import Plus from '@lucide/svelte/icons/plus'
-  import Wrench from '@lucide/svelte/icons/wrench'
+  import IconPlus from '@tabler/icons-svelte-runes/icons/plus'
+  import IconTool from '@tabler/icons-svelte-runes/icons/tool'
   import { renderComponent, renderSnippet } from '@tanstack/svelte-table'
   import NoMatches from '#modules/core/components/no-matches.svelte'
   import { latency } from '#modules/core/data/latency.js'
@@ -108,13 +108,13 @@
     description="{vehicles.length} vehicles across {store.data.locations.length} sites."
   >
     {#snippet actions()}
-      <Button href={resolve('/fleet/new')}><Plus />New vehicle</Button>
+      <Button href={resolve('/fleet/new')}><IconPlus />New vehicle</Button>
     {/snippet}
   </PageHeader>
 
   {#if due.length}
     <Alert variant="warning">
-      <Wrench />
+      <IconTool />
       <AlertTitle>{due.length} vehicles due for service within a week</AlertTitle>
       <AlertDescription>{due.map((vehicle) => vehicle.code).join(', ')}</AlertDescription>
     </Alert>

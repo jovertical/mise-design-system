@@ -1,7 +1,7 @@
 <!-- Beside the site form: how full the site would be, and what it still needs. -->
 <script lang="ts">
   import { AsideCard, FactList, FactListItem, Progress, Text } from '@jovertical/mise-design-system'
-  import ReceiptText from '@lucide/svelte/icons/receipt-text'
+  import IconFileInvoice from '@tabler/icons-svelte-runes/icons/file-invoice'
 
   import ReadinessCard from '#modules/core/components/readiness-card.svelte'
   import { percent } from '#modules/core/data/shared.js'
@@ -25,7 +25,7 @@
 </script>
 
 {#snippet receipt()}
-  <ReceiptText />
+  <IconFileInvoice />
 {/snippet}
 
 <AsideCard icon={receipt} title="Summary">

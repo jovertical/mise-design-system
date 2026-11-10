@@ -1,10 +1,10 @@
 <!--
-  ⌘K / Ctrl K: one palette over orders, clients, products and the screens.
-  Command filters the items as you type; choosing one navigates.
+  ⌘K / Ctrl K, or the header's search field: one palette over orders,
+  clients, products and the screens. Command filters the items as you type;
+  choosing one navigates.
 -->
 <script lang="ts">
   import {
-    Button,
     CommandDialog,
     CommandEmpty,
     CommandGroup,
@@ -12,8 +12,8 @@
     CommandItem,
     CommandList,
     CommandSeparator,
+    CommandTrigger,
   } from '@jovertical/mise-design-system'
-  import Search from '@lucide/svelte/icons/search'
   import { clientOf } from '#modules/core/data/lookups.js'
   import { store } from '#modules/core/data/store.svelte.js'
   import { NAVIGATION } from '#modules/shell/utils/navigation.js'
@@ -22,14 +22,6 @@
 
   let open = $state(false)
 
-  function onkeydown(event: KeyboardEvent) {
-    if (event.key.toLowerCase() === 'k' && (event.metaKey || event.ctrlKey)) {
-      event.preventDefault()
-
-      open = !open
-    }
-  }
-
   function go(href: string) {
     open = false
 
@@ -37,18 +29,7 @@
   }
 </script>
 
-<svelte:window {onkeydown} />
-
-<Button
-  variant="ghost"
-  size="sm"
-  class="text-muted-foreground ml-auto w-48 min-w-0 shrink justify-start md:w-72"
-  onclick={() => (open = true)}
->
-  <Search />
-  Type to search…
-  <kbd class="bg-muted ml-auto hidden rounded px-1.5 py-0.5 text-xs sm:inline-block">⌘K</kbd>
-</Button>
+<CommandTrigger bind:open class="ml-auto w-48 shrink md:w-72" />
 
 <CommandDialog
   bind:open

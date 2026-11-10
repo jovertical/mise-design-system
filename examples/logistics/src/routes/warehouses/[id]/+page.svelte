@@ -19,7 +19,7 @@
     TableHeader,
     TableRow,
   } from '@jovertical/mise-design-system'
-  import Pencil from '@lucide/svelte/icons/pencil'
+  import IconPencil from '@tabler/icons-svelte-runes/icons/pencil'
   import { store } from '#modules/core/data/store.svelte.js'
   import { VEHICLE_STATUS } from '#modules/fleet/utils/status.js'
   import { nameThisPage } from '#modules/shell/utils/breadcrumb.svelte.js'
@@ -64,7 +64,7 @@
     <PageHeader title={location.name} description="{location.city} · managed by {location.manager}">
       {#snippet actions()}
         <Button variant="outline" href={resolve('/warehouses/[id]/edit', { id: location.id })}>
-          <Pencil />Edit
+          <IconPencil />Edit
         </Button>
       {/snippet}
     </PageHeader>

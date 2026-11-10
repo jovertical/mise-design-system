@@ -1,13 +1,13 @@
 <script module lang="ts">
-  import BanknoteIcon from '@lucide/svelte/icons/banknote'
-  import DatabaseIcon from '@lucide/svelte/icons/database'
-  import FileCheckIcon from '@lucide/svelte/icons/file-check'
-  import MonitorIcon from '@lucide/svelte/icons/monitor'
-  import ReceiptTextIcon from '@lucide/svelte/icons/receipt-text'
-  import SproutIcon from '@lucide/svelte/icons/sprout'
-  import StoreIcon from '@lucide/svelte/icons/store'
-  import UserPlusIcon from '@lucide/svelte/icons/user-plus'
   import { defineMeta } from '@storybook/addon-svelte-csf'
+  import IconBuildingStore from '@tabler/icons-svelte-runes/icons/building-store'
+  import IconCash from '@tabler/icons-svelte-runes/icons/cash'
+  import IconDatabase from '@tabler/icons-svelte-runes/icons/database'
+  import IconDeviceDesktop from '@tabler/icons-svelte-runes/icons/device-desktop'
+  import IconFileCheck from '@tabler/icons-svelte-runes/icons/file-check'
+  import IconFileInvoice from '@tabler/icons-svelte-runes/icons/file-invoice'
+  import IconPlant from '@tabler/icons-svelte-runes/icons/plant'
+  import IconUserPlus from '@tabler/icons-svelte-runes/icons/user-plus'
 
   import StoryAxis from '../../../../../stories/story-axis.svelte'
   import Card from '../../layout/card/card.svelte'
@@ -24,55 +24,55 @@
       id: 'COMPANY',
       name: 'Company Info',
       description: 'Company details and logo',
-      icon: StoreIcon,
+      icon: IconBuildingStore,
     },
     {
       id: 'TAX',
       name: 'Tax Registration',
       description: 'Select tax registration status',
-      icon: ReceiptTextIcon,
+      icon: IconFileInvoice,
     },
     {
       id: 'ADMIN',
       name: 'Admin User',
       description: 'Create the admin account',
-      icon: UserPlusIcon,
+      icon: IconUserPlus,
     },
     {
       id: 'DATABASE',
       name: 'Database Setup',
       description: 'Provision the database',
-      icon: DatabaseIcon,
+      icon: IconDatabase,
     },
     {
       id: 'LOCATION',
       name: 'First Location',
       description: 'Create the first location',
-      icon: StoreIcon,
+      icon: IconBuildingStore,
     },
     {
       id: 'REGISTERS',
       name: 'Registers',
       description: 'Set up registers for the location',
-      icon: MonitorIcon,
+      icon: IconDeviceDesktop,
     },
     {
       id: 'BILLING',
       name: 'Billing Preference',
       description: 'Choose how billing works',
-      icon: BanknoteIcon,
+      icon: IconCash,
     },
     {
       id: 'SEEDING',
       name: 'Initial Data',
       description: 'Choose initial data options',
-      icon: SproutIcon,
+      icon: IconPlant,
     },
     {
       id: 'COMPLETE',
       name: 'Complete',
       description: 'Review and finish setup',
-      icon: FileCheckIcon,
+      icon: IconFileCheck,
     },
   ]
 

@@ -1,6 +1,6 @@
 <script module lang="ts">
-  import ArrowLeftRightIcon from '@lucide/svelte/icons/arrow-left-right'
   import { defineMeta } from '@storybook/addon-svelte-csf'
+  import IconArrowsExchange from '@tabler/icons-svelte-runes/icons/arrows-exchange'
 
   import Button from '../../actions/button/button.svelte'
   import Card from '../../layout/card/card.svelte'
@@ -21,7 +21,7 @@
 </script>
 
 {#snippet movementsIcon()}
-  <ArrowLeftRightIcon />
+  <IconArrowsExchange />
 {/snippet}
 {#snippet backgroundAction()}
   <Button variant="outline">Continue in background</Button>

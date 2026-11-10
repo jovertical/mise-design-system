@@ -1,6 +1,6 @@
 <script module lang="ts">
-  import MilkIcon from '@lucide/svelte/icons/milk'
   import { defineMeta } from '@storybook/addon-svelte-csf'
+  import IconMilk from '@tabler/icons-svelte-runes/icons/milk'
 
   import OnACard from '../../../../../stories/on-a-card.svelte'
   import TreeLeaf from './tree-leaf.svelte'
@@ -19,7 +19,7 @@
 </script>
 
 {#snippet bottle()}
-  <MilkIcon />
+  <IconMilk />
 {/snippet}
 {#snippet qty(value: string)}
   <span class="text-muted-foreground text-xs">{value}</span>

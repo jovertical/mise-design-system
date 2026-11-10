@@ -14,8 +14,8 @@
     TableRow,
   } from '@jovertical/mise-design-system'
   import { FormFieldErrors, FormFieldset, FormLegend } from '@jovertical/mise-design-system/form'
-  import ListChecks from '@lucide/svelte/icons/list-checks'
-  import Package from '@lucide/svelte/icons/package'
+  import IconListCheck from '@tabler/icons-svelte-runes/icons/list-check'
+  import IconPackage from '@tabler/icons-svelte-runes/icons/package'
   import type { SuperForm } from 'sveltekit-superforms'
 
   import FormSection from '#modules/core/components/form-section.svelte'
@@ -42,11 +42,11 @@
 </script>
 
 {#snippet emptyIcon()}
-  <Package />
+  <IconPackage />
 {/snippet}
 
 <FormSection
-  icon={ListChecks}
+  icon={IconListCheck}
   title="Orders"
   hint={$values.originId
     ? `Ready orders at ${locationName(store, $values.originId)} that are on no other run.`

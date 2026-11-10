@@ -1,6 +1,6 @@
 <!--
   Origin: the React package 2.23.0 `combobox.tsx` (`ComboboxTrigger`)
-  Diverged: Lucide's chevron-down for Tabler's.
+  Diverged: none.
 -->
 <script lang="ts" module>
   import { Combobox as ComboboxPrimitive } from 'bits-ui'
@@ -10,7 +10,7 @@
 </script>
 
 <script lang="ts">
-  import ChevronDownIcon from '@lucide/svelte/icons/chevron-down'
+  import IconChevronDown from '@tabler/icons-svelte-runes/icons/chevron-down'
 
   import { cn } from '../../../utils/cn.js'
 
@@ -29,7 +29,7 @@
   {...rest}
 >
   {@render children?.()}
-  <ChevronDownIcon
+  <IconChevronDown
     data-slot="combobox-trigger-icon"
     class="text-muted-foreground pointer-events-none size-4"
   />

@@ -7,8 +7,8 @@
     RangeCalendar (R7-2). React's `classNames` and `components` override maps
     have no counterpart, and the parts are not exported: React exported only
     Calendar and its day button. React's `disabled` matcher is bits-ui's
-    `isDateDisabled`, with `minValue` and `maxValue` (R7-3). Lucide icons from
-    `@lucide/svelte`.
+    `isDateDisabled`, with `minValue` and `maxValue` (R7-3). Tabler's chevrons
+    for Lucide's.
 -->
 <script lang="ts" module>
   import { Calendar as CalendarPrimitive } from 'bits-ui'
@@ -34,8 +34,8 @@
 </script>
 
 <script lang="ts">
-  import ChevronLeftIcon from '@lucide/svelte/icons/chevron-left'
-  import ChevronRightIcon from '@lucide/svelte/icons/chevron-right'
+  import IconChevronLeft from '@tabler/icons-svelte-runes/icons/chevron-left'
+  import IconChevronRight from '@tabler/icons-svelte-runes/icons/chevron-right'
 
   import { cn } from '../../../utils/cn.js'
   import CalendarCaption from './calendar-caption.svelte'
@@ -71,10 +71,10 @@
     <div class={CALENDAR_CLASS.months}>
       <nav class={CALENDAR_CLASS.nav}>
         <CalendarPrimitive.PrevButton class={CALENDAR_CLASS.navButton}>
-          <ChevronLeftIcon class="size-4" />
+          <IconChevronLeft class="size-4" />
         </CalendarPrimitive.PrevButton>
         <CalendarPrimitive.NextButton class={CALENDAR_CLASS.navButton}>
-          <ChevronRightIcon class="size-4" />
+          <IconChevronRight class="size-4" />
         </CalendarPrimitive.NextButton>
       </nav>
       {#each months as month, monthIndex (month)}

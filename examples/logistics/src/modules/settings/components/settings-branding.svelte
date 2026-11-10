@@ -10,7 +10,7 @@
     type MediaUploaderAdapter,
     Text,
   } from '@jovertical/mise-design-system'
-  import ImageIcon from '@lucide/svelte/icons/image'
+  import IconPhoto from '@tabler/icons-svelte-runes/icons/photo'
   import type { SuperForm } from 'sveltekit-superforms'
 
   import { initials } from '#modules/core/data/lookups.js'
@@ -58,7 +58,7 @@
 </script>
 
 {#snippet image()}
-  <ImageIcon />
+  <IconPhoto />
 {/snippet}
 
 <Card>

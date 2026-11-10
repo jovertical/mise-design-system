@@ -23,11 +23,11 @@
     FormLabel,
     FormLegend,
   } from '@jovertical/mise-design-system/form'
-  import Gauge from '@lucide/svelte/icons/gauge'
-  import LayoutGrid from '@lucide/svelte/icons/layout-grid'
-  import Plus from '@lucide/svelte/icons/plus'
-  import Warehouse from '@lucide/svelte/icons/warehouse'
-  import X from '@lucide/svelte/icons/x'
+  import IconBuildingWarehouse from '@tabler/icons-svelte-runes/icons/building-warehouse'
+  import IconGauge from '@tabler/icons-svelte-runes/icons/gauge'
+  import IconLayoutGrid from '@tabler/icons-svelte-runes/icons/layout-grid'
+  import IconPlus from '@tabler/icons-svelte-runes/icons/plus'
+  import IconX from '@tabler/icons-svelte-runes/icons/x'
   import { untrack } from 'svelte'
 
   import FormPage, { type FormPageText } from '#modules/core/components/form-page.svelte'
@@ -96,7 +96,7 @@
   <form method="POST" id="site-form" use:enhance>
     <Card>
       <CardContent class="flex flex-col gap-6">
-        <FormSection icon={Warehouse} title="Site" hint="Where it is and who runs it.">
+        <FormSection icon={IconBuildingWarehouse} title="Site" hint="Where it is and who runs it.">
           <div class="grid gap-4 sm:grid-cols-3">
             {@render textField('name', 'Name', 'East Gate')}
             {@render textField('city', 'City', 'Eastport')}
@@ -107,7 +107,7 @@
         <Separator />
 
         <FormSection
-          icon={Gauge}
+          icon={IconGauge}
           title="Capacity"
           hint="How much it can hold, and how many trucks it can load at once."
         >
@@ -120,7 +120,7 @@
         <Separator />
 
         <FormSection
-          icon={LayoutGrid}
+          icon={IconLayoutGrid}
           title="Zones"
           hint={used.length > 0
             ? 'Existing zones can be renamed or resized; zones added here can be removed.'
@@ -169,14 +169,14 @@
                   disabled={$values.zones.length === 1 || index < used.length}
                   onclick={() => removeZone(index)}
                 >
-                  <X />
+                  <IconX />
                 </Button>
               </div>
             {/each}
             <FormFieldErrors class="empty:hidden" />
             <div>
               <Button type="button" variant="ghost" size="sm" onclick={addZone}>
-                <Plus />
+                <IconPlus />
                 Add zone
               </Button>
             </div>

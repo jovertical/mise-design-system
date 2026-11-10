@@ -16,7 +16,7 @@
 
 <script lang="ts">
   import { Button, PageHeader, PageLayout } from '@jovertical/mise-design-system'
-  import ArrowLeft from '@lucide/svelte/icons/arrow-left'
+  import IconArrowLeft from '@tabler/icons-svelte-runes/icons/arrow-left'
   import type { Snippet } from 'svelte'
 
   import UnsavedChangesDialog from './unsaved-changes-dialog.svelte'
@@ -39,7 +39,7 @@
         href={back.href}
         class="text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5 text-sm"
       >
-        <ArrowLeft class="size-4" />
+        <IconArrowLeft class="size-4" />
         {back.label}
       </a>
     {/snippet}

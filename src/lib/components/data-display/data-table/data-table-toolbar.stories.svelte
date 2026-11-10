@@ -1,6 +1,6 @@
 <script module lang="ts">
-  import UploadIcon from '@lucide/svelte/icons/upload'
   import { defineMeta } from '@storybook/addon-svelte-csf'
+  import IconUpload from '@tabler/icons-svelte-runes/icons/upload'
 
   import DeviceTable from '../../../../../stories/fixtures/device-table.svelte'
   import { STATUS_OPTIONS } from '../../../../../stories/fixtures/devices.js'
@@ -63,7 +63,7 @@
             variant="ghost"
             class="bg-input/50 hover:bg-input h-8 gap-1.5 rounded-2xl border border-transparent px-3 text-sm font-normal"
           >
-            <UploadIcon class="size-4" />
+            <IconUpload class="size-4" />
             Import
           </Button>
         {/snippet}
