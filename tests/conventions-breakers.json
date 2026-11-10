@@ -28,7 +28,6 @@
   "scripts/skill/catalogue.ts": ["function-length", "names"],
   "scripts/skill/props.ts": ["file-length", "function-length", "names"],
   "src/lib/components/data-display/data-table/data-table.svelte": ["file-length"],
-  "src/lib/components/data-display/stat-tile/stat-tile.svelte": ["file-length"],
   "src/lib/components/navigation/stepper/stepper.svelte": ["file-length"],
   "src/lib/tokens/semantic.ts": ["function-length"],
   "tests/barrel.test.ts": ["file-length"]

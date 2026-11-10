@@ -7,7 +7,9 @@
     `hint`, `delta`, `action`, `visual` and `footer` are snippets, and `value`,
     `unit`, `description` and a row's `label` and `value` take a string or a
     snippet, as R4-5 has a ReactNode prop. Takes `class` and spreads the rest
-    onto the root, as every component does.
+    onto the root, as every component does. The size maps and row type are
+    in `stat-tile-variants.ts`, the label and figure in
+    `stat-tile-headline.svelte`.
 -->
 <script lang="ts" module>
   import type { Snippet } from 'svelte'
@@ -15,64 +17,13 @@
 
   import type { Tone } from '../../../utils/tone.js'
   import type { IconChipShape } from '../icon-chip/icon-chip-variants.js'
-
-  /**
-   * How big the figure is, named for the density it is drawn for rather than a
-   * type step: `sm` a dense row or a figure inside another card, `md` (the
-   * default) four across, `lg` one or two across or the point of the screen.
-   */
-  export type StatSize = 'sm' | 'md' | 'lg'
-
-  const SIZE_CLASS: Record<StatSize, string> = { sm: 'text-xl', md: 'text-2xl', lg: 'text-3xl' }
-
-  const SIZE_SKELETON_CLASS: Record<StatSize, string> = {
-    sm: 'h-6 w-16',
-    md: 'h-7 w-20',
-    lg: 'h-9 w-24',
-  }
-
-  /**
-   * The chip's footprint, apart from the figure's density. `IconChip`'s sizes
-   * are 32 / 40 / 48px and the tile's chip was 40 / 48 / 48, so `sm` maps to the
-   * chip's `md` and `md` and `lg` to its `lg`. Defaults to `size`.
-   */
-  export type StatIconSize = StatSize
-
-  const ICON_CHIP_SIZE: Record<StatIconSize, 'md' | 'lg'> = { sm: 'md', md: 'lg', lg: 'lg' }
-
-  /**
-   * `center`, the default, centres the chip against the label, figure and
-   * description; `top` pins it level with the label, for a column a delta or a
-   * long description has made tall.
-   */
-  export type StatIconAlignment = 'center' | 'top'
-
-  const ICON_ROW_ALIGN_CLASS: Record<StatIconAlignment, string> = {
-    center: 'items-center',
-    top: 'items-start',
-  }
-
-  /**
-   * `card` is a tile in its own right, one of a row. `inset` is the summary at
-   * the top of a card whose chart or table is the evidence: recessed, no
-   * shadow, its caption small and upper-case so it does not compete with the
-   * card's own title.
-   */
-  export type StatSurface = 'card' | 'inset'
-
-  export type StatRow = {
-    /** Stable key. Labels repeat across tiles, so they are not one. */
-    id: string
-    label: string | Snippet
-    value: string | number | Snippet | null
-    /**
-     * Colours the value: "this figure has a direction". For a directional
-     * pair (stock in against stock out), not the parts of a total. Leave it
-     * off unless every row in the group has one; a single tinted row reads as
-     * an alert.
-     */
-    tone?: Tone
-  }
+  import type {
+    StatIconAlignment,
+    StatIconSize,
+    StatRow,
+    StatSize,
+    StatSurface,
+  } from './stat-tile-variants.js'
 
   /**
    * The dashboard's headline number. One tile states one figure, and the rest
@@ -164,6 +115,8 @@
   import FactList from '../fact-list/fact-list.svelte'
   import FactListItem from '../fact-list/fact-list-item.svelte'
   import IconChip from '../icon-chip/icon-chip.svelte'
+  import StatTileHeadline from './stat-tile-headline.svelte'
+  import { ICON_CHIP_SIZE, ICON_ROW_ALIGN_CLASS } from './stat-tile-variants.js'
 
   let {
     label,
@@ -221,60 +174,23 @@
       {@render chip()}
     {/if}
 
-    <div class="min-w-0 flex-1">
-      <!-- The action sits on the label's line, so it does not take the label's width. -->
-      <div class="flex items-start justify-between gap-2">
-        <div
-          class={cn(
-            'flex min-w-0 items-center gap-1.5',
-            inset ? 'text-muted-foreground text-xs tracking-wide uppercase' : 'text-foreground',
-          )}
-        >
-          <p class={cn(!inset && 'text-sm font-medium')}>{label}</p>
-          {@render hint?.()}
-        </div>
-        {#if action}
-          <div class="-mt-1 shrink-0">{@render action()}</div>
-        {/if}
-      </div>
-
-      {#if loading}
-        <Skeleton class={cn('mt-1.5', SIZE_SKELETON_CLASS[size])} />
-      {:else}
-        <div class="mt-0.5">
-          <div class="flex min-w-0 items-center justify-between gap-3">
-            <div class="min-w-0 flex-1">
-              <!-- The figure and its delta, and nothing else: one statement. -->
-              <div class="flex flex-wrap items-baseline gap-2">
-                <div
-                  class={cn(
-                    'font-heading font-bold tabular-nums',
-                    SIZE_CLASS[size],
-                    TONE_TEXT_CLASS[tone],
-                  )}
-                  title={hasValue ? exactValue : undefined}
-                >
-                  {#if hasValue && value !== null}
-                    {@render content(value)}
-                  {:else}
-                    —
-                  {/if}
-                </div>
-                {#if delta && !error}
-                  {@render delta()}
-                {/if}
-              </div>
-              {#if unit}
-                <div class="text-muted-foreground mt-0.5 text-xs">{@render content(unit)}</div>
-              {/if}
-            </div>
-            {#if visual}
-              <div class="w-1/2 min-w-0 shrink">{@render visual()}</div>
-            {/if}
-          </div>
-        </div>
-      {/if}
-    </div>
+    <StatTileHeadline
+      {label}
+      {value}
+      {unit}
+      {exactValue}
+      {hint}
+      {tone}
+      {size}
+      {delta}
+      {action}
+      {visual}
+      {inset}
+      {hasValue}
+      {loading}
+      {error}
+      {content}
+    />
 
     {#if iconPosition === 'right'}
       {@render chip()}

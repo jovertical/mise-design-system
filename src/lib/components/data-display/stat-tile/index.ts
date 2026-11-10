@@ -1,9 +1,8 @@
-export {
-  default as StatTile,
-  type StatIconAlignment,
-  type StatIconSize,
-  type StatRow,
-  type StatSize,
-  type StatSurface,
-  type StatTileProps,
-} from './stat-tile.svelte'
+export { default as StatTile, type StatTileProps } from './stat-tile.svelte'
+export type {
+  StatIconAlignment,
+  StatIconSize,
+  StatRow,
+  StatSize,
+  StatSurface,
+} from './stat-tile-variants.js'
