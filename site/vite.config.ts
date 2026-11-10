@@ -41,6 +41,9 @@ export default defineConfig({
       preprocess: [
         mdsvex({
           extensions: ['.md'],
+          layout: {
+            _: join(import.meta.dirname, 'src/modules/docs/components/page-layout.svelte'),
+          },
           remarkPlugins: [baseLinks(base), headingIds()],
           highlight: {
             highlighter: async (code, language) =>

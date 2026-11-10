@@ -1,8 +1,7 @@
 ---
 title: mise
+description: Svelte 5 components and a Tailwind v4 theme for operations dashboards.
 ---
-
-# mise
 
 Svelte 5 components for operations dashboards.
 

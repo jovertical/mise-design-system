@@ -6,7 +6,9 @@
 /* Shiki's css-variables theme, on mise's semantic tokens. */
 :root {
   --shiki-foreground: var(--foreground);
-  --shiki-background: transparent;
+  /* A neutral wash, not --muted: muted is the page canvas itself. Shiki sets
+     it inline on the <pre>, so it lives here rather than in a class. */
+  --shiki-background: color-mix(in oklab, var(--foreground) 5%, transparent);
   --shiki-token-keyword: var(--primary);
   --shiki-token-string: var(--success);
   --shiki-token-string-expression: var(--success);
@@ -19,5 +21,46 @@
 }
 
 pre.shiki {
-  @apply overflow-x-auto rounded-lg bg-muted p-4 text-sm leading-relaxed;
+  @apply overflow-x-auto rounded-lg p-4 text-sm leading-relaxed;
+}
+
+/* Markdown in a page reads like mise's own text, with no local components. */
+.docs-prose > :where(h2) {
+  @apply mt-12 mb-3 scroll-mt-20 text-xl font-semibold;
+}
+
+.docs-prose > :where(h3) {
+  @apply mt-8 mb-2 scroll-mt-20 text-base font-semibold;
+}
+
+.docs-prose > :where(p, ul, ol) {
+  @apply my-3 max-w-prose leading-relaxed;
+}
+
+.docs-prose > :where(pre) {
+  @apply my-4;
+}
+
+.docs-prose > :where(ul) {
+  @apply list-disc pl-5;
+}
+
+.docs-prose > :where(ol) {
+  @apply list-decimal pl-5;
+}
+
+.docs-prose :where(p, li, td) > code {
+  @apply rounded bg-foreground/[0.07] px-1 py-0.5 text-[0.85em];
+}
+
+.docs-prose :where(p, li) > a {
+  @apply text-primary underline underline-offset-2;
+}
+
+.docs-prose > :where(table) {
+  @apply my-4 w-full text-sm;
+}
+
+.docs-prose > :where(table) :where(th, td) {
+  @apply border-b px-2 py-1.5 text-left;
 }
