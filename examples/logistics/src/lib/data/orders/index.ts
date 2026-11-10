@@ -6,27 +6,27 @@ export type OrderFilters = { search?: string; status?: OrderStatus }
 
 export const OPEN_STATUSES = ['received', 'ready', 'in-fulfilment', 'completed'] as const
 
-const clientName = (s: Source, id: Id) =>
-  s.data.clients.find((client) => client.id === id)?.name ?? ''
+const clientName = (source: Source, id: Id) =>
+  source.data.clients.find((client) => client.id === id)?.name ?? ''
 
 /** Newest first: order numbers rise with time. */
-export function listOrders(s: Source, filters: OrderFilters = {}): Order[] {
-  return s.data.orders
+export function listOrders(source: Source, filters: OrderFilters = {}): Order[] {
+  return source.data.orders
     .filter((order) => !filters.status || order.status === filters.status)
-    .filter((order) => matches(filters.search, order.number, clientName(s, order.clientId)))
-    .toSorted((a, b) => b.number.localeCompare(a.number))
+    .filter((order) => matches(filters.search, order.number, clientName(source, order.clientId)))
+    .toSorted((first, second) => second.number.localeCompare(first.number))
 }
 
-export const getOrder = (s: Source, idOrNumber: string) =>
-  s.data.orders.find(
+export const getOrder = (source: Source, idOrNumber: string) =>
+  source.data.orders.find(
     (order) => order.id === idOrNumber.toLowerCase() || order.number === idOrNumber.toUpperCase(),
   )
 
 /** Each open status's count, and how many orders of it were placed on each of the last 7 days. */
-export function orderStats(s: Source) {
+export function orderStats(source: Source) {
   return Object.fromEntries(
     OPEN_STATUSES.map((status) => {
-      const orders = s.data.orders.filter((order) => order.status === status)
+      const orders = source.data.orders.filter((order) => order.status === status)
 
       const trend = Array.from(
         { length: 7 },
@@ -38,7 +38,7 @@ export function orderStats(s: Source) {
   ) as Record<(typeof OPEN_STATUSES)[number], { count: number; trend: number[] }>
 }
 
-export function ordersByStatus(s: Source): Record<OrderStatus, Order[]> {
+export function ordersByStatus(source: Source): Record<OrderStatus, Order[]> {
   const groups: Record<OrderStatus, Order[]> = {
     received: [],
     ready: [],
@@ -47,14 +47,14 @@ export function ordersByStatus(s: Source): Record<OrderStatus, Order[]> {
     cancelled: [],
   }
 
-  for (const order of listOrders(s)) groups[order.status].push(order)
+  for (const order of listOrders(source)) groups[order.status].push(order)
 
   return groups
 }
 
 /** Labels follow position, so removing a package renumbers the rest. */
 const labelled = (packages: OrderInput['packages']): Order['packages'] =>
-  packages.map((pkg, index) => ({ label: `PKG-${index + 1}`, ...pkg }))
+  packages.map((item, index) => ({ label: `PKG-${index + 1}`, ...item }))
 
 /** Completed and cancelled orders are kept as they were. */
 export const isOrderEditable = (order: Order) =>
@@ -69,9 +69,9 @@ export const orderToInput = (order: Order): OrderInput => ({
   total: order.total,
 })
 
-export function createOrder(s: Source, raw: OrderInput): Order {
+export function createOrder(source: Source, raw: OrderInput): Order {
   const input = orderSchema.parse(raw)
-  const highest = Math.max(...s.data.orders.map((order) => Number(order.number.slice(3))))
+  const highest = Math.max(...source.data.orders.map((order) => Number(order.number.slice(3))))
   const number = `OR-${highest + 1}`
   const placedAt = { day: 0, time: '12:00' }
 
@@ -91,13 +91,13 @@ export function createOrder(s: Source, raw: OrderInput): Order {
     shipmentId: null,
   }
 
-  s.data.orders.push(order)
+  source.data.orders.push(order)
 
   return order
 }
 
-export function updateOrder(s: Source, idOrNumber: string, raw: OrderInput): Order {
-  const order = getOrder(s, idOrNumber)
+export function updateOrder(source: Source, idOrNumber: string, raw: OrderInput): Order {
+  const order = getOrder(source, idOrNumber)
 
   if (!order) throw new Error(`No order ${idOrNumber}`)
 
@@ -117,8 +117,8 @@ export function updateOrder(s: Source, idOrNumber: string, raw: OrderInput): Ord
   return order
 }
 
-export function cancelOrder(s: Source, idOrNumber: string): Order {
-  const order = getOrder(s, idOrNumber)
+export function cancelOrder(source: Source, idOrNumber: string): Order {
+  const order = getOrder(source, idOrNumber)
 
   if (!order) throw new Error(`No order ${idOrNumber}`)
 

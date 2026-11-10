@@ -14,7 +14,7 @@ export const orderReadiness = (values: OrderInput): ReadinessItem[] => [
   readinessRow(
     'packages',
     'At least one package with a weight',
-    values.packages.some((pkg) => pkg.weightKg > 0),
+    values.packages.some((item) => item.weightKg > 0),
   ),
   readinessRow('total', 'Total set', values.total > 0),
 ]

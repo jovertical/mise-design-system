@@ -136,10 +136,10 @@ function build(index: number): Order {
   const client = CLIENTS[index % CLIENTS.length]
   const packageCount = 1 + (index % 4)
 
-  const packages = Array.from({ length: packageCount }, (_, n) => ({
-    label: `PKG-${n + 1}`,
-    contents: CONTENTS[(index + n) % CONTENTS.length],
-    weightKg: 12 + ((index * 7 + n * 13) % 90),
+  const packages = Array.from({ length: packageCount }, (_, packageIndex) => ({
+    label: `PKG-${packageIndex + 1}`,
+    contents: CONTENTS[(index + packageIndex) % CONTENTS.length],
+    weightKg: 12 + ((index * 7 + packageIndex * 13) % 90),
   }))
 
   return {

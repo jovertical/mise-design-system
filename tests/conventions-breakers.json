@@ -7,21 +7,9 @@
   "examples/logistics/src/lib/components/shipment-form.svelte": ["file-length", "names"],
   "examples/logistics/src/lib/components/site-aside.svelte": ["names"],
   "examples/logistics/src/lib/components/vehicle-form.svelte": ["file-length"],
-  "examples/logistics/src/lib/data/clients/index.ts": ["names"],
-  "examples/logistics/src/lib/data/fleet/index.ts": ["names"],
-  "examples/logistics/src/lib/data/lookups.ts": ["names"],
-  "examples/logistics/src/lib/data/orders/index.ts": ["names"],
-  "examples/logistics/src/lib/data/orders/readiness.ts": ["names"],
-  "examples/logistics/src/lib/data/overview.ts": ["names"],
-  "examples/logistics/src/lib/data/products/index.ts": ["names"],
-  "examples/logistics/src/lib/data/seed/orders.ts": ["names"],
-  "examples/logistics/src/lib/data/seed/products.ts": ["names"],
-  "examples/logistics/src/lib/data/settings/index.ts": ["names"],
-  "examples/logistics/src/lib/data/shipments/index.ts": ["names"],
-  "examples/logistics/src/lib/data/warehouses/index.ts": ["names"],
   "examples/logistics/src/routes/+page.svelte": ["file-length"],
   "examples/logistics/src/routes/orders/+page.svelte": ["file-length"],
   "examples/logistics/src/routes/settings/general/+page.svelte": ["file-length", "names"],
   "examples/logistics/tests/repositories.test.ts": ["file-length", "names"],
-  "examples/logistics/tests/schemas.test.ts": ["function-length", "names"]
+  "examples/logistics/tests/schemas.test.ts": ["function-length"]
 }

@@ -10,10 +10,10 @@ type Row = [
   stock: [location: string, onHand: number, reserved: number][],
 ]
 
-const R = 'loc-riverside'
-const H = 'loc-harbour'
-const N = 'loc-north'
-const M = 'loc-market'
+const RIVERSIDE = 'loc-riverside'
+const HARBOUR = 'loc-harbour'
+const NORTH = 'loc-north'
+const MARKET = 'loc-market'
 
 const ROWS: Row[] = [
   [
@@ -24,11 +24,11 @@ const ROWS: Row[] = [
     1850,
     200,
     [
-      [R, 820, 210],
-      [H, 420, 100],
+      [RIVERSIDE, 820, 210],
+      [HARBOUR, 420, 100],
     ],
   ],
-  ['PK-0422', 'Corner boards ×50', 'packaging', 'pack', 900, 100, [[R, 40, 30]]],
+  ['PK-0422', 'Corner boards ×50', 'packaging', 'pack', 900, 100, [[RIVERSIDE, 40, 30]]],
   [
     'PK-0431',
     'Shipping box, medium',
@@ -37,9 +37,9 @@ const ROWS: Row[] = [
     2400,
     150,
     [
-      [R, 600, 120],
-      [N, 310, 40],
-      [M, 90, 10],
+      [RIVERSIDE, 600, 120],
+      [NORTH, 310, 40],
+      [MARKET, 90, 10],
     ],
   ],
   [
@@ -50,8 +50,8 @@ const ROWS: Row[] = [
     3100,
     120,
     [
-      [R, 410, 90],
-      [H, 220, 30],
+      [RIVERSIDE, 410, 90],
+      [HARBOUR, 220, 30],
     ],
   ],
   [
@@ -62,8 +62,8 @@ const ROWS: Row[] = [
     1200,
     80,
     [
-      [H, 160, 20],
-      [N, 95, 15],
+      [HARBOUR, 160, 20],
+      [NORTH, 95, 15],
     ],
   ],
   [
@@ -74,8 +74,8 @@ const ROWS: Row[] = [
     2850,
     60,
     [
-      [R, 35, 12],
-      [M, 8, 2],
+      [RIVERSIDE, 35, 12],
+      [MARKET, 8, 2],
     ],
   ],
   [
@@ -86,9 +86,9 @@ const ROWS: Row[] = [
     2200,
     300,
     [
-      [R, 640, 180],
-      [H, 510, 90],
-      [N, 420, 60],
+      [RIVERSIDE, 640, 180],
+      [HARBOUR, 510, 90],
+      [NORTH, 420, 60],
     ],
   ],
   [
@@ -99,11 +99,11 @@ const ROWS: Row[] = [
     1350,
     250,
     [
-      [R, 380, 60],
-      [N, 290, 40],
+      [RIVERSIDE, 380, 60],
+      [NORTH, 290, 40],
     ],
   ],
-  ['PL-1010', 'Plastic pallet, hygienic', 'pallets', 'each', 6400, 60, [[H, 140, 40]]],
+  ['PL-1010', 'Plastic pallet, hygienic', 'pallets', 'each', 6400, 60, [[HARBOUR, 140, 40]]],
   [
     'PL-1020',
     'Pallet collar, 4 hinges',
@@ -112,8 +112,8 @@ const ROWS: Row[] = [
     1900,
     80,
     [
-      [R, 30, 12],
-      [N, 25, 8],
+      [RIVERSIDE, 30, 12],
+      [NORTH, 25, 8],
     ],
   ],
   [
@@ -124,9 +124,9 @@ const ROWS: Row[] = [
     1450,
     100,
     [
-      [R, 360, 40],
-      [H, 210, 20],
-      [M, 60, 4],
+      [RIVERSIDE, 360, 40],
+      [HARBOUR, 210, 20],
+      [MARKET, 60, 4],
     ],
   ],
   [
@@ -137,8 +137,8 @@ const ROWS: Row[] = [
     950,
     40,
     [
-      [R, 120, 10],
-      [N, 80, 6],
+      [RIVERSIDE, 120, 10],
+      [NORTH, 80, 6],
     ],
   ],
   [
@@ -149,11 +149,11 @@ const ROWS: Row[] = [
     4200,
     30,
     [
-      [R, 44, 6],
-      [H, 18, 2],
+      [RIVERSIDE, 44, 6],
+      [HARBOUR, 18, 2],
     ],
   ],
-  ['LB-2012', 'Hazard diamonds, class 3', 'labels', 'pack', 1600, 20, [[N, 52, 0]]],
+  ['LB-2012', 'Hazard diamonds, class 3', 'labels', 'pack', 1600, 20, [[NORTH, 52, 0]]],
   [
     'CC-3001',
     'Gel ice pack, 1 kg',
@@ -162,8 +162,8 @@ const ROWS: Row[] = [
     3600,
     120,
     [
-      [H, 300, 80],
-      [R, 220, 60],
+      [HARBOUR, 300, 80],
+      [RIVERSIDE, 220, 60],
     ],
   ],
   [
@@ -174,12 +174,12 @@ const ROWS: Row[] = [
     5200,
     50,
     [
-      [H, 90, 30],
-      [R, 70, 20],
+      [HARBOUR, 90, 30],
+      [RIVERSIDE, 70, 20],
     ],
   ],
-  ['CC-3008', 'Temperature logger', 'cold-chain', 'each', 3800, 40, [[H, 22, 14]]],
-  ['CC-3012', 'Dry ice, 10 kg', 'cold-chain', 'box', 2900, 30, [[H, 64, 16]]],
+  ['CC-3008', 'Temperature logger', 'cold-chain', 'each', 3800, 40, [[HARBOUR, 22, 14]]],
+  ['CC-3012', 'Dry ice, 10 kg', 'cold-chain', 'box', 2900, 30, [[HARBOUR, 64, 16]]],
   [
     'SF-4001',
     'Hi-vis vest',
@@ -188,10 +188,10 @@ const ROWS: Row[] = [
     650,
     60,
     [
-      [R, 140, 10],
-      [H, 90, 6],
-      [N, 75, 4],
-      [M, 20, 0],
+      [RIVERSIDE, 140, 10],
+      [HARBOUR, 90, 6],
+      [NORTH, 75, 4],
+      [MARKET, 20, 0],
     ],
   ],
   [
@@ -202,8 +202,8 @@ const ROWS: Row[] = [
     890,
     100,
     [
-      [R, 240, 20],
-      [N, 130, 10],
+      [RIVERSIDE, 240, 20],
+      [NORTH, 130, 10],
     ],
   ],
   [
@@ -214,8 +214,8 @@ const ROWS: Row[] = [
     7400,
     20,
     [
-      [R, 36, 4],
-      [H, 18, 2],
+      [RIVERSIDE, 36, 4],
+      [HARBOUR, 18, 2],
     ],
   ],
   [
@@ -226,8 +226,8 @@ const ROWS: Row[] = [
     4500,
     15,
     [
-      [R, 30, 2],
-      [N, 12, 1],
+      [RIVERSIDE, 30, 2],
+      [NORTH, 12, 1],
     ],
   ],
   [
@@ -238,8 +238,8 @@ const ROWS: Row[] = [
     2100,
     12,
     [
-      [H, 26, 0],
-      [N, 14, 0],
+      [HARBOUR, 26, 0],
+      [NORTH, 14, 0],
     ],
   ],
   [
@@ -250,9 +250,9 @@ const ROWS: Row[] = [
     1550,
     80,
     [
-      [R, 210, 30],
-      [H, 140, 20],
-      [N, 96, 10],
+      [RIVERSIDE, 210, 30],
+      [HARBOUR, 140, 20],
+      [NORTH, 96, 10],
     ],
   ],
 ]

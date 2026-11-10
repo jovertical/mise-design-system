@@ -10,12 +10,12 @@ import { getSettings, saveSettings } from '../src/lib/data/settings/index.js'
 import { settingsSchema } from '../src/lib/data/settings/schema.js'
 import { createStore, type Store } from '../src/lib/data/store.svelte.js'
 
-let s: Store
+let source: Store
 
 beforeEach(() => {
   localStorage.clear()
 
-  s = createStore()
+  source = createStore()
 })
 
 const order = {
@@ -78,14 +78,19 @@ describe('schemas', () => {
 
     expect(clientSchema.safeParse({ ...client, status: 'archived' }).success).toBe(false)
 
-    expect(settingsSchema.safeParse(getSettings(s)).success).toBe(true)
+    expect(settingsSchema.safeParse(getSettings(source)).success).toBe(true)
 
-    expect(settingsSchema.safeParse({ ...getSettings(s), timezone: 'Mars/Olympus' }).success).toBe(
+    expect(
+      settingsSchema.safeParse({ ...getSettings(source), timezone: 'Mars/Olympus' }).success,
+    ).toBe(false)
+
+    expect(settingsSchema.safeParse({ ...getSettings(source), orderPrefix: 'or 1' }).success).toBe(
       false,
     )
 
-    expect(settingsSchema.safeParse({ ...getSettings(s), orderPrefix: 'or 1' }).success).toBe(false)
-    expect(settingsSchema.safeParse({ ...getSettings(s), website: 'example' }).success).toBe(false)
+    expect(settingsSchema.safeParse({ ...getSettings(source), website: 'example' }).success).toBe(
+      false,
+    )
   })
 
   it('want at least one package, each with contents and a weight', () => {
@@ -111,10 +116,10 @@ describe('schemas', () => {
   })
 
   it('guard every write function', () => {
-    expect(() => createOrder(s, { ...order, destination: 'x' })).toThrow()
+    expect(() => createOrder(source, { ...order, destination: 'x' })).toThrow()
 
     expect(() =>
-      updateProduct(s, 'prd-pk-0422', {
+      updateProduct(source, 'prd-pk-0422', {
         name: 'Corner boards',
         sku: 'PK-0422',
         category: 'packaging',
@@ -126,7 +131,7 @@ describe('schemas', () => {
     ).toThrow()
 
     expect(() =>
-      createClient(s, {
+      createClient(source, {
         name: 'A',
         industry: '',
         contact: '',
@@ -137,7 +142,7 @@ describe('schemas', () => {
       }),
     ).toThrow()
 
-    expect(() => saveSettings(s, { ...getSettings(s), companyName: '' })).toThrow()
-    expect(s.data.orders).toHaveLength(60)
+    expect(() => saveSettings(source, { ...getSettings(source), companyName: '' })).toThrow()
+    expect(source.data.orders).toHaveLength(60)
   })
 })

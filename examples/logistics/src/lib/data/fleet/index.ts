@@ -7,37 +7,37 @@ export const CONDITIONS = ['excellent', 'good', 'service-due', 'overdue'] as con
 
 export type VehicleFilters = { search?: string; status?: VehicleStatus }
 
-export const listVehicles = (s: Source, filters: VehicleFilters = {}): Vehicle[] =>
-  s.data.vehicles
+export const listVehicles = (source: Source, filters: VehicleFilters = {}): Vehicle[] =>
+  source.data.vehicles
     .filter((vehicle) => !filters.status || vehicle.status === filters.status)
     .filter((vehicle) => matches(filters.search, vehicle.code, vehicle.registration))
 
-export const fleetStatus = (s: Source) =>
+export const fleetStatus = (source: Source) =>
   tally(
     VEHICLE_STATUSES,
-    s.data.vehicles.map((vehicle) => vehicle.status),
+    source.data.vehicles.map((vehicle) => vehicle.status),
   )
 
-export const fleetCondition = (s: Source) =>
+export const fleetCondition = (source: Source) =>
   tally(
     CONDITIONS,
-    s.data.vehicles.map((vehicle) => vehicle.condition),
+    source.data.vehicles.map((vehicle) => vehicle.condition),
   )
 
 /** Due within the window, overdue included. */
-export const serviceDueSoon = (s: Source, withinDays = 7) =>
-  s.data.vehicles.filter((vehicle) => vehicle.nextServiceDay <= withinDays)
+export const serviceDueSoon = (source: Source, withinDays = 7) =>
+  source.data.vehicles.filter((vehicle) => vehicle.nextServiceDay <= withinDays)
 
-export const getVehicle = (s: Source, idOrCode: string) =>
-  s.data.vehicles.find(
+export const getVehicle = (source: Source, idOrCode: string) =>
+  source.data.vehicles.find(
     (vehicle) => vehicle.id === idOrCode || vehicle.code === idOrCode.toUpperCase(),
   )
 
 /** Every shipment the vehicle has run, most recent first. */
-export const vehicleShipments = (s: Source, vehicleId: string) =>
-  s.data.shipments
+export const vehicleShipments = (source: Source, vehicleId: string) =>
+  source.data.shipments
     .filter((shipment) => shipment.vehicleId === vehicleId)
-    .toSorted((a, b) => b.number.localeCompare(a.number))
+    .toSorted((first, second) => second.number.localeCompare(first.number))
 
 export const vehicleToInput = (vehicle: Vehicle): VehicleInput => ({
   code: vehicle.code,
@@ -51,12 +51,17 @@ export const vehicleToInput = (vehicle: Vehicle): VehicleInput => ({
 })
 
 /** Drivers with no vehicle, plus whoever already drives this one. */
-export const assignableDrivers = (s: Source, vehicleId: Id | null): Driver[] =>
-  s.data.drivers.filter((driver) => driver.vehicleId === null || driver.vehicleId === vehicleId)
+export const assignableDrivers = (source: Source, vehicleId: Id | null): Driver[] =>
+  source.data.drivers.filter(
+    (driver) => driver.vehicleId === null || driver.vehicleId === vehicleId,
+  )
 
-function parseVehicle(s: Source, raw: VehicleInput, id: Id | null) {
+function parseVehicle(source: Source, raw: VehicleInput, id: Id | null) {
   const input = vehicleSchema.parse(raw)
-  const taken = s.data.vehicles.some((vehicle) => vehicle.code === input.code && vehicle.id !== id)
+
+  const taken = source.data.vehicles.some(
+    (vehicle) => vehicle.code === input.code && vehicle.id !== id,
+  )
 
   if (taken) throw new Error(`${input.code} is already in use`)
 
@@ -67,15 +72,15 @@ function parseVehicle(s: Source, raw: VehicleInput, id: Id | null) {
  * Pairs a vehicle with a driver, or with none, on both sides: the vehicle's
  * old driver is let go, and the new driver leaves whatever they drove.
  */
-function assign(s: Source, vehicle: Vehicle, driverId: Id | null) {
-  for (const driver of s.data.drivers) {
+function assign(source: Source, vehicle: Vehicle, driverId: Id | null) {
+  for (const driver of source.data.drivers) {
     if (driver.vehicleId === vehicle.id && driver.id !== driverId) driver.vehicleId = null
   }
 
-  const driver = s.data.drivers.find((candidate) => candidate.id === driverId)
+  const driver = source.data.drivers.find((candidate) => candidate.id === driverId)
 
   if (driver) {
-    const previous = s.data.vehicles.find((candidate) => candidate.id === driver.vehicleId)
+    const previous = source.data.vehicles.find((candidate) => candidate.id === driver.vehicleId)
 
     if (previous && previous.id !== vehicle.id) previous.driverId = null
 
@@ -85,8 +90,8 @@ function assign(s: Source, vehicle: Vehicle, driverId: Id | null) {
   vehicle.driverId = driver ? driver.id : null
 }
 
-export function createVehicle(s: Source, raw: VehicleInput): Vehicle {
-  const { driverId, ...input } = parseVehicle(s, raw, null)
+export function createVehicle(source: Source, raw: VehicleInput): Vehicle {
+  const { driverId, ...input } = parseVehicle(source, raw, null)
 
   const vehicle: Vehicle = {
     ...input,
@@ -95,23 +100,23 @@ export function createVehicle(s: Source, raw: VehicleInput): Vehicle {
     status: 'idle',
   }
 
-  s.data.vehicles.push(vehicle)
+  source.data.vehicles.push(vehicle)
 
-  assign(s, vehicle, driverId)
+  assign(source, vehicle, driverId)
 
   return vehicle
 }
 
-export function updateVehicle(s: Source, idOrCode: string, raw: VehicleInput): Vehicle {
-  const vehicle = getVehicle(s, idOrCode)
+export function updateVehicle(source: Source, idOrCode: string, raw: VehicleInput): Vehicle {
+  const vehicle = getVehicle(source, idOrCode)
 
   if (!vehicle) throw new Error(`No vehicle ${idOrCode}`)
 
-  const { driverId, ...input } = parseVehicle(s, raw, vehicle.id)
+  const { driverId, ...input } = parseVehicle(source, raw, vehicle.id)
 
   Object.assign(vehicle, input)
 
-  assign(s, vehicle, driverId)
+  assign(source, vehicle, driverId)
 
   return vehicle
 }

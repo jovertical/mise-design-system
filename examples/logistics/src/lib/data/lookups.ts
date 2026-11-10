@@ -5,10 +5,12 @@ import type { Id } from './types.js'
 const find = <T extends { id: Id }>(rows: T[], id: Id | null) =>
   id ? rows.find((row) => row.id === id) : undefined
 
-export const locationName = (s: Source, id: Id | null) => find(s.data.locations, id)?.name ?? '—'
-export const clientOf = (s: Source, id: Id | null) => find(s.data.clients, id)
-export const vehicleOf = (s: Source, id: Id | null) => find(s.data.vehicles, id)
-export const driverOf = (s: Source, id: Id | null) => find(s.data.drivers, id)
+export const locationName = (source: Source, id: Id | null) =>
+  find(source.data.locations, id)?.name ?? '—'
+
+export const clientOf = (source: Source, id: Id | null) => find(source.data.clients, id)
+export const vehicleOf = (source: Source, id: Id | null) => find(source.data.vehicles, id)
+export const driverOf = (source: Source, id: Id | null) => find(source.data.drivers, id)
 
 /** Two initials for an avatar: "Coastal Grocers" → "CG". */
 export const initials = (name: string) =>

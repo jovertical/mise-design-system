@@ -4,22 +4,23 @@ import { type ClientInput, clientSchema } from './schema.js'
 
 export type ClientFilters = { search?: string; status?: Client['status']; manager?: string }
 
-export const listClients = (s: Source, filters: ClientFilters = {}): Client[] =>
-  s.data.clients
+export const listClients = (source: Source, filters: ClientFilters = {}): Client[] =>
+  source.data.clients
     .filter((client) => !filters.status || client.status === filters.status)
     .filter((client) => !filters.manager || client.manager === filters.manager)
     .filter((client) => matches(filters.search, client.name, client.contact))
 
-export const getClient = (s: Source, id: Id) => s.data.clients.find((client) => client.id === id)
+export const getClient = (source: Source, id: Id) =>
+  source.data.clients.find((client) => client.id === id)
 
-export const clientOrders = (s: Source, id: Id) =>
-  s.data.orders
+export const clientOrders = (source: Source, id: Id) =>
+  source.data.orders
     .filter((order) => order.clientId === id)
-    .toSorted((a, b) => b.number.localeCompare(a.number))
+    .toSorted((first, second) => second.number.localeCompare(first.number))
 
 /** The value of the client's orders that are neither completed nor cancelled. */
-export const openOrderValue = (s: Source, id: Id): Cents =>
-  clientOrders(s, id)
+export const openOrderValue = (source: Source, id: Id): Cents =>
+  clientOrders(source, id)
     .filter((order) => order.status !== 'completed' && order.status !== 'cancelled')
     .reduce((sum, order) => sum + order.total, 0)
 
@@ -33,22 +34,22 @@ export const clientToInput = (client: Client): ClientInput => ({
   status: client.status,
 })
 
-export function createClient(s: Source, raw: ClientInput): Client {
+export function createClient(source: Source, raw: ClientInput): Client {
   const input = clientSchema.parse(raw)
 
   const client: Client = {
     ...input,
-    id: `cli-${input.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${s.data.clients.length + 1}`,
+    id: `cli-${input.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${source.data.clients.length + 1}`,
     lifetimeValue: 0,
   }
 
-  s.data.clients.push(client)
+  source.data.clients.push(client)
 
   return client
 }
 
-export function updateClient(s: Source, id: Id, raw: ClientInput): Client {
-  const client = getClient(s, id)
+export function updateClient(source: Source, id: Id, raw: ClientInput): Client {
+  const client = getClient(source, id)
 
   if (!client) throw new Error(`No client ${id}`)
 

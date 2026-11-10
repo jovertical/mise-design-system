@@ -2,7 +2,7 @@ import { percent, type Source } from '../shared.js'
 import type { Location } from '../types.js'
 import { type SiteInput, siteSchema } from './schema.js'
 
-export const listLocations = (s: Source) => s.data.locations
+export const listLocations = (source: Source) => source.data.locations
 
 export const utilisation = (location: Location) =>
   percent(
@@ -13,22 +13,22 @@ export const utilisation = (location: Location) =>
 export const zoneShare = (zone: Location['zones'][number]) => percent(zone.used, zone.capacity)
 
 /** How many products a site stocks, and how many units it holds on hand. */
-export function locationStock(s: Source, id: Location['id']) {
-  const rows = s.data.products.flatMap((product) =>
+export function locationStock(source: Source, id: Location['id']) {
+  const rows = source.data.products.flatMap((product) =>
     product.stock.filter((row) => row.locationId === id),
   )
 
   return { skus: rows.length, units: rows.reduce((sum, row) => sum + row.onHand, 0) }
 }
 
-export const getLocation = (s: Source, id: string) =>
-  s.data.locations.find((location) => location.id === id)
+export const getLocation = (source: Source, id: string) =>
+  source.data.locations.find((location) => location.id === id)
 
 /** Vehicles based at the site, and the shipments leaving it that are not delivered. */
-export function locationActivity(s: Source, id: string) {
+export function locationActivity(source: Source, id: string) {
   return {
-    vehicles: s.data.vehicles.filter((vehicle) => vehicle.homeLocationId === id),
-    outbound: s.data.shipments.filter(
+    vehicles: source.data.vehicles.filter((vehicle) => vehicle.homeLocationId === id),
+    outbound: source.data.shipments.filter(
       (shipment) => shipment.originId === id && shipment.status !== 'delivered',
     ),
   }
@@ -45,7 +45,7 @@ export const siteToInput = (location: Location): SiteInput => ({
   zones: location.zones.map(({ name, capacity }) => ({ name, capacity })),
 })
 
-export function createSite(s: Source, raw: SiteInput): Location {
+export function createSite(source: Source, raw: SiteInput): Location {
   const { zones, ...input } = siteSchema.parse(raw)
 
   const site: Location = {
@@ -54,7 +54,7 @@ export function createSite(s: Source, raw: SiteInput): Location {
     zones: zones.map((zone) => ({ ...zone, used: 0 })),
   }
 
-  s.data.locations.push(site)
+  source.data.locations.push(site)
 
   return site
 }
@@ -63,8 +63,8 @@ export function createSite(s: Source, raw: SiteInput): Location {
  * Zones line up by position: a kept zone keeps what it holds, and its
  * capacity can't drop below that; a zone past the new end must be empty.
  */
-export function updateSite(s: Source, id: string, raw: SiteInput): Location {
-  const site = getLocation(s, id)
+export function updateSite(source: Source, id: string, raw: SiteInput): Location {
+  const site = getLocation(source, id)
 
   if (!site) throw new Error(`No site ${id}`)
 
