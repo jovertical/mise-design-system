@@ -221,6 +221,7 @@ const EXPECTED_EXPORTS = [
   'Label',
   'LockedOverlay',
   'MediaDropzone',
+  'MonthPicker',
   'NavigationProgress',
   'NumberInput',
   'NumberInputField',

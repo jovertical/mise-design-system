@@ -87,7 +87,8 @@ type and default.
 - On or off: `Switch`; with a label and description in a row: `SwitchField`; a tick:
   `Checkbox`
 - Several choices from a short list, as ticks bound to an array: `CheckboxGroup`
-- A date: `DatePicker`; a calendar on the page: `Calendar`; a time: `TimePicker`
+- A date: `DatePicker`; a calendar on the page: `Calendar`; a time: `TimePicker`; a month:
+  `MonthPicker`
 - A one-time code: `InputOTP`
 - An image or file upload: `MediaDropzone`
 - Segmented buttons: `ToggleGroup`; one pressed state: `Toggle`; joined buttons and inputs:

@@ -504,6 +504,27 @@ One image, on a zone that stays put: a logo, an avatar, a cover.
 
 Types: `MediaAsset`, `MediaLinkMode` (`'immediate' | 'deferred'`), `MediaUploaderAdapter`, `MediaUploadOptions`.
 
+## MonthPicker
+
+`import { MonthPicker } from '@jovertical/mise-design-system'`
+
+A month and its year behind a trigger, for a report or a ledger filtered by month: the year with its arrows over a grid of the twelve months.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `value` | `CalendarDate` |  |  |
+| `onValueChange` | `(value: CalendarDate) => void` |  |  |
+| `minValue` | `DateValue` |  |  |
+| `maxValue` | `DateValue` |  |  |
+| `formatLabel` | `(value: CalendarDate) => string` |  | The trigger's text for a picked month. "March 2026" in `locale` by default. |
+| `locale` | `string` | `'en-US'` | For the month names and the default label. `en-US` when absent. |
+| `placeholder` | `string` | `'Pick a month'` |  |
+| `disabled` | `boolean` | `false` |  |
+| `'aria-invalid'` | `HTMLAttributes<HTMLElement>['aria-invalid']` |  |  |
+| `class` | `string` |  |  |
+
+Also takes: every HTML attribute except `children`, `placeholder`, `aria-invalid`, `class`.
+
 ## NumberInput
 
 `import { NumberInput, NumberInputField } from '@jovertical/mise-design-system'`
