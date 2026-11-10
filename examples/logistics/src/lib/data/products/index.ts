@@ -1,6 +1,6 @@
-import { type ProductInput, productSchema } from './schemas.js'
-import { matches, type Source } from './shared.js'
-import type { Product } from './types.js'
+import { matches, type Source } from '../shared.js'
+import type { Product } from '../types.js'
+import { type ProductInput, productSchema } from './schema.js'
 
 export type ProductFilters = { search?: string; category?: Product['category'] }
 

@@ -21,7 +21,7 @@
   import { renderComponent, renderSnippet } from '@tanstack/svelte-table'
   import NoMatches from '#lib/components/no-matches.svelte'
   import VehicleCard from '#lib/components/vehicle-card.svelte'
-  import { listVehicles, serviceDueSoon } from '#lib/data/fleet.js'
+  import { listVehicles, serviceDueSoon } from '#lib/data/fleet/index.js'
   import { latency } from '#lib/data/latency.js'
   import { driverOf, locationName } from '#lib/data/lookups.js'
   import { store } from '#lib/data/store.svelte.js'

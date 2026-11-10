@@ -13,7 +13,7 @@
   } from '@jovertical/mise-design-system'
   import { store } from '#lib/data/store.svelte.js'
   import type { Location } from '#lib/data/types.js'
-  import { locationStock, utilisation, zoneShare } from '#lib/data/warehouses.js'
+  import { locationStock, utilisation, zoneShare } from '#lib/data/warehouses/index.js'
   import { resolve } from '$app/paths'
 
   let { location }: { location: Location } = $props()

@@ -25,7 +25,7 @@
   import { renderComponent, renderSnippet } from '@tanstack/svelte-table'
   import NoMatches from '#lib/components/no-matches.svelte'
   import { latency } from '#lib/data/latency.js'
-  import { listProducts, lowStock, productStock } from '#lib/data/products.js'
+  import { listProducts, lowStock, productStock } from '#lib/data/products/index.js'
   import { store } from '#lib/data/store.svelte.js'
   import type { Product } from '#lib/data/types.js'
   import { money } from '#lib/format.js'

@@ -1,15 +1,13 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 
-import { createClient } from '../src/lib/data/clients.js'
-import { createOrder } from '../src/lib/data/orders.js'
-import { updateProduct } from '../src/lib/data/products.js'
-import {
-  clientSchema,
-  orderSchema,
-  productSchema,
-  settingsSchema,
-} from '../src/lib/data/schemas.js'
-import { getSettings, saveSettings } from '../src/lib/data/settings.js'
+import { createClient } from '../src/lib/data/clients/index.js'
+import { clientSchema } from '../src/lib/data/clients/schema.js'
+import { createOrder } from '../src/lib/data/orders/index.js'
+import { orderSchema } from '../src/lib/data/orders/schema.js'
+import { updateProduct } from '../src/lib/data/products/index.js'
+import { productSchema } from '../src/lib/data/products/schema.js'
+import { getSettings, saveSettings } from '../src/lib/data/settings/index.js'
+import { settingsSchema } from '../src/lib/data/settings/schema.js'
 import { createStore, type Store } from '../src/lib/data/store.svelte.js'
 
 let s: Store

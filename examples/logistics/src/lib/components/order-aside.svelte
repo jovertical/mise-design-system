@@ -11,8 +11,8 @@
   import ReceiptText from '@lucide/svelte/icons/receipt-text'
 
   import { clientOf, locationName } from '#lib/data/lookups.js'
-  import { orderReadiness } from '#lib/data/readiness.js'
-  import type { OrderInput } from '#lib/data/schemas.js'
+  import { orderReadiness } from '#lib/data/orders/readiness.js'
+  import type { OrderInput } from '#lib/data/orders/schema.js'
   import { store } from '#lib/data/store.svelte.js'
   import { money, weight } from '#lib/format.js'
   import { SERVICE_LABEL } from '#lib/status.js'

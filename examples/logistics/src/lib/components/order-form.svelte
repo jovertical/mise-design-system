@@ -44,7 +44,7 @@
   import { untrack } from 'svelte'
   import FormPage, { type FormPageText } from '#lib/components/form-page.svelte'
   import OrderAside from '#lib/components/order-aside.svelte'
-  import { type OrderInput, orderSchema } from '#lib/data/schemas.js'
+  import { type OrderInput, orderSchema } from '#lib/data/orders/schema.js'
   import { store } from '#lib/data/store.svelte.js'
   import type { Order } from '#lib/data/types.js'
   import { entityForm } from '#lib/entity-form.svelte.js'

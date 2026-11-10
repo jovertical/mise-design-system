@@ -44,9 +44,11 @@ saving screenshots to `.smoke/`.
 - `src/lib/data/store.svelte.ts` holds it in one `$state` object, saved to
   `localStorage` a moment after any change. **Reset demo data** in the user menu
   puts the seed back.
-- Pages read and change data only through the functions in `src/lib/data/*.ts`,
+- Pages read and change data only through the functions in
+  `src/lib/data/<entity>/index.ts`, one folder per entity,
   which compute every figure on screen and are unit-tested against the seed.
-  Writes go through the zod schemas in `schemas.ts`, the same ones the forms use.
+  Writes go through the zod schema in the entity's `schema.ts`, the same one its
+  form uses.
 
 ## Create and edit pages
 
@@ -66,7 +68,7 @@ readiness checklist beside it.
   sentence that becomes a toast.
 - **Leaving with unsaved changes asks first**, through a "Discard changes?"
   dialog; a save, or a form left as it was, leaves without asking.
-- **Readiness rows** come from `src/lib/data/readiness.ts`, pure functions of
+- **Readiness rows** come from each entity's `readiness.ts`, pure functions of
   the form's values, tested without rendering.
 - **What can't be edited** gets a stop instead of the form: a completed or
   cancelled order, and a shipment that has left. A shipment is planned as a

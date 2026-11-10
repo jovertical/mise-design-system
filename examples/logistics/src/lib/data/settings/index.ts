@@ -1,6 +1,6 @@
-import { settingsSchema } from './schemas.js'
-import type { Source } from './shared.js'
-import type { Settings } from './types.js'
+import type { Source } from '../shared.js'
+import type { Settings } from '../types.js'
+import { settingsSchema } from './schema.js'
 
 export const getSettings = (s: Source): Settings => s.data.settings
 

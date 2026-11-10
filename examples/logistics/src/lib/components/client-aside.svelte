@@ -11,8 +11,8 @@
   import ListChecks from '@lucide/svelte/icons/list-checks'
   import ReceiptText from '@lucide/svelte/icons/receipt-text'
 
-  import { clientReadiness } from '#lib/data/readiness.js'
-  import type { ClientInput } from '#lib/data/schemas.js'
+  import { clientReadiness } from '#lib/data/clients/readiness.js'
+  import type { ClientInput } from '#lib/data/clients/schema.js'
   import type { Cents } from '#lib/data/types.js'
   import { money } from '#lib/format.js'
   import { CLIENT_STATUS } from '#lib/status.js'

@@ -8,7 +8,8 @@ import {
   listClients,
   openOrderValue,
   updateClient,
-} from '../src/lib/data/clients.js'
+} from '../src/lib/data/clients/index.js'
+import { clientSchema } from '../src/lib/data/clients/schema.js'
 import {
   assignableDrivers,
   createVehicle,
@@ -20,7 +21,7 @@ import {
   updateVehicle,
   vehicleShipments,
   vehicleToInput,
-} from '../src/lib/data/fleet.js'
+} from '../src/lib/data/fleet/index.js'
 import {
   cancelOrder,
   createOrder,
@@ -31,7 +32,8 @@ import {
   ordersByStatus,
   orderToInput,
   updateOrder,
-} from '../src/lib/data/orders.js'
+} from '../src/lib/data/orders/index.js'
+import { orderSchema } from '../src/lib/data/orders/schema.js'
 import {
   change,
   deliveredThisWeek,
@@ -48,9 +50,8 @@ import {
   productStock,
   productToInput,
   updateProduct,
-} from '../src/lib/data/products.js'
-import { clientSchema, orderSchema } from '../src/lib/data/schemas.js'
-import { getSettings, saveSettings } from '../src/lib/data/settings.js'
+} from '../src/lib/data/products/index.js'
+import { getSettings, saveSettings } from '../src/lib/data/settings/index.js'
 import {
   activeShipments,
   candidateOrders,
@@ -63,7 +64,7 @@ import {
   shipmentProgress,
   shipmentToInput,
   updateShipment,
-} from '../src/lib/data/shipments.js'
+} from '../src/lib/data/shipments/index.js'
 import { createStore, type Store } from '../src/lib/data/store.svelte.js'
 import type { Order } from '../src/lib/data/types.js'
 import {
@@ -76,7 +77,7 @@ import {
   updateSite,
   utilisation,
   zoneShare,
-} from '../src/lib/data/warehouses.js'
+} from '../src/lib/data/warehouses/index.js'
 
 let s: Store
 

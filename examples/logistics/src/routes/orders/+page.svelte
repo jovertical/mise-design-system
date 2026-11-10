@@ -46,7 +46,7 @@
     OPEN_STATUSES,
     orderStats,
     ordersByStatus,
-  } from '#lib/data/orders.js'
+  } from '#lib/data/orders/index.js'
   import { store } from '#lib/data/store.svelte.js'
   import type { Order } from '#lib/data/types.js'
   import { dateTime, money, weight } from '#lib/format.js'

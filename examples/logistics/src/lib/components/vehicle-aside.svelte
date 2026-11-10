@@ -10,10 +10,9 @@
   } from '@jovertical/mise-design-system'
   import ListChecks from '@lucide/svelte/icons/list-checks'
   import ReceiptText from '@lucide/svelte/icons/receipt-text'
-
+  import { vehicleReadiness } from '#lib/data/fleet/readiness.js'
+  import type { VehicleInput } from '#lib/data/fleet/schema.js'
   import { driverOf, locationName } from '#lib/data/lookups.js'
-  import { vehicleReadiness } from '#lib/data/readiness.js'
-  import type { VehicleInput } from '#lib/data/schemas.js'
   import { store } from '#lib/data/store.svelte.js'
   import type { Vehicle } from '#lib/data/types.js'
   import { dateOf } from '#lib/format.js'

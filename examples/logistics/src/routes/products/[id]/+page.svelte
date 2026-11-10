@@ -23,7 +23,7 @@
   import Tag from '@lucide/svelte/icons/tag'
   import { nameThisPage } from '#lib/breadcrumb.svelte.js'
   import { locationName } from '#lib/data/lookups.js'
-  import { getProduct, productStock } from '#lib/data/products.js'
+  import { getProduct, productStock } from '#lib/data/products/index.js'
   import { store } from '#lib/data/store.svelte.js'
   import { money } from '#lib/format.js'
   import { CATEGORY_LABEL } from '#lib/status.js'

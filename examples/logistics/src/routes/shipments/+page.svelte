@@ -19,7 +19,7 @@
   import NoMatches from '#lib/components/no-matches.svelte'
   import { latency } from '#lib/data/latency.js'
   import { driverOf, locationName, vehicleOf } from '#lib/data/lookups.js'
-  import { listShipments, shipmentProgress } from '#lib/data/shipments.js'
+  import { listShipments, shipmentProgress } from '#lib/data/shipments/index.js'
   import { store } from '#lib/data/store.svelte.js'
   import type { Shipment } from '#lib/data/types.js'
   import { dateTime } from '#lib/format.js'

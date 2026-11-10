@@ -39,7 +39,7 @@
   import FormPage, { type FormPageText } from '#lib/components/form-page.svelte'
   import ProductAside from '#lib/components/product-aside.svelte'
   import { locationName } from '#lib/data/lookups.js'
-  import { type ProductInput, productSchema } from '#lib/data/schemas.js'
+  import { type ProductInput, productSchema } from '#lib/data/products/schema.js'
   import { store } from '#lib/data/store.svelte.js'
   import type { Product } from '#lib/data/types.js'
   import { entityForm } from '#lib/entity-form.svelte.js'

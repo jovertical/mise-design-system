@@ -25,7 +25,7 @@
 
   import ClientAside from '#lib/components/client-aside.svelte'
   import FormPage, { type FormPageText } from '#lib/components/form-page.svelte'
-  import { type ClientInput, clientSchema } from '#lib/data/schemas.js'
+  import { type ClientInput, clientSchema } from '#lib/data/clients/schema.js'
   import type { Cents } from '#lib/data/types.js'
   import { entityForm } from '#lib/entity-form.svelte.js'
 

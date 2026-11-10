@@ -39,7 +39,12 @@
   import { scalePoint } from 'd3-scale'
   import { curveMonotoneX } from 'd3-shape'
   import { AreaChart } from 'layerchart'
-  import { CONDITIONS, fleetCondition, fleetStatus, VEHICLE_STATUSES } from '#lib/data/fleet.js'
+  import {
+    CONDITIONS,
+    fleetCondition,
+    fleetStatus,
+    VEHICLE_STATUSES,
+  } from '#lib/data/fleet/index.js'
   import { latency } from '#lib/data/latency.js'
   import { driverOf, locationName, vehicleOf } from '#lib/data/lookups.js'
   import {
@@ -49,7 +54,7 @@
     pipeline,
     pipelineUrgency,
   } from '#lib/data/overview.js'
-  import { activeShipments, shipmentProgress } from '#lib/data/shipments.js'
+  import { activeShipments, shipmentProgress } from '#lib/data/shipments/index.js'
   import { store } from '#lib/data/store.svelte.js'
   import type { Shipment } from '#lib/data/types.js'
   import { dateTime } from '#lib/format.js'

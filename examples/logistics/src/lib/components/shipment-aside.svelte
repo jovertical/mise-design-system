@@ -11,8 +11,8 @@
   import ReceiptText from '@lucide/svelte/icons/receipt-text'
 
   import { driverOf, locationName, vehicleOf } from '#lib/data/lookups.js'
-  import { shipmentReadiness } from '#lib/data/readiness.js'
-  import type { ShipmentInput } from '#lib/data/schemas.js'
+  import { shipmentReadiness } from '#lib/data/shipments/readiness.js'
+  import type { ShipmentInput } from '#lib/data/shipments/schema.js'
   import { store } from '#lib/data/store.svelte.js'
   import { weight } from '#lib/format.js'
 

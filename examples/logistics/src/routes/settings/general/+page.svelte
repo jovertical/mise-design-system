@@ -48,8 +48,8 @@
   import { zod4 } from 'sveltekit-superforms/adapters'
 
   import { initials } from '#lib/data/lookups.js'
-  import { settingsSchema, TIMEZONES } from '#lib/data/schemas.js'
-  import { getSettings, saveSettings } from '#lib/data/settings.js'
+  import { getSettings, saveSettings } from '#lib/data/settings/index.js'
+  import { settingsSchema, TIMEZONES } from '#lib/data/settings/schema.js'
   import { store } from '#lib/data/store.svelte.js'
   import type { Settings } from '#lib/data/types.js'
 

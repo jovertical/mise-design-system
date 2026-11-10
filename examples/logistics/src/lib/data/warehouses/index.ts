@@ -1,6 +1,6 @@
-import { type SiteInput, siteSchema } from './schemas.js'
-import { percent, type Source } from './shared.js'
-import type { Location } from './types.js'
+import { percent, type Source } from '../shared.js'
+import type { Location } from '../types.js'
+import { type SiteInput, siteSchema } from './schema.js'
 
 export const listLocations = (s: Source) => s.data.locations
 

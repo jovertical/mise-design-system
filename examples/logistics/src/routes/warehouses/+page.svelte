@@ -5,7 +5,7 @@
 
   import WarehouseCard from '#lib/components/warehouse-card.svelte'
   import { store } from '#lib/data/store.svelte.js'
-  import { listLocations } from '#lib/data/warehouses.js'
+  import { listLocations } from '#lib/data/warehouses/index.js'
   import { resolve } from '$app/paths'
 
   const locations = $derived(listLocations(store))

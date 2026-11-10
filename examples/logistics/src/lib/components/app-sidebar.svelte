@@ -14,7 +14,7 @@
     SidebarMenuButton,
     SidebarMenuItem,
   } from '@jovertical/mise-design-system'
-  import { getSettings } from '#lib/data/settings.js'
+  import { getSettings } from '#lib/data/settings/index.js'
   import { store } from '#lib/data/store.svelte.js'
   import { locate, NAVIGATION } from '#lib/navigation.js'
   import { resolve } from '$app/paths'

@@ -11,8 +11,8 @@
   import ListChecks from '@lucide/svelte/icons/list-checks'
   import ReceiptText from '@lucide/svelte/icons/receipt-text'
 
-  import { productReadiness } from '#lib/data/readiness.js'
-  import type { ProductInput } from '#lib/data/schemas.js'
+  import { productReadiness } from '#lib/data/products/readiness.js'
+  import type { ProductInput } from '#lib/data/products/schema.js'
   import type { Product } from '#lib/data/types.js'
   import { money } from '#lib/format.js'
   import { CATEGORY_LABEL } from '#lib/status.js'

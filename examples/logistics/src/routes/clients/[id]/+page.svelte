@@ -27,7 +27,7 @@
   import User from '@lucide/svelte/icons/user'
   import UserCog from '@lucide/svelte/icons/user-cog'
   import { nameThisPage } from '#lib/breadcrumb.svelte.js'
-  import { clientOrders, getClient, openOrderValue } from '#lib/data/clients.js'
+  import { clientOrders, getClient, openOrderValue } from '#lib/data/clients/index.js'
   import { store } from '#lib/data/store.svelte.js'
   import { dateTime, money } from '#lib/format.js'
   import { CLIENT_STATUS, ORDER_STATUS } from '#lib/status.js'

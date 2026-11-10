@@ -19,7 +19,7 @@
   import Plus from '@lucide/svelte/icons/plus'
   import { renderComponent, renderSnippet } from '@tanstack/svelte-table'
   import NoMatches from '#lib/components/no-matches.svelte'
-  import { clientOrders, listClients, openOrderValue } from '#lib/data/clients.js'
+  import { clientOrders, listClients, openOrderValue } from '#lib/data/clients/index.js'
   import { latency } from '#lib/data/latency.js'
   import { initials } from '#lib/data/lookups.js'
   import { store } from '#lib/data/store.svelte.js'

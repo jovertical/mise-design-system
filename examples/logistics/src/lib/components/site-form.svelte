@@ -33,7 +33,7 @@
 
   import FormPage, { type FormPageText } from '#lib/components/form-page.svelte'
   import SiteAside from '#lib/components/site-aside.svelte'
-  import { type SiteInput, siteSchema } from '#lib/data/schemas.js'
+  import { type SiteInput, siteSchema } from '#lib/data/warehouses/schema.js'
   import { entityForm } from '#lib/entity-form.svelte.js'
 
   let {

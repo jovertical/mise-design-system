@@ -1,4 +1,7 @@
 /** Helpers the repositories share. Every repository takes the store first. */
+import type { ReadinessItem } from '@jovertical/mise-design-system'
+import { z } from 'zod'
+
 import type { Dataset } from './types.js'
 
 export type Source = { data: Dataset }
@@ -22,3 +25,13 @@ export function tally<K extends string>(keys: readonly K[], values: K[]) {
     }),
   ) as Record<K, { count: number; share: number }>
 }
+
+/** Money in a schema: whole cents, never negative. */
+export const cents = z.number().int('Whole cents only').min(0, 'Cannot be negative')
+
+/** One row of a readiness checklist: met or not. */
+export const readinessRow = (id: string, label: string, met: boolean): ReadinessItem => ({
+  id,
+  label,
+  status: met ? 'met' : 'unmet',
+})

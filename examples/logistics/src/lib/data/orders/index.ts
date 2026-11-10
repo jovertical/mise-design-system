@@ -1,6 +1,6 @@
-import { type OrderInput, orderSchema } from './schemas.js'
-import { matches, type Source } from './shared.js'
-import type { Id, Order, OrderStatus } from './types.js'
+import { matches, type Source } from '../shared.js'
+import type { Id, Order, OrderStatus } from '../types.js'
+import { type OrderInput, orderSchema } from './schema.js'
 
 export type OrderFilters = { search?: string; status?: OrderStatus }
 

@@ -1,6 +1,6 @@
-import { type VehicleInput, vehicleSchema } from './schemas.js'
-import { matches, type Source, tally } from './shared.js'
-import type { Driver, Id, Vehicle, VehicleStatus } from './types.js'
+import { matches, type Source, tally } from '../shared.js'
+import type { Driver, Id, Vehicle, VehicleStatus } from '../types.js'
+import { type VehicleInput, vehicleSchema } from './schema.js'
 
 export const VEHICLE_STATUSES = ['on-route', 'loading', 'idle', 'workshop'] as const
 export const CONDITIONS = ['excellent', 'good', 'service-due', 'overdue'] as const

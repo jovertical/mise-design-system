@@ -1,6 +1,6 @@
-import { type ClientInput, clientSchema } from './schemas.js'
-import { matches, type Source } from './shared.js'
-import type { Cents, Client, Id } from './types.js'
+import { matches, type Source } from '../shared.js'
+import type { Cents, Client, Id } from '../types.js'
+import { type ClientInput, clientSchema } from './schema.js'
 
 export type ClientFilters = { search?: string; status?: Client['status']; manager?: string }
 

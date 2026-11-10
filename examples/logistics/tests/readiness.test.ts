@@ -1,21 +1,17 @@
 import { describe, expect, it } from 'vitest'
 
-import {
-  clientReadiness,
-  orderReadiness,
-  productReadiness,
-  shipmentReadiness,
-  siteReadiness,
-  vehicleReadiness,
-} from '../src/lib/data/readiness.js'
-import type {
-  ClientInput,
-  OrderInput,
-  ProductInput,
-  ShipmentInput,
-  SiteInput,
-  VehicleInput,
-} from '../src/lib/data/schemas.js'
+import { clientReadiness } from '../src/lib/data/clients/readiness.js'
+import type { ClientInput } from '../src/lib/data/clients/schema.js'
+import { vehicleReadiness } from '../src/lib/data/fleet/readiness.js'
+import type { VehicleInput } from '../src/lib/data/fleet/schema.js'
+import { orderReadiness } from '../src/lib/data/orders/readiness.js'
+import type { OrderInput } from '../src/lib/data/orders/schema.js'
+import { productReadiness } from '../src/lib/data/products/readiness.js'
+import type { ProductInput } from '../src/lib/data/products/schema.js'
+import { shipmentReadiness } from '../src/lib/data/shipments/readiness.js'
+import type { ShipmentInput } from '../src/lib/data/shipments/schema.js'
+import { siteReadiness } from '../src/lib/data/warehouses/readiness.js'
+import type { SiteInput } from '../src/lib/data/warehouses/schema.js'
 
 const unmet = (items: { label: string; status: string }[]) =>
   items.filter((item) => item.status !== 'met').map((item) => item.label)

@@ -28,7 +28,7 @@
     locationStock,
     utilisation,
     zoneShare,
-  } from '#lib/data/warehouses.js'
+  } from '#lib/data/warehouses/index.js'
   import { SHIPMENT_STATUS, VEHICLE_STATUS } from '#lib/status.js'
   import { resolve } from '$app/paths'
   import { page } from '$app/state'
