@@ -215,7 +215,9 @@ chain of ternaries. Before writing a new tone map, check `src/lib/utils/tone.ts`
 `path:line: rule: detail`.
 
 - Exceptions live in `scripts/conventions/exceptions.ts`, each with its
-  reason. Add one only with a reason a reviewer would accept.
-- `BREAKERS` in the test lists files that broke a rule when the check landed.
-  It may only shrink: a listed file that no longer breaks its rule fails the
-  test until it is taken off the list.
+  reason: stories, the generated Tailwind palette, and the barrel test's
+  export list. Add one only with a reason a reviewer would accept.
+- Nothing else is allowed to break a rule. When the check landed it carried a
+  list of files that already did; the refactor emptied it and it is gone.
+- Before the gate, run `pnpm fix:spacing`, then `pnpm format`, then
+  `pnpm test`. The fixer works on mise and the examples alike.

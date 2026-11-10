@@ -42,5 +42,6 @@ Run `pnpm fix:spacing` (it only adds or removes blank lines), then
 - `(e) =>`, `(a, b) =>`, `pkg`, `cfg`: the naming rule has no callback
   exception.
 - Two calls on adjacent lines; a guard with no blank line after it.
-- Adding to the check's `BREAKERS` list. It only shrinks.
+- Reaching for an exception instead of fixing the code. Every exception in
+  `scripts/conventions/exceptions.ts` carries a reason; a new one needs one too.
 - An exception without a reason a reviewer would accept.

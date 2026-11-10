@@ -34,16 +34,18 @@ and plans do not say. Nothing is in progress.
   built package through the pnpm workspace, so mise is rebuilt
   (`pnpm build`, or the watcher in `pnpm dev:example`) before the example sees
   a change.
-- **Gate:** `pnpm test` (528 tests), `pnpm build` (publint) and
+- **Gate:** `pnpm test` (550 tests, the clean-code check included), `pnpm build` (publint) and
   `pnpm build:storybook` for mise; `pnpm --filter mise-logistics-example test`
-  (80 tests) and `smoke` (27 routes and 2 not-found routes, light and dark) for
-  the example.
+  (83 tests) and `smoke` (27 routes and 2 not-found routes, light and dark) for
+  the example. Run `pnpm fix:spacing` then `pnpm format` before it.
 - **Specs and plans** for the recent work: consumer skill
   (`docs/specs/2026-11-09-consumer-skill-design.md`, plan of the same date),
   logistics example (`docs/specs/2026-11-09-logistics-example-design.md`, its
   plan and the Board plan in `docs/superpowers/plans/`), and the example's
   create and edit pages (`docs/specs/2026-11-09-edit-pages-design.md`, its plan
-  of the same date).
+  of the same date), and the clean-code guide with its check and the refactor
+  that met it (`docs/specs/2026-11-10-clean-code-design.md`, plan of the same
+  date).
 
 What was built, round by round:
 
@@ -221,6 +223,22 @@ repository.
 - `bg-accent`, which the React package redefined as the brand tint (mise uses `bg-muted`, or the primary soft wash);
 - peso amounts, real tenant names, "tenant" and pricing tiers in story copy (mise uses `$`, generic locations, access or setup);
 - product tour hooks (`tourTarget`), dropped.
+
+**The clean-code check**
+
+- **`.ai/guidelines/clean-code/guide.md` is enforced** by
+  `tests/conventions.test.ts`, which parses every `.ts` file, and each
+  `.svelte` file's scripts (at their offsets, so lines match) and template,
+  with the TypeScript compiler and `svelte/compiler`. The rules live in
+  `scripts/conventions/`, one module each; exceptions, each with a reason, in
+  `exceptions.ts`.
+- **Spacing has a fixer**, `pnpm fix:spacing`, sharing the rule's code. Biome
+  keeps blank lines but never adds one, so the fixer runs first. Imports and
+  re-exports group however they wrap, a semicolon Biome moves to the next line
+  belongs to that line, and a `describe` body is not measured as a function.
+- **A refactor that must not change behaviour can prove it**: the theme CSS
+  and the skill catalogue were compared byte for byte, the seed as JSON, and
+  the example's 58 smoke screenshots against the previous run.
 
 **The logistics example (SvelteKit 3)**
 

@@ -69,7 +69,8 @@ Biome 2.6 (including `.svelte`) · pnpm 12.
 ## Commands
 
 - `pnpm storybook`: build the theme and start Storybook on :6006
-- `pnpm test`: svelte-check, Biome, unit tests
+- `pnpm test`: svelte-check, Biome, unit tests, and the clean-code check over mise and the examples
+- `pnpm fix:spacing`: put the blank lines between statements the clean-code guide asks for; run before `pnpm format`
 - `pnpm build`: `svelte-package`, `dist/theme.css`, publint
 - `pnpm build:skill`: regenerate `skills/mise/components/` from the Props types
 - `pnpm dev:example`: the logistics example against this working copy, rebuilding mise on save
