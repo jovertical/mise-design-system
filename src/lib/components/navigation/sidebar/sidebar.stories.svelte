@@ -16,7 +16,7 @@
   import SidebarProvider from './sidebar-provider.svelte'
   import SidebarTrigger from './sidebar-trigger.svelte'
 
-  const THEMES: SidebarSideTheme[] = ['primary', 'light', 'panel']
+  const THEMES: SidebarSideTheme[] = ['panel', 'primary', 'light']
 
   const { Story } = defineMeta({
     title: 'Navigation/Sidebar',
@@ -74,14 +74,15 @@
 -->
 <Story name="Playground">
   {#snippet template(args)}
-    {@render shell(args.sidetheme ?? 'primary', args.collapsible ?? 'offcanvas')}
+    {@render shell(args.sidetheme ?? 'panel', args.collapsible ?? 'offcanvas')}
   {/snippet}
 </Story>
 
 <!--
-  The three `sidetheme`s side by side: `primary` is the brand gradient, `light`
-  a white panel with a brand pill, `panel` reads the `--sidebar-*` tokens and
-  follows the scheme. Not a React story; added to review the themes.
+  The three `sidetheme`s side by side: `panel`, the default, reads the
+  `--sidebar-*` tokens and follows the scheme; `primary` is the brand
+  gradient; `light` a white panel with a brand pill. Not a React story; added
+  to review the themes.
 -->
 <Story name="Themes" asChild>
   <div class="grid gap-4 p-4 lg:grid-cols-3">

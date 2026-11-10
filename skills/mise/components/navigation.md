@@ -55,7 +55,7 @@ Also takes: every `<li>` attribute.
 | `side` | `'left' \| 'right'` | `'left'` |  |
 | `variant` | `'sidebar' \| 'floating' \| 'inset'` | `'sidebar'` |  |
 | `collapsible` | `'offcanvas' \| 'icon' \| 'none'` | `'offcanvas'` |  |
-| `sidetheme` | `'primary' \| 'light' \| 'panel'` | `'primary'` |  |
+| `sidetheme` | `'primary' \| 'light' \| 'panel'` | `'panel'` |  |
 
 Also takes: every `<div>` attribute.
 

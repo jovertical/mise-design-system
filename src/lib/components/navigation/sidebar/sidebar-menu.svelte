@@ -1,7 +1,7 @@
 <!--
   Origin: the React package 2.23.0 `sidebar.tsx` (`SidebarMenu`), itself shadcn/ui new-york `sidebar`
   Svelte: shadcn-svelte `sidebar`
-  Diverged: none beyond the port.
+  Diverged: `panel` rows sit `gap-0.5` apart, as the portals draw them.
 -->
 <script lang="ts" module>
   import type { HTMLAttributes } from 'svelte/elements'
@@ -21,7 +21,7 @@
   bind:this={ref}
   data-slot="sidebar-menu"
   data-sidebar="menu"
-  class={cn('flex w-full min-w-0 flex-col gap-1', className)}
+  class={cn('flex w-full min-w-0 flex-col gap-1 group-data-[sidetheme=panel]:gap-0.5', className)}
   {...rest}
 >
   {@render children?.()}

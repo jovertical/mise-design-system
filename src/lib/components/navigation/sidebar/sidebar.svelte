@@ -6,7 +6,9 @@
     package's hard-coded blues, and the `panel` theme drops `font-mono`, which
     only restated the React package's mono body face. The `light` panel is
     `bg-card` in dark: React kept it white under scheme-following text, which
-    went white on white.
+    went white on white. `panel` is the default, as the portals draw it
+    (React's was `primary`), and takes the overrides the portals' menus wrote
+    by hand (2026-11-10).
 -->
 <script lang="ts" module>
   import type { HTMLAttributes } from 'svelte/elements'
@@ -14,9 +16,10 @@
   import type { WithElementRef } from '../../../utils/types.js'
 
   /**
-   * Visual treatments for the sidebar shell. `primary` is a brand gradient
-   * panel; `light` a white panel with a brand active pill; `panel` reads
-   * entirely from the `--sidebar-*` tokens, so it follows light and dark.
+   * Visual treatments for the sidebar shell. `panel`, the default, reads
+   * entirely from the `--sidebar-*` tokens, so it follows light and dark;
+   * `primary` is a brand gradient panel; `light` a white panel with a brand
+   * active pill.
    */
   export type SidebarSideTheme = 'primary' | 'light' | 'panel'
 
@@ -42,7 +45,7 @@
     side = 'left',
     variant = 'sidebar',
     collapsible = 'offcanvas',
-    sidetheme = 'primary',
+    sidetheme = 'panel',
     class: className,
     children,
     ...rest
