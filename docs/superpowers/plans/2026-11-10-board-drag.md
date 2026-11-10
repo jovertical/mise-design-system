@@ -30,6 +30,7 @@
 | K4 | A card's name | `BoardCard` takes `label?: string` for announcements ("Picked up OR-2053"); without it the card's `id` is read |
 | K5 | Tests | The keyboard path and the drop rules are tested in jsdom. Pointer dragging is checked in a browser through the DevTools protocol, from a script kept outside the repository (the handoff's practice) |
 | K6 | Built differently | The drop ring's tone map stays in `board-column.svelte` (`DROP_RING_CLASS`) rather than a new public map in `tone.ts`: one part uses it. dnd-kit's accessibility plugin is filtered out and a link card sets `role="link"` (the plugin turned links into buttons). Each draggable passes `sensors: [PointerSensor]` itself, since it binds its sensors before the provider's apply. Space picks a card up; Enter is left to the link |
+| K7 | A run's last order | A run keeps at least one order (`shipmentSchema`, `orderIds.min(1)`), and every scheduled run in the seed carries one. Cancelling a run's only order is refused: "OR-2061 is the only order on SHP-3015; replan or cancel the run first". The spec did not foresee it; the orders page and the order page show the refusal as an error toast |
 
 ---
 

@@ -76,9 +76,13 @@
   function confirmCancel() {
     if (!order) return
 
-    cancelOrder(store, order.id)
+    try {
+      cancelOrder(store, order.id)
 
-    toast.success(`Order ${order.number} cancelled`)
+      toast.success(`Order ${order.number} cancelled`)
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : String(error))
+    }
   }
 </script>
 

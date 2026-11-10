@@ -7,6 +7,7 @@ import { createStore, type Store } from '../src/modules/core/data/store.svelte.j
 import { getOrder } from '../src/modules/orders/data/index.js'
 import {
   activeShipments,
+  addOrderToShipment,
   candidateOrders,
   candidateVehicles,
   createShipment,
@@ -14,6 +15,7 @@ import {
   isShipmentEditable,
   listShipments,
   plannedStops,
+  runsFor,
   shipmentProgress,
   shipmentToInput,
   updateShipment,
@@ -143,5 +145,43 @@ describe('shipments', () => {
     expect(shipmentProgress(getShipment(source, 'SHP-3006')!)).toBe(50)
     expect(shipmentProgress(getShipment(source, 'SHP-3001')!)).toBe(100)
     expect(shipmentProgress(getShipment(source, 'SHP-3015')!)).toBe(0)
+  })
+
+  it('puts a ready order on a scheduled run from its origin, and replans the stops', () => {
+    const run = source.data.shipments.find((shipment) => shipment.status === 'scheduled')
+
+    if (!run) throw new Error('The seed has no scheduled run')
+
+    const order = candidateOrders(source, run.originId, null)[0]
+
+    if (!order) throw new Error('No ready order at the run’s origin')
+
+    expect(runsFor(source, order).map((candidate) => candidate.number)).toContain(run.number)
+
+    const updated = addOrderToShipment(source, run.number, order.number)
+
+    expect(updated.orderIds).toContain(order.id)
+    expect(updated.stops).toHaveLength(updated.orderIds.length)
+    expect(getOrder(source, order.number)?.status).toBe('in-fulfilment')
+  })
+
+  it('refuses an order that is not ready, or a run that has left', () => {
+    const scheduled = source.data.shipments.find((shipment) => shipment.status === 'scheduled')
+    const moving = source.data.shipments.find((shipment) => shipment.status === 'in-transit')
+
+    if (!scheduled || !moving) throw new Error('The seed lacks a scheduled or moving run')
+
+    const received = source.data.orders.find((order) => order.status === 'received')
+    const ready = candidateOrders(source, moving.originId, null)[0]
+
+    if (!received || !ready) throw new Error('The seed lacks a received or ready order')
+
+    expect(() => addOrderToShipment(source, scheduled.number, received.number)).toThrow(
+      `${received.number} is received and cannot go on a run`,
+    )
+
+    expect(() => addOrderToShipment(source, moving.number, ready.number)).toThrow(
+      `${moving.number} is in transit and takes no more orders`,
+    )
   })
 })

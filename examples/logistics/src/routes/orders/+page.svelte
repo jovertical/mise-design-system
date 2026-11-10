@@ -26,7 +26,7 @@
   import { store } from '#modules/core/data/store.svelte.js'
   import OrdersBoard from '#modules/orders/components/orders-board.svelte'
   import OrdersTable from '#modules/orders/components/orders-table.svelte'
-  import { cancelOrder, OPEN_STATUSES, orderStats } from '#modules/orders/data/index.js'
+  import { cancelOrder, FLOW_STATUSES, orderStats } from '#modules/orders/data/index.js'
   import type { Order } from '#modules/orders/data/types.js'
   import { ORDER_STATUS } from '#modules/orders/utils/status.js'
   import { goto } from '$app/navigation'
@@ -60,9 +60,13 @@
   function confirmCancel() {
     if (!cancelling) return
 
-    const order = cancelOrder(store, cancelling.id)
+    try {
+      const order = cancelOrder(store, cancelling.id)
 
-    toast.success(`Order ${order.number} cancelled`)
+      toast.success(`Order ${order.number} cancelled`)
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : String(error))
+    }
 
     cancelling = null
   }
@@ -84,7 +88,7 @@
   />
 
   <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-    {#each OPEN_STATUSES as status (status)}
+    {#each FLOW_STATUSES as status (status)}
       {#snippet visual()}
         {@render trendOf(stats[status].trend)}
       {/snippet}

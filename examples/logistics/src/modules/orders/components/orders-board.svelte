@@ -5,7 +5,7 @@
   import { clientOf } from '#modules/core/data/lookups.js'
   import { store } from '#modules/core/data/store.svelte.js'
   import { dateTime, money } from '#modules/core/utils/format.js'
-  import { OPEN_STATUSES, ordersByStatus } from '#modules/orders/data/index.js'
+  import { FLOW_STATUSES, ordersByStatus } from '#modules/orders/data/index.js'
   import { ORDER_STATUS, SERVICE_LABEL } from '#modules/orders/utils/status.js'
   import { resolve } from '$app/paths'
 
@@ -13,7 +13,7 @@
 </script>
 
 <Board>
-  {#each OPEN_STATUSES as status (status)}
+  {#each FLOW_STATUSES as status (status)}
     <BoardColumn
       title={ORDER_STATUS[status].label}
       tone={ORDER_STATUS[status].tone}
