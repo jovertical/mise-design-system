@@ -70,49 +70,7 @@ const step = (role: RampRole, at: Step) => `var(--color-${role}-${at})`
  * state.
  */
 export function lightTokens(theme: ResolvedTheme): Scheme {
-  const [c1, c2, c3, c4, c5] = theme.charts
-
-  return {
-    '--background': WHITE,
-    '--foreground': step('base', 950),
-    '--card': WHITE,
-    '--card-foreground': step('base', 950),
-    '--popover': WHITE,
-    '--popover-foreground': step('base', 950),
-    '--primary': step('primary', 600),
-    '--primary-foreground': WHITE,
-    '--secondary': step('base', 100),
-    '--secondary-foreground': step('base', 900),
-    '--muted': step('base', 100),
-    '--muted-foreground': step('base', 600),
-    '--accent': step('primary', 50),
-    '--accent-foreground': step('primary', 700),
-    '--destructive': step('critical', 600),
-    '--info': step('info', 600),
-    '--success': step('success', 600),
-    '--warning': step('warning', 600),
-    '--destructive-foreground': WHITE,
-    '--info-foreground': WHITE,
-    '--success-foreground': WHITE,
-    '--warning-foreground': WHITE,
-    '--border': step('base', 200),
-    '--input': step('base', 200),
-    '--ring': step('primary', 400),
-    '--chart-1': c1[500],
-    '--chart-2': c2[500],
-    '--chart-3': c3[500],
-    '--chart-4': c4[500],
-    '--chart-5': c5[500],
-    '--sidebar': step('base', 50),
-    '--sidebar-foreground': step('base', 950),
-    '--sidebar-primary': step('primary', 600),
-    '--sidebar-primary-foreground': WHITE,
-    '--sidebar-accent': step('base', 100),
-    '--sidebar-accent-foreground': step('base', 900),
-    '--sidebar-border': step('base', 200),
-    '--sidebar-ring': step('base', 400),
-    '--color-table-header': step('base', 50),
-  }
+  return { ...LIGHT_SURFACES, ...chartTokens(theme, 500), ...LIGHT_SIDEBAR }
 }
 
 /**
@@ -122,49 +80,106 @@ export function lightTokens(theme: ResolvedTheme): Scheme {
  * Without that, the header is the brightest thing on a dark screen.
  */
 export function darkTokens(theme: ResolvedTheme): Scheme {
-  const [c1, c2, c3, c4, c5] = theme.charts
+  return { ...DARK_SURFACES, ...chartTokens(theme, 400), ...DARK_SIDEBAR }
+}
+
+type ChartToken = '--chart-1' | '--chart-2' | '--chart-3' | '--chart-4' | '--chart-5'
+
+/** The five chart hues at one ramp step: the only tokens a theme's config decides. */
+function chartTokens(theme: ResolvedTheme, at: Step): Record<ChartToken, string> {
+  const [first, second, third, fourth, fifth] = theme.charts
 
   return {
-    '--background': step('base', 950),
-    '--foreground': step('base', 50),
-    '--card': step('base', 900),
-    '--card-foreground': step('base', 50),
-    '--popover': step('base', 900),
-    '--popover-foreground': step('base', 50),
-    '--primary': step('primary', 400),
-    '--primary-foreground': step('primary', 950),
-    '--secondary': step('base', 800),
-    '--secondary-foreground': step('base', 50),
-    '--muted': step('base', 800),
-    '--muted-foreground': step('base', 400),
-    '--accent': step('primary', 950),
-    '--accent-foreground': step('primary', 200),
-    '--destructive': step('critical', 400),
-    '--info': step('info', 400),
-    '--success': step('success', 400),
-    '--warning': step('warning', 400),
-    // White on a bright 400 all but disappears; the darkest step reads, as
-    // `--primary-foreground` does on the brand.
-    '--destructive-foreground': step('critical', 950),
-    '--info-foreground': step('info', 950),
-    '--success-foreground': step('success', 950),
-    '--warning-foreground': step('warning', 950),
-    '--border': 'oklch(1 0 0 / 10%)',
-    '--input': 'oklch(1 0 0 / 15%)',
-    '--ring': step('primary', 500),
-    '--chart-1': c1[400],
-    '--chart-2': c2[400],
-    '--chart-3': c3[400],
-    '--chart-4': c4[400],
-    '--chart-5': c5[400],
-    '--sidebar': step('base', 900),
-    '--sidebar-foreground': step('base', 50),
-    '--sidebar-primary': step('primary', 400),
-    '--sidebar-primary-foreground': step('primary', 950),
-    '--sidebar-accent': step('base', 800),
-    '--sidebar-accent-foreground': step('base', 50),
-    '--sidebar-border': 'oklch(1 0 0 / 10%)',
-    '--sidebar-ring': step('base', 600),
-    '--color-table-header': 'var(--sidebar)',
+    '--chart-1': first[at],
+    '--chart-2': second[at],
+    '--chart-3': third[at],
+    '--chart-4': fourth[at],
+    '--chart-5': fifth[at],
   }
 }
+
+/** Everything in `:root` above the charts, in SEMANTIC_TOKENS order. */
+const LIGHT_SURFACES = {
+  '--background': WHITE,
+  '--foreground': step('base', 950),
+  '--card': WHITE,
+  '--card-foreground': step('base', 950),
+  '--popover': WHITE,
+  '--popover-foreground': step('base', 950),
+  '--primary': step('primary', 600),
+  '--primary-foreground': WHITE,
+  '--secondary': step('base', 100),
+  '--secondary-foreground': step('base', 900),
+  '--muted': step('base', 100),
+  '--muted-foreground': step('base', 600),
+  '--accent': step('primary', 50),
+  '--accent-foreground': step('primary', 700),
+  '--destructive': step('critical', 600),
+  '--info': step('info', 600),
+  '--success': step('success', 600),
+  '--warning': step('warning', 600),
+  '--destructive-foreground': WHITE,
+  '--info-foreground': WHITE,
+  '--success-foreground': WHITE,
+  '--warning-foreground': WHITE,
+  '--border': step('base', 200),
+  '--input': step('base', 200),
+  '--ring': step('primary', 400),
+} as const
+
+/** Everything in `:root` below the charts. */
+const LIGHT_SIDEBAR = {
+  '--sidebar': step('base', 50),
+  '--sidebar-foreground': step('base', 950),
+  '--sidebar-primary': step('primary', 600),
+  '--sidebar-primary-foreground': WHITE,
+  '--sidebar-accent': step('base', 100),
+  '--sidebar-accent-foreground': step('base', 900),
+  '--sidebar-border': step('base', 200),
+  '--sidebar-ring': step('base', 400),
+  '--color-table-header': step('base', 50),
+} as const
+
+/** Everything in `.dark` above the charts, in SEMANTIC_TOKENS order. */
+const DARK_SURFACES = {
+  '--background': step('base', 950),
+  '--foreground': step('base', 50),
+  '--card': step('base', 900),
+  '--card-foreground': step('base', 50),
+  '--popover': step('base', 900),
+  '--popover-foreground': step('base', 50),
+  '--primary': step('primary', 400),
+  '--primary-foreground': step('primary', 950),
+  '--secondary': step('base', 800),
+  '--secondary-foreground': step('base', 50),
+  '--muted': step('base', 800),
+  '--muted-foreground': step('base', 400),
+  '--accent': step('primary', 950),
+  '--accent-foreground': step('primary', 200),
+  '--destructive': step('critical', 400),
+  '--info': step('info', 400),
+  '--success': step('success', 400),
+  '--warning': step('warning', 400),
+  // White on a bright 400 all but disappears; the darkest step reads, as
+  // `--primary-foreground` does on the brand.
+  '--destructive-foreground': step('critical', 950),
+  '--info-foreground': step('info', 950),
+  '--success-foreground': step('success', 950),
+  '--warning-foreground': step('warning', 950),
+  '--border': 'oklch(1 0 0 / 10%)',
+  '--input': 'oklch(1 0 0 / 15%)',
+  '--ring': step('primary', 500),
+} as const
+
+/** Everything in `.dark` below the charts. */
+const DARK_SIDEBAR = {
+  '--sidebar': step('base', 900),
+  '--sidebar-foreground': step('base', 50),
+  '--sidebar-primary': step('primary', 400),
+  '--sidebar-primary-foreground': step('primary', 950),
+  '--sidebar-accent': step('base', 800),
+  '--sidebar-accent-foreground': step('base', 50),
+  '--sidebar-border': 'oklch(1 0 0 / 10%)',
+  '--sidebar-ring': step('base', 600),
+  '--color-table-header': 'var(--sidebar)',
+} as const

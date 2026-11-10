@@ -44,12 +44,7 @@ export type DataTableSource<TData extends RowData> = {
 
 /** The table, and whether a row may be selected. Call it while a component initialises. */
 export function createDataTable<TData extends RowData>(source: DataTableSource<TData>) {
-  // The visibility a table opens with; the reader's toggles live here after that.
-  let columnVisibility = $state<ColumnVisibilityState>(source.initialColumnVisibility ?? {})
-
-  /** Which rows are open. A reading aid, not a query, so it stays here. */
-  let expanded = $state<ExpandedState>({})
-
+  const local = localState(source)
   const selectable = (item: TData) => !source.isRowSelectable || source.isRowSelectable(item)
 
   const allColumns = $derived(
@@ -58,79 +53,108 @@ export function createDataTable<TData extends RowData>(source: DataTableSource<T
       : source.columns,
   )
 
-  const table = createTable({
-    features: dataTableFeatures,
-    get data() {
-      return source.data
-    },
-    get columns() {
-      return allColumns
-    },
-    state: {
-      get sorting() {
-        return source.filters.sorting
+  return {
+    selectable,
+    table: createTable({
+      features: dataTableFeatures,
+      get data() {
+        return source.data
       },
-      get globalFilter() {
-        return source.filters.globalFilter
+      get columns() {
+        return allColumns
       },
-      get columnFilters() {
-        return source.filters.columnFilters
+      state: tableState(source, local),
+      get getRowId() {
+        return source.getRowId ? (row: TData) => source.getRowId?.(row) ?? '' : undefined
       },
-      get columnVisibility() {
-        return columnVisibility
+      get getSubRows() {
+        return source.getSubRows
       },
-      get rowSelection() {
-        return source.rowSelection
+      get enableMultiRowSelection() {
+        return source.enableRowSelection
       },
-      get expanded() {
-        return expanded
+      get enableRowSelection() {
+        return source.enableRowSelection
+          ? (row: Row<DataTableFeatures, TData>) => selectable(row.original)
+          : false
       },
-    },
-    get getRowId() {
-      return source.getRowId ? (row: TData) => source.getRowId?.(row) ?? '' : undefined
-    },
-    get getSubRows() {
-      return source.getSubRows
-    },
-    enableHiding: true,
-    get enableMultiRowSelection() {
-      return source.enableRowSelection
-    },
-    get enableRowSelection() {
-      return source.enableRowSelection
-        ? (row: Row<DataTableFeatures, TData>) => selectable(row.original)
-        : false
-    },
-    manualSorting: true,
-    manualFiltering: true,
-    // v9 resets expansion whenever it rebuilds the row model, and opening a row
-    // rebuilds it, so the row would close again at once. Expansion is the
-    // table's own reading aid; nothing outside should reset it.
-    autoResetExpanded: false,
-    onSortingChange: (updater) =>
-      source.setFilters({ ...source.filters, sorting: resolve(updater, source.filters.sorting) }),
-    onGlobalFilterChange: (updater) =>
-      source.setFilters({
-        ...source.filters,
-        globalFilter: resolve(updater, source.filters.globalFilter),
-      }),
-    onColumnFiltersChange: (updater) =>
-      source.setFilters({
-        ...source.filters,
-        columnFilters: resolve(updater, source.filters.columnFilters),
-      }),
-    onColumnVisibilityChange: (updater) => {
-      columnVisibility = resolve(updater, columnVisibility)
-    },
-    onRowSelectionChange: (updater) => {
-      source.setRowSelection(resolve(updater, source.rowSelection))
-    },
-    onExpandedChange: (updater) => {
-      expanded = resolve(updater, expanded)
-    },
+      ...FIXED_OPTIONS,
+      ...changeHandlers(source, local),
+    }),
+  }
+}
+
+type LocalState = { columnVisibility: ColumnVisibilityState; expanded: ExpandedState }
+
+/**
+ * The table's own state: the visibility it opens with, then the reader's
+ * toggles, and which rows are open, a reading aid rather than a query.
+ */
+function localState<TData extends RowData>(source: DataTableSource<TData>): LocalState {
+  const local: LocalState = $state({
+    columnVisibility: source.initialColumnVisibility ?? {},
+    expanded: {},
   })
 
-  return { table, selectable }
+  return local
+}
+
+const FIXED_OPTIONS = {
+  enableHiding: true,
+  manualSorting: true,
+  manualFiltering: true,
+  // v9 resets expansion whenever it rebuilds the row model, and opening a row
+  // rebuilds it, so the row would close again at once. Expansion is the
+  // table's own reading aid; nothing outside should reset it.
+  autoResetExpanded: false,
+} as const
+
+/** Each change the reader makes, written to the caller's state or the table's own. */
+function changeHandlers<TData extends RowData>(source: DataTableSource<TData>, local: LocalState) {
+  const filter = (next: Partial<DataTableFilterState>) =>
+    source.setFilters({ ...source.filters, ...next })
+
+  return {
+    onSortingChange: (updater: Updater<DataTableFilterState['sorting']>) =>
+      filter({ sorting: resolve(updater, source.filters.sorting) }),
+    onGlobalFilterChange: (updater: Updater<string>) =>
+      filter({ globalFilter: resolve(updater, source.filters.globalFilter) }),
+    onColumnFiltersChange: (updater: Updater<DataTableFilterState['columnFilters']>) =>
+      filter({ columnFilters: resolve(updater, source.filters.columnFilters) }),
+    onColumnVisibilityChange: (updater: Updater<ColumnVisibilityState>) => {
+      local.columnVisibility = resolve(updater, local.columnVisibility)
+    },
+    onRowSelectionChange: (updater: Updater<RowSelectionState>) => {
+      source.setRowSelection(resolve(updater, source.rowSelection))
+    },
+    onExpandedChange: (updater: Updater<ExpandedState>) => {
+      local.expanded = resolve(updater, local.expanded)
+    },
+  }
+}
+
+/** The table's state, read live: the caller's filters and selection, and the table's own. */
+function tableState<TData extends RowData>(source: DataTableSource<TData>, local: LocalState) {
+  return {
+    get sorting() {
+      return source.filters.sorting
+    },
+    get globalFilter() {
+      return source.filters.globalFilter
+    },
+    get columnFilters() {
+      return source.filters.columnFilters
+    },
+    get columnVisibility() {
+      return local.columnVisibility
+    },
+    get rowSelection() {
+      return source.rowSelection
+    },
+    get expanded() {
+      return local.expanded
+    },
+  }
 }
 
 const resolve = <T>(updater: Updater<T>, current: T): T =>
