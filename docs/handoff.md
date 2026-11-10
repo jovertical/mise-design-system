@@ -2,10 +2,17 @@
 
 Read this first when resuming. It records where things stand, what is open and
 waiting on a decision, how the work is run, and what was learned that the code
-and plans do not say. Nothing is in progress.
+and plans do not say. In progress: branch `feat/tabler-icons`, below.
 
 ## Where it stands
 
+- **In progress (2026-11-10), branch `feat/tabler-icons`, not pushed.** Plan:
+  `docs/superpowers/plans/2026-11-10-tabler-icons-and-command-trigger.md`.
+  Phase 1 (Tabler icons everywhere, `feat!`, so the next release is 2.0.0)
+  and phase 2 (`CommandTrigger`, the filled "Type to search… ⌘K" field, used
+  by the example's header) are done, with the dark indeterminate `Checkbox`
+  fix. Phase 3 (`panel` as the default sidebar theme, and `SidebarNav`)
+  is next; the branch is pushed and its pull request opened after it.
 - **The package.** `@jovertical/mise-design-system` is public on npm and GitHub
   (`github.com/jovertical/mise-design-system`, branch `main`). **1.2.0** is the
   latest release: 1.0.0 was the port, 1.1.x added the consumer skill and
@@ -34,7 +41,7 @@ and plans do not say. Nothing is in progress.
   built package through the pnpm workspace, so mise is rebuilt
   (`pnpm build`, or the watcher in `pnpm dev:example`) before the example sees
   a change.
-- **Gate:** `pnpm test` (550 tests, the clean-code check included), `pnpm build` (publint) and
+- **Gate:** `pnpm test` (561 tests, the clean-code check included), `pnpm build` (publint) and
   `pnpm build:storybook` for mise; `pnpm --filter mise-logistics-example test`
   (83 tests) and `smoke` (27 routes and 2 not-found routes, light and dark) for
   the example. Run `pnpm fix:spacing` then `pnpm format` before it.
@@ -118,7 +125,10 @@ In rough order of how much they block the apps:
      form passes `defaultValue` itself.
 6. **`homepage` in `package.json`** could point at the demo instead of the
    README; needs a yes.
-7. **The deferred components:** Draggable, Droppable, Sortable (need a drag and
+7. **bertos-bakery-ops after 2.0.0:** it added `@lucide/svelte` itself; it
+   moves its own icons to `@tabler/icons-svelte-runes`, bumps mise, and takes
+   `CommandTrigger` and (after phase 3) `SidebarNav`.
+8. **The deferred components:** Draggable, Droppable, Sortable (need a drag and
    drop library) and MermaidDiagram (heavy). Wait until a screen asks.
 
 Not verified by a browser: uploading a logo, saving or cancelling settings,
