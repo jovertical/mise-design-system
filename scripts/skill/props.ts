@@ -121,7 +121,10 @@ function addMembers(literal: ts.TypeLiteralNode, props: PropDoc[], merged: Set<s
       continue
     }
 
-    // The same prop on both sides of a union: one row, either type.
+    // The same prop on both sides of a union: one row, either type, and
+    // optional if either side lets it be left out.
+    seen.optional = seen.optional || member.questionToken !== undefined
+
     if (!seen.type.split(' | ').includes(type)) {
       seen.type = `${seen.type} | ${type}`
 
