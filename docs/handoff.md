@@ -6,14 +6,16 @@ and plans do not say. In progress: branch `feat/tabler-icons`, below.
 
 ## Where it stands
 
-- **Branch `feat/tabler-icons` (2026-11-10), for 2.0.0.** Plan:
+- **Branch `feat/tabler-icons` (2026-11-10), a minor release.** Plan:
   `docs/superpowers/plans/2026-11-10-tabler-icons-and-command-trigger.md`.
-  Three phases, all done: Tabler icons everywhere (`feat!`); `CommandTrigger`,
+  Three phases, all done: Tabler icons everywhere; `CommandTrigger`,
   the filled "Type to search… ⌘K" field; and the sidebar as the portals draw
-  it, with `panel` the default theme (`feat!`) and `SidebarNav`, the menu
+  it, with `panel` the default theme and `SidebarNav`, the menu
   drawn from data (sections, groups, badges, the current row). The example
   uses all three. Also the dark indeterminate `Checkbox` fix. Merging its
-  pull request lets release-please cut 2.0.0.
+  pull request lets release-please cut the next minor. The icon swap and the
+  new default would be breaking for an outside consumer; with the user's
+  own apps the only consumers, they ship as `feat`, not `feat!`.
 - **The package.** `@jovertical/mise-design-system` is public on npm and GitHub
   (`github.com/jovertical/mise-design-system`, branch `main`). **1.2.0** is the
   latest release: 1.0.0 was the port, 1.1.x added the consumer skill and
@@ -125,7 +127,7 @@ In rough order of how much they block the apps:
      form passes `defaultValue` itself.
 6. **`homepage` in `package.json`** could point at the demo instead of the
    README; needs a yes.
-7. **bertos-bakery-ops after 2.0.0:** it added `@lucide/svelte` itself; it
+7. **bertos-bakery-ops after this release:** it added `@lucide/svelte` itself; it
    moves its own icons to `@tabler/icons-svelte-runes`, bumps mise, and takes
    `CommandTrigger` and (after phase 3) `SidebarNav`.
 8. **The deferred components:** Draggable, Droppable, Sortable (need a drag and
