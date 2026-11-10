@@ -222,14 +222,17 @@ A `Calendar` behind a trigger, for the case where the calendar itself would othe
 | `mode` (required) | `'single' \| 'range'` |  |  |
 | `value` | `DateValue \| DateRange` |  |  |
 | `onValueChange` | `((value: DateValue \| undefined) => void) \| ((value: DateRange \| undefined) => void)` |  |  |
+| `formatLabel` | `((value: DateValue) => string) \| ((value: DateRange) => string)` |  | The trigger's text for a picked day. A long date in `locale` by default. |
 | `placeholder` | `string` |  |  |
 | `disabled` | `boolean` | `false` | Disables the whole control: the trigger cannot be opened. |
-| `'aria-invalid'` | `boolean` |  | Marks the trigger invalid; `Button` draws the destructive border `Input` does. |
+| `'aria-invalid'` | `HTMLAttributes<HTMLElement>['aria-invalid']` |  | Marks the trigger invalid; `Button` draws the destructive border `Input` does. |
 | `isDateDisabled` | `(date: DateValue) => boolean` |  | Days the operator may not pick, inside an open calendar. Distinct from `disabled`, which closes the control. The rule is the caller's, not a `disablePast` flag: what counts as "past" is a decision the screen owns. |
 | `minValue` | `DateValue` |  |  |
 | `maxValue` | `DateValue` |  |  |
 | `locale` | `string` | `'en-US'` | For the trigger's label and the calendar. `en-US` when absent. |
 | `class` | `string` |  |  |
+
+Also takes: every HTML attribute except `children`, `placeholder`, `aria-invalid`, `class`.
 
 ## Field
 

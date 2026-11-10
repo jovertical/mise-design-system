@@ -2,6 +2,7 @@ import { render, screen, waitFor } from '@testing-library/svelte'
 import { userEvent } from '@testing-library/user-event'
 import { describe, expect, it } from 'vitest'
 
+import DatePickerFieldHarness from './fixtures/date-picker-field-harness.svelte'
 import DatePickerHarness from './fixtures/date-picker-harness.svelte'
 
 const trigger = () => document.querySelector('[data-slot="date-picker-trigger"]') as HTMLElement
@@ -80,5 +81,31 @@ describe('DatePicker', () => {
     await userEvent.click(day('2026-03-09'))
 
     expect(screen.getByTestId('value')).toHaveTextContent('2026-03-14')
+  })
+
+  it('labels the trigger with formatLabel, in either mode', () => {
+    render(DatePickerFieldHarness)
+
+    expect(screen.getByTestId('single-trigger')).toHaveTextContent('11/02/26')
+    expect(screen.getByTestId('range-trigger')).toHaveTextContent('11/01/26 to 11/07/26')
+  })
+
+  it('puts its id on the trigger, so a label focuses it', async () => {
+    render(DatePickerFieldHarness)
+
+    const trigger = screen.getByTestId('single-trigger')
+
+    expect(trigger).toHaveAttribute('id', 'business-day')
+
+    await userEvent.click(screen.getByText('Business day'))
+
+    expect(trigger).toHaveFocus()
+  })
+
+  it('draws the trigger filled like the inputs beside it, the placeholder muted', () => {
+    render(DatePickerFieldHarness)
+
+    expect(screen.getByTestId('single-trigger')).toHaveClass('bg-input/50')
+    expect(screen.getByTestId('empty-trigger')).toHaveAttribute('data-placeholder', '')
   })
 })

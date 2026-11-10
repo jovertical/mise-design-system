@@ -5,22 +5,31 @@
     `value` is bindable, with `onValueChange` for React's `onChange`. React's
     `disabledDates` matcher is `isDateDisabled`, with `minValue` and `maxValue`
     (R7-3). The label is `DateFormatter` with `dateStyle: 'long'` in `locale`,
-    for date-fns' `PPP`. Tabler's calendar for Lucide's.
+    for date-fns' `PPP`, or the caller's `formatLabel`. `id` and the rest of
+    the attributes reach the trigger, so a `FieldLabel` points at it, and the
+    trigger is filled like `Input` rather than React's outline button, to sit
+    among the inputs of a form (bertos-bakery-ops' audit and the logistics
+    example's edit pages, 2026-11-10). Tabler's calendar for Lucide's.
 -->
 <script lang="ts" module>
   import type { DateValue } from '@internationalized/date'
   import type { DateRange } from 'bits-ui'
+  import type { HTMLAttributes } from 'svelte/elements'
 
   type Single = {
     mode: 'single'
     value?: DateValue
     onValueChange?: (value: DateValue | undefined) => void
+    /** The trigger's text for a picked day. A long date in `locale` by default. */
+    formatLabel?: (value: DateValue) => string
   }
 
   type Range = {
     mode: 'range'
     value?: DateRange
     onValueChange?: (value: DateRange | undefined) => void
+    /** The trigger's text for a range with both ends. Two long dates by default. */
+    formatLabel?: (value: DateRange) => string
   }
 
   /**
@@ -31,28 +40,30 @@
    * are different value shapes, and picking one silently would make the wrong
    * value type a runtime surprise instead of a compile error.
    *
-   * The trigger is `w-full`, matching `SelectTrigger`. Selecting a single date
+   * The trigger is `w-full` and filled, matching `SelectTrigger` and `Input`;
+   * `id` and any other attribute land on it. Selecting a single date
    * closes the popover; a range stays open until both ends are picked, so the
    * operator can see the selection in progress.
    */
-  export type DatePickerProps = (Single | Range) & {
-    placeholder?: string
-    /** Disables the whole control: the trigger cannot be opened. */
-    disabled?: boolean
-    /** Marks the trigger invalid; `Button` draws the destructive border `Input` does. */
-    'aria-invalid'?: boolean
-    /**
-     * Days the operator may not pick, inside an open calendar. Distinct from
-     * `disabled`, which closes the control. The rule is the caller's, not a
-     * `disablePast` flag: what counts as "past" is a decision the screen owns.
-     */
-    isDateDisabled?: (date: DateValue) => boolean
-    minValue?: DateValue
-    maxValue?: DateValue
-    /** For the trigger's label and the calendar. `en-US` when absent. */
-    locale?: string
-    class?: string
-  }
+  export type DatePickerProps = (Single | Range) &
+    Omit<HTMLAttributes<HTMLElement>, 'children' | 'placeholder' | 'aria-invalid' | 'class'> & {
+      placeholder?: string
+      /** Disables the whole control: the trigger cannot be opened. */
+      disabled?: boolean
+      /** Marks the trigger invalid; `Button` draws the destructive border `Input` does. */
+      'aria-invalid'?: HTMLAttributes<HTMLElement>['aria-invalid']
+      /**
+       * Days the operator may not pick, inside an open calendar. Distinct from
+       * `disabled`, which closes the control. The rule is the caller's, not a
+       * `disablePast` flag: what counts as "past" is a decision the screen owns.
+       */
+      isDateDisabled?: (date: DateValue) => boolean
+      minValue?: DateValue
+      maxValue?: DateValue
+      /** For the trigger's label and the calendar. `en-US` when absent. */
+      locale?: string
+      class?: string
+    }
 
   const DEFAULT_PLACEHOLDER = { single: 'Pick a date', range: 'Pick a date range' } as const
 </script>
@@ -80,7 +91,10 @@
     minValue,
     maxValue,
     locale = 'en-US',
+    formatLabel,
+    id,
     class: className,
+    ...rest
   }: DatePickerProps = $props()
 
   let open = $state(false)
@@ -89,7 +103,7 @@
   const formatDate = (date: DateValue) => formatter.format(date.toDate(getLocalTimeZone()))
 
   const label = $derived.by(() => {
-    if (mode === 'single') return value ? formatDate(value as DateValue) : null
+    if (mode === 'single') return value ? singleLabel(value as DateValue) : null
 
     const range = value as DateRange | undefined
 
@@ -97,8 +111,22 @@
 
     if (!range.end) return formatDate(range.start)
 
-    return `${formatDate(range.start)} – ${formatDate(range.end)}`
+    return rangeLabel(range)
   })
+
+  function singleLabel(day: DateValue) {
+    const custom = formatLabel as Single['formatLabel']
+
+    return custom ? custom(day) : formatDate(day)
+  }
+
+  function rangeLabel(range: DateRange) {
+    const custom = formatLabel as Range['formatLabel']
+
+    if (custom) return custom(range)
+
+    return `${formatDate(range.start as DateValue)} – ${formatDate(range.end as DateValue)}`
+  }
 
   function pickDay(next: DateValue | undefined) {
     value = next
@@ -118,15 +146,20 @@
 </script>
 
 <Popover bind:open>
-  <PopoverTrigger {disabled}>
+  <PopoverTrigger {disabled} id={id ?? undefined}>
     {#snippet child({ props })}
       <Button
+        {...rest}
         {...props}
-        variant="outline"
+        variant="ghost"
         {disabled}
         aria-invalid={ariaInvalid}
         data-slot="date-picker-trigger"
-        class={cn('w-full justify-start font-normal', className)}
+        data-placeholder={label ? undefined : ''}
+        class={cn(
+          'bg-input/50 hover:bg-input data-[placeholder]:text-muted-foreground w-full justify-start rounded-2xl border-transparent font-normal shadow-xs',
+          className,
+        )}
       >
         <IconCalendar />
         {label ?? placeholder ?? DEFAULT_PLACEHOLDER[mode]}

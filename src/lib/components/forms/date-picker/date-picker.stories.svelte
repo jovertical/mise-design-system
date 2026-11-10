@@ -3,6 +3,10 @@
   import { defineMeta } from '@storybook/addon-svelte-csf'
   import type { DateRange } from 'bits-ui'
 
+  import Field from '../field/field.svelte'
+  import FieldDescription from '../field/field-description.svelte'
+  import FieldLabel from '../field/field-label.svelte'
+  import Input from '../input/input.svelte'
   import DatePicker from './date-picker.svelte'
 
   const { Story } = defineMeta({
@@ -43,6 +47,39 @@
 -->
 <Story name="With range" asChild>
   <div class="w-80"><DatePicker mode="range" bind:value={range.value} /></div>
+</Story>
+
+<!--
+  `formatLabel` writes the trigger's text, for a screen that shows dates its own
+  way: here month, day and a two-digit year, as a paper log writes them.
+-->
+<Story name="With a custom label" asChild>
+  <div class="w-80">
+    <DatePicker
+      mode="single"
+      value={TODAY}
+      formatLabel={(day) =>
+        `${String(day.month).padStart(2, '0')}/${String(day.day).padStart(2, '0')}/${String(day.year).slice(2)}`}
+    />
+  </div>
+</Story>
+
+<!--
+  In a `Field`, beside an `Input`: the trigger takes the field's `id`, so the
+  label focuses it, and it is filled as the input is.
+-->
+<Story name="In a field" asChild>
+  <div class="grid w-96 gap-6">
+    <Field>
+      <FieldLabel for="shipment-reference">Reference</FieldLabel>
+      <Input id="shipment-reference" placeholder="SH-1042" />
+    </Field>
+    <Field>
+      <FieldLabel for="shipment-date">Ships on</FieldLabel>
+      <DatePicker id="shipment-date" mode="single" bind:value={single.value} />
+      <FieldDescription>The day it leaves the depot.</FieldDescription>
+    </Field>
+  </div>
 </Story>
 
 <!--

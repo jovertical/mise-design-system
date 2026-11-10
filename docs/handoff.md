@@ -116,12 +116,8 @@ In rough order of how much they block the apps:
    own may not filter. The example and the recipe give each such column one.
    Confirm in Storybook and decide whether DataTable should default to an
    `arrIncludesSome`-style filter.
-5. **Three mise gaps the edit pages found**, worked around in the example and
-   not yet fixed in mise:
-   - `DatePicker` does not pass `id` and other attributes to its trigger, so a
-     `mise/form` label cannot point at it.
-   - `DatePicker`'s trigger is an outline button, where the inputs beside it
-     are filled; the vehicle form shows the mismatch.
+5. **A mise gap the edit pages found**, worked around in the example and not
+   yet fixed in mise (DatePicker's two were fixed on `feat/bakery-gaps`):
    - `ComboboxInput` does not show the selected item's label for a starting
      value; bits-ui fills the field only when an item is picked. The order
      form passes `defaultValue` itself.
