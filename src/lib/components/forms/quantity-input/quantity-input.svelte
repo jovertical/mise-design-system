@@ -9,7 +9,8 @@
     snippet handed `closeMenu`. The unit-first trigger shows bits-ui's
     SelectValue, which needs `items`, passed from `units`. Its addon drops the
     stock `pl-3`, so the trigger paints its fill out to the group's edge, as
-    the comment on it says, rather than an inset pill inside the padding.
+    the comment on it says, rather than an inset pill inside the padding. The
+    open menu's units are their own part, `quantity-input-units.svelte`.
 -->
 <script lang="ts" module>
   import type { Snippet } from 'svelte'
@@ -96,12 +97,9 @@
   import NumberInputField from '../number-input/number-input-field.svelte'
   import Select from '../select/select.svelte'
   import SelectContent from '../select/select-content.svelte'
-  import SelectGroup from '../select/select-group.svelte'
-  import SelectItem from '../select/select-item.svelte'
-  import SelectLabel from '../select/select-label.svelte'
-  import SelectSeparator from '../select/select-separator.svelte'
   import SelectTrigger from '../select/select-trigger.svelte'
   import SelectValue from '../select/select-value.svelte'
+  import QuantityInputUnits from './quantity-input-units.svelte'
 
   let {
     units,
@@ -134,53 +132,10 @@
 
   const items = $derived(units.map(({ value, label }) => ({ value, label })))
   const shortLabel = $derived(units.find((candidate) => candidate.value === unit)?.short ?? unit)
-  const isGrouped = $derived(units.some((candidate) => candidate.group !== undefined))
-  // Grouped in first-seen order rather than sorted, so the consumer, who knows
-  // which kind of measure an item is counted in, puts that one first.
-  const groupNames = $derived([...new Set(units.map((candidate) => candidate.group ?? ''))])
 </script>
 
-{#snippet option(candidate: QuantityUnit)}
-  <SelectItem value={candidate.value} label={candidate.label} />
-{/snippet}
-
 {#snippet unitOptions()}
-  {#if isGrouped}
-    {#each groupNames as groupName, index (groupName || 'ungrouped')}
-      <SelectGroup>
-        {#if index > 0}
-          <SelectSeparator />
-        {/if}
-        {#if groupName}
-          <SelectLabel
-            class="flex items-center justify-between gap-3 font-medium uppercase tracking-wide"
-          >
-            {groupName}
-            {#if groupHints?.[groupName]}
-              <span class="font-normal normal-case tracking-normal">{groupHints[groupName]}</span>
-            {/if}
-          </SelectLabel>
-        {/if}
-        {#each units.filter(
-          (candidate) => (candidate.group ?? '') === groupName,
-        ) as candidate (candidate.value)}
-          {@render option(candidate)}
-        {/each}
-      </SelectGroup>
-    {/each}
-  {:else}
-    {#each units as candidate (candidate.value)}
-      {@render option(candidate)}
-    {/each}
-  {/if}
-  {#if menuFooter}
-    <div
-      data-slot="quantity-input-menu-footer"
-      class="text-muted-foreground mt-1 flex items-center justify-between gap-3 border-t px-2 pt-2 pb-1 text-xs"
-    >
-      {@render menuFooter(closeMenu)}
-    </div>
-  {/if}
+  <QuantityInputUnits {units} {groupHints} {menuFooter} {closeMenu} />
 {/snippet}
 
 {#snippet quantityField()}
