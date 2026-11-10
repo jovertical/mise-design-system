@@ -173,3 +173,43 @@ export function updateShipment(source: Source, idOrNumber: string, raw: Shipment
 
   return shipment
 }
+
+/** The runs an order can still join: scheduled, and leaving from its origin. */
+export const runsFor = (source: Source, order: Order): Shipment[] =>
+  listShipments(source).filter(
+    (shipment) => shipment.status === 'scheduled' && shipment.originId === order.originId,
+  )
+
+/** Puts a ready order on a scheduled run from its origin; the stops are replanned. */
+export function addOrderToShipment(
+  source: Source,
+  shipmentIdOrNumber: string,
+  orderIdOrNumber: string,
+): Shipment {
+  const run = getShipment(source, shipmentIdOrNumber)
+
+  const order = source.data.orders.find(
+    (candidate) =>
+      candidate.id === orderIdOrNumber.toLowerCase() ||
+      candidate.number === orderIdOrNumber.toUpperCase(),
+  )
+
+  if (!run) throw new Error(`No shipment ${shipmentIdOrNumber}`)
+
+  if (!order) throw new Error(`No order ${orderIdOrNumber}`)
+
+  if (order.status !== 'ready' || order.shipmentId !== null) {
+    throw new Error(
+      `${order.number} is ${order.status.replaceAll('-', ' ')} and cannot go on a run`,
+    )
+  }
+
+  if (!isShipmentEditable(run)) {
+    throw new Error(`${run.number} is ${run.status.replaceAll('-', ' ')} and takes no more orders`)
+  }
+
+  return updateShipment(source, run.id, {
+    ...shipmentToInput(run),
+    orderIds: [...run.orderIds, order.id],
+  })
+}

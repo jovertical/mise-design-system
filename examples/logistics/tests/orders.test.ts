@@ -10,6 +10,7 @@ import {
   getOrder,
   isOrderEditable,
   listOrders,
+  markReady,
   orderStats,
   ordersByStatus,
   orderToInput,
@@ -17,6 +18,8 @@ import {
 } from '../src/modules/orders/data/index.js'
 import { orderSchema } from '../src/modules/orders/data/schema.js'
 import type { Order } from '../src/modules/orders/data/types.js'
+import { addOrderToShipment, getShipment } from '../src/modules/shipments/data/index.js'
+import type { Shipment } from '../src/modules/shipments/data/types.js'
 
 let source: Store
 
@@ -25,6 +28,29 @@ function seedOrder(number: string): Order {
   const order = getOrder(source, number)
 
   if (!order) throw new Error(`The seed has no ${number}`)
+
+  return order
+}
+
+/** A seed run in a status; fails the test if the seed has none. */
+function seedRun(status: Shipment['status']): Shipment {
+  const run = source.data.shipments.find((shipment) => shipment.status === status)
+
+  if (!run) throw new Error(`The seed has no ${status} run`)
+
+  return run
+}
+
+/** A ready order on no run that leaves from the run's origin. */
+function readyAt(run: Shipment): Order {
+  const order = source.data.orders.find(
+    (candidate) =>
+      candidate.status === 'ready' &&
+      candidate.shipmentId === null &&
+      candidate.originId === run.originId,
+  )
+
+  if (!order) throw new Error(`The seed has no ready order at ${run.originId}`)
 
   return order
 }
@@ -134,5 +160,49 @@ describe('orders', () => {
     expect(getOrder(source, 'OR-2041')?.events.at(-1)?.status).toBe('cancelled')
     expect(() => cancelOrder(source, 'OR-2001')).toThrow()
     expect(() => cancelOrder(source, 'OR-2041')).toThrow()
+  })
+
+  it('marks a received order ready, and only a received one', () => {
+    const [received] = listOrders(source, { status: 'received' })
+    const ready = markReady(source, received.number)
+
+    expect(ready.status).toBe('ready')
+    expect(ready.events.at(-1)?.status).toBe('ready')
+
+    expect(() => markReady(source, received.number)).toThrow(
+      `${received.number} is ready and cannot be marked ready`,
+    )
+  })
+
+  it('cancels an order in fulfilment off its scheduled run, which keeps its other orders', () => {
+    const run = seedRun('scheduled')
+    const [first] = run.orderIds
+    const added = readyAt(run)
+
+    addOrderToShipment(source, run.number, added.number)
+
+    const order = cancelOrder(source, first)
+
+    expect(order.status).toBe('cancelled')
+    expect(order.shipmentId).toBeNull()
+    expect(getShipment(source, run.number)?.orderIds).toEqual([added.id])
+  })
+
+  it('refuses to cancel the only order on a run', () => {
+    const run = seedRun('scheduled')
+    const order = seedOrder(run.orderIds[0])
+
+    expect(() => cancelOrder(source, order.number)).toThrow(
+      `${order.number} is the only order on ${run.number}; replan or cancel the run first`,
+    )
+  })
+
+  it('refuses to cancel an order whose run has left', () => {
+    const run = seedRun('in-transit')
+    const order = seedOrder(run.orderIds[0])
+
+    expect(() => cancelOrder(source, order.number)).toThrow(
+      `${order.number} is on ${run.number}, which is in transit`,
+    )
   })
 })

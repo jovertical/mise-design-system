@@ -148,7 +148,9 @@ type and default.
 - A trend in a cell or a tile: `Sparkline`; a full chart: `ChartContainer` (LayerChart)
 - Rows of data: `Table`; with sorting, filtering, selection or pagination: `DataTable`
 - Columns of cards by status, a pipeline read across: `Board`, with `BoardColumn` and `BoardCard`.
-  Read-only; no dragging between columns
+  To drag cards between columns: `onMove` on `Board`, an `id` on each column and card, and
+  `accepts` on a column that takes only some cards. mise reports the drop; move the card in your
+  data
 - A history of events: `Timeline`
 - Setup steps: `Checklist`, and `ChecklistCard` for the summary card; what a page still needs
   before going live: `ReadinessChecklist`

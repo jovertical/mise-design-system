@@ -89,6 +89,13 @@ readiness checklist beside it.
   cancelled order, and a shipment that has left. A shipment is planned as a
   run: an origin, a vehicle, a driver and the ready orders it carries, whose
   stops follow from the orders.
+- **The Orders board moves orders** by drag, touch or keyboard, one step on
+  or to Cancelled: Received to Ready marks an order ready; Ready to In
+  fulfilment asks which scheduled run from its origin it goes on; any open
+  order to Cancelled asks first. Nothing completes an order yet: that waits
+  for a run to be marked delivered. Cancelling an order on a run takes it off
+  the run, and is refused once the run has left or when it is the run's only
+  order.
 
 ## Deploying
 
