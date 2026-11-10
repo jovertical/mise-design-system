@@ -74,7 +74,7 @@
   // Filter to series with defined values (important for item-based charts like Pie/Arc
   // where only the hovered item has a value)
   const visibleSeries = $derived(
-    chartCtx.tooltip.series.filter((s: TooltipPayload) => s.value !== undefined),
+    chartCtx.tooltip.series.filter((series: TooltipPayload) => series.value !== undefined),
   )
 
   const formattedLabel = $derived.by(() => {
@@ -140,7 +140,7 @@
       {@render TooltipLabel()}
     {/if}
     <div class="grid gap-1.5">
-      {#each visibleSeries as item, i (item.key + i)}
+      {#each visibleSeries as item, index (item.key + index)}
         {@const key = `${nameKey || item.key || item.label || 'value'}`}
         {@const itemConfig = getPayloadConfigFromPayload(
           chart.config,
@@ -160,7 +160,7 @@
               value: item.value,
               name: item.label,
               item,
-              index: i,
+              index,
               payload: visibleSeries,
             })}
           {:else}

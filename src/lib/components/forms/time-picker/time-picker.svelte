@@ -28,9 +28,9 @@
 
   type Period = 'AM' | 'PM'
 
-  const pad = (n: number) => n.toString().padStart(2, '0')
-  const HOURS = Array.from({ length: 12 }, (_, i) => String(i + 1))
-  const MINUTES = Array.from({ length: 60 }, (_, i) => pad(i))
+  const pad = (value: number) => value.toString().padStart(2, '0')
+  const HOURS = Array.from({ length: 12 }, (_, index) => String(index + 1))
+  const MINUTES = Array.from({ length: 60 }, (_, index) => pad(index))
   const PERIODS: Period[] = ['AM', 'PM']
   const toItems = (values: readonly string[]) => values.map((value) => ({ value, label: value }))
   const HOUR_ITEMS = toItems(HOURS)

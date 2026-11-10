@@ -36,8 +36,8 @@ const MAX_DEPTH = 6
 async function findStylesheet(cwd: string, dir = cwd, depth = 0): Promise<string | null> {
   if (depth > MAX_DEPTH) return null
 
-  const entries = (await readdir(dir, { withFileTypes: true })).sort((a, b) =>
-    a.name.localeCompare(b.name),
+  const entries = (await readdir(dir, { withFileTypes: true })).sort((first, second) =>
+    first.name.localeCompare(second.name),
   )
 
   for (const entry of entries) {

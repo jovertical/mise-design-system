@@ -24,7 +24,7 @@
     data={DEVICES}
     viewMode="grid"
     {card}
-    getItemKey={(d) => d.id}
+    getItemKey={(device) => device.id}
   />
 {:else if view === 'expandable'}
   <DataTable

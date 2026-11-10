@@ -8,20 +8,20 @@ const separator = (container: HTMLElement) =>
 
 describe('Separator', () => {
   it('is a decorative horizontal rule by default', () => {
-    const el = separator(render(Separator).container)
+    const element = separator(render(Separator).container)
 
-    expect(el).toHaveAttribute('data-orientation', 'horizontal')
-    expect(el).toHaveAttribute('role', 'none')
-    expect(el).toHaveClass('bg-border')
+    expect(element).toHaveAttribute('data-orientation', 'horizontal')
+    expect(element).toHaveAttribute('role', 'none')
+    expect(element).toHaveClass('bg-border')
   })
 
   it('is announced as a separator when it is not decorative', () => {
-    const el = separator(
+    const element = separator(
       render(Separator, { orientation: 'vertical', decorative: false }).container,
     )
 
-    expect(el).toHaveAttribute('data-orientation', 'vertical')
-    expect(el).toHaveAttribute('role', 'separator')
-    expect(el).toHaveAttribute('aria-orientation', 'vertical')
+    expect(element).toHaveAttribute('data-orientation', 'vertical')
+    expect(element).toHaveAttribute('role', 'separator')
+    expect(element).toHaveAttribute('aria-orientation', 'vertical')
   })
 })

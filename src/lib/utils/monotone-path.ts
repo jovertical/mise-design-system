@@ -50,9 +50,12 @@ function interiorTangent(
   const h1 = x2 - x1
   const s0 = h0 === 0 ? 0 : (y1 - y0) / h0
   const s1 = h1 === 0 ? 0 : (y2 - y1) / h1
-  const p = (s0 * h1 + s1 * h0) / (h0 + h1)
+  const parabolaSlope = (s0 * h1 + s1 * h0) / (h0 + h1)
 
-  return (Math.sign(s0) + Math.sign(s1)) * Math.min(Math.abs(s0), Math.abs(s1), 0.5 * Math.abs(p))
+  return (
+    (Math.sign(s0) + Math.sign(s1)) *
+    Math.min(Math.abs(s0), Math.abs(s1), 0.5 * Math.abs(parabolaSlope))
+  )
 }
 
 /** An end's tangent, from its neighbour's: the one-sided version of the same rule. */
@@ -61,9 +64,9 @@ function endTangent(
   [x1, y1]: readonly [number, number],
   neighbour: number,
 ): number {
-  const h = x1 - x0
+  const span = x1 - x0
 
-  return h === 0 ? neighbour : (3 * ((y1 - y0) / h) - neighbour) / 2
+  return span === 0 ? neighbour : (3 * ((y1 - y0) / span) - neighbour) / 2
 }
 
 /** One cubic Bézier, its control points a third of the way along each tangent. */
