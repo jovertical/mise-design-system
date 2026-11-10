@@ -30,7 +30,9 @@ const SKIPPED = new Set([
   'public',
 ])
 
-const IMPORT = /@import\s+['"]@jovertical\/mise-design-system\//
+// The theme imported from the package, or (for an app on a generated theme,
+// which imports its own file) the `@source` line every setup has.
+const MISE_REFERENCE = /@(?:import|source)\s+['"][^'"]*@jovertical\/mise-design-system\//
 const MAX_DEPTH = 6
 
 async function findStylesheet(cwd: string, dir = cwd, depth = 0): Promise<string | null> {
@@ -46,7 +48,7 @@ async function findStylesheet(cwd: string, dir = cwd, depth = 0): Promise<string
     if (
       entry.isFile() &&
       entry.name.endsWith('.css') &&
-      IMPORT.test(await readFile(path, 'utf8'))
+      MISE_REFERENCE.test(await readFile(path, 'utf8'))
     ) {
       return relative(cwd, path).split('\\').join('/')
     }
