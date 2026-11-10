@@ -10,6 +10,8 @@
  *   though its own comment said the zone keeps accepting one.
  */
 
+import { refuse } from './media-uploader-checks.js'
+
 /** One stored file, as the consumer's media service returns it. */
 export type MediaAsset = {
   uuid: string
@@ -93,7 +95,7 @@ export class MediaUploader {
   }
 
   addFiles = (files: FileList | File[] | null) => {
-    const { adapter, disabled, accept, maxSize, onError } = this.#options()
+    const { adapter, disabled, onError } = this.#options()
     const candidates = Array.from(files ?? [])
 
     if (disabled || candidates.length === 0) return
@@ -108,12 +110,22 @@ export class MediaUploader {
 
     for (const failed of this.queue) this.#settle(failed.id)
 
+    const [first, ...extra] = candidates
+    const { accepted, rejected } = this.#triage(first, extra)
+
+    this.rejected = rejected
+
+    if (accepted) this.#start(accepted)
+  }
+
+  /** The one file this slot takes, if it passes, and every file refused. */
+  #triage(first: File, extra: File[]): { accepted: File | null; rejected: RejectedFile[] } {
+    const { accept, maxSize } = this.#options()
+
     const acceptedTypes = accept
       .split(',')
       .map((type) => type.trim())
       .filter(Boolean)
-
-    const [first, ...extra] = candidates
 
     const refusals: RejectedFile[] = extra.map((file) => ({
       id: newId(),
@@ -124,22 +136,26 @@ export class MediaUploader {
 
     const refusal = refuse(first, acceptedTypes, maxSize)
 
-    if (refusal) {
-      this.rejected = [{ id: newId(), name: first.name, ...refusal }, ...refusals]
+    if (refusal)
+      return {
+        accepted: null,
+        rejected: [{ id: newId(), name: first.name, ...refusal }, ...refusals],
+      }
 
-      return
-    }
+    return { accepted: first, rejected: refusals }
+  }
 
-    this.rejected = refusals
+  /** A single slot is replaced, not filled: make room, then upload the file. */
+  #start(file: File) {
+    const { adapter } = this.#options()
 
-    // A single slot is replaced, not filled: make room for the new file.
     this.#evict()
 
     const id = newId()
 
-    this.queue = [{ id, name: first.name, progress: 0, status: 'uploading' }]
+    this.queue = [{ id, name: file.name, progress: 0, status: 'uploading' }]
 
-    this.#attempts.set(id, (options) => adapter.upload(first, options))
+    this.#attempts.set(id, (options) => adapter.upload(file, options))
 
     void this.#run(id)
   }
@@ -239,56 +255,4 @@ function newId(): string {
 
 function messageOf(error: unknown, fallback: string): string {
   return error instanceof Error && error.message ? error.message : fallback
-}
-
-/**
- * `image/png` matches itself, `image/*` any image, and `.pdf` by extension:
- * the grammar a native `<input accept>` takes, and browsers report an empty
- * `file.type` for some documents.
- */
-function matches(file: File, pattern: string): boolean {
-  if (pattern.startsWith('.')) return file.name.toLowerCase().endsWith(pattern.toLowerCase())
-
-  if (pattern === file.type) return true
-
-  if (!pattern.endsWith('/*')) return false
-
-  return file.type.startsWith(pattern.slice(0, -1))
-}
-
-function refuse(
-  file: File,
-  acceptedTypes: string[],
-  maxSize: number,
-): Omit<RejectedFile, 'id' | 'name'> | null {
-  if (!acceptedTypes.some((pattern) => matches(file, pattern))) {
-    return { reason: 'type', message: `${describe(acceptedTypes)} only.` }
-  }
-
-  if (file.size > maxSize) {
-    return { reason: 'size', message: `Larger than ${formatSize(maxSize)}.` }
-  }
-
-  return null
-}
-
-/** `image/png,.pdf` reads as `PNG, PDF` on screen. */
-function describe(acceptedTypes: string[]): string {
-  const labels = acceptedTypes
-    .map((pattern) => {
-      if (pattern.startsWith('.')) return pattern.slice(1).toUpperCase()
-
-      if (pattern.endsWith('/*')) return pattern.split('/')[0]?.toUpperCase()
-
-      return pattern.split('/')[1]?.toUpperCase()
-    })
-    .filter(Boolean)
-
-  return Array.from(new Set(labels)).join(', ')
-}
-
-function formatSize(bytes: number): string {
-  const megabytes = bytes / 1024 / 1024
-
-  return megabytes >= 1 ? `${Math.round(megabytes)}MB` : `${Math.round(bytes / 1024)}KB`
 }

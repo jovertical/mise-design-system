@@ -2,7 +2,8 @@
   Origin: the React package 2.23.0 `media-dropzone.tsx`
   Diverged: over MediaUploader, the one-slot part of React's useMediaUploader
     (round 8 plan, R8-7). `value` is bindable, with `onValueChange` for React's
-    `onChange`; `icon` is a snippet. Lucide's cloud-upload and trash.
+    `onChange`; `icon` is a snippet. Lucide's cloud-upload and trash. The
+    preview panel is its own part, `media-dropzone-preview.svelte`.
 -->
 <script lang="ts" module>
   import type { Snippet } from 'svelte'
@@ -53,13 +54,13 @@
 
 <script lang="ts">
   import CloudUploadIcon from '@lucide/svelte/icons/cloud-upload'
-  import TrashIcon from '@lucide/svelte/icons/trash'
 
   import { cn } from '../../../utils/cn.js'
   import Button from '../../actions/button/button.svelte'
   import Progress from '../../feedback/progress/progress.svelte'
   import Spinner from '../../feedback/spinner/spinner.svelte'
   import Text from '../../typography/text/text.svelte'
+  import MediaDropzonePreview from './media-dropzone-preview.svelte'
   import { MediaUploader } from './media-uploader.svelte.js'
 
   let {
@@ -190,41 +191,14 @@
   </div>
 
   {#if previewLabel}
-    <div class="flex flex-col gap-2">
-      <p class="text-sm font-medium">{previewLabel}</p>
-      <div
-        class="border-border bg-muted/40 flex h-40 items-center justify-center rounded-2xl border"
-      >
-        {#if value}
-          <div class="group relative">
-            <!-- object-contain, not cover: the thing in a one-image field is
-                 usually a logo, and a cropped logo is a wrong logo. -->
-            <img
-              src={value.thumbnailUrl || value.url}
-              alt={value.name || previewLabel}
-              class="max-h-32 object-contain"
-            >
-            {#if !disabled}
-              <Button
-                type="button"
-                iconOnly
-                variant="ghost"
-                class="bg-background/90 hover:text-destructive absolute -top-2 -right-2 size-7 rounded-full opacity-0 transition-opacity group-hover:opacity-100 group-focus-within:opacity-100"
-                onclick={uploader.remove}
-                aria-label="Remove {value.name || previewLabel}"
-              >
-                <TrashIcon class="size-3.5" />
-              </Button>
-            {/if}
-          </div>
-        {:else}
-          <Text as="p" size="sm" muted>{emptyLabel}</Text>
-        {/if}
-      </div>
-      {#if previewCaption}
-        <Text as="p" size="xs" muted>{previewCaption}</Text>
-      {/if}
-    </div>
+    <MediaDropzonePreview
+      {value}
+      label={previewLabel}
+      caption={previewCaption}
+      {emptyLabel}
+      {disabled}
+      onremove={uploader.remove}
+    />
   {/if}
 
   {#if uploader.failed}
