@@ -127,6 +127,7 @@ A searchable select: typing into the field narrows the list. Reach for it where 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `type` | `'single'` | `'single'` |  |
+| `allowCustomValue` | `boolean \| never` | `false` |  |
 
 Also takes: bits-ui `Combobox.Root` props except `type`; bits-ui `Combobox.Root` props.
 
