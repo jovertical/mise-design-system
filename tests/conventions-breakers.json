@@ -23,9 +23,5 @@
   "examples/logistics/src/routes/orders/+page.svelte": ["file-length"],
   "examples/logistics/src/routes/settings/general/+page.svelte": ["file-length", "names"],
   "examples/logistics/tests/repositories.test.ts": ["file-length", "names"],
-  "examples/logistics/tests/schemas.test.ts": ["function-length", "names"],
-  "scripts/skill/aliases.ts": ["function-length"],
-  "scripts/skill/catalogue.ts": ["function-length", "names"],
-  "scripts/skill/props.ts": ["file-length", "function-length", "names"],
-  "tests/barrel.test.ts": ["file-length"]
+  "examples/logistics/tests/schemas.test.ts": ["function-length", "names"]
 }
