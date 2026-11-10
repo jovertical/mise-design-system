@@ -30,8 +30,9 @@
         <SidebarMenuButton size="lg" noHover>
           <span
             class="bg-primary text-primary-foreground grid size-8 shrink-0 place-items-center rounded-md text-sm font-semibold"
-            >m</span
           >
+            m
+          </span>
           <span class="flex min-w-0 flex-col leading-tight">
             <span class="truncate font-semibold" title={getSettings(store).companyName}>
               {getSettings(store).companyName}
