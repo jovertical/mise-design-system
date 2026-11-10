@@ -72,4 +72,47 @@ describe('TimePicker', () => {
       expect(screen.getByRole('combobox', { name })).toBeDisabled()
     }
   })
+
+  it('puts its id and invalid state on the hour select, where a label can reach them', async () => {
+    render(TimePickerHarness, { invalid: true })
+
+    const hour = screen.getByRole('combobox', { name: 'Hour' })
+
+    expect(hour).toHaveAttribute('id', 'rollover')
+    expect(hour).toHaveAttribute('aria-invalid', 'true')
+    expect(document.querySelector('[data-slot="time-picker"]')).not.toHaveAttribute('id')
+
+    await userEvent.click(screen.getByText('Rolls over at'))
+
+    expect(hour).toHaveFocus()
+  })
+
+  it('counts 00 to 23 with no period on a 24-hour clock', async () => {
+    render(TimePickerHarness, { hourCycle: 24, value: new Time(17, 30) })
+
+    expect(screen.getByRole('combobox', { name: 'Hour' })).toHaveTextContent('17')
+    expect(screen.queryByRole('combobox', { name: 'AM or PM' })).toBeNull()
+
+    await pick('Hour', '00')
+
+    expect(bound()).toBe('00:30:00')
+  })
+
+  it('lists minutes at its step, keeping a value that falls between', async () => {
+    render(TimePickerHarness, { minuteStep: 15, value: new Time(9, 7) })
+
+    await userEvent.click(screen.getByRole('combobox', { name: 'Minute' }))
+
+    const minutes = await waitFor(() => {
+      const listed = [...document.body.querySelectorAll('[data-slot="select-item"]')].map((item) =>
+        item.textContent?.trim(),
+      )
+
+      expect(listed.length).toBeGreaterThan(0)
+
+      return listed
+    })
+
+    expect(minutes).toEqual(['00', '07', '15', '30', '45'])
+  })
 })

@@ -690,6 +690,8 @@ Three selects standing in for a clock: hour, minute, and AM/PM.
 | `value` | `Time` |  |  |
 | `onValueChange` | `(value: Time) => void` |  |  |
 | `disabled` | `boolean` | `false` |  |
+| `hourCycle` | `12 \| 24` | `12` | `12` shows 1–12 and an AM/PM select; `24` shows 00–23 and no period. |
+| `minuteStep` | `number` | `1` | The minutes listed, every `minuteStep` from 00. A value between steps keeps its own minute listed, so loading it loses nothing. |
 
 Also takes: every `<div>` attribute except `children`.
 
