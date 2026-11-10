@@ -11,7 +11,10 @@
 
   /**
    * The "Type to search… ⌘K" field in a header, which opens a command
-   * palette. A button shaped like an input, not an input: the palette owns
+   * palette. Header-sized (`h-8`, as the portals draw it); a trigger beside
+   * form inputs takes `class="h-9 rounded-2xl"` to match them.
+   *
+   * A button shaped like an input, not an input: the palette owns
    * the text field, so typing here would mean two search fields to keep in
    * step. Bind `open` to the same value as the `CommandDialog`.
    */
@@ -89,7 +92,7 @@
   data-slot="command-trigger"
   aria-keyshortcuts={shortcuts}
   class={cn(
-    'bg-input/50 text-muted-foreground hover:bg-input/70 hover:text-foreground flex h-9 w-full min-w-0 items-center gap-2 rounded-2xl border border-transparent px-3 text-sm shadow-xs transition-[color,background-color,box-shadow] outline-none',
+    'bg-input/50 text-muted-foreground hover:bg-input/70 hover:text-foreground flex h-8 w-full min-w-0 items-center gap-2 rounded-xl border border-transparent px-3 text-sm shadow-xs transition-[color,background-color,box-shadow] outline-none',
     'focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]',
     className,
   )}

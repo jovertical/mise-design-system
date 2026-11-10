@@ -53,7 +53,7 @@ Also takes: every `<li>` attribute.
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `side` | `'left' \| 'right'` | `'left'` |  |
-| `variant` | `'sidebar' \| 'floating' \| 'inset'` | `'sidebar'` |  |
+| `variant` | `'sidebar' \| 'floating' \| 'inset'` |  | Defaults to `floating` on the `panel` theme, a rounded card inset from the viewport's edges, and `sidebar`, flush against them, on the others. |
 | `collapsible` | `'offcanvas' \| 'icon' \| 'none'` | `'offcanvas'` |  |
 | `sidetheme` | `'primary' \| 'light' \| 'panel'` | `'panel'` |  |
 

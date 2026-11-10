@@ -58,6 +58,28 @@ describe('Sidebar', () => {
     expect(active.className).not.toContain('group-data-[sidetheme=panel]:data-[active=true]:ring-1')
   })
 
+  it('floats the panel theme inset from the viewport edges, as the portals draw it', () => {
+    const { container } = render(AppShell)
+
+    expect(sidebar(container)).toHaveAttribute('data-variant', 'floating')
+    expect(container.querySelector('[data-slot="sidebar-container"]')).toHaveClass('p-2')
+  })
+
+  it('keeps the other themes flush unless a variant is given', () => {
+    const { container } = render(AppShell, { sidetheme: 'primary' })
+
+    expect(sidebar(container)).toHaveAttribute('data-variant', 'sidebar')
+  })
+
+  it('draws no edge line on the panel theme, which its own surface separates', () => {
+    const { container } = render(AppShell)
+
+    expect(container.querySelector('[data-slot="sidebar-container"]')).toHaveClass(
+      'group-data-[sidetheme=panel]:border-r-0',
+      'group-data-[sidetheme=panel]:border-l-0',
+    )
+  })
+
   it('packs panel rows closer than the other themes', () => {
     const { container } = render(AppShell)
 

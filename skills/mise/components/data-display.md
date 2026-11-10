@@ -64,13 +64,22 @@ Types: `BadgeVariant` (`'solid' | 'soft' | 'outline'`).
 
 `import { Board, BoardCard, BoardColumn } from '@jovertical/mise-design-system'`
 
-Columns of cards grouped by a status: a pipeline read across. Read-only; moving a card between columns is the deferred drag-and-drop work. The row scrolls sideways rather than squeezing its columns, because a card needs its width to say anything.
+Columns of cards grouped by a status: a pipeline read across. The row scrolls sideways rather than squeezing its columns, because a card needs its width to say anything.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `onMove` | `(move: BoardMove) => void` |  |  |
 
 Also takes: every `<div>` attribute.
 
 ### `BoardCard`
 
 One item in a column, on a card surface. With `href` it is a link to the item: its hover darkens the border rather than tinting the fill, because `--accent` is the active nav row and nothing else.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `id` | `string` |  | Names the card, so it can be dragged when the board has `onMove`. |
+| `label` | `string` |  | What a screen reader calls the card while it moves. Defaults to its `id`. |
 
 Also takes: every `<a>` attribute.
 
@@ -85,8 +94,12 @@ One lane of a board: a header naming the status, then its cards. A fixed width, 
 | `tone` | `'neutral' \| 'primary' \| 'info' \| 'success' \| 'warning' \| 'critical'` | `'neutral'` | The dot beside the title. Neutral unless the status means something. |
 | `actions` | `Snippet` |  | Right of the title: a link to the full list, a menu. |
 | `empty` | `string \| Snippet` | `'Nothing here'` | Shown when the column has no cards, so it never collapses to its header. |
+| `id` | `string` |  | Names the column, so cards can be dropped on it when the board has `onMove`. |
+| `accepts` | `BoardAccepts` |  | Whether the column takes a card. By default, any card from another column. |
 
 Also takes: every HTML attribute except `title`.
+
+Types: `BoardAccepts`, `BoardCardRef`, `BoardMove`.
 
 ## ChartContainer
 

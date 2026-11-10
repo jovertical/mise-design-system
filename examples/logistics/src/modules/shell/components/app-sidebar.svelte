@@ -32,18 +32,22 @@
     <SidebarMenu>
       <SidebarMenuItem>
         <SidebarMenuButton size="lg" noHover>
+          <!-- Collapsed to icons, the square fills the rail's cell like the rows below it,
+               and the name and badge go, so nothing pushes it off centre. -->
           <span
-            class="bg-primary text-primary-foreground grid size-8 shrink-0 place-items-center rounded-md text-sm font-semibold"
+            class="bg-primary text-primary-foreground grid size-8 shrink-0 place-items-center rounded-md text-sm font-semibold group-data-[collapsible=icon]:size-10 group-data-[collapsible=icon]:rounded-xl"
           >
             m
           </span>
-          <span class="flex min-w-0 flex-col leading-tight">
+          <span class="flex min-w-0 flex-col leading-tight group-data-[collapsible=icon]:hidden">
             <span class="truncate font-semibold" title={getSettings(store).companyName}>
               {getSettings(store).companyName}
             </span>
             <span class="text-muted-foreground text-xs">Operations</span>
           </span>
-          <Badge variant="outline" class="ml-auto shrink-0">demo</Badge>
+          <Badge variant="outline" class="ml-auto shrink-0 group-data-[collapsible=icon]:hidden"
+            >demo</Badge
+          >
         </SidebarMenuButton>
       </SidebarMenuItem>
     </SidebarMenu>

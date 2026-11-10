@@ -1,11 +1,21 @@
 import { matches, type Source } from '#modules/core/data/shared.js'
 import type { Id } from '#modules/core/data/types.js'
+import {
+  getShipment,
+  isShipmentEditable,
+  shipmentToInput,
+  updateShipment,
+} from '#modules/shipments/data/index.js'
 import { type OrderInput, orderSchema } from './schema.js'
 import type { Order, OrderStatus } from './types.js'
 
 export type OrderFilters = { search?: string; status?: OrderStatus }
 
-export const OPEN_STATUSES = ['received', 'ready', 'in-fulfilment', 'completed'] as const
+/** The statuses an order moves through; the stat tiles count these. */
+export const FLOW_STATUSES = ['received', 'ready', 'in-fulfilment', 'completed'] as const
+
+/** Every status, one board column each. */
+export const BOARD_STATUSES = [...FLOW_STATUSES, 'cancelled'] as const
 
 const clientName = (source: Source, id: Id) =>
   source.data.clients.find((client) => client.id === id)?.name ?? ''
@@ -26,7 +36,7 @@ export const getOrder = (source: Source, idOrNumber: string) =>
 /** Each open status's count, and how many orders of it were placed on each of the last 7 days. */
 export function orderStats(source: Source) {
   return Object.fromEntries(
-    OPEN_STATUSES.map((status) => {
+    FLOW_STATUSES.map((status) => {
       const orders = source.data.orders.filter((order) => order.status === status)
 
       const trend = Array.from(
@@ -36,7 +46,7 @@ export function orderStats(source: Source) {
 
       return [status, { count: orders.length, trend }]
     }),
-  ) as Record<(typeof OPEN_STATUSES)[number], { count: number; trend: number[] }>
+  ) as Record<(typeof FLOW_STATUSES)[number], { count: number; trend: number[] }>
 }
 
 export function ordersByStatus(source: Source): Record<OrderStatus, Order[]> {
@@ -118,6 +128,56 @@ export function updateOrder(source: Source, idOrNumber: string, raw: OrderInput)
   return order
 }
 
+const NOW = { day: 0, time: '12:00' }
+
+export function markReady(source: Source, idOrNumber: string): Order {
+  const order = getOrder(source, idOrNumber)
+
+  if (!order) throw new Error(`No order ${idOrNumber}`)
+
+  if (order.status !== 'received') {
+    throw new Error(
+      `${order.number} is ${order.status.replaceAll('-', ' ')} and cannot be marked ready`,
+    )
+  }
+
+  order.status = 'ready'
+
+  order.events.push({ status: 'ready', at: NOW })
+
+  return order
+}
+
+/**
+ * An order on a run comes off it before it is cancelled, so the run never
+ * carries a cancelled order. A run that has left keeps its orders, and a run
+ * keeps at least one: those cancels are refused.
+ */
+function takeOffRun(source: Source, order: Order) {
+  if (!order.shipmentId) return
+
+  const run = getShipment(source, order.shipmentId)
+
+  if (!run) return
+
+  if (!isShipmentEditable(run)) {
+    throw new Error(
+      `${order.number} is on ${run.number}, which is ${run.status.replaceAll('-', ' ')}`,
+    )
+  }
+
+  if (run.orderIds.length === 1) {
+    throw new Error(
+      `${order.number} is the only order on ${run.number}; replan or cancel the run first`,
+    )
+  }
+
+  updateShipment(source, run.id, {
+    ...shipmentToInput(run),
+    orderIds: run.orderIds.filter((id) => id !== order.id),
+  })
+}
+
 export function cancelOrder(source: Source, idOrNumber: string): Order {
   const order = getOrder(source, idOrNumber)
 
@@ -127,7 +187,10 @@ export function cancelOrder(source: Source, idOrNumber: string): Order {
     throw new Error(`${order.number} is ${order.status} and cannot be cancelled`)
   }
 
+  takeOffRun(source, order)
+
   order.status = 'cancelled'
+  order.shipmentId = null
 
   order.events.push({ status: 'cancelled', at: { day: 0, time: '12:00' } })
 

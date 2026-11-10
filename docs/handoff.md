@@ -6,14 +6,21 @@ and plans do not say. In progress: branch `feat/tabler-icons`, below.
 
 ## Where it stands
 
-- **Branch `feat/tabler-icons` (2026-11-10), a minor release.** Plan:
+- **Branch `feat/board-drag` (2026-11-10).** Spec
+  `docs/specs/2026-11-10-board-drag-design.md`, plan of the same date. `Board`
+  drags cards between columns (`onMove`, column `id` and `accepts`, card `id`
+  and `label`) on `@dnd-kit/svelte`, with mise's own keyboard path; the
+  example's Orders board shows all five statuses and every order, and a drop
+  marks an order ready, puts it on a run, or cancels it. Completing orders
+  waits for a run delivery action on the shipment pages.
+- **1.4.0 (2026-11-10), from `feat/tabler-icons` (#7).** Plan:
   `docs/superpowers/plans/2026-11-10-tabler-icons-and-command-trigger.md`.
   Three phases, all done: Tabler icons everywhere; `CommandTrigger`,
   the filled "Type to search… ⌘K" field; and the sidebar as the portals draw
   it, with `panel` the default theme and `SidebarNav`, the menu
   drawn from data (sections, groups, badges, the current row). The example
-  uses all three. Also the dark indeterminate `Checkbox` fix. Merging its
-  pull request lets release-please cut the next minor. The icon swap and the
+  uses all three. Also the dark indeterminate `Checkbox` fix. Released as
+  1.4.0, a minor. The icon swap and the
   new default would be breaking for an outside consumer; with the user's
   own apps the only consumers, they ship as `feat`, not `feat!`.
 - **The package.** `@jovertical/mise-design-system` is public on npm and GitHub
@@ -121,13 +128,21 @@ In rough order of how much they block the apps:
    - `ComboboxInput` does not show the selected item's label for a starting
      value; bits-ui fills the field only when an item is picked. The order
      form passes `defaultValue` itself.
-6. **`homepage` in `package.json`** could point at the demo instead of the
+6. **`Separator` cannot be shortened.** A vertical `Separator` sets
+   `data-[orientation=vertical]:h-full`, which beats a caller's plain `h-4`, so
+   the header's 16px tick ran the full bar (removed from the example's header
+   2026-11-10). A caller must write `data-[orientation=vertical]:h-4`; decide
+   whether mise should let a plain height win.
+7. **`homepage` in `package.json`** could point at the demo instead of the
    README; needs a yes.
-7. **bertos-bakery-ops after this release:** it added `@lucide/svelte` itself; it
+8. **bertos-bakery-ops after this release:** it added `@lucide/svelte` itself; it
    moves its own icons to `@tabler/icons-svelte-runes`, bumps mise, and takes
    `CommandTrigger` and (after phase 3) `SidebarNav`.
-8. **The deferred components:** Draggable, Droppable, Sortable (need a drag and
-   drop library) and MermaidDiagram (heavy). Wait until a screen asks.
+9. **The deferred components:** generic Draggable, Droppable and Sortable, and
+   MermaidDiagram (heavy). Wait until a screen asks. `Board` drags since
+   2026-11-10 (`docs/specs/2026-11-10-board-drag-design.md`), on
+   `@dnd-kit/svelte`, which raised mise's `svelte` peer to `^5.29.0`; generic
+   parts can be drawn out of it when a second screen needs them.
 
 Not verified by a browser: uploading a logo, saving or cancelling settings,
 choosing a ⌘K result, and picking a day in a `DatePicker`. Their logic is
@@ -231,6 +246,17 @@ repository.
 - **TanStack Table 9:** features are declared up front (`dataTableFeatures`), columns built with `dataTableColumns<Row>()`, state read with `table.store.get()`; v9 resets expansion on every row-model rebuild, so `DataTable` sets `autoResetExpanded: false`. A part that needs a live table in a story uses `stories/fixtures/device-table.svelte`.
 - **Tabler** (`@tabler/icons-svelte-runes`, since 2026-11-10; Lucide before): import one file per icon (`import IconX from '@tabler/icons-svelte-runes/icons/x'`), never the root, which makes svelte-check load all ~6,000 icons; `import type { Icon }` from the root is fine. `tests/icons.test.ts` enforces both and keeps Lucide out. Filled icons are their own files (`circle-check-filled`, `point-filled`). A rendered icon carries `tabler-icon tabler-icon-<name>`, which tests assert on. The lucide-to-tabler table is in `docs/superpowers/plans/2026-11-10-tabler-icons-and-command-trigger.md`.
 - **vaul-svelte** is the `1.0.0-next` line, the Svelte 5 one; `latest` is Svelte 4.
+- **@dnd-kit/svelte** (Board's dragging): a draggable binds its sensors when
+  it registers, before the provider's `sensors` apply, so each `createDraggable`
+  passes `sensors: [PointerSensor]` itself; dnd-kit's keyboard sensor nudges
+  10px a press, and mise runs its own column-to-column keyboard path. Its
+  accessibility plugin sets `role="button"` and `aria-pressed` on every
+  draggable, which turns a link into a button: Board filters the plugin out and
+  a link card sets `role="link"`. Its listeners are on the element, so they run
+  before Svelte's delegated `onkeydown` and may have prevented the default
+  already. jsdom needs `getAnimations` stubbed (`tests/setup.ts`); pointer
+  drags are checked in a browser through the DevTools protocol (a script kept
+  outside the repository), as `Input.dispatchMouseEvent` press, moves, release.
 
 **The React package carried product-specific choices; mise fixed them, each on a `Diverged:` line**
 

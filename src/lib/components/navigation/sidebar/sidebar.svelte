@@ -8,7 +8,9 @@
     `bg-card` in dark: React kept it white under scheme-following text, which
     went white on white. `panel` is the default, as the portals draw it
     (React's was `primary`), and takes the overrides the portals' menus wrote
-    by hand (2026-11-10).
+    by hand (2026-11-10). `panel` draws no edge line, and floats inset from
+    the viewport's edges unless a `variant` is given, as the portals pair it
+    with `floating`.
 -->
 <script lang="ts" module>
   import type { HTMLAttributes } from 'svelte/elements'
@@ -25,6 +27,10 @@
 
   export type SidebarProps = WithElementRef<HTMLAttributes<HTMLDivElement>> & {
     side?: 'left' | 'right'
+    /**
+     * Defaults to `floating` on the `panel` theme, a rounded card inset from the
+     * viewport's edges, and `sidebar`, flush against them, on the others.
+     */
     variant?: 'sidebar' | 'floating' | 'inset'
     collapsible?: 'offcanvas' | 'icon' | 'none'
     sidetheme?: SidebarSideTheme
@@ -43,7 +49,7 @@
   let {
     ref = $bindable(null),
     side = 'left',
-    variant = 'sidebar',
+    variant: variantProp,
     collapsible = 'offcanvas',
     sidetheme = 'panel',
     class: className,
@@ -52,6 +58,10 @@
   }: SidebarProps = $props()
 
   const sidebar = useSidebar()
+
+  // A rounded panel flush against the viewport's edges looks cut off; the
+  // portals float it, so the panel theme does unless told otherwise.
+  const variant = $derived(variantProp ?? (sidetheme === 'panel' ? 'floating' : 'sidebar'))
 
   const THEME_SURFACE: Record<SidebarSideTheme, string> = {
     primary:
@@ -132,6 +142,8 @@
         variant === 'floating' || variant === 'inset'
           ? 'p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4))+2px)]'
           : 'group-data-[collapsible=icon]:w-(--sidebar-width-icon) group-data-[side=left]:border-r group-data-[side=right]:border-l',
+        // The panel's own surface and corners separate it; a line would double the edge.
+        'group-data-[sidetheme=panel]:border-r-0 group-data-[sidetheme=panel]:border-l-0',
         className,
       )}
       {...rest}

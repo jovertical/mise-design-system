@@ -40,6 +40,15 @@ if (typeof window !== 'undefined') {
     document.elementFromPoint = () => null
   }
 
+  // dnd-kit reads running animations when a drag ends; jsdom has none.
+  if (!document.getAnimations) {
+    document.getAnimations = () => []
+  }
+
+  if (!Element.prototype.getAnimations) {
+    Element.prototype.getAnimations = () => []
+  }
+
   if (!Element.prototype.scrollIntoView) {
     Element.prototype.scrollIntoView = () => {}
   }
