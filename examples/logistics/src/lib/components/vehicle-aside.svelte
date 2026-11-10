@@ -1,15 +1,9 @@
 <!-- Beside the vehicle form: the vehicle as it would be saved, and what it still needs. -->
 <script lang="ts">
-  import {
-    AsideCard,
-    Badge,
-    FactList,
-    FactListItem,
-    ReadinessChecklist,
-    ReadinessSummary,
-  } from '@jovertical/mise-design-system'
-  import ListChecks from '@lucide/svelte/icons/list-checks'
+  import { AsideCard, Badge, FactList, FactListItem } from '@jovertical/mise-design-system'
   import ReceiptText from '@lucide/svelte/icons/receipt-text'
+
+  import ReadinessCard from '#lib/components/readiness-card.svelte'
   import { vehicleReadiness } from '#lib/data/fleet/readiness.js'
   import type { VehicleInput } from '#lib/data/fleet/schema.js'
   import { driverOf, locationName } from '#lib/data/lookups.js'
@@ -41,9 +35,6 @@
 {#snippet receipt()}
   <ReceiptText />
 {/snippet}
-{#snippet checks()}
-  <ListChecks />
-{/snippet}
 {#snippet statusBadge()}
   <Badge tone={look.tone}>{look.label}</Badge>
 {/snippet}
@@ -69,9 +60,4 @@
   </FactList>
 </AsideCard>
 
-<AsideCard icon={checks} title="Ready to save">
-  <div class="flex flex-col gap-4">
-    <ReadinessSummary items={readiness} />
-    <ReadinessChecklist items={readiness} />
-  </div>
-</AsideCard>
+<ReadinessCard items={readiness} />

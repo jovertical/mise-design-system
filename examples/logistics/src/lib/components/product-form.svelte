@@ -8,7 +8,6 @@
   import {
     Card,
     CardContent,
-    CardTitle,
     Input,
     NumberInput,
     Select,
@@ -23,7 +22,6 @@
     TableHead,
     TableHeader,
     TableRow,
-    Text,
   } from '@jovertical/mise-design-system'
   import {
     FormControl,
@@ -37,6 +35,7 @@
   import { untrack } from 'svelte'
 
   import FormPage, { type FormPageText } from '#lib/components/form-page.svelte'
+  import FormSection from '#lib/components/form-section.svelte'
   import ProductAside from '#lib/components/product-aside.svelte'
   import { locationName } from '#lib/data/lookups.js'
   import { type ProductInput, productSchema } from '#lib/data/products/schema.js'
@@ -69,29 +68,11 @@
   const categories = Object.entries(CATEGORY_LABEL).map(([value, label]) => ({ value, label }))
 </script>
 
-{#snippet productIcon()}
-  <Package />
-{/snippet}
-{#snippet pricingIcon()}
-  <Tag />
-{/snippet}
-{#snippet stockIcon()}
-  <Warehouse />
-{/snippet}
-
-{#snippet heading(icon: typeof productIcon, title: string, hint: string)}
-  <div class="flex flex-col gap-1">
-    <CardTitle {icon} iconTone="primary">{title}</CardTitle>
-    <Text as="p" size="sm" muted>{hint}</Text>
-  </div>
-{/snippet}
-
 {#snippet body()}
   <form method="POST" id="product-form" use:enhance>
     <Card>
       <CardContent class="flex flex-col gap-6">
-        <section class="flex flex-col gap-4">
-          {@render heading(productIcon, 'Product', 'What it is and how it is counted.')}
+        <FormSection icon={Package} title="Product" hint="What it is and how it is counted.">
           <div class="grid gap-4 sm:grid-cols-2">
             <FormField {form} name="name">
               <FormControl>
@@ -147,12 +128,11 @@
               <FormFieldErrors />
             </FormField>
           </div>
-        </section>
+        </FormSection>
 
         <Separator />
 
-        <section class="flex flex-col gap-4">
-          {@render heading(pricingIcon, 'Pricing', 'What it sells for, and when to order more.')}
+        <FormSection icon={Tag} title="Pricing" hint="What it sells for, and when to order more.">
           <div class="grid gap-4 sm:grid-cols-2">
             <FormField {form} name="price">
               <FormControl>
@@ -184,17 +164,18 @@
               <FormFieldErrors />
             </FormField>
           </div>
-        </section>
+        </FormSection>
 
         <Separator />
 
-        <section class="flex flex-col gap-4">
+        <FormSection
+          icon={Warehouse}
+          title={stock ? 'Stock by site' : 'Opening stock'}
+          hint={stock
+            ? 'Stock moves through adjustments, not this form.'
+            : 'What is on the shelf at each site today.'}
+        >
           {#if stock}
-            {@render heading(
-              stockIcon,
-              'Stock by site',
-              'Stock moves through adjustments, not this form.',
-            )}
             <Table compact>
               <TableHeader>
                 <TableRow>
@@ -214,11 +195,6 @@
               </TableBody>
             </Table>
           {:else}
-            {@render heading(
-              stockIcon,
-              'Opening stock',
-              'What is on the shelf at each site today.',
-            )}
             <div class="grid gap-4 sm:grid-cols-2">
               {#each $values.openingStock as row, index (row.locationId)}
                 <FormField {form} name={`openingStock[${index}].onHand` as const}>
@@ -238,7 +214,7 @@
               {/each}
             </div>
           {/if}
-        </section>
+        </FormSection>
       </CardContent>
     </Card>
   </form>

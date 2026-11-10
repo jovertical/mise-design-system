@@ -1,14 +1,9 @@
 <!-- Beside the order form: what the order adds up to so far, and what it still needs. -->
 <script lang="ts">
-  import {
-    AsideCard,
-    FactList,
-    FactListItem,
-    ReadinessChecklist,
-    ReadinessSummary,
-  } from '@jovertical/mise-design-system'
-  import ListChecks from '@lucide/svelte/icons/list-checks'
+  import { AsideCard, FactList, FactListItem } from '@jovertical/mise-design-system'
   import ReceiptText from '@lucide/svelte/icons/receipt-text'
+
+  import ReadinessCard from '#lib/components/readiness-card.svelte'
 
   import { clientOf, locationName } from '#lib/data/lookups.js'
   import { orderReadiness } from '#lib/data/orders/readiness.js'
@@ -19,16 +14,13 @@
 
   let { values }: { values: OrderInput } = $props()
 
-  const kilograms = $derived(values.packages.reduce((sum, pkg) => sum + pkg.weightKg, 0))
+  const kilograms = $derived(values.packages.reduce((sum, item) => sum + item.weightKg, 0))
   const count = $derived(values.packages.length)
   const readiness = $derived(orderReadiness(values))
 </script>
 
 {#snippet receipt()}
   <ReceiptText />
-{/snippet}
-{#snippet checks()}
-  <ListChecks />
 {/snippet}
 
 <AsideCard icon={receipt} title="Summary">
@@ -45,9 +37,4 @@
   </FactList>
 </AsideCard>
 
-<AsideCard icon={checks} title="Ready to save">
-  <div class="flex flex-col gap-4">
-    <ReadinessSummary items={readiness} />
-    <ReadinessChecklist items={readiness} />
-  </div>
-</AsideCard>
+<ReadinessCard items={readiness} />

@@ -1,16 +1,9 @@
 <!-- Beside the site form: how full the site would be, and what it still needs. -->
 <script lang="ts">
-  import {
-    AsideCard,
-    FactList,
-    FactListItem,
-    Progress,
-    ReadinessChecklist,
-    ReadinessSummary,
-    Text,
-  } from '@jovertical/mise-design-system'
-  import ListChecks from '@lucide/svelte/icons/list-checks'
+  import { AsideCard, FactList, FactListItem, Progress, Text } from '@jovertical/mise-design-system'
   import ReceiptText from '@lucide/svelte/icons/receipt-text'
+
+  import ReadinessCard from '#lib/components/readiness-card.svelte'
   import { percent } from '#lib/data/shared.js'
   import { siteReadiness } from '#lib/data/warehouses/readiness.js'
   import type { SiteInput } from '#lib/data/warehouses/schema.js'
@@ -28,14 +21,11 @@
   const capacity = $derived(values.zones.reduce((sum, zone) => sum + zone.capacity, 0))
   const share = $derived(percent(held, capacity))
   const readiness = $derived(siteReadiness(values))
-  const count = (n: number) => n.toLocaleString('en-US')
+  const count = (value: number) => value.toLocaleString('en-US')
 </script>
 
 {#snippet receipt()}
   <ReceiptText />
-{/snippet}
-{#snippet checks()}
-  <ListChecks />
 {/snippet}
 
 <AsideCard icon={receipt} title="Summary">
@@ -60,9 +50,4 @@
   </div>
 </AsideCard>
 
-<AsideCard icon={checks} title="Ready to save">
-  <div class="flex flex-col gap-4">
-    <ReadinessSummary items={readiness} />
-    <ReadinessChecklist items={readiness} />
-  </div>
-</AsideCard>
+<ReadinessCard items={readiness} />

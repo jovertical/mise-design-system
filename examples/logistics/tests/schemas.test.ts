@@ -28,7 +28,7 @@ const order = {
 }
 
 describe('schemas', () => {
-  it('accept valid input and reject invalid input', () => {
+  it('accept a valid order and reject an invalid one', () => {
     expect(orderSchema.safeParse(order).success).toBe(true)
     expect(orderSchema.safeParse({ ...order, total: 12.5 }).success).toBe(false)
     expect(orderSchema.safeParse({ ...order, clientId: '' }).success).toBe(false)
@@ -36,7 +36,9 @@ describe('schemas', () => {
     expect(orderSchema.safeParse({ ...order, total: 0 }).error?.issues[0].message).toBe(
       'Enter the order total',
     )
+  })
 
+  it('accept a valid product and reject an invalid one', () => {
     const product = {
       name: 'Stretch film',
       sku: 'PK-0499',
@@ -58,7 +60,9 @@ describe('schemas', () => {
     )
 
     expect(productSchema.safeParse({ ...product, reorderPoint: -1 }).success).toBe(false)
+  })
 
+  it('accept a valid client and reject an invalid one', () => {
     const client = {
       name: 'Pine Deli',
       industry: 'Food',
@@ -77,7 +81,9 @@ describe('schemas', () => {
     )
 
     expect(clientSchema.safeParse({ ...client, status: 'archived' }).success).toBe(false)
+  })
 
+  it('accept the saved settings and reject invalid ones', () => {
     expect(settingsSchema.safeParse(getSettings(source)).success).toBe(true)
 
     expect(

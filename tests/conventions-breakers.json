@@ -1,15 +1,1 @@
-{
-  "examples/logistics/src/lib/components/order-aside.svelte": ["names"],
-  "examples/logistics/src/lib/components/order-form.svelte": ["file-length"],
-  "examples/logistics/src/lib/components/product-form.svelte": ["file-length"],
-  "examples/logistics/src/lib/components/search-palette.svelte": ["names"],
-  "examples/logistics/src/lib/components/shipment-aside.svelte": ["names"],
-  "examples/logistics/src/lib/components/shipment-form.svelte": ["file-length", "names"],
-  "examples/logistics/src/lib/components/site-aside.svelte": ["names"],
-  "examples/logistics/src/lib/components/vehicle-form.svelte": ["file-length"],
-  "examples/logistics/src/routes/+page.svelte": ["file-length"],
-  "examples/logistics/src/routes/orders/+page.svelte": ["file-length"],
-  "examples/logistics/src/routes/settings/general/+page.svelte": ["file-length", "names"],
-  "examples/logistics/tests/repositories.test.ts": ["file-length", "names"],
-  "examples/logistics/tests/schemas.test.ts": ["function-length"]
-}
+{}

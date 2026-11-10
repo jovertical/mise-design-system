@@ -1,14 +1,9 @@
 <!-- Beside the run planner: the run as it stands, and what it still needs. -->
 <script lang="ts">
-  import {
-    AsideCard,
-    FactList,
-    FactListItem,
-    ReadinessChecklist,
-    ReadinessSummary,
-  } from '@jovertical/mise-design-system'
-  import ListChecks from '@lucide/svelte/icons/list-checks'
+  import { AsideCard, FactList, FactListItem } from '@jovertical/mise-design-system'
   import ReceiptText from '@lucide/svelte/icons/receipt-text'
+
+  import ReadinessCard from '#lib/components/readiness-card.svelte'
 
   import { driverOf, locationName, vehicleOf } from '#lib/data/lookups.js'
   import { shipmentReadiness } from '#lib/data/shipments/readiness.js'
@@ -22,7 +17,7 @@
 
   const kilograms = $derived(
     orders.reduce(
-      (sum, order) => sum + order.packages.reduce((total, pkg) => total + pkg.weightKg, 0),
+      (sum, order) => sum + order.packages.reduce((total, item) => total + item.weightKg, 0),
       0,
     ),
   )
@@ -33,9 +28,6 @@
 
 {#snippet receipt()}
   <ReceiptText />
-{/snippet}
-{#snippet checks()}
-  <ListChecks />
 {/snippet}
 
 <AsideCard icon={receipt} title="Summary">
@@ -54,9 +46,4 @@
   </FactList>
 </AsideCard>
 
-<AsideCard icon={checks} title="Ready to schedule">
-  <div class="flex flex-col gap-4">
-    <ReadinessSummary items={readiness} />
-    <ReadinessChecklist items={readiness} />
-  </div>
-</AsideCard>
+<ReadinessCard items={readiness} title="Ready to schedule" />

@@ -10,7 +10,6 @@
     Button,
     Card,
     CardContent,
-    CardTitle,
     Input,
     NumberInput,
     Separator,
@@ -32,6 +31,7 @@
   import { untrack } from 'svelte'
 
   import FormPage, { type FormPageText } from '#lib/components/form-page.svelte'
+  import FormSection from '#lib/components/form-section.svelte'
   import SiteAside from '#lib/components/site-aside.svelte'
   import { type SiteInput, siteSchema } from '#lib/data/warehouses/schema.js'
   import { entityForm } from '#lib/entity-form.svelte.js'
@@ -68,23 +68,6 @@
   }
 </script>
 
-{#snippet siteIcon()}
-  <Warehouse />
-{/snippet}
-{#snippet capacityIcon()}
-  <Gauge />
-{/snippet}
-{#snippet zonesIcon()}
-  <LayoutGrid />
-{/snippet}
-
-{#snippet heading(icon: typeof siteIcon, title: string, hint: string)}
-  <div class="flex flex-col gap-1">
-    <CardTitle {icon} iconTone="primary">{title}</CardTitle>
-    <Text as="p" size="sm" muted>{hint}</Text>
-  </div>
-{/snippet}
-
 {#snippet textField(name: TextKey, label: string, placeholder: string)}
   <FormField {form} {name}>
     <FormControl>
@@ -113,39 +96,36 @@
   <form method="POST" id="site-form" use:enhance>
     <Card>
       <CardContent class="flex flex-col gap-6">
-        <section class="flex flex-col gap-4">
-          {@render heading(siteIcon, 'Site', 'Where it is and who runs it.')}
+        <FormSection icon={Warehouse} title="Site" hint="Where it is and who runs it.">
           <div class="grid gap-4 sm:grid-cols-3">
             {@render textField('name', 'Name', 'East Gate')}
             {@render textField('city', 'City', 'Eastport')}
             {@render textField('manager', 'Manager', 'P. Ruiz')}
           </div>
-        </section>
+        </FormSection>
 
         <Separator />
 
-        <section class="flex flex-col gap-4">
-          {@render heading(
-            capacityIcon,
-            'Capacity',
-            'How much it can hold, and how many trucks it can load at once.',
-          )}
+        <FormSection
+          icon={Gauge}
+          title="Capacity"
+          hint="How much it can hold, and how many trucks it can load at once."
+        >
           <div class="grid gap-4 sm:grid-cols-2">
             {@render countField('capacityUnits', 'Capacity in units')}
             {@render countField('docks', 'Loading docks')}
           </div>
-        </section>
+        </FormSection>
 
         <Separator />
 
-        <section class="flex flex-col gap-4">
-          {@render heading(
-            zonesIcon,
-            'Zones',
-            used.length > 0
-              ? 'Existing zones can be renamed or resized; zones added here can be removed.'
-              : 'One row per zone.',
-          )}
+        <FormSection
+          icon={LayoutGrid}
+          title="Zones"
+          hint={used.length > 0
+            ? 'Existing zones can be renamed or resized; zones added here can be removed.'
+            : 'One row per zone.'}
+        >
           <FormFieldset {form} name="zones" class="flex flex-col gap-3">
             <FormLegend class="sr-only">Zones</FormLegend>
             {#each $values.zones as _, index (index)}
@@ -201,7 +181,7 @@
               </Button>
             </div>
           </FormFieldset>
-        </section>
+        </FormSection>
       </CardContent>
     </Card>
   </form>

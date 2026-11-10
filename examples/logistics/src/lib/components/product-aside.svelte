@@ -1,15 +1,9 @@
 <!-- Beside the product form: price and stock against the reorder point, and what is missing. -->
 <script lang="ts">
-  import {
-    AsideCard,
-    Badge,
-    FactList,
-    FactListItem,
-    ReadinessChecklist,
-    ReadinessSummary,
-  } from '@jovertical/mise-design-system'
-  import ListChecks from '@lucide/svelte/icons/list-checks'
+  import { AsideCard, Badge, FactList, FactListItem } from '@jovertical/mise-design-system'
   import ReceiptText from '@lucide/svelte/icons/receipt-text'
+
+  import ReadinessCard from '#lib/components/readiness-card.svelte'
 
   import { productReadiness } from '#lib/data/products/readiness.js'
   import type { ProductInput } from '#lib/data/products/schema.js'
@@ -44,9 +38,6 @@
 {#snippet receipt()}
   <ReceiptText />
 {/snippet}
-{#snippet checks()}
-  <ListChecks />
-{/snippet}
 {#snippet level()}
   <Badge tone={low ? 'warning' : 'success'}>{low ? 'Low stock' : 'In stock'}</Badge>
 {/snippet}
@@ -62,9 +53,4 @@
   </FactList>
 </AsideCard>
 
-<AsideCard icon={checks} title="Ready to save">
-  <div class="flex flex-col gap-4">
-    <ReadinessSummary items={readiness} />
-    <ReadinessChecklist items={readiness} />
-  </div>
-</AsideCard>
+<ReadinessCard items={readiness} />

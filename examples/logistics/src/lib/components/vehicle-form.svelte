@@ -7,7 +7,6 @@
   import {
     Card,
     CardContent,
-    CardTitle,
     DatePicker,
     Input,
     NumberInput,
@@ -17,7 +16,6 @@
     SelectTrigger,
     SelectValue,
     Separator,
-    Text,
   } from '@jovertical/mise-design-system'
   import {
     FormControl,
@@ -31,6 +29,7 @@
   import { untrack } from 'svelte'
 
   import FormPage, { type FormPageText } from '#lib/components/form-page.svelte'
+  import FormSection from '#lib/components/form-section.svelte'
   import VehicleAside from '#lib/components/vehicle-aside.svelte'
   import { dateToDay, dayToDate } from '#lib/data/days.js'
   import { assignableDrivers } from '#lib/data/fleet/index.js'
@@ -90,23 +89,6 @@
   }))
 </script>
 
-{#snippet vehicleIcon()}
-  <Truck />
-{/snippet}
-{#snippet assignmentIcon()}
-  <MapPin />
-{/snippet}
-{#snippet serviceIcon()}
-  <Wrench />
-{/snippet}
-
-{#snippet heading(icon: typeof vehicleIcon, title: string, hint: string)}
-  <div class="flex flex-col gap-1">
-    <CardTitle {icon} iconTone="primary">{title}</CardTitle>
-    <Text as="p" size="sm" muted>{hint}</Text>
-  </div>
-{/snippet}
-
 {#snippet choice(
   name: 'type' | 'homeLocationId' | 'condition',
   label: string,
@@ -142,8 +124,7 @@
   <form method="POST" id="vehicle-form" use:enhance>
     <Card>
       <CardContent class="flex flex-col gap-6">
-        <section class="flex flex-col gap-4">
-          {@render heading(vehicleIcon, 'Vehicle', 'How the fleet knows it, and what it is.')}
+        <FormSection icon={Truck} title="Vehicle" hint="How the fleet knows it, and what it is.">
           <div class="grid gap-4 sm:grid-cols-3">
             <FormField {form} name="code">
               <FormControl>
@@ -170,16 +151,15 @@
             </FormField>
             {@render choice('type', 'Type', types)}
           </div>
-        </section>
+        </FormSection>
 
         <Separator />
 
-        <section class="flex flex-col gap-4">
-          {@render heading(
-            assignmentIcon,
-            'Assignment',
-            'Where it is based and who drives it. A driver moves off any other vehicle.',
-          )}
+        <FormSection
+          icon={MapPin}
+          title="Assignment"
+          hint="Where it is based and who drives it. A driver moves off any other vehicle."
+        >
           <div class="grid gap-4 sm:grid-cols-2">
             {@render choice('homeLocationId', 'Home site', sites, true)}
             <FormField {form} name="driverId">
@@ -204,12 +184,11 @@
               <FormFieldErrors />
             </FormField>
           </div>
-        </section>
+        </FormSection>
 
         <Separator />
 
-        <section class="flex flex-col gap-4">
-          {@render heading(serviceIcon, 'Service', 'Its mileage, and when it is next due in.')}
+        <FormSection icon={Wrench} title="Service" hint="Its mileage, and when it is next due in.">
           <div class="grid gap-4 sm:grid-cols-3">
             <FormField {form} name="mileageKm">
               <FormControl>
@@ -243,7 +222,7 @@
             </FormField>
             {@render choice('condition', 'Condition', conditions)}
           </div>
-        </section>
+        </FormSection>
       </CardContent>
     </Card>
   </form>

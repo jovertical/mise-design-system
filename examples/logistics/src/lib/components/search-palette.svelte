@@ -68,8 +68,8 @@
     </CommandGroup>
     <CommandSeparator />
     <CommandGroup heading="Orders">
-      {#each store.data.orders.toSorted((a, b) =>
-        b.number.localeCompare(a.number),
+      {#each store.data.orders.toSorted((first, second) =>
+        second.number.localeCompare(first.number),
       ) as order (order.id)}
         <CommandItem
           value="{order.number} {clientOf(store, order.clientId)?.name}"
