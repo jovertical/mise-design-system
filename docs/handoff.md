@@ -6,6 +6,13 @@ and plans do not say. In progress: branch `feat/tabler-icons`, below.
 
 ## Where it stands
 
+- **Branch `feat/board-drag` (2026-11-10).** Spec
+  `docs/specs/2026-11-10-board-drag-design.md`, plan of the same date. `Board`
+  drags cards between columns (`onMove`, column `id` and `accepts`, card `id`
+  and `label`) on `@dnd-kit/svelte`, with mise's own keyboard path; the
+  example's Orders board shows all five statuses and every order, and a drop
+  marks an order ready, puts it on a run, or cancels it. Completing orders
+  waits for a run delivery action on the shipment pages.
 - **Branch `feat/tabler-icons` (2026-11-10), a minor release.** Plan:
   `docs/superpowers/plans/2026-11-10-tabler-icons-and-command-trigger.md`.
   Three phases, all done: Tabler icons everywhere; `CommandTrigger`,
