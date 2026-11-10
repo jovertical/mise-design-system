@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://github.com/jovertical/mise-design-system/compare/v1.3.0...v1.4.0) (2026-11-10)
+
+
+### Features
+
+* Tabler icons, CommandTrigger and SidebarNav ([#7](https://github.com/jovertical/mise-design-system/issues/7)) ([f06bf51](https://github.com/jovertical/mise-design-system/commit/f06bf518013bd087a54870c06674a1d9097e9267))
+
 ## [1.3.0](https://github.com/jovertical/mise-design-system/compare/v1.2.0...v1.3.0) (2026-11-09)
 
 
