@@ -11,7 +11,7 @@
     AlertDialogTitle,
   } from '@jovertical/mise-design-system'
 
-  import { answerDiscard, discard } from '#lib/entity-form.svelte.js'
+  import { answerDiscard, discard } from '#lib/discard.svelte.js'
 </script>
 
 <AlertDialog
