@@ -130,6 +130,13 @@ repository.
 
 ## How the work is run
 
+- **`main` is protected** by the ruleset *Protect main* (2026-11-10): pull
+  requests only, the CI `check` job required, squash or rebase merges, no
+  force-push or deletion, the admin (the user) able to bypass. Work goes on a
+  branch and reaches `main` by a pull request; the git-workflow skill has the
+  commands. The release PR gets no CI run (release-please uses the workflow
+  token), so the user merges it with the bypass.
+
 - **Phases:** at most 5 tasks each. Stop at every phase gate with a phase-gates report and wait for an explicit go. Push only after approval, then watch CI (`gh run watch --repo jovertical/mise-design-system --exit-status <run id>`).
 - **Plans before code:** a round gets a plan in `docs/superpowers/plans/` (shared decisions table, phases, per-task specifics), approved by the user before any code.
 - **Commits:** only when `pnpm test` **and** `pnpm build:storybook` both exit 0, checked by exit code, with the commit conditional on both (git-workflow skill). Self-contained (a component, its barrel lines, its tests and stories), conventional and component-scoped, ending with the Co-Authored-By trailer.
