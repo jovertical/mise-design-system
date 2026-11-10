@@ -21,6 +21,6 @@
   bind:ref
   orientation="vertical"
   data-slot="site-header-separator"
-  class={cn('mx-1 self-center data-[orientation=vertical]:h-4', className)}
+  class={cn('mx-1 h-4 self-center', className)}
   {...rest}
 />

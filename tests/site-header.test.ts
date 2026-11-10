@@ -36,6 +36,6 @@ describe('SiteHeader', () => {
     const separator = slot('site-header-separator')
 
     expect(separator).toHaveAttribute('data-orientation', 'vertical')
-    expect(separator).toHaveClass('data-[orientation=vertical]:h-4')
+    expect(separator).toHaveClass('h-4')
   })
 })
