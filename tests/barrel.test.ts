@@ -258,6 +258,8 @@ const EXPECTED_EXPORTS = [
   'SheetTitle',
   'SheetTrigger',
   'Sidebar',
+  'SiteHeader',
+  'SiteHeaderSeparator',
   'SidebarContent',
   'SidebarFooter',
   'SidebarGroup',

@@ -162,6 +162,24 @@ Also takes: every `<div>` attribute.
 
 Also takes: bits-ui `Separator.Root` props.
 
+## SiteHeader
+
+`import { SiteHeader, SiteHeaderSeparator } from '@jovertical/mise-design-system'`
+
+The bar above every page: a card floating on a blurred band that stays at the top while the page scrolls under it. Put the sidebar's trigger, a breadcrumb, `CommandTrigger` and the scheme or user menus inside, in a row; `SiteHeaderSeparator` divides groups.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `contentClass` | `string` |  | Classes for the column the card sits in: its cap and padding. |
+
+Also takes: every HTML attribute.
+
+### `SiteHeaderSeparator`
+
+`Separator`, vertical and 16px tall, with the bar's spacing either side.
+
+Also takes: everything `Separator` takes except `orientation`.
+
 ## SummaryCard
 
 `import { SummaryCard } from '@jovertical/mise-design-system'`

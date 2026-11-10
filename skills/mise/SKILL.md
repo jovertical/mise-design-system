@@ -109,6 +109,8 @@ type and default.
 **Layout** ([components/layout.md](components/layout.md))
 
 - The page frame: `PageLayout`, with `PageHeader` for the title, description and actions
+- The bar above every page (sidebar trigger, breadcrumb, search, menus): `SiteHeader`, with
+  `SiteHeaderSeparator` between groups
 - A surface: `Card`
 - Cards in a grid: `CardGrid`; rows inside one card: `CardList`
 - A collapsible card for a side column: `AsideCard`

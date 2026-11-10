@@ -81,6 +81,7 @@ export * from './components/layout/collapsible/index.js'
 export * from './components/layout/page-header/index.js'
 export * from './components/layout/page-layout/index.js'
 export * from './components/layout/separator/index.js'
+export * from './components/layout/site-header/index.js'
 export * from './components/layout/summary-card/index.js'
 // Navigation
 export * from './components/navigation/breadcrumb/index.js'
