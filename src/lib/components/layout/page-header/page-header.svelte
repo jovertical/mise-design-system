@@ -1,19 +1,21 @@
 <!--
   Origin: the React package 2.23.0 `page-header.tsx`
   Diverged: the ReactNode slots are snippets; `description` and `eyebrow` also
-    take a plain string (R3-4). Adds `data-slot="page-header"`.
+    take a plain string (R3-4). Adds `data-slot="page-header"`, and
+    PageHeaderBackLink, the back link every create and edit page drew for
+    itself (bertos-bakery-ops' audit, 2026-11-10).
 -->
 <script lang="ts" module>
   import type { Snippet } from 'svelte'
 
   /**
-   * Which affordance a page carries, by what kind of page it is:
-   *
-   * - list: nothing above the title; the title is the section's name.
-   * - create / edit: `backLink` (the way out); the title is what you are doing.
-   * - detail: `breadcrumb`, to the parent or carrying the leaf; the title is
-   *   the entity, or its kind and the entity, never the crumb repeated.
-   * - multi-step flow: `breadcrumb` carrying the leaf, and no title.
+   * Which affordance a page carries follows what kind of page it is. A list
+   * page carries nothing above the title, which is the section's name. A
+   * create or edit page carries `backLink` (the way out, drawn with
+   * `PageHeaderBackLink`), and its title is what you are doing. A detail page
+   * carries `breadcrumb`, to the parent or carrying the leaf, and its title is
+   * the entity, or its kind and the entity, never the crumb repeated. A
+   * multi-step flow carries `breadcrumb` with the leaf, and no title.
    */
   export interface PageHeaderProps {
     /**

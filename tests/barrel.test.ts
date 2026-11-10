@@ -232,6 +232,7 @@ const EXPECTED_EXPORTS = [
   'summariseReadiness',
   'LoadingState',
   'PageHeader',
+  'PageHeaderBackLink',
   'PageLayout',
   'Popover',
   'PopoverContent',

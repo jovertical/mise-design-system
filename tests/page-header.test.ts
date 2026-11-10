@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest'
 
 import { PageLayout } from '../src/lib/index.js'
 import LocationHeader from './fixtures/location-header.svelte'
+import PageHeaderBackLinkHarness from './fixtures/page-header-back-link-harness.svelte'
 import { text } from './snippet.js'
 
 describe('PageHeader', () => {
@@ -55,5 +56,17 @@ describe('PageLayout', () => {
       'lg:px-6',
       'gap-4',
     )
+  })
+})
+
+describe('PageHeaderBackLink', () => {
+  it('draws a back link with its chevron, where the breadcrumb would be', () => {
+    render(PageHeaderBackLinkHarness)
+
+    const link = screen.getByRole('link', { name: 'Locations' })
+
+    expect(link).toHaveAttribute('href', '/locations')
+    expect(link).toHaveAttribute('data-slot', 'page-header-back-link')
+    expect(link.querySelector('svg')).not.toBeNull()
   })
 })

@@ -132,9 +132,9 @@ Also takes: bits-ui `Collapsible.Trigger` props.
 
 ## PageHeader
 
-`import { PageHeader } from '@jovertical/mise-design-system'`
+`import { PageHeader, PageHeaderBackLink } from '@jovertical/mise-design-system'`
 
-Which affordance a page carries, by what kind of page it is:
+Which affordance a page carries follows what kind of page it is. A list page carries nothing above the title, which is the section's name. A create or edit page carries `backLink` (the way out, drawn with `PageHeaderBackLink`), and its title is what you are doing. A detail page carries `breadcrumb`, to the parent or carrying the leaf, and its title is the entity, or its kind and the entity, never the crumb repeated. A multi-step flow carries `breadcrumb` with the leaf, and no title.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -147,6 +147,16 @@ Which affordance a page carries, by what kind of page it is:
 | `truncateTitle` | `boolean` | `false` | One line, capped at `max-w-3xl`, with the whole title as a tooltip. For titles someone else wrote. |
 | `actions` | `Snippet` |  | The right-hand action cluster. |
 | `class` | `string` |  |  |
+
+### `PageHeaderBackLink`
+
+The way back out of a create or edit page, for `PageHeader`'s `backLink`: a muted link with an arrow and the parent's name. An app whose router needs its own navigation attaches it, as to any link.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `href` (required) | `string` |  |  |
+
+Also takes: every `<a>` attribute.
 
 ## PageLayout
 
