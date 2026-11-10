@@ -30,7 +30,7 @@ describe('Separator', () => {
       render(Separator, { orientation: 'vertical', class: 'h-4' }).container,
     )
 
-    expect(element).toHaveClass('h-4', 'data-[orientation=vertical]:self-stretch')
-    expect(element).not.toHaveClass('data-[orientation=vertical]:h-full')
+    expect(element).toHaveClass('h-4', 'w-px')
+    expect(element).not.toHaveClass('h-full')
   })
 })

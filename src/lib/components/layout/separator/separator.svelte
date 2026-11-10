@@ -2,10 +2,10 @@
   Origin: the React package 2.23.0 `separator.tsx`, itself shadcn/ui new-york `separator`
   Svelte: shadcn-svelte `separator`
   Diverged: unaudited, as in the React package. bits-ui Separator for Radix Separator.
-    A vertical rule stretches to its row (`self-stretch`) rather than taking
-    `h-full`, whose attribute selector outranked a caller's `h-4`, so a short
-    divider in a toolbar is just `class="h-4"` (bertos-bakery-ops' audit,
-    2026-11-10).
+    The orientation's size is chosen here as plain classes rather than
+    `data-[orientation=…]:` ones, whose attribute selector outranked a
+    caller's `h-4`; now the caller's class replaces it, so a short divider in
+    a toolbar is just `class="h-4"` (bertos-bakery-ops' audit, 2026-11-10).
 -->
 <script lang="ts" module>
   import { Separator as SeparatorPrimitive } from 'bits-ui'
@@ -23,6 +23,8 @@
     class: className,
     ...rest
   }: SeparatorProps = $props()
+
+  const SIZE = { horizontal: 'h-px w-full', vertical: 'h-full w-px' } as const
 </script>
 
 <SeparatorPrimitive.Root
@@ -30,9 +32,6 @@
   data-slot="separator"
   {decorative}
   {orientation}
-  class={cn(
-    'bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:self-stretch data-[orientation=vertical]:w-px',
-    className,
-  )}
+  class={cn('bg-border shrink-0', SIZE[orientation], className)}
   {...rest}
 />
