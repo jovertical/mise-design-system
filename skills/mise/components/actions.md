@@ -134,7 +134,8 @@ Also takes: bits-ui `DropdownMenu.Group` props.
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `inset` | `boolean` |  |  |
-| `variant` | `'default' \| 'destructive'` | `'default'` | `destructive` for an action that removes or ends something. |
+| `tone` | `'neutral' \| 'critical'` |  | `critical` for an action that removes or ends something. Wins over `variant`. |
+| `variant` | `'default' \| 'destructive'` | `'default'` | The older name: `destructive` is `tone="critical"`. |
 
 Also takes: bits-ui `DropdownMenu.Item` props.
 

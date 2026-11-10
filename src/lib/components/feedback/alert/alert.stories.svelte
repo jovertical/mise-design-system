@@ -16,7 +16,7 @@
   import AlertDescription from './alert-description.svelte'
   import AlertTitle from './alert-title.svelte'
 
-  const VARIANTS = ['default', 'info', 'success', 'warning', 'destructive'] as const
+  const TONES = ['neutral', 'info', 'success', 'warning', 'critical'] as const
 
   const { Story } = defineMeta({ title: 'Feedback/Alert', component: Alert, tags: ['shadcn'] })
 </script>
@@ -33,15 +33,16 @@
 </Story>
 
 <!--
-  Five variants. Status is the surface and the icon; the words stay in ink. Red
+  Five tones (`tone`, as every component names a status; `variant` still
+  takes the older names). Status is the surface and the icon; the words stay in ink. Red
   body text reads as the message being an error rather than being about one; a
   sentence explaining what to do next should not look like the failure itself.
 -->
-<Story name="Variants" asChild>
-  <StoryAxis values={VARIANTS} orientation="vertical">
-    {#snippet item(variant)}
-      {#if variant === 'info'}
-        <Alert variant="info">
+<Story name="Tones" asChild>
+  <StoryAxis values={TONES} orientation="vertical">
+    {#snippet item(tone)}
+      {#if tone === 'info'}
+        <Alert tone="info">
           <IconInfoCircle />
           <AlertDescription>
             Each transfer creates two stock-ledger rows: a <strong>negative entry</strong> for the
@@ -49,29 +50,29 @@
             is unchanged.
           </AlertDescription>
         </Alert>
-      {:else if variant === 'success'}
-        <Alert variant="success">
+      {:else if tone === 'success'}
+        <Alert tone="success">
           <IconCircleCheck />
           <AlertDescription>
             Location created. Registers can be paired to it from the registers page.
           </AlertDescription>
         </Alert>
-      {:else if variant === 'warning'}
-        <Alert variant="warning">
+      {:else if tone === 'warning'}
+        <Alert tone="warning">
           <IconAlertTriangle />
           <AlertDescription>
             This register last synced <strong>3 days ago</strong>. Orders taken on it are still on
             it.
           </AlertDescription>
         </Alert>
-      {:else if variant === 'destructive'}
-        <Alert variant="destructive">
+      {:else if tone === 'critical'}
+        <Alert tone="critical">
           <IconAlertOctagon />
           <AlertDescription
             >Three registers could not be set up. Nothing was charged.</AlertDescription
           >
         </Alert>
-      {:else if variant === 'default'}
+      {:else if tone === 'neutral'}
         <Alert>
           <IconTerminal />
           <AlertDescription>
@@ -88,7 +89,7 @@
 -->
 <Story name="With title" asChild>
   <div class="grid max-w-3xl gap-3">
-    <Alert variant="destructive">
+    <Alert tone="critical">
       <IconAlertOctagon />
       <AlertTitle>Sync has not run for 3 days</AlertTitle>
       <AlertDescription>
@@ -123,7 +124,7 @@
 -->
 <Story name="With action" asChild>
   <div class="grid max-w-3xl gap-3">
-    <Alert variant="warning">
+    <Alert tone="warning">
       <IconClock />
       <AlertTitle>Waiting for approval</AlertTitle>
       <AlertDescription>
@@ -134,7 +135,7 @@
         <Button variant="outline" size="sm">Review<IconArrowRight /></Button>
       </AlertAction>
     </Alert>
-    <Alert variant="destructive">
+    <Alert tone="critical">
       <IconAlertOctagon />
       <AlertDescription
         >Invoice <strong>INV-2026-0014</strong> is overdue by 9 days.</AlertDescription
@@ -166,7 +167,7 @@
   asChild
   globals={{ viewport: { value: 'mobile1', isRotated: false } }}
 >
-  <Alert variant="warning">
+  <Alert tone="warning">
     <IconClock />
     <AlertTitle>Waiting for approval</AlertTitle>
     <AlertDescription>Close Riverside · <strong>1 of 2</strong> approvals.</AlertDescription>
@@ -182,7 +183,7 @@
 -->
 <Story name="Long content" asChild>
   <div class="grid max-w-2xl gap-4">
-    <Alert variant="warning">
+    <Alert tone="warning">
       <IconAlertTriangle />
       <AlertTitle>
         This title is deliberately long enough to run past the end of the alert and be clamped
@@ -205,18 +206,18 @@
 -->
 <Story name="On a page" asChild parameters={{ layout: 'fullscreen' }}>
   <div class="bg-background grid gap-3 p-8">
-    <Alert variant="info"
+    <Alert tone="info"
       ><IconInfoCircle />
       <AlertDescription>Informational, on the page surface.</AlertDescription></Alert
     >
-    <Alert variant="success"
+    <Alert tone="success"
       ><IconCircleCheck /><AlertDescription>Something finished.</AlertDescription></Alert
     >
-    <Alert variant="warning">
+    <Alert tone="warning">
       <IconAlertTriangle />
       <AlertDescription>Something needs attention but still works.</AlertDescription>
     </Alert>
-    <Alert variant="destructive"
+    <Alert tone="critical"
       ><IconAlertOctagon /><AlertDescription>Something failed.</AlertDescription></Alert
     >
   </div>
@@ -241,7 +242,7 @@
 
 <!-- A list inside the description lines up on the left edge of the text. -->
 <Story name="Rich description" asChild>
-  <Alert class="max-w-2xl" variant="destructive">
+  <Alert class="max-w-2xl" tone="critical">
     <IconAlertOctagon />
     <AlertTitle>Three registers could not be set up</AlertTitle>
     <AlertDescription>

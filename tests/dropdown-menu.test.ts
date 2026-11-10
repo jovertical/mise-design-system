@@ -55,4 +55,12 @@ describe('DropdownMenu', () => {
     expect(item).toHaveAttribute('data-variant', 'destructive')
     expect(item).toHaveClass('data-[variant=destructive]:text-destructive')
   })
+
+  it('draws tone="critical" as the destructive row', async () => {
+    render(ActionsMenu, { open: true })
+
+    const item = await row('menuitem', 'Archive')
+
+    expect(item).toHaveAttribute('data-variant', 'destructive')
+  })
 })

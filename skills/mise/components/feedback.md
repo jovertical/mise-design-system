@@ -10,7 +10,8 @@ Status is the surface and the icon; the words stay in ink. Red body text reads a
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `variant` | `'default' \| 'info' \| 'success' \| 'warning' \| 'destructive'` |  |  |
+| `tone` | `'neutral' \| 'primary' \| 'info' \| 'success' \| 'warning' \| 'critical'` |  | The status, as every component names it: `critical` for red, `neutral` for the plain card. `primary` draws as `info`. Wins over `variant`. |
+| `variant` | `'default' \| 'info' \| 'success' \| 'warning' \| 'destructive'` |  | The older name for the same thing; `destructive` is `tone="critical"`. |
 
 Also takes: every `<div>` attribute.
 

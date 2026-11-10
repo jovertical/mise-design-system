@@ -36,4 +36,26 @@ describe('Alert', () => {
     expect(action).toHaveAttribute('data-slot', 'alert-action')
     expect(action).toHaveClass('sm:col-start-3')
   })
+
+  it.each([
+    ['critical', 'bg-destructive-soft'],
+    ['warning', 'bg-warning-soft'],
+    ['success', 'bg-success-soft'],
+    ['info', 'bg-info-soft'],
+    ['primary', 'bg-info-soft'],
+    ['neutral', 'bg-card'],
+  ] as const)('takes tone %s, the vocabulary every other component uses', (tone, surface) => {
+    render(ApprovalAlert, { tone })
+
+    const alert = screen.getByRole('alert')
+
+    expect(alert).toHaveClass(surface)
+    expect(alert).toHaveAttribute('data-tone', tone)
+  })
+
+  it('still draws variant="destructive" as critical', () => {
+    render(ApprovalAlert, { variant: 'destructive' })
+
+    expect(screen.getByRole('alert')).toHaveClass('bg-destructive-soft')
+  })
 })

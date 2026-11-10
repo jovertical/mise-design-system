@@ -1,11 +1,14 @@
 <!--
   Origin: the React package 2.23.0 `alert.tsx` (`Alert`), itself shadcn/ui new-york `alert`
   Svelte: shadcn-svelte `alert`
-  Diverged: none beyond the port. The variants live in alert-variants.ts.
+  Diverged: the variants live in alert-variants.ts. Adds `tone`, the vocabulary
+    every other mise component speaks, mapped onto the variants; `variant`
+    still works where `tone` is absent (bertos-bakery-ops' audit, 2026-11-10).
 -->
 <script lang="ts" module>
   import type { HTMLAttributes } from 'svelte/elements'
 
+  import type { Tone } from '../../../utils/tone.js'
   import type { WithElementRef } from '../../../utils/types.js'
   import type { AlertVariant } from './alert-variants.js'
 
@@ -16,7 +19,22 @@
    * for `AlertAction` from `sm`.
    */
   export type AlertProps = WithElementRef<HTMLAttributes<HTMLDivElement>> & {
+    /**
+     * The status, as every component names it: `critical` for red, `neutral`
+     * for the plain card. `primary` draws as `info`. Wins over `variant`.
+     */
+    tone?: Tone
+    /** The older name for the same thing; `destructive` is `tone="critical"`. */
     variant?: AlertVariant
+  }
+
+  const TONE_VARIANT: Record<Tone, AlertVariant> = {
+    neutral: 'default',
+    primary: 'info',
+    info: 'info',
+    success: 'success',
+    warning: 'warning',
+    critical: 'destructive',
   }
 </script>
 
@@ -24,14 +42,24 @@
   import { cn } from '../../../utils/cn.js'
   import { alertVariants } from './alert-variants.js'
 
-  let { ref = $bindable(null), variant, class: className, children, ...rest }: AlertProps = $props()
+  let {
+    ref = $bindable(null),
+    tone,
+    variant,
+    class: className,
+    children,
+    ...rest
+  }: AlertProps = $props()
+
+  const drawn = $derived(tone ? TONE_VARIANT[tone] : variant)
 </script>
 
 <div
   bind:this={ref}
   data-slot="alert"
   role="alert"
-  class={cn(alertVariants({ variant }), className)}
+  data-tone={tone}
+  class={cn(alertVariants({ variant: drawn }), className)}
   {...rest}
 >
   {@render children?.()}

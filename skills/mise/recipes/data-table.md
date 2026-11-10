@@ -26,7 +26,7 @@ type-checks against the current mise.
   in one place.
 - **Name the row in its actions label** ("Actions for order #1042"), so a screen reader moving
   down the column hears which row the menu belongs to.
-- **The destructive action is last** and uses `variant="destructive"`; it is disabled, not
+- **The destructive action is last** and uses `tone="critical"`; it is disabled, not
   hidden, where it does not apply.
 - **Server data:** for a long list, keep the rows on the server. Pass `filters` and
   `onFiltersChange` to send the search, filters and sort with the request, and `hasNextPage`

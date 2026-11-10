@@ -26,6 +26,9 @@
     <DropdownMenuItem onSelect={() => (chosen = 'edit')}>Edit</DropdownMenuItem>
     <DropdownMenuCheckboxItem bind:checked={archived}>Show archived</DropdownMenuCheckboxItem>
     <DropdownMenuSeparator />
+    <DropdownMenuItem tone="critical" onSelect={() => (chosen = 'archive')}
+      >Archive</DropdownMenuItem
+    >
     <DropdownMenuItem variant="destructive" onSelect={() => (chosen = 'delete')}>
       Delete
     </DropdownMenuItem>

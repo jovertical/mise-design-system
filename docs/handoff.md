@@ -108,9 +108,9 @@ In rough order of how much they block the apps:
 2. **Notifications in the top bar.** The portal has a `NotificationBell` and a
    What's new button with no mise equivalent. A mise component would need a
    plan; the demo has neither.
-3. **Alert's vocabulary.** `Alert` takes `variant` with
-   `default | info | success | warning | destructive`, where every other
-   component takes `tone` and calls red `critical`. Fixing it is breaking.
+3. **Alert's vocabulary: done on `feat/bakery-gaps`.** `Alert` takes `tone`
+   (and `DropdownMenuItem` `tone="critical"`); `variant` still works, so it was
+   not breaking.
 4. **DataTable's faceted filter.** A faceted filter sets an array of values on
    a column; DataTable registers no array `filterFn`, so a column without its
    own may not filter. The example and the recipe give each such column one.
