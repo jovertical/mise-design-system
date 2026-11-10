@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.0](https://github.com/jovertical/mise-design-system/compare/v1.5.1...v1.6.0) (2026-11-10)
+
+
+### Features
+
+* the bakery's gaps (CheckboxGroup, MonthPicker, SiteHeader, TableSectionRow and more) ([#13](https://github.com/jovertical/mise-design-system/issues/13)) ([fc9a08f](https://github.com/jovertical/mise-design-system/commit/fc9a08f2a47b77a8123b7845e278afb44444976e))
+
 ## [1.5.1](https://github.com/jovertical/mise-design-system/compare/v1.5.0...v1.5.1) (2026-11-10)
 
 
