@@ -79,7 +79,7 @@ function readableType(
   const indexed = type.match(/^(\w+)Props\['(\w+)'\]$/)
 
   const sibling = indexed
-    ? siblings.get(indexed[1])?.props.find((p) => p.name === indexed[2])
+    ? siblings.get(indexed[1])?.props.find((prop) => prop.name === indexed[2])
     : null
 
   const resolved = sibling?.type ?? type
@@ -137,6 +137,15 @@ function renderFolder(
   if (imported.length > 0) lines.push(`\`import { ${imported.join(', ')} } from '${entry}'\``, '')
 
   const ordered = rootPart ? [rootPart, ...components.filter((part) => part !== rootPart)] : []
+
+  lines.push(...renderParts(folderPath, ordered, aliases), ...renderExports(values, types, aliases))
+
+  return lines
+}
+
+/** Each part's heading and props table, the root part's without its heading. */
+function renderParts(folderPath: string, ordered: ExportDoc[], aliases: Map<string, string>) {
+  const lines: string[] = []
   const docs = new Map(ordered.map((part) => [part.name, partDoc(folderPath, part)]))
 
   const siblings = new Map(
@@ -157,14 +166,22 @@ function renderFolder(
     lines.push(...(index === 0 ? rendered.slice(2) : rendered))
   })
 
-  if (values.length > 0)
-    lines.push(`Also exports: ${values.map((v) => `\`${v.name}\``).join(', ')}.`, '')
+  return lines
+}
+
+/** The folder's runtime values and named types, after its parts. */
+function renderExports(values: ExportDoc[], types: ExportDoc[], aliases: Map<string, string>) {
+  const lines: string[] = []
+
+  if (values.length > 0) {
+    lines.push(`Also exports: ${values.map((value) => `\`${value.name}\``).join(', ')}.`, '')
+  }
 
   if (types.length > 0) {
     const named = types.map((type) => {
-      const values = aliases.get(type.name)
+      const literals = aliases.get(type.name)
 
-      return values ? `\`${type.name}\` (\`${values}\`)` : `\`${type.name}\``
+      return literals ? `\`${type.name}\` (\`${literals}\`)` : `\`${type.name}\``
     })
 
     lines.push(`Types: ${named.join(', ')}.`, '')

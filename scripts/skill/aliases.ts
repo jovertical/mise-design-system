@@ -14,48 +14,17 @@ const isLiteral = (node: ts.TypeNode) =>
   ts.isLiteralTypeNode(node) &&
   (ts.isStringLiteral(node.literal) || ts.isNumericLiteral(node.literal))
 
+const unquote = (text: string) => text.replace(/^['"]|['"]$/g, '')
+
 /** `cva(base, { variants: { key: { a: …, b: … } } })`, as key to `'a' | 'b'`. */
 function cvaVariants(source: ts.SourceFile): Map<string, Map<string, string>> {
   const found = new Map<string, Map<string, string>>()
 
   const visit = (node: ts.Node) => {
-    if (
-      ts.isVariableDeclaration(node) &&
-      ts.isIdentifier(node.name) &&
-      node.initializer &&
-      ts.isCallExpression(node.initializer) &&
-      node.initializer.expression.getText() === 'cva'
-    ) {
-      const options = node.initializer.arguments[1]
+    const keys = ts.isVariableDeclaration(node) ? variantKeys(node) : null
 
-      const variants =
-        options && ts.isObjectLiteralExpression(options)
-          ? options.properties.find(
-              (property): property is ts.PropertyAssignment =>
-                ts.isPropertyAssignment(property) && property.name.getText() === 'variants',
-            )?.initializer
-          : undefined
-
-      if (variants && ts.isObjectLiteralExpression(variants)) {
-        const keys = new Map<string, string>()
-
-        for (const variant of variants.properties) {
-          if (
-            !ts.isPropertyAssignment(variant) ||
-            !ts.isObjectLiteralExpression(variant.initializer)
-          ) {
-            continue
-          }
-
-          const values = variant.initializer.properties.map(
-            (value) => `'${value.name?.getText().replace(/^['"]|['"]$/g, '')}'`,
-          )
-
-          keys.set(variant.name.getText().replace(/^['"]|['"]$/g, ''), values.join(' | '))
-        }
-
-        found.set(node.name.text, keys)
-      }
+    if (keys && ts.isVariableDeclaration(node) && ts.isIdentifier(node.name)) {
+      found.set(node.name.text, keys)
     }
 
     ts.forEachChild(node, visit)
@@ -64,6 +33,42 @@ function cvaVariants(source: ts.SourceFile): Map<string, Map<string, string>> {
   visit(source)
 
   return found
+}
+
+/** A `cva(…)` declaration's variants, each key to its values; null for anything else. */
+function variantKeys(node: ts.VariableDeclaration): Map<string, string> | null {
+  const call = node.initializer
+
+  if (!ts.isIdentifier(node.name) || !call || !ts.isCallExpression(call)) return null
+
+  if (call.expression.getText() !== 'cva') return null
+
+  const options = call.arguments[1]
+
+  if (!options || !ts.isObjectLiteralExpression(options)) return null
+
+  const variants = options.properties.find(
+    (property): property is ts.PropertyAssignment =>
+      ts.isPropertyAssignment(property) && property.name.getText() === 'variants',
+  )?.initializer
+
+  if (!variants || !ts.isObjectLiteralExpression(variants)) return null
+
+  const keys = new Map<string, string>()
+
+  for (const variant of variants.properties) {
+    if (!ts.isPropertyAssignment(variant) || !ts.isObjectLiteralExpression(variant.initializer)) {
+      continue
+    }
+
+    const values = variant.initializer.properties.map(
+      (value) => `'${unquote(value.name?.getText() ?? '')}'`,
+    )
+
+    keys.set(unquote(variant.name.getText()), values.join(' | '))
+  }
+
+  return keys
 }
 
 /** `NonNullable<VariantProps<typeof v>['key']>`, as `[v, key]`. */
@@ -80,6 +85,32 @@ function variantLookup(node: ts.TypeNode): [string, string] | null {
  * otherwise), so one flat map serves every component.
  */
 export function literalAliases(sources: string[]): Map<string, string> {
+  const { raw, variants } = collect(sources)
+  const resolved = new Map<string, string>()
+
+  const resolve = (name: string, seen: Set<string>): string | null => {
+    if (resolved.has(name)) return resolved.get(name) ?? null
+
+    const node = raw.get(name)
+
+    if (!node || seen.has(name)) return null
+
+    seen.add(name)
+
+    const value = aliasValue(node, variants, (next) => resolve(next, seen))
+
+    if (value) resolved.set(name, value)
+
+    return value
+  }
+
+  for (const name of raw.keys()) resolve(name, new Set())
+
+  return resolved
+}
+
+/** Every alias without type parameters, and every cva map, across the sources. */
+function collect(sources: string[]) {
   const raw = new Map<string, ts.TypeNode>()
   const variants = new Map<string, Map<string, string>>()
 
@@ -95,37 +126,24 @@ export function literalAliases(sources: string[]): Map<string, string> {
     }
   }
 
-  const resolved = new Map<string, string>()
+  return { raw, variants }
+}
 
-  const resolve = (name: string, seen: Set<string>): string | null => {
-    if (resolved.has(name)) return resolved.get(name) ?? null
-
-    const node = raw.get(name)
-
-    if (!node || seen.has(name)) return null
-
-    seen.add(name)
-
-    let value: string | null = null
-
-    if (ts.isUnionTypeNode(node) && node.types.every(isLiteral)) {
-      value = node.types.map((type) => type.getText()).join(' | ')
-    } else if (isLiteral(node)) {
-      value = node.getText()
-    } else if (ts.isTypeReferenceNode(node) && !node.typeArguments) {
-      value = resolve(node.typeName.getText(), seen)
-    } else {
-      const lookup = variantLookup(node)
-
-      if (lookup) value = variants.get(lookup[0])?.get(lookup[1]) ?? null
-    }
-
-    if (value) resolved.set(name, value)
-
-    return value
+/** One alias's literal values, following another alias through `resolve`. */
+function aliasValue(
+  node: ts.TypeNode,
+  variants: Map<string, Map<string, string>>,
+  resolve: (name: string) => string | null,
+): string | null {
+  if (ts.isUnionTypeNode(node) && node.types.every(isLiteral)) {
+    return node.types.map((type) => type.getText()).join(' | ')
   }
 
-  for (const name of raw.keys()) resolve(name, new Set())
+  if (isLiteral(node)) return node.getText()
 
-  return resolved
+  if (ts.isTypeReferenceNode(node) && !node.typeArguments) return resolve(node.typeName.getText())
+
+  const lookup = variantLookup(node)
+
+  return lookup ? (variants.get(lookup[0])?.get(lookup[1]) ?? null) : null
 }
