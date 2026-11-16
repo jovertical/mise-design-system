@@ -4,6 +4,15 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>mise Logistics (demo)</title>
+    <script>
+      // On GitHub Pages the docs site's 404.html sends a deep link here as ?p=;
+      // put the path back before SvelteKit reads the URL. Without ?p= it does nothing.
+      ;(function () {
+        var target = new URLSearchParams(location.search).get('p')
+        if (target === null) return
+        history.replaceState(null, '', location.pathname.replace(/\/$/, '') + target)
+      })()
+    </script>
     %sveltekit.head%
   </head>
   <body data-sveltekit-preload-data="hover">
