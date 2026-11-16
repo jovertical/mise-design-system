@@ -49,11 +49,13 @@ pre.shiki {
   @apply list-decimal pl-5;
 }
 
-.docs-prose :where(p, li, td) > code {
+/* Only Markdown's own elements, never an example's inside a preview or an anatomy. */
+.docs-prose > :where(p, ul, ol) :where(code),
+.docs-prose > :where(table) :where(td) > code {
   @apply rounded bg-foreground/[0.07] px-1 py-0.5 text-[0.85em];
 }
 
-.docs-prose :where(p, li) > a {
+.docs-prose > :where(p, ul, ol) :where(a) {
   @apply text-primary underline underline-offset-2;
 }
 
