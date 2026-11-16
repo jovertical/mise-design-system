@@ -24,9 +24,14 @@ and plans do not say. In progress: branch `feat/tabler-icons`, below.
   option to not bind it would fix that, if wanted. Round 3 (PR #17) is merged
   and live. Round 4 (plan `docs/superpowers/plans/2026-11-16-docs-site-round-4.md`,
   branch `docs/site-round-4`) adds seventeen Forms pages, from Field to
-  ButtonGroup. Next: round 5, the rest of Forms (Combobox, Calendar,
-  DatePicker, MonthPicker, TimePicker, MediaDropzone, Form), then the other
-  groups, each round with its own plan.
+  ButtonGroup; merged (PR #18). Round 5 (plan
+  `docs/superpowers/plans/2026-11-16-docs-site-round-5.md`, branch
+  `docs/site-round-5`) finishes Forms: Combobox, Calendar, DatePicker,
+  MonthPicker, TimePicker, MediaDropzone and Form. It needed mise PR #19 (a
+  bindable `open` and `contentProps` on DatePicker and MonthPicker), merged;
+  release-please offers it as 1.7.0. Next: the other groups (Typography,
+  Actions beyond Button, Navigation, Layout, Overlays, Feedback, Data
+  display), each round with its own plan.
 - **Branch `feat/bakery-gaps` (2026-11-10), awaiting its pull request.** Plan:
   `docs/superpowers/plans/2026-11-10-bakery-gaps.md` (decisions B1–B16), from
   bertos-bakery-ops' gap audit. Every change is additive, so it ships as a
