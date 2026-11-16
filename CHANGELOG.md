@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.0](https://github.com/jovertical/mise-design-system/compare/v1.6.0...v1.7.0) (2026-11-16)
+
+
+### Features
+
+* **date-picker:** a bindable open and contentProps, on MonthPicker too ([#19](https://github.com/jovertical/mise-design-system/issues/19)) ([3158eeb](https://github.com/jovertical/mise-design-system/commit/3158eeb1bfea91c7a91946f714d239a4f98210cb))
+
 ## [1.6.0](https://github.com/jovertical/mise-design-system/compare/v1.5.1...v1.6.0) (2026-11-10)
 
 
