@@ -83,6 +83,22 @@ describe('the pages', () => {
     expect(missing).toEqual([])
   })
 
+  // A legend row links to its part's API table on the same page, so a part
+  // named in an anatomy must belong to the component that page documents.
+  it('link anatomy parts only to API tables on the same page', () => {
+    const foreign = pages.flatMap(({ file, text }) => {
+      const documented = [...text.matchAll(/<ApiTable component="(\w+)"/g)].flatMap(
+        (match) => docs.find((doc) => doc.name === match[1])?.parts.map((part) => part.name) ?? [],
+      )
+
+      return [...text.matchAll(/part: '(\w+)'/g)]
+        .filter((match) => !documented.includes(match[1]))
+        .map((match) => `${relative(file)}: ${match[1]}`)
+    })
+
+    expect(foreign).toEqual([])
+  })
+
   it('give every component page an Anatomy and an ApiTable', () => {
     const incomplete = pages
       .filter(({ file }) => file.includes('/components/'))
