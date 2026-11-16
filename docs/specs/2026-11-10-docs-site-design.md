@@ -113,6 +113,8 @@ The pilot pages are Button, Dialog, Select, DataTable, Sidebar and Sonner: a sim
 - The legend below the stage lists each number, the part's export name, its `data-slot`, and links to its API table. Hovering or focusing a legend row or a marker outlines that part.
 - A slot that is not found shows its marker as missing and logs an error in dev; the build check below fails on it.
 - It reads the theme's tokens, so dark mode needs nothing extra.
+- A part a dependency renders without a `data-slot` (svelte-sonner's toast) is found by `selector` instead, a CSS selector such as `[data-sonner-toast]`. `site/tests/pages.test.ts` checks slots against mise's source; a selector is checked by the smoke run, which fails when a part is not found. (Amended 2026-11-16, round 2's spike.)
+- An overlay's anatomy opens it inline, and the stage is `contain: layout paint`, so a `position: fixed` dialog and its backdrop stay inside the stage instead of covering the page. (Amended 2026-11-16, round 2's spike.)
 
 ## Examples and code
 
