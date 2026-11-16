@@ -3,6 +3,7 @@
   import { defineMeta } from '@storybook/addon-svelte-csf'
   import type { DateRange } from 'bits-ui'
 
+  import Button from '../../actions/button/button.svelte'
   import Field from '../field/field.svelte'
   import FieldDescription from '../field/field-description.svelte'
   import FieldLabel from '../field/field-label.svelte'
@@ -23,6 +24,11 @@
 
   const future = $state<{ value: DateRange | undefined }>({
     value: { start: TODAY, end: undefined },
+  })
+
+  const delivery = $state<{ value: DateValue | undefined; open: boolean }>({
+    value: TODAY,
+    open: false,
   })
 </script>
 
@@ -92,5 +98,17 @@
 <Story name="Disabled past dates" asChild>
   <div class="w-80">
     <DatePicker mode="range" bind:value={future.value} minValue={TODAY} />
+  </div>
+</Story>
+
+<!--
+  The screen opens the calendar itself through `bind:open`: here a "Reschedule"
+  action beside the field, as a row action or a shortcut would. `contentProps`
+  reaches the panel the same way, for its `align` or its portal.
+-->
+<Story name="Opened by the screen" asChild>
+  <div class="flex w-96 items-center gap-3">
+    <DatePicker mode="single" bind:value={delivery.value} bind:open={delivery.open} />
+    <Button variant="outline" onclick={() => (delivery.open = true)}>Reschedule</Button>
   </div>
 </Story>

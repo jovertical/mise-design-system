@@ -3,6 +3,7 @@
   import { defineMeta } from '@storybook/addon-svelte-csf'
 
   import StoryAxis from '../../../../../stories/story-axis.svelte'
+  import Button from '../../actions/button/button.svelte'
   import Field from '../field/field.svelte'
   import FieldLabel from '../field/field-label.svelte'
   import Select from '../select/select.svelte'
@@ -38,6 +39,11 @@
   ]
 
   let site = $state('all')
+
+  const closing = $state<{ value: CalendarDate | undefined; open: boolean }>({
+    value: new CalendarDate(2026, 10, 1),
+    open: false,
+  })
 </script>
 
 <!-- A month and its year: the value is always the month's first day. -->
@@ -96,5 +102,16 @@
       <FieldLabel for="report-month">Month</FieldLabel>
       <MonthPicker id="report-month" bind:value={report.value} />
     </Field>
+  </div>
+</Story>
+
+<!--
+  The screen opens the grid itself through `bind:open`, from an action beside
+  it rather than the trigger. `contentProps` reaches the panel the same way.
+-->
+<Story name="Opened by the screen" asChild>
+  <div class="flex w-96 items-center gap-3">
+    <MonthPicker bind:value={closing.value} bind:open={closing.open} />
+    <Button variant="outline" onclick={() => (closing.open = true)}>Pick a month</Button>
   </div>
 </Story>
