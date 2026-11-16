@@ -1,5 +1,6 @@
 packages:
   - 'examples/*'
+  - 'site'
 allowBuilds:
   '@parcel/watcher': false
   esbuild: false

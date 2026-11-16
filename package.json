@@ -41,7 +41,7 @@
     "type": "git",
     "url": "git+https://github.com/jovertical/mise-design-system.git"
   },
-  "homepage": "https://github.com/jovertical/mise-design-system#readme",
+  "homepage": "https://jovertical.github.io/mise-design-system/",
   "bugs": {
     "url": "https://github.com/jovertical/mise-design-system/issues"
   },
@@ -55,6 +55,8 @@
     "build:theme": "tsx scripts/build-theme.ts",
     "build:skill": "tsx scripts/build-skill.ts",
     "dev:example": "pnpm build && concurrently -k -n mise,example \"svelte-package --watch\" \"pnpm --filter mise-logistics-example dev\"",
+    "dev:site": "pnpm build && concurrently -k -n mise,site \"svelte-package --watch\" \"pnpm --filter mise-docs dev\"",
+    "build:pages": "pnpm build && BASE_PATH=/mise-design-system pnpm --filter mise-docs build && BASE_PATH=/mise-design-system/demo pnpm --filter mise-logistics-example build && pnpm --filter mise-docs assemble",
     "storybook": "pnpm build:theme && storybook dev -p 6006",
     "build:storybook": "pnpm build:theme && storybook build",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --fail-on-warnings",

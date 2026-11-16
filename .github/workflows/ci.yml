@@ -29,5 +29,9 @@ jobs:
         run: pnpm --filter mise-logistics-example test
       - name: Example builds
         run: pnpm --filter mise-logistics-example build
+      - name: Site checks
+        run: pnpm --filter mise-docs test
+      - name: Site builds
+        run: pnpm --filter mise-docs build
       - name: Storybook builds
         run: pnpm build:storybook

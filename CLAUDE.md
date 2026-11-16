@@ -59,6 +59,15 @@ Biome 2.6 (including `.svelte`) · pnpm 12.
   built package (rebuild mise after changing it), adds nothing mise should
   have (a gap is fixed in mise first), and its commits are `chore(example)` or
   `docs(example)` so they never move mise's version.
+- `site/` is the docs site, published at the GitHub Pages root with the
+  logistics demo at `/demo/`. Like the example it is built only from mise and
+  consumes the built package. A component page is
+  `site/src/routes/components/<group>/<name>/+page.md` with its own
+  `examples/`; its API table comes from `componentDocs()`
+  (`scripts/skill/component-docs.ts`) and its anatomy from the components'
+  `data-slot` values, both checked by `site/tests/pages.test.ts`. Its commits
+  are `docs(site)` so they never move mise's version. `site/README.md` covers
+  adding a page.
 - `skills/mise/` is the skill that apps using mise install, and it ships in the
   package. Keep it current with the code: `pnpm build:skill` after a Props
   change, a new component in its index, setup and theming changes in its
@@ -69,12 +78,15 @@ Biome 2.6 (including `.svelte`) · pnpm 12.
 ## Commands
 
 - `pnpm storybook`: build the theme and start Storybook on :6006
-- `pnpm test`: svelte-check, Biome, unit tests, and the clean-code check over mise and the examples
+- `pnpm test`: svelte-check, Biome, unit tests, and the clean-code check over mise, the examples and the docs site
 - `pnpm fix:spacing`: put the blank lines between statements the clean-code guide asks for; run before `pnpm format`
 - `pnpm build`: `svelte-package`, `dist/theme.css`, publint
 - `pnpm build:skill`: regenerate `skills/mise/components/` from the Props types
 - `pnpm dev:example`: the logistics example against this working copy, rebuilding mise on save
 - `pnpm --filter mise-logistics-example test` / `smoke`: the example's checks / a screenshot run
+- `pnpm dev:site`: the docs site against this working copy, rebuilding mise on save
+- `pnpm build:pages`: mise, the docs and the demo assembled as GitHub Pages serves them
+- `pnpm --filter mise-docs test` / `smoke`: the site's checks / a screenshot run over the assembled build
 
 ## Skills
 
