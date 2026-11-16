@@ -56,6 +56,8 @@ describe('the pages', () => {
     expect(unknown).toEqual([])
   })
 
+  // A `selector:` part (one a dependency renders without a data-slot) is left
+  // to the smoke run, which fails when an anatomy part is not found.
   it('anchor anatomy only on data-slot values mise renders', () => {
     const unknown = pages.flatMap(({ file, text }) =>
       [...text.matchAll(/slot: '([a-z0-9-]+)'/g)]

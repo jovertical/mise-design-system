@@ -9,9 +9,9 @@
  * relative imports like any file's, which it cannot do from a virtual id.
  */
 import { readdirSync, readFileSync } from 'node:fs'
-import { dirname, join, resolve } from 'node:path'
+import { basename, dirname, join, resolve } from 'node:path'
 
-import type { Plugin } from 'vite'
+import type { Plugin, ViteDevServer } from 'vite'
 
 import { highlightCode } from './highlight.js'
 
@@ -29,6 +29,11 @@ export function examples(): Plugin {
     configResolved(config) {
       root = config.root
     },
+    configureServer(server) {
+      server.watcher.on('add', (file) => reloadExamples(server, file))
+
+      server.watcher.on('unlink', (file) => reloadExamples(server, file))
+    },
     resolveId(id, importer) {
       if (id.endsWith(QUERY) && importer) {
         const from = dirname(importer.split('?')[0])
@@ -45,7 +50,7 @@ export function examples(): Plugin {
       if (!id.endsWith(MODULE)) return null
 
       // Each example is watched; the folder is not, since the dev server
-      // would try to import a watched path. A new example file needs a reload.
+      // would try to import a watched path. configureServer handles new files.
       const entries = await exampleEntries(id.slice(0, -MODULE.length), (path) =>
         this.addWatchFile(path),
       )
@@ -53,6 +58,13 @@ export function examples(): Plugin {
       return exampleModuleSource(entries)
     },
   }
+}
+
+/** The examples module a file belongs to, or null when it is not an example. */
+export function examplesModuleFor(file: string): string | null {
+  if (!file.endsWith('.svelte') || basename(dirname(file)) !== 'examples') return null
+
+  return `${dirname(file)}${MODULE}`
 }
 
 export function exampleModuleSource(entries: ExampleEntry[]): string {
@@ -68,6 +80,21 @@ export function exampleModuleSource(entries: ExampleEntry[]): string {
   })
 
   return [...imports, '', 'export default {', ...fields, '}', ''].join('\n')
+}
+
+/**
+ * A new or removed example changes its folder's module, which the dev server
+ * would otherwise keep: the folder itself is not watched (see load).
+ */
+function reloadExamples(server: ViteDevServer, file: string) {
+  const id = examplesModuleFor(file)
+  const module = id ? server.moduleGraph.getModuleById(id) : undefined
+
+  if (!module) return
+
+  server.moduleGraph.invalidateModule(module)
+
+  server.ws.send({ type: 'full-reload' })
 }
 
 function exampleEntries(directory: string, watch: (path: string) => void) {

@@ -57,4 +57,13 @@ describe('layoutMarkers', () => {
 
     expect(bottom).toMatchObject({ y: 300 - MARKER_GAP - MARKER_SIZE, lineTo: { x: 220, y: 120 } })
   })
+
+  it('puts a part in the gutter it is told to, whatever side its centre is on', () => {
+    const part = { x: 400, y: 100, width: 80, height: 40 }
+    const [marker] = layoutMarkers(stage, [part], ['left'])
+
+    expect(marker.x).toBe(MARKER_GAP)
+
+    expect(marker.lineTo).toEqual({ x: 400, y: 120 })
+  })
 })

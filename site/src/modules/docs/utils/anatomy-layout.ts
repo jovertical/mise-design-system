@@ -1,14 +1,15 @@
 /**
  * Where an anatomy's numbered markers go. By default (`side`) a part left of
  * the stage's centre gets its marker in the left gutter, otherwise the right,
- * level with the part's middle, with a line to the part's near edge. A part
+ * level with the part's middle, with a line to the part's near edge; `left`
+ * or `right` picks the gutter, for parts whose centres all sit on one side. A part
  * that sits in a row beside others takes `top` or `bottom` instead, so its
  * line drops straight onto it rather than crossing its neighbours. Markers
  * sharing a gutter are pushed apart so they never overlap. Pure: boxes in,
  * positions out.
  */
 export type Box = { x: number; y: number; width: number; height: number }
-export type Placement = 'side' | 'top' | 'bottom'
+export type Placement = 'side' | 'left' | 'right' | 'top' | 'bottom'
 
 export type Marker = {
   index: number
@@ -36,11 +37,13 @@ export function layoutMarkers(
     if (!box) return []
 
     const placement = placements[index] ?? 'side'
+    const vertical = placement === 'top' || placement === 'bottom'
 
-    const marker =
-      placement === 'side' ? beside(stage, box, index) : across(stage, box, index, placement)
+    const marker = vertical
+      ? across(stage, box, index, placement)
+      : beside(stage, box, index, placement)
 
-    const gutter = placement === 'side' ? `side-${marker.x}` : placement
+    const gutter = vertical ? placement : `side-${marker.x}`
 
     gutters.set(gutter, [...(gutters.get(gutter) ?? []), marker])
 
@@ -68,9 +71,11 @@ function across(stage: Box, box: Box, index: number, placement: 'top' | 'bottom'
   }
 }
 
-function beside(stage: Box, box: Box, index: number): Marker {
+function beside(stage: Box, box: Box, index: number, placement: Placement): Marker {
   const middle = box.y + box.height / 2
-  const onLeft = box.x + box.width / 2 < stage.width / 2
+
+  const onLeft =
+    placement === 'left' || (placement === 'side' && box.x + box.width / 2 < stage.width / 2)
 
   return {
     index,

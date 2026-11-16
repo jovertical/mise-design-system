@@ -5,11 +5,15 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 import Anatomy from '../src/modules/docs/components/anatomy.svelte'
 import AnatomyExample from './fixtures/anatomy-example.svelte'
 
-const RECTS: Record<string, { x: number; y: number; width: number; height: number }> = {
+type Rect = { x: number; y: number; width: number; height: number }
+
+const INITIAL_RECTS: Record<string, Rect> = {
   stage: { x: 0, y: 0, width: 600, height: 300 },
   'part-one': { x: 100, y: 100, width: 80, height: 40 },
   'part-two': { x: 400, y: 100, width: 80, height: 40 },
 }
+
+let RECTS: Record<string, Rect> = { ...INITIAL_RECTS }
 
 const ZERO = { x: 0, y: 0, width: 0, height: 0 }
 
@@ -31,6 +35,8 @@ function rectOf(element: Element) {
 }
 
 beforeEach(() => {
+  RECTS = { ...INITIAL_RECTS }
+
   vi.spyOn(Element.prototype, 'getBoundingClientRect').mockImplementation(function (this: Element) {
     return rectOf(this)
   })
@@ -79,5 +85,41 @@ describe('Anatomy', () => {
     render(Anatomy, { example, parts })
 
     expect(screen.getByRole('link', { name: 'PartOne' }).getAttribute('href')).toBe('#api-part-one')
+  })
+
+  it('finds a part by selector when a dependency renders it without a data-slot', async () => {
+    const { container } = render(Anatomy, {
+      example,
+      parts: [{ selector: '[data-slot="part-one"]', label: 'By selector' }],
+    })
+
+    await tick()
+
+    expect(container.querySelectorAll('[data-anatomy-marker]')).toHaveLength(1)
+  })
+
+  it('measures again when an open animation ends', async () => {
+    const { container } = render(Anatomy, { example, parts })
+
+    await tick()
+
+    RECTS['part-one'] = { x: 120, y: 100, width: 80, height: 40 }
+
+    await fireEvent.animationEnd(container.querySelector('[data-slot="part-one"]') as HTMLElement)
+
+    await fireEvent.mouseEnter(screen.getByText('First').closest('li') as HTMLElement)
+
+    const outline = container.querySelector<HTMLElement>('[data-anatomy-outline]')
+
+    expect(outline?.style.left).toBe('120px')
+  })
+
+  it('contains the stage, so a fixed overlay stays inside it', () => {
+    const { container } = render(Anatomy, { example, parts, size: 'lg' })
+    const stage = container.querySelector('[data-anatomy-stage]')
+
+    expect(stage?.className).toContain('[contain:layout_paint]')
+
+    expect(stage?.className).toContain('min-h-96')
   })
 })

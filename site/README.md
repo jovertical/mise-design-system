@@ -50,9 +50,22 @@ pnpm --filter mise-docs smoke             # every page in light and dark, plus a
 
    `examples['with-icon']` reaches a file whose name has a dash. An anatomy
    part names a `data-slot` the component renders; `part` links its legend row
-   to that part's API table, and `placement` (`top` or `bottom`) gives a part
-   that sits in a row a straight leader instead of one from the side.
-4. `pnpm --filter mise-docs test` runs `tests/pages.test.ts`, which fails on
+   to that part's API table. `placement` picks where its marker sits: `side`
+   (the default, by which half of the stage the part is in), `left` or
+   `right` to split parts whose centres all fall on one side, `top` or
+   `bottom` for a part in a row beside others. A part a dependency renders
+   without a `data-slot` takes `selector` instead (the Toaster page's
+   `[data-sonner-toast]`); the smoke run checks those.
+4. **An overlay's anatomy** opens it inline, in the page's own
+   `examples/anatomy.svelte`: `open` on the root, `portalProps={{ disabled: true }}`
+   on the content, and none of a modal's hold on the page
+   (`onOpenAutoFocus={(event) => event.preventDefault()}`, `trapFocus={false}`,
+   `preventScroll={false}`, `interactOutsideBehavior="ignore"`,
+   `escapeKeydownBehavior="ignore"`, as the component takes them). Give the
+   `Anatomy` `size="lg"`. The stage is `contain: layout paint`, so a fixed
+   dialog and its backdrop stay inside it. A toast gets a `Toaster` with its
+   own `id` and `toast(…, { toasterId })`, so the page's toaster ignores it.
+5. `pnpm --filter mise-docs test` runs `tests/pages.test.ts`, which fails on
    an `ApiTable` naming something mise lacks, an anatomy slot mise never
    renders, a missing example, or a component page without an anatomy and an
    API table.
@@ -64,7 +77,8 @@ pnpm --filter mise-docs smoke             # every page in light and dark, plus a
   `virtual:mise-api`, so an API table cannot drift from the Props types.
 - `vite/examples.ts` turns a page's `examples/` folder into components with
   their source, highlighted by Shiki at build, so the code a page shows is the
-  code that runs and no highlighter reaches the browser.
+  code that runs and no highlighter reaches the browser. In dev, adding or
+  removing an example file reloads its page.
 - `vite/markdown.ts` puts the base path on Markdown links and ids on headings.
 - Shiki's `css-variables` theme is mapped onto mise's semantic tokens in
   `src/app.css`, so code follows the theme and dark mode.
