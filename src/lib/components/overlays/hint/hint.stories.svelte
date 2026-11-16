@@ -2,6 +2,7 @@
   import { defineMeta } from '@storybook/addon-svelte-csf'
   import IconPackage from '@tabler/icons-svelte-runes/icons/package'
 
+  import Button from '../../actions/button/button.svelte'
   import StatTile from '../../data-display/stat-tile/stat-tile.svelte'
   import Card from '../../layout/card/card.svelte'
   import CardContent from '../../layout/card/card-content.svelte'
@@ -16,6 +17,8 @@
     tags: ['mise'],
     args: { label: 'What counts as pairing' },
   })
+
+  const capacity = $state({ open: false })
 </script>
 
 {#snippet packageIcon()}
@@ -100,4 +103,19 @@
     <StatTile label="Total locations" value="248" />
     <StatTile label="Capacity used" value="61%" hint={capacityHint} />
   </div>
+</Story>
+
+<!--
+  The screen opens the explanation itself through `bind:open`: here a "Why?"
+  action beside the figure, as a walkthrough would. `contentProps` reaches the
+  tooltip's panel the same way, for its `side` or its portal.
+-->
+<Story name="Opened by the screen" asChild>
+  <span class="text-foreground flex items-center gap-1.5 text-sm font-medium">
+    Capacity used
+    <Hint label="What counts toward capacity" bind:open={capacity.open}>
+      Provisioned databases against the plan's ceiling.
+    </Hint>
+    <Button variant="link" size="sm" onclick={() => (capacity.open = true)}>Why?</Button>
+  </span>
 </Story>
