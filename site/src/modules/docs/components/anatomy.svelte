@@ -7,7 +7,14 @@
 <script lang="ts" module>
   import type { Example } from '#modules/docs/data/example.js'
 
-  export type AnatomyPart = { slot: string; label: string; part?: string }
+  import type { Placement } from '#modules/docs/utils/anatomy-layout.js'
+
+  /**
+   * `part` is the export name the legend links to. `placement` is where the
+   * marker sits: `side` (the default) for parts stacked in a column, `top` or
+   * `bottom` for a part in a row beside others.
+   */
+  export type AnatomyPart = { slot: string; label: string; part?: string; placement?: Placement }
   export type AnatomyProps = { example: Example; parts: AnatomyPart[] }
 </script>
 
@@ -43,6 +50,7 @@
       elements.map((element) =>
         element ? relativeBox(element.getBoundingClientRect(), frame) : null,
       ),
+      parts.map((part) => part.placement ?? 'side'),
     )
 
     const notFound = parts.filter((_part, index) => !elements[index]).map((part) => part.slot)

@@ -17,6 +17,7 @@ pnpm add @jovertical/mise-design-system
 
 - [Installation](/getting-started/installation): the install, four lines of CSS, and how it fits SvelteKit, Inertia or plain Vite.
 - [Theming](/getting-started/theming): the default, token overrides, and a theme generated from a config.
+- [Button](/components/actions/button): what a component page holds, with its live anatomy and its API.
 
 ## See it in an app
 

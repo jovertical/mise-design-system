@@ -48,4 +48,13 @@ describe('layoutMarkers', () => {
 
     expect(second.y - first.y).toBeGreaterThanOrEqual(MARKER_SIZE + MARKER_GAP)
   })
+
+  it('drops a top or bottom marker straight onto the part', () => {
+    const part = { x: 200, y: 100, width: 40, height: 20 }
+    const [top, bottom] = layoutMarkers(stage, [part, part], ['top', 'bottom'])
+
+    expect(top).toMatchObject({ x: 210, y: MARKER_GAP, lineTo: { x: 220, y: 100 } })
+
+    expect(bottom).toMatchObject({ y: 300 - MARKER_GAP - MARKER_SIZE, lineTo: { x: 220, y: 120 } })
+  })
 })
