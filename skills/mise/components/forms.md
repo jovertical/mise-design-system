@@ -233,6 +233,8 @@ A `Calendar` behind a trigger, for the case where the calendar itself would othe
 | `minValue` | `DateValue` |  |  |
 | `maxValue` | `DateValue` |  |  |
 | `locale` | `string` | `'en-US'` | For the trigger's label and the calendar. `en-US` when absent. |
+| `open` | `boolean` | `false` | Whether the calendar is showing. Bind it to open the picker from elsewhere. |
+| `contentProps` | `Omit<PopoverContentProps, 'children' \| 'child'>` |  | Reaches the popover's panel: `portalProps`, `align`, and bits-ui's focus and dismissal behaviour. |
 | `class` | `string` |  |  |
 
 Also takes: every HTML attribute except `children`, `placeholder`, `aria-invalid`, `class`.
@@ -526,6 +528,8 @@ A month and its year behind a trigger, for a report or a ledger filtered by mont
 | `placeholder` | `string` | `'Pick a month'` |  |
 | `disabled` | `boolean` | `false` |  |
 | `'aria-invalid'` | `HTMLAttributes<HTMLElement>['aria-invalid']` |  |  |
+| `open` | `boolean` | `false` | Whether the month grid is showing. Bind it to open the picker from elsewhere. |
+| `contentProps` | `Omit<PopoverContentProps, 'children' \| 'child'>` |  | Reaches the popover's panel: `portalProps`, `align`, and bits-ui's focus and dismissal behaviour. |
 | `class` | `string` |  |  |
 
 Also takes: every HTML attribute except `children`, `placeholder`, `aria-invalid`, `class`.

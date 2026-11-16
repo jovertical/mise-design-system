@@ -10,11 +10,16 @@
     trigger is filled like `Input` rather than React's outline button, to sit
     among the inputs of a form (bertos-bakery-ops' audit and the logistics
     example's edit pages, 2026-11-10). Tabler's calendar for Lucide's.
+    `open` is bindable and `contentProps` reaches the popover's panel (its
+    `portalProps` included), so a screen can open it and a page can render
+    it in place (the docs site's anatomy, 2026-11-16).
 -->
 <script lang="ts" module>
   import type { DateValue } from '@internationalized/date'
   import type { DateRange } from 'bits-ui'
   import type { HTMLAttributes } from 'svelte/elements'
+
+  import type { PopoverContentProps } from '../../overlays/popover/popover-content.svelte'
 
   type Single = {
     mode: 'single'
@@ -62,6 +67,13 @@
       maxValue?: DateValue
       /** For the trigger's label and the calendar. `en-US` when absent. */
       locale?: string
+      /** Whether the calendar is showing. Bind it to open the picker from elsewhere. */
+      open?: boolean
+      /**
+       * Reaches the popover's panel: `portalProps`, `align`, and bits-ui's
+       * focus and dismissal behaviour.
+       */
+      contentProps?: Omit<PopoverContentProps, 'children' | 'child'>
       class?: string
     }
 
@@ -92,12 +104,12 @@
     maxValue,
     locale = 'en-US',
     formatLabel,
+    open = $bindable(false),
+    contentProps,
     id,
     class: className,
     ...rest
   }: DatePickerProps = $props()
-
-  let open = $state(false)
 
   const formatter = $derived(new DateFormatter(locale, { dateStyle: 'long' }))
   const formatDate = (date: DateValue) => formatter.format(date.toDate(getLocalTimeZone()))
@@ -166,7 +178,7 @@
       </Button>
     {/snippet}
   </PopoverTrigger>
-  <PopoverContent class="w-auto p-0">
+  <PopoverContent {...contentProps} class={cn('w-auto p-0', contentProps?.class)}>
     {#if mode === 'single'}
       <Calendar
         type="single"

@@ -3,10 +3,15 @@
   Diverged: none. MonthPicker has no React original; mise authored it for
     bertos-bakery-ops' monthly reports and ledgers (2026-11-10), where
     DatePicker could only pick a day.
+    `open` is bindable and `contentProps` reaches the popover's panel (its
+    `portalProps` included), so a screen can open it and a page can render
+    it in place (the docs site's anatomy, 2026-11-16).
 -->
 <script lang="ts" module>
   import type { CalendarDate, DateValue } from '@internationalized/date'
   import type { HTMLAttributes } from 'svelte/elements'
+
+  import type { PopoverContentProps } from '../../overlays/popover/popover-content.svelte'
 
   /**
    * A month and its year behind a trigger, for a report or a ledger filtered by
@@ -33,6 +38,13 @@
     placeholder?: string
     disabled?: boolean
     'aria-invalid'?: HTMLAttributes<HTMLElement>['aria-invalid']
+    /** Whether the month grid is showing. Bind it to open the picker from elsewhere. */
+    open?: boolean
+    /**
+     * Reaches the popover's panel: `portalProps`, `align`, and bits-ui's
+     * focus and dismissal behaviour.
+     */
+    contentProps?: Omit<PopoverContentProps, 'children' | 'child'>
     class?: string
   }
 </script>
@@ -59,12 +71,13 @@
     placeholder = 'Pick a month',
     disabled = false,
     'aria-invalid': ariaInvalid,
+    open = $bindable(false),
+    contentProps,
     id,
     class: className,
     ...rest
   }: MonthPickerProps = $props()
 
-  let open = $state(false)
   let shownYear = $state(today(getLocalTimeZone()).year)
 
   const label = $derived.by(() => {
@@ -110,7 +123,7 @@
       </Button>
     {/snippet}
   </PopoverTrigger>
-  <PopoverContent class="w-auto p-0">
+  <PopoverContent {...contentProps} class={cn('w-auto p-0', contentProps?.class)}>
     <MonthPickerGrid
       year={shownYear}
       selected={value}
