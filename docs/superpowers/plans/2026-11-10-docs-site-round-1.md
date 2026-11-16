@@ -2046,7 +2046,7 @@ Each page opens with frontmatter (`title`, `description`, `section`, `order`) an
 
 | Page | Frontmatter | Content, from |
 | --- | --- | --- |
-| `+page.md` | `title: mise`, `description: Svelte 5 components and a Tailwind v4 theme for operations dashboards.` | What mise is (README's opening), the install fence, three links: Installation, Theming, Button; a line pointing at the demo (`/demo/` written as a plain HTML `<a>` with the base: use `<script>import { base } from '$app/paths'</script>` and `<a href="{base}/demo/">`, since `/demo/` is not a route and must not be prefixed twice) |
+| `+page.md` | `title: mise`, `description: Svelte 5 components and a Tailwind v4 theme for operations dashboards.` | What mise is (README's opening), the install fence, three links: Installation, Theming, Button; a line pointing at the demo (`/demo/` written as a plain HTML `<a>` with the base: use `<script>import { resolve } from '$app/paths'</script>` and `<a href="{resolve('/')}demo/">` (SvelteKit 3 has no `base` export; amended 2026-11-16), since `/demo/` is not a route and must not be prefixed twice) |
 | `getting-started/installation` | section `Getting started`, order 1 | `skills/mise/setup.md`: Install, What the app imports itself, The stylesheet, SvelteKit, Laravel with Inertia and Svelte, Plain Svelte with Vite, Dark mode |
 | `getting-started/theming` | order 2 | `skills/mise/theming.md` and README's theming section: `mise.theme.js`, `defineTheme`, presets, `mise-theme` CLI and `pnpm theme`, `mise-theme info` |
 | `getting-started/skill` | order 3 | `skills/mise/SKILL.md`'s purpose and the install line `npx skills add jovertical/mise-design-system --skill mise` |
