@@ -32,8 +32,11 @@ and plans do not say. In progress: branch `feat/tabler-icons`, below.
   release-please offers it as 1.7.0. Round 5 is merged (PR #21). Round 6
   (plan `docs/superpowers/plans/2026-11-16-docs-site-round-6.md`, branch
   `docs/site-round-6`) completes Typography, Actions and Navigation: Heading,
-  Text, DropdownMenu, Command, ThemeToggle, Breadcrumb, Tabs and Stepper.
-  Next: Layout, Overlays, Feedback and Data display, a round each.
+  Text, DropdownMenu, Command, ThemeToggle, Breadcrumb, Tabs and Stepper;
+  merged (PR #22). Round 7 (plan
+  `docs/superpowers/plans/2026-11-16-docs-site-round-7.md`, branch
+  `docs/site-round-7`) is Layout's ten pages. Next: Overlays, Feedback and
+  Data display, a round each.
 - **Branch `feat/bakery-gaps` (2026-11-10), awaiting its pull request.** Plan:
   `docs/superpowers/plans/2026-11-10-bakery-gaps.md` (decisions B1–B16), from
   bertos-bakery-ops' gap audit. Every change is additive, so it ships as a
