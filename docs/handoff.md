@@ -6,6 +6,16 @@ and plans do not say. In progress: branch `feat/tabler-icons`, below.
 
 ## Where it stands
 
+- **Branch `docs/site` (2026-11-16), PR #15.** Spec
+  `docs/specs/2026-11-10-docs-site-design.md`, plan
+  `docs/superpowers/plans/2026-11-10-docs-site-round-1.md`. Round 1 of the
+  docs site is built: `site/` (SvelteKit, mdsvex, prerendered) with the shell,
+  ⌘K search, Getting started, Foundations and the Button page, each component
+  page holding live examples with their source, a live anatomy drawn on its
+  `data-slot` parts and an API table from `componentDocs()`. `pages.yml`
+  publishes the docs at the Pages root and the demo at `/demo/`. Next: the
+  user reviews in the browser; round 2 (Dialog, Select, Sonner) and round 3
+  (DataTable, Sidebar) get their own plans.
 - **Branch `feat/bakery-gaps` (2026-11-10), awaiting its pull request.** Plan:
   `docs/superpowers/plans/2026-11-10-bakery-gaps.md` (decisions B1–B16), from
   bertos-bakery-ops' gap audit. Every change is additive, so it ships as a
@@ -55,7 +65,8 @@ and plans do not say. In progress: branch `feat/tabler-icons`, below.
   `npx skills add jovertical/mise-design-system --skill mise`. The six skills
   in `.claude/skills/` are for working on mise and are hidden from apps
   (`metadata.internal`).
-- **The logistics demo is live** at <https://jovertical.github.io/mise-design-system/>,
+- **The logistics demo is live** at <https://jovertical.github.io/mise-design-system/demo/>
+  (at the Pages root until `docs/site` merges),
   from `examples/logistics/` (its README covers running, the data and
   deploying). Every push to `main` touching mise or the example redeploys it.
   It has an overview; orders as a table and a board, with cancel and a

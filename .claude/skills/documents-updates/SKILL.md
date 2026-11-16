@@ -30,7 +30,10 @@ Adapted from the React package's `documents-updates` skill.
 | A rule every session needs | `CLAUDE.md`, then `cp CLAUDE.md AGENTS.md` |
 | A Props type, its JSDoc or a default | `pnpm build:skill`; and `skills/mise/recipes/` if a recipe uses it |
 | A new or renamed component | the index in `skills/mise/SKILL.md`, then `pnpm build:skill` |
-| Consumer setup, theming, the CLI | `skills/mise/setup.md` or `theming.md`, as well as `README.md` |
+| Consumer setup, theming, the CLI | `skills/mise/setup.md` or `theming.md`, as well as `README.md`, and the docs site's Getting started pages |
+| A Props type, its JSDoc or a default, for a component with a docs page | nothing by hand: the page's API table reads it; check the page's prose still reads true |
+| A new or renamed `data-slot` | the anatomy on that component's docs page, if it has one (`site/tests/pages.test.ts` fails on a stale slot) |
+| A new component | a docs page in its group's round (not yet enforced) |
 
 ## Rules
 

@@ -6,7 +6,10 @@ dashboards: locations, shifts, orders, stock.
 > Published to npm as `@jovertical/mise-design-system`; releases and the
 > changelog are cut by release-please.
 >
-> **See it in an app:** [mise Logistics](https://jovertical.github.io/mise-design-system/),
+> **Docs:** <https://jovertical.github.io/mise-design-system/>, with each
+> component's live examples, anatomy and API ([source](site)).
+>
+> **See it in an app:** [mise Logistics](https://jovertical.github.io/mise-design-system/demo/),
 > a demo operations app built only from mise ([source](examples/logistics)).
 
 mise ports the API of a React design system to Svelte 5 and

@@ -1,7 +1,7 @@
 # mise Logistics (demo)
 
 A logistics operations app built only from mise, on mock data you can change.
-Live at <https://jovertical.github.io/mise-design-system/>.
+Live at <https://jovertical.github.io/mise-design-system/demo/>.
 
 Nine screens: an operations overview, orders (table, board, detail and
 cancel), shipments with their stops, the fleet as a table or cards, products
@@ -99,7 +99,12 @@ readiness checklist beside it.
 
 ## Deploying
 
-`.github/workflows/example.yml` builds mise, then this app with
-`BASE_PATH=/mise-design-system`, and deploys `build/` to GitHub Pages on every
-push to `main` that touches mise or the example. It is a single-page app:
-adapter-static writes `404.html`, which Pages serves for any deep link.
+`.github/workflows/pages.yml` runs `pnpm build:pages`: it builds mise, the
+docs site, and this app with `BASE_PATH=/mise-design-system/demo`, and lays
+this app out under the docs' `demo/` folder, deployed to GitHub Pages on every
+push to `main` that touches mise, the site or the example. It is a single-page
+app, but Pages serves only the site's root `404.html` for a miss, which is the
+docs' page: its inline script sends a deep link under `/demo/` to
+`/demo/?p=<path>`, and this app's `src/app.html` puts the path back before
+SvelteKit reads the URL. The assemble step copies this app's `404.html` to
+`demo/index.html` so `/demo/` itself loads.
