@@ -4,6 +4,9 @@
  */
 const count = (dom: string, pattern: RegExp) => [...dom.matchAll(pattern)].length
 
+/** The title of the docs' not-found page (src/modules/shell/components/not-found.svelte). */
+const NOT_FOUND_TITLE = 'No page here'
+
 function mainText(dom: string) {
   const main = dom.match(/<main[^>]*>([\s\S]*?)<\/main>/)?.[1] ?? ''
 
@@ -16,7 +19,9 @@ export function pageVerdict(dom: string): string | null {
 
   if (/data-sveltekit-error|Internal Error/.test(dom)) return "SvelteKit's error page"
 
-  if (/data-slot="error-state"/.test(dom)) return 'rendered the not-found page'
+  // The docs' own not-found page, by its wording: the ErrorState page shows
+  // error states on purpose, so the component's slot alone proves nothing.
+  if (dom.includes(NOT_FOUND_TITLE)) return 'rendered the not-found page'
 
   const expected = [...dom.matchAll(/data-anatomy-count="(\d+)"/g)].reduce(
     (total, match) => total + Number(match[1]),
@@ -36,7 +41,7 @@ export function pageVerdict(dom: string): string | null {
 
 /** An address that is no page: the docs' not-found page. */
 export function notFoundVerdict(dom: string): string | null {
-  return /data-slot="error-state"/.test(dom) ? null : 'expected the not-found page'
+  return dom.includes(NOT_FOUND_TITLE) ? null : 'expected the not-found page'
 }
 
 /** A demo deep link: the demo's own page, reached through the redirect. */
