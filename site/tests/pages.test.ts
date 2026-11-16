@@ -28,7 +28,10 @@ const slots = new Set(
   filesNamed(join(repository, 'src', 'lib', 'components'), (name) =>
     name.endsWith('.svelte'),
   ).flatMap((file) =>
-    [...readFileSync(file, 'utf8').matchAll(/data-slot="([a-z0-9-]+)"/g)].map((match) => match[1]),
+    // As an attribute, data-slot="…", or in a props object, 'data-slot': '…'.
+    [...readFileSync(file, 'utf8').matchAll(/data-slot(?:="|':\s*')([a-z0-9-]+)/g)].map(
+      (match) => match[1],
+    ),
   ),
 )
 
