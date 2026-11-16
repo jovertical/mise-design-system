@@ -1,21 +1,23 @@
 <!--
   The live component on a stage, with a numbered marker and a line to each
-  part, found by its data-slot. Hovering or focusing a marker or a legend row
-  outlines the part. Redraws on resize and on a theme change. A part not found
-  is shown as missing, and the smoke run fails on it.
+  part, found by its data-slot (or a selector, for a part a dependency
+  renders). Hovering or focusing a marker or a legend row outlines the part.
+  Redraws on resize, on a theme change and when an open animation ends. A part
+  not found is shown as missing, and the smoke run fails on it.
+
+  The stage is `contain: layout paint`, which makes it the containing block of
+  a `position: fixed` descendant: an open dialog and its backdrop stay inside
+  the stage instead of covering the page. Markers sit above an overlay's z-50.
 -->
 <script lang="ts" module>
   import type { Example } from '#modules/docs/data/example.js'
 
-  import type { Placement } from '#modules/docs/utils/anatomy-layout.js'
+  import type { AnatomyPart } from '#modules/docs/utils/anatomy-parts.js'
 
-  /**
-   * `part` is the export name the legend links to. `placement` is where the
-   * marker sits: `side` (the default) for parts stacked in a column, `top` or
-   * `bottom` for a part in a row beside others.
-   */
-  export type AnatomyPart = { slot: string; label: string; part?: string; placement?: Placement }
-  export type AnatomyProps = { example: Example; parts: AnatomyPart[] }
+  export type { AnatomyPart }
+
+  /** `lg` is the taller stage an open overlay needs. */
+  export type AnatomyProps = { example: Example; parts: AnatomyPart[]; size?: 'md' | 'lg' }
 </script>
 
 <script lang="ts">
@@ -27,10 +29,11 @@
     type Marker,
     relativeBox,
   } from '#modules/docs/utils/anatomy-layout.js'
+  import { partKey, partQuery } from '#modules/docs/utils/anatomy-parts.js'
 
   import AnatomyLegend from './anatomy-legend.svelte'
 
-  let { example, parts }: AnatomyProps = $props()
+  let { example, parts, size = 'md' }: AnatomyProps = $props()
 
   let stage: HTMLDivElement | null = $state(null)
   let markers: Marker[] = $state([])
@@ -43,7 +46,7 @@
     if (!stage) return
 
     const frame = stage.getBoundingClientRect()
-    const elements = parts.map((part) => stage?.querySelector(`[data-slot="${part.slot}"]`) ?? null)
+    const elements = parts.map((part) => stage?.querySelector(partQuery(part)) ?? null)
 
     markers = layoutMarkers(
       relativeBox(frame, frame),
@@ -53,9 +56,9 @@
       parts.map((part) => part.placement ?? 'side'),
     )
 
-    const notFound = parts.filter((_part, index) => !elements[index]).map((part) => part.slot)
+    const notFound = parts.filter((_part, index) => !elements[index]).map(partKey)
 
-    for (const slot of notFound) console.error(`Anatomy: no [data-slot="${slot}"] in the example`)
+    for (const key of notFound) console.error(`Anatomy: nothing matches ${key} in the example`)
 
     missing = notFound
   }
@@ -71,12 +74,20 @@
 
     resizes.observe(stage)
 
+    stage.addEventListener('animationend', measure)
+
+    stage.addEventListener('transitionend', measure)
+
     themes.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
 
     return () => {
       resizes.disconnect()
 
       themes.disconnect()
+
+      stage?.removeEventListener('animationend', measure)
+
+      stage?.removeEventListener('transitionend', measure)
     }
   })
 </script>
@@ -86,10 +97,13 @@
     bind:this={stage}
     data-anatomy-stage
     data-anatomy-count={parts.length}
-    class="relative flex min-h-64 flex-wrap items-center justify-center gap-4 px-16 py-10"
+    class={[
+      'relative flex flex-wrap items-center justify-center gap-4 overflow-hidden px-16 py-10 [contain:layout_paint]',
+      size === 'lg' ? 'min-h-96' : 'min-h-64',
+    ]}
   >
     <example.component />
-    <svg class="pointer-events-none absolute inset-0 size-full" aria-hidden="true">
+    <svg class="pointer-events-none absolute inset-0 z-[60] size-full" aria-hidden="true">
       {#each markers as marker (marker.index)}
         <line
           x1={marker.x + MARKER_SIZE / 2}
@@ -106,7 +120,7 @@
         type="button"
         data-anatomy-marker
         aria-label="{marker.index + 1}: {parts[marker.index].label}"
-        class="bg-primary text-primary-foreground absolute grid place-items-center rounded-full text-[11px] font-semibold"
+        class="bg-primary text-primary-foreground absolute z-[60] grid place-items-center rounded-full text-[11px] font-semibold"
         style:left="{marker.x}px"
         style:top="{marker.y}px"
         style:width="{MARKER_SIZE}px"
@@ -122,15 +136,15 @@
     {#if outlined}
       <div
         data-anatomy-outline
-        class="ring-primary pointer-events-none absolute rounded-md ring-2 ring-offset-2 ring-offset-transparent"
+        class="ring-primary pointer-events-none absolute z-[60] rounded-md ring-2 ring-offset-2 ring-offset-transparent"
         style:left="{outlined.x}px"
         style:top="{outlined.y}px"
         style:width="{outlined.width}px"
         style:height="{outlined.height}px"
       ></div>
     {/if}
-    {#each missing as slot (slot)}
-      <span data-anatomy-missing={slot} class="sr-only">{slot} not found</span>
+    {#each missing as key (key)}
+      <span data-anatomy-missing={key} class="sr-only">{key} not found</span>
     {/each}
   </div>
   <AnatomyLegend {parts} {missing} bind:active />

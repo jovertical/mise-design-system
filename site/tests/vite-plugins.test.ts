@@ -3,7 +3,7 @@ import { join } from 'node:path'
 
 import { describe, expect, it } from 'vitest'
 
-import { exampleModuleSource, examples } from '../vite/examples.js'
+import { exampleModuleSource, examples, examplesModuleFor } from '../vite/examples.js'
 import { highlightCode } from '../vite/highlight.js'
 import { baseLinks, headingIds, slugOf } from '../vite/markdown.js'
 
@@ -56,6 +56,20 @@ describe('the examples plugin', () => {
     expect(watched.length).toBeGreaterThan(0)
 
     expect(watched.every((path) => path.endsWith('.svelte'))).toBe(true)
+  })
+})
+
+describe('examplesModuleFor', () => {
+  it('maps an example file to its folder module, and anything else to null', () => {
+    expect(examplesModuleFor('/x/examples/basic.svelte')).toBe('/x/examples/__examples__.js')
+
+    expect(examplesModuleFor('/x/other/basic.svelte')).toBeNull()
+
+    expect(examplesModuleFor('/x/examples/notes.md')).toBeNull()
+  })
+
+  it('is wired into the dev server', () => {
+    expect(examples().configureServer).toBeDefined()
   })
 })
 
