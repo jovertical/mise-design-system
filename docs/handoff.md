@@ -39,8 +39,10 @@ and plans do not say. In progress: branch `feat/tabler-icons`, below.
   (plan `docs/superpowers/plans/2026-11-16-docs-site-round-8.md`, branch
   `docs/site-round-8`) completes Overlays: AlertDialog, Sheet, Drawer,
   Popover, HoverCard, Tooltip and Hint, Hint after mise #24 (a bindable
-  `open` and `contentProps`, released as 1.8.0). Next: Feedback and Data
-  display.
+  `open` and `contentProps`, released as 1.8.0); merged (PR #26). Round 9
+  (plan `docs/superpowers/plans/2026-11-17-docs-site-round-9.md`, branch
+  `docs/site-round-9`) completes Feedback. Next: Data display, the last
+  group.
 - **Branch `feat/bakery-gaps` (2026-11-10), awaiting its pull request.** Plan:
   `docs/superpowers/plans/2026-11-10-bakery-gaps.md` (decisions B1–B16), from
   bertos-bakery-ops' gap audit. Every change is additive, so it ships as a
