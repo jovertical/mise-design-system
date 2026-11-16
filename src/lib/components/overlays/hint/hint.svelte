@@ -1,10 +1,15 @@
 <!--
   Origin: the React package 2.23.0 `hint.tsx`
   Diverged: spreads the rest onto the button, as every component does.
+    `open` is bindable and `contentProps` reaches the tooltip's panel (its
+    `portalProps` included), so a screen can open it and a page can render it
+    in place (the docs site's anatomy, 2026-11-16).
 -->
 <script lang="ts" module>
   import type { Snippet } from 'svelte'
   import type { HTMLButtonAttributes } from 'svelte/elements'
+
+  import type { TooltipContentProps } from '../tooltip/tooltip-content.svelte'
 
   /**
    * The `?` that explains the thing it sits beside.
@@ -32,6 +37,13 @@
     label?: string
     /** The explanation, shown in the tooltip. */
     children: Snippet
+    /** Whether the explanation is showing. Bind it to open the hint from elsewhere. */
+    open?: boolean
+    /**
+     * Reaches the tooltip's panel: `side`, `portalProps`, and the rest of
+     * bits-ui's positioning.
+     */
+    contentProps?: Omit<TooltipContentProps, 'children' | 'child'>
   }
 </script>
 
@@ -43,10 +55,17 @@
   import TooltipContent from '../tooltip/tooltip-content.svelte'
   import TooltipTrigger from '../tooltip/tooltip-trigger.svelte'
 
-  let { label, children, class: className, ...rest }: HintProps = $props()
+  let {
+    label,
+    children,
+    open = $bindable(false),
+    contentProps,
+    class: className,
+    ...rest
+  }: HintProps = $props()
 </script>
 
-<Tooltip>
+<Tooltip bind:open>
   <TooltipTrigger>
     {#snippet child({ props })}
       <button
@@ -64,5 +83,7 @@
     {/snippet}
   </TooltipTrigger>
 
-  <TooltipContent class="max-w-xs text-balance">{@render children()}</TooltipContent>
+  <TooltipContent {...contentProps} class={cn('max-w-xs text-balance', contentProps?.class)}>
+    {@render children()}
+  </TooltipContent>
 </Tooltip>

@@ -2,6 +2,7 @@ import { render, screen, waitFor } from '@testing-library/svelte'
 import { describe, expect, it } from 'vitest'
 
 import { Hint } from '../src/lib/index.js'
+import HintOpenHarness from './fixtures/hint-open-harness.svelte'
 import { text } from './snippet.js'
 
 describe('Hint', () => {
@@ -35,6 +36,26 @@ describe('Hint', () => {
         'max-w-xs',
         'text-balance',
       ),
+    )
+  })
+
+  it('shows its explanation from a bound open, inside the page when the portal is off', () => {
+    render(HintOpenHarness)
+
+    const host = screen.getByTestId('host')
+
+    expect(host.querySelector('[data-slot="tooltip-content"]')).not.toBeNull()
+
+    expect(host).toHaveTextContent("Provisioned databases against the plan's ceiling.")
+  })
+
+  it('closes when the screen sets open to false', async () => {
+    render(HintOpenHarness)
+
+    screen.getByRole('button', { name: 'Close the hint' }).click()
+
+    await waitFor(() =>
+      expect(screen.getByTestId('host').querySelector('[data-slot="tooltip-content"]')).toBeNull(),
     )
   })
 })

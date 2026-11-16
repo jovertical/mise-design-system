@@ -174,6 +174,8 @@ The `?` that explains the thing it sits beside.
 | --- | --- | --- | --- |
 | `label` | `string` |  | Announced in place of the glyph, so name what is being explained ("How stock health is calculated", not "Help"). |
 | `children` (required) | `Snippet` |  | The explanation, shown in the tooltip. |
+| `open` | `boolean` | `false` | Whether the explanation is showing. Bind it to open the hint from elsewhere. |
+| `contentProps` | `Omit<TooltipContentProps, 'children' \| 'child'>` |  | Reaches the tooltip's panel: `side`, `portalProps`, and the rest of bits-ui's positioning. |
 
 Also takes: every `<button>` attribute except `children`.
 
