@@ -21,4 +21,4 @@ pnpm add @jovertical/mise-design-system
 
 ## See it in an app
 
-<a href="{resolve('/')}demo/">mise Logistics</a> is a demo operations app built only from mise: orders as a table and a board, shipments, fleet, stock and settings. Its source is in the repository's `examples/logistics`.
+The demo, <a href="{resolve('/')}demo/">mise Logistics</a>, is an operations app built only from mise: orders as a table and a board, shipments, fleet, stock and settings. Its source is in the repository's `examples/logistics`.

@@ -48,7 +48,9 @@ pnpm --filter mise-docs smoke             # every page in light and dark, plus a
    <ApiTable component="Dialog" />
    ```
 
-   `examples['with-icon']` reaches a file whose name has a dash. An anatomy
+   `examples['with-icon']` reaches a file whose name has a dash. A paragraph
+   that starts with a raw HTML tag is an HTML block to Markdown, so its
+   backticks and links stay literal: start it with words. An anatomy
    part names a `data-slot` the component renders; `part` links its legend row
    to that part's API table. `placement` picks where its marker sits: `side`
    (the default, by which half of the stage the part is in), `left` or
@@ -65,6 +67,12 @@ pnpm --filter mise-docs smoke             # every page in light and dark, plus a
    `Anatomy` `size="lg"`. The stage is `contain: layout paint`, so a fixed
    dialog and its backdrop stay inside it. A toast gets a `Toaster` with its
    own `id` and `toast(…, { toasterId })`, so the page's toaster ignores it.
+   **A sidebar** (anything with a `position: fixed` panel that is not an
+   overlay) sits in a box made its containing block, as mise's stories do:
+   `<div class="h-[420px] w-full overflow-hidden rounded-xl border [transform:translateZ(0)]">`
+   around `<SidebarProvider class="min-h-0">`. An example's own links are
+   `#/…` placeholders, which the prerender lets through; a real path would be
+   crawled and fail the build.
 5. `pnpm --filter mise-docs test` runs `tests/pages.test.ts`, which fails on
    an `ApiTable` naming something mise lacks, an anatomy slot mise never
    renders, a missing example, or a component page without an anatomy and an

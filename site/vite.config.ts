@@ -58,6 +58,13 @@ export default defineConfig({
       paths: { base, relative: false },
       prerender: {
         entries: ['*', '/not-found'],
+        // An example's links are #/… placeholders that go nowhere (the Sidebar
+        // page's menus); any other anchor must exist.
+        handleMissingId: ({ id, message }) => {
+          if (id.startsWith('/')) return
+
+          throw new Error(message)
+        },
         handleHttpError: ({ path, message }) => {
           if (path.startsWith(`${base}/demo`)) return
 

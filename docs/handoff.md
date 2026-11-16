@@ -14,9 +14,15 @@ and plans do not say. In progress: branch `feat/tabler-icons`, below.
   component page holding live examples with their source, a live anatomy on
   its `data-slot` parts and an API table from `componentDocs()`. Round 2
   (plan `docs/superpowers/plans/2026-11-16-docs-site-round-2.md`, branch
-  `docs/site-round-2`) adds Dialog, Select and Toaster, with overlays open
-  inline in a contained anatomy stage and a `selector` for svelte-sonner's
-  parts. Next: round 3, DataTable and Sidebar, with its own plan.
+  `docs/site-round-2`, PR #16) is merged and live: Dialog, Select and Toaster,
+  with overlays open inline in a contained anatomy stage and a `selector` for
+  svelte-sonner's parts. Round 3 (plan
+  `docs/superpowers/plans/2026-11-16-docs-site-round-3.md`, branch
+  `docs/site-round-3`) adds DataTable, on the consumer skill's recipe, and
+  Sidebar, boxed as mise's stories box it. Open: each `SidebarProvider` binds
+  ⌘B on the window, so on the Sidebar page it toggles every example; a mise
+  option to not bind it would fix that, if wanted. Next: the remaining
+  components, group by group, each round with its own plan.
 - **Branch `feat/bakery-gaps` (2026-11-10), awaiting its pull request.** Plan:
   `docs/superpowers/plans/2026-11-10-bakery-gaps.md` (decisions B1–B16), from
   bertos-bakery-ops' gap audit. Every change is additive, so it ships as a
