@@ -4,6 +4,17 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>mise</title>
+    <script>
+      // GitHub Pages serves this site's 404.html for a demo deep link it has no
+      // file for; hand the path to the demo's shell, which puts it back.
+      ;(function () {
+        var demo = '%sveltekit.assets%/demo/'
+        var path = location.pathname
+        if (path.indexOf(demo) !== 0 || path === demo) return
+        var rest = path.slice(demo.length - 1) + location.search + location.hash
+        location.replace(demo + '?p=' + encodeURIComponent(rest))
+      })()
+    </script>
     %sveltekit.head%
   </head>
   <body data-sveltekit-preload-data="hover">
