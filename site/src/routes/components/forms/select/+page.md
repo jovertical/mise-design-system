@@ -2,7 +2,7 @@
 title: Select
 description: One choice from a list, in a trigger that opens it.
 section: Forms
-order: 1
+order: 9
 ---
 
 <script>

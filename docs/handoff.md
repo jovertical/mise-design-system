@@ -21,8 +21,12 @@ and plans do not say. In progress: branch `feat/tabler-icons`, below.
   `docs/site-round-3`) adds DataTable, on the consumer skill's recipe, and
   Sidebar, boxed as mise's stories box it. Open: each `SidebarProvider` binds
   ⌘B on the window, so on the Sidebar page it toggles every example; a mise
-  option to not bind it would fix that, if wanted. Next: the remaining
-  components, group by group, each round with its own plan.
+  option to not bind it would fix that, if wanted. Round 3 (PR #17) is merged
+  and live. Round 4 (plan `docs/superpowers/plans/2026-11-16-docs-site-round-4.md`,
+  branch `docs/site-round-4`) adds seventeen Forms pages, from Field to
+  ButtonGroup. Next: round 5, the rest of Forms (Combobox, Calendar,
+  DatePicker, MonthPicker, TimePicker, MediaDropzone, Form), then the other
+  groups, each round with its own plan.
 - **Branch `feat/bakery-gaps` (2026-11-10), awaiting its pull request.** Plan:
   `docs/superpowers/plans/2026-11-10-bakery-gaps.md` (decisions B1–B16), from
   bertos-bakery-ops' gap audit. Every change is additive, so it ships as a
