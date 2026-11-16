@@ -41,8 +41,13 @@ and plans do not say. In progress: branch `feat/tabler-icons`, below.
   Popover, HoverCard, Tooltip and Hint, Hint after mise #24 (a bindable
   `open` and `contentProps`, released as 1.8.0); merged (PR #26). Round 9
   (plan `docs/superpowers/plans/2026-11-17-docs-site-round-9.md`, branch
-  `docs/site-round-9`) completes Feedback. Next: Data display, the last
-  group.
+  `docs/site-round-9`) completes Feedback; merged (PR #27). Round 10 (plan
+  `docs/superpowers/plans/2026-11-17-docs-site-round-10.md`, branch
+  `docs/site-round-10`) is Data display's labels and records: Badge,
+  DeltaBadge, IconChip, Avatar, EntityLabel, Item, FactList, Table,
+  Timeline, TreeLeaf, SegmentedCode. Next: round 11, the measures (StatTile,
+  MetricBar, MetricGrid, MetricRow, RadialStat, SegmentedBar, Sparkline,
+  Chart, Board, Checklist, Readiness), which completes the docs.
 - **Branch `feat/bakery-gaps` (2026-11-10), awaiting its pull request.** Plan:
   `docs/superpowers/plans/2026-11-10-bakery-gaps.md` (decisions B1–B16), from
   bertos-bakery-ops' gap audit. Every change is additive, so it ships as a
