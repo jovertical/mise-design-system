@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.0](https://github.com/jovertical/mise-design-system/compare/v1.7.0...v1.8.0) (2026-11-16)
+
+
+### Features
+
+* **hint:** a bindable open and contentProps ([#24](https://github.com/jovertical/mise-design-system/issues/24)) ([bb1814b](https://github.com/jovertical/mise-design-system/commit/bb1814ba87b22e5a9d81cd7b09b5bf469151dcc3))
+
 ## [1.7.0](https://github.com/jovertical/mise-design-system/compare/v1.6.0...v1.7.0) (2026-11-16)
 
 
