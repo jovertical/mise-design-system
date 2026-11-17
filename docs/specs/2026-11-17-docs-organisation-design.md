@@ -2,7 +2,7 @@
 
 **Date:** 2026-11-17. **Status:** approved in brainstorming; awaiting the written review.
 
-**Context:** rounds 1–11 of `2026-11-10-docs-site-design.md` gave every mise component a page: 94 component pages in eight sections, listed flat in the sidebar by `order`. Forms (25) and Data display (23) are long lists, there is no page listing the components, and search matches only a page's section, title and description.
+**Context:** rounds 1–11 of `2026-11-10-docs-site-design.md` gave every mise component a page: 88 component pages in eight sections, listed flat in the sidebar by `order`. Forms (25) and Data display (23) are long lists, there is no page listing the components, and search matches only a page's section, title and description.
 
 **Goal:** a reader finds a component by browsing (sub-groups, an overview), by filtering (tags) or by the job it does (search keywords), and sees a component's provenance and age on its page.
 
@@ -124,7 +124,7 @@ The ⌘K palette's match text for a page gains its group, traits and keywords. R
 Three pieces, each with its own plan, gate and pull request:
 
 1. **mise:** `SidebarNav` sub-headings (`feat(sidebar)`). The user merges and releases.
-2. **Site round A:** frontmatter on the 94 pages, the folding sidebar with sub-groups, origin in `virtual:mise-api`, the since script and `since.json`, search keywords, the page checks.
+2. **Site round A:** frontmatter on the 88 pages, the folding sidebar with sub-groups, origin in `virtual:mise-api`, the since script and `since.json`, search keywords, the page checks.
 3. **Site round B:** the overview page, the rail's Tags block, the eyebrow.
 
 ## Out of scope

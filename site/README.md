@@ -27,7 +27,11 @@ pnpm --filter mise-docs smoke             # every page in light and dark, plus a
    `<name>` as the component's folder in `src/lib/components/`. Its
    frontmatter gives `title`, `description`, `section` (the group's label, as
    in `src/modules/nav/data/navigation.ts`) and `order` within the section; the
-   sidebar and the search palette pick it up from there.
+   sidebar and the search palette pick it up from there. In a section that
+   `SUB_GROUPS` splits (Forms, Data display, Feedback, Layout) it also gives
+   `group`. `traits` (from `src/modules/nav/data/traits.ts`) and `keywords`
+   (lowercase words a reader might search for) are optional;
+   `tests/page-metadata.test.ts` checks all three.
 2. Put each example in `examples/<name>.svelte` beside it. An example imports
    only from `@jovertical/mise-design-system` (and Tabler icons) and uses
    operations copy: locations, shifts, orders, stock.
@@ -77,6 +81,15 @@ pnpm --filter mise-docs smoke             # every page in light and dark, plus a
    an `ApiTable` naming something mise lacks, an anatomy slot mise never
    renders, a missing example, or a component page without an anatomy and an
    API table.
+
+## After a release
+
+`pnpm --filter mise-docs since` rewrites `src/modules/docs/data/since.json`,
+the release each component folder first shipped in, from the `v*` tags.
+Commit it. A component missing from it shows as Unreleased, so its page can
+merge before the release. A component's origin (`shadcn` or `mise`) needs
+nothing: the `virtual:mise-api` plugin reads it from the root component's
+`Origin:` line.
 
 ## How it fits together
 

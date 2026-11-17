@@ -25,7 +25,7 @@
 - `site/src/modules/nav/data/traits.ts`: `TRAITS = ['keyboard', 'overlay', 'form control', 'draggable', 'server data'] as const`, `type Trait`, each with a one-line meaning (the spec's table) as JSDoc.
 - `navigation.ts`: `PageMeta` gains `group?: string`, `traits?: string[]`, `keywords?: string[]`; `GUIDE_SECTIONS` (Getting started, Foundations) and `COMPONENT_SECTIONS` (mise's eight groups), `SECTIONS` their concatenation; `SUB_GROUPS: Record<string, string[]>` for Forms, Data display, Feedback and Layout, in the spec's order.
 - `pages.test.ts` reads each component page's frontmatter (a small YAML read of the block between `---` lines) and checks: `group` present exactly where `SUB_GROUPS` has the section, and one of its values; every trait in `TRAITS`; keywords lowercase; every sub-group has a page.
-- Backfill the frontmatter of the 94 pages from the spec's table (groups), the Keyboard sections and the spec's trait meanings (traits), and the words a reader would search for that title and description lack (keywords).
+- Backfill the frontmatter of the 88 pages from the spec's table (groups), the Keyboard sections and the spec's trait meanings (traits), and the words a reader would search for that title and description lack (keywords).
 - Commit `docs(site): sub-groups, traits and keywords on every component page`.
 
 ### Task 2: The folding sidebar
