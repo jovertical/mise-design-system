@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.0](https://github.com/jovertical/mise-design-system/compare/v1.8.0...v1.9.0) (2026-11-17)
+
+
+### Features
+
+* **sidebar:** sub-headings inside a SidebarNav group ([#30](https://github.com/jovertical/mise-design-system/issues/30)) ([54c1d51](https://github.com/jovertical/mise-design-system/commit/54c1d51ca18d17d46f3ce1e0870a95d4f879f09a))
+
 ## [1.8.0](https://github.com/jovertical/mise-design-system/compare/v1.7.0...v1.8.0) (2026-11-16)
 
 
