@@ -3,6 +3,8 @@ title: StatTile
 description: "The dashboard's headline number: one figure, and the rest qualifies it."
 section: Data display
 order: 13
+group: Measures
+keywords: [kpi, metric, stat, dashboard, number]
 ---
 
 <script>

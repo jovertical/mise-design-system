@@ -3,6 +3,8 @@ title: FactList
 description: Label and value pairs, in a row each or stacked.
 section: Data display
 order: 9
+group: Records
+keywords: [description list, key value, details, properties]
 ---
 
 <script>

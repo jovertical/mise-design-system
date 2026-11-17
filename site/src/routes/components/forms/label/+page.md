@@ -3,6 +3,8 @@ title: Label
 description: The name of a control, joined to it by its id.
 section: Forms
 order: 2
+group: Fields
+keywords: [form label]
 ---
 
 <script>

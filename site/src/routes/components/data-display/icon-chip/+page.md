@@ -3,6 +3,8 @@ title: IconChip
 description: An icon in a tinted square or circle, beside a label or heading a row.
 section: Data display
 order: 5
+group: Labels
+keywords: [icon]
 ---
 
 <script>

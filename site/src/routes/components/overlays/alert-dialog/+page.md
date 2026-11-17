@@ -3,6 +3,8 @@ title: AlertDialog
 description: An "are you sure?" that makes the reader choose before something hard to undo.
 section: Overlays
 order: 2
+traits: [keyboard, overlay]
+keywords: [confirm, confirmation, destructive]
 ---
 
 <script>

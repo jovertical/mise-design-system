@@ -3,6 +3,8 @@ title: Button
 description: An action a person takes, or a link that looks like one.
 section: Actions
 order: 1
+traits: [keyboard]
+keywords: [cta, link, submit, loading]
 ---
 
 <script>

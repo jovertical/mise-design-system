@@ -3,6 +3,9 @@ title: Checkbox
 description: One tick, on or off, with indeterminate for "some of these".
 section: Forms
 order: 10
+group: Choices
+traits: [keyboard, form control]
+keywords: [tick, check]
 ---
 
 <script>

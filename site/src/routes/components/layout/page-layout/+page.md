@@ -3,6 +3,8 @@ title: PageLayout
 description: The page's padded column, holding its header and its sections.
 section: Layout
 order: 1
+group: Page
+keywords: [page, container]
 ---
 
 <script>

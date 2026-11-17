@@ -3,6 +3,8 @@ title: MetricBar
 description: One measure, stated as a figure and drawn as a bar.
 section: Data display
 order: 15
+group: Measures
+keywords: [progress, share, bar chart]
 ---
 
 <script>

@@ -3,6 +3,7 @@ title: Breadcrumb
 description: Where the page sits, as links to the pages above it.
 section: Navigation
 order: 2
+keywords: [path, trail]
 ---
 
 <script>

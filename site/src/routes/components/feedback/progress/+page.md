@@ -3,6 +3,8 @@ title: Progress
 description: How far along something is, as a bar.
 section: Feedback
 order: 9
+group: Progress
+keywords: [progress bar, percentage]
 ---
 
 <script>

@@ -3,6 +3,7 @@ title: ThemeToggle
 description: The switch between light and dark.
 section: Actions
 order: 4
+keywords: [dark mode, light mode, color scheme]
 ---
 
 <script>

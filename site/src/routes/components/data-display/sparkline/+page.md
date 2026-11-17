@@ -3,6 +3,8 @@ title: Sparkline
 description: A figure's recent shape, drawn small enough to sit beside it.
 section: Data display
 order: 19
+group: Measures
+keywords: [trend, mini chart]
 ---
 
 <script>

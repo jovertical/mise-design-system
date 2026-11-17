@@ -3,6 +3,8 @@ title: LoadingState
 description: A panel waiting on something whose shape is not known yet.
 section: Feedback
 order: 6
+group: Page states
+keywords: [loading, pending]
 ---
 
 <script>

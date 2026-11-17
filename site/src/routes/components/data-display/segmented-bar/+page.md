@@ -3,6 +3,8 @@ title: SegmentedBar
 description: A whole, divided into named parts, in one bar.
 section: Data display
 order: 18
+group: Measures
+keywords: [stacked bar, distribution, split]
 ---
 
 <script>

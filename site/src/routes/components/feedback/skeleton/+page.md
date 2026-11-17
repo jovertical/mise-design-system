@@ -3,6 +3,8 @@ title: Skeleton
 description: A placeholder in the shape of what is loading.
 section: Feedback
 order: 8
+group: Progress
+keywords: [placeholder, shimmer, loading]
 ---
 
 <script>

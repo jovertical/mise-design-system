@@ -3,6 +3,8 @@ title: Dialog
 description: A task in a window over the page, holding focus until it is answered or dismissed.
 section: Overlays
 order: 1
+traits: [keyboard, overlay]
+keywords: [modal, popup]
 ---
 
 <script>

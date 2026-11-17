@@ -3,6 +3,8 @@ title: Chart
 description: The frame a LayerChart chart draws in, with mise's colours and quiet axes.
 section: Data display
 order: 20
+group: Measures
+keywords: [graph, line chart, area chart, layerchart]
 ---
 
 <script>

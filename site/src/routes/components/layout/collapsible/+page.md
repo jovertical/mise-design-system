@@ -3,6 +3,9 @@ title: Collapsible
 description: A section that shows and hides, with no look of its own.
 section: Layout
 order: 9
+group: Structure
+traits: [keyboard]
+keywords: [accordion, expand, disclosure]
 ---
 
 <script>

@@ -3,6 +3,8 @@ title: MetricRow
 description: A subject, the figures that describe it, and one bar beneath them all.
 section: Data display
 order: 16
+group: Measures
+keywords: [breakdown, capacity]
 ---
 
 <script>

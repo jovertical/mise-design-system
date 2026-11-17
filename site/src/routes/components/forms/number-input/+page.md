@@ -3,6 +3,9 @@ title: NumberInput
 description: A number, a price or a count, typed into a text field and committed as a number.
 section: Forms
 order: 6
+group: Text input
+traits: [keyboard, form control]
+keywords: [money, currency, amount, price, stepper]
 ---
 
 <script>

@@ -3,6 +3,9 @@ title: RadioGroup
 description: One choice from a few, all shown at once.
 section: Forms
 order: 12
+group: Choices
+traits: [keyboard, form control]
+keywords: [radio, single choice, options]
 ---
 
 <script>

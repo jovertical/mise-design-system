@@ -3,6 +3,8 @@ title: Card
 description: A surface holding one section of a page, with its header, content and footer.
 section: Layout
 order: 4
+group: Cards
+keywords: [panel, surface, container]
 ---
 
 <script>

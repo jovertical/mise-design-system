@@ -3,6 +3,9 @@ title: Switch
 description: On or off, taking effect at once.
 section: Forms
 order: 14
+group: Choices
+traits: [keyboard, form control]
+keywords: [toggle, on off]
 ---
 
 <script>

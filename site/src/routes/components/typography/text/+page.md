@@ -3,6 +3,7 @@ title: Text
 description: Body copy, with its size, weight, muting and tone.
 section: Typography
 order: 2
+keywords: [paragraph, body, copy, muted]
 ---
 
 <script>

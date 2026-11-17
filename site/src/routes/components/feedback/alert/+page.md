@@ -3,6 +3,8 @@ title: Alert
 description: A message in the page about the work on it, with what to do next.
 section: Feedback
 order: 2
+group: Messages
+keywords: [banner, callout, notice, message]
 ---
 
 <script>

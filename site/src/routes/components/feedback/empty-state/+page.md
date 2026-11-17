@@ -3,6 +3,8 @@ title: EmptyState
 description: What a list or a panel shows when it has nothing in it, with the way forward.
 section: Feedback
 order: 4
+group: Page states
+keywords: [no results, zero state, blank slate]
 ---
 
 <script>

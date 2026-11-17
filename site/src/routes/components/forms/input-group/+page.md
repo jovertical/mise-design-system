@@ -3,6 +3,8 @@ title: InputGroup
 description: An input with an icon, a unit or a button inside its box.
 section: Forms
 order: 5
+group: Text input
+keywords: [addon, prefix, suffix, icon input]
 ---
 
 <script>

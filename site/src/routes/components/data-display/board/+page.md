@@ -3,6 +3,9 @@ title: Board
 description: Columns of cards grouped by a status, a pipeline read across.
 section: Data display
 order: 21
+group: Workflows
+traits: [keyboard, draggable]
+keywords: [kanban, pipeline, columns]
 ---
 
 <script>

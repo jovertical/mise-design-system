@@ -3,6 +3,8 @@ title: Command
 description: A filterable, keyboard-navigable list of commands, inline or as a palette.
 section: Actions
 order: 3
+traits: [keyboard, overlay]
+keywords: [command palette, search, spotlight, cmdk]
 ---
 
 <script>

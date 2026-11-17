@@ -3,6 +3,8 @@ title: Popover
 description: A floating panel beside its trigger, for a few fields or a short list.
 section: Overlays
 order: 5
+traits: [keyboard, overlay]
+keywords: [popup, floating]
 ---
 
 <script>

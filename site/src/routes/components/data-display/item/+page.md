@@ -3,6 +3,8 @@ title: Item
 description: A list row with media, a title, a description and its own actions.
 section: Data display
 order: 8
+group: Labels
+keywords: [list item, row, media object]
 ---
 
 <script>

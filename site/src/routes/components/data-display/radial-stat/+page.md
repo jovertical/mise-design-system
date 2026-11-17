@@ -3,6 +3,8 @@ title: RadialStat
 description: A share, drawn as an arc with the figure inside it.
 section: Data display
 order: 17
+group: Measures
+keywords: [donut, ring, gauge, pie]
 ---
 
 <script>

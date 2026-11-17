@@ -3,6 +3,8 @@ title: Timeline
 description: A history of events, newest first, each with its status.
 section: Data display
 order: 10
+group: Records
+keywords: [history, activity, log, audit]
 ---
 
 <script>
