@@ -7,6 +7,7 @@
   import IconCreditCard from '@tabler/icons-svelte-runes/icons/credit-card'
   import IconDevices from '@tabler/icons-svelte-runes/icons/devices'
   import IconLifebuoy from '@tabler/icons-svelte-runes/icons/lifebuoy'
+  import IconPackage from '@tabler/icons-svelte-runes/icons/package'
   import IconSettings from '@tabler/icons-svelte-runes/icons/settings'
   import IconShoppingCart from '@tabler/icons-svelte-runes/icons/shopping-cart'
   import IconUsersGroup from '@tabler/icons-svelte-runes/icons/users-group'
@@ -80,6 +81,27 @@
           ],
         },
         { label: 'Settings', href: '/settings', icon: IconSettings },
+      ],
+    },
+  ]
+
+  /** A group long enough that its rows want names. */
+  const NAV_HEADED: SidebarNavSection[] = [
+    {
+      label: 'Inventory',
+      items: [
+        {
+          label: 'Stock',
+          icon: IconPackage,
+          items: [
+            { heading: 'Counts' },
+            { label: 'Stock levels', href: '/stock/levels' },
+            { label: 'Stock counts', href: '/stock/counts' },
+            { heading: 'Movements' },
+            { label: 'Transfers', href: '/stock/transfers' },
+            { label: 'Adjustments', href: '/stock/adjustments' },
+          ],
+        },
       ],
     },
   ]
@@ -158,13 +180,13 @@
   </div>
 </Story>
 
-{#snippet navShell(current: string, open = true)}
+{#snippet navShell(current: string, open = true, sections: SidebarNavSection[] = NAV)}
   <div class="h-[640px] overflow-hidden rounded-xl border [transform:translateZ(0)]">
     <SidebarProvider class="min-h-0" {open}>
       <Sidebar collapsible="icon">
         <SidebarHeader class="px-3 py-2 text-sm font-semibold">Riverside</SidebarHeader>
         <SidebarContent>
-          <SidebarNav sections={NAV} {current} />
+          <SidebarNav {sections} {current} />
         </SidebarContent>
       </Sidebar>
       <SidebarInset class="flex items-start p-4"><SidebarTrigger /></SidebarInset>
@@ -179,6 +201,15 @@
   holding it opens. Here the current page is a printer, so Hardware is open.
 -->
 <Story name="With nav" asChild>{@render navShell('/hardware/printers/PR-2')}</Story>
+
+<!--
+  A group whose rows fall into runs takes `{ heading }` items among them: a
+  muted label, not a link, never current. Collapsed to icons, it is a label in
+  the group's menu.
+-->
+<Story name="With nav sub-headings" asChild>
+  {@render navShell('/stock/transfers', true, NAV_HEADED)}
+</Story>
 
 <!--
   `collapsible="icon"`: the trigger shrinks the rail to icons, and each row's

@@ -62,6 +62,33 @@ describe('groupsHolding', () => {
   })
 })
 
+const HEADED: SidebarNavSection[] = [
+  {
+    label: 'Components',
+    items: [
+      {
+        label: 'Forms',
+        items: [
+          { heading: 'Text input' },
+          { label: 'Input', href: '/components/forms/input' },
+          { heading: 'Choices' },
+          { label: 'Select', href: '/components/forms/select' },
+        ],
+      },
+    ],
+  },
+]
+
+describe('sub-headings', () => {
+  it('are never the current row', () => {
+    expect(activeHref(HEADED, '/components/forms/select')).toBe('/components/forms/select')
+  })
+
+  it('leave the group holding its rows', () => {
+    expect(groupsHolding(HEADED, '/components/forms/input')).toEqual(['Forms'])
+  })
+})
+
 describe('SidebarNav', () => {
   beforeEach(() => {
     localStorage.clear()
@@ -146,6 +173,27 @@ describe('SidebarNav', () => {
 
     expect(refunds).toHaveAttribute('data-slot', 'dropdown-menu-item')
     expect(refunds).toHaveAttribute('href', '/sales/refunds')
+  })
+
+  it('draws a sub-heading as a label among the rows, not a link', () => {
+    render(SidebarNavHarness, { current: '/components/forms/select', headed: true })
+
+    expect(screen.getByText('Choices')).toHaveAttribute('data-slot', 'sidebar-nav-sub-heading')
+
+    expect(screen.queryByRole('link', { name: 'Choices' })).toBeNull()
+
+    expect(screen.getByRole('link', { name: 'Select' })).toHaveAttribute('aria-current', 'page')
+  })
+
+  it('draws a sub-heading as a menu label when collapsed to icons', async () => {
+    render(SidebarNavHarness, { current: '/', open: false, headed: true })
+
+    await userEvent.click(screen.getByRole('button', { name: 'Forms' }))
+
+    expect(await screen.findByText('Text input')).toHaveAttribute(
+      'data-slot',
+      'dropdown-menu-label',
+    )
   })
 
   it('renders links through the link snippet when given', () => {

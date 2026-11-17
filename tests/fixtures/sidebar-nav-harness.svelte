@@ -12,9 +12,31 @@
     persistKey,
     customLink = false,
     open = true,
-  }: { current: string; persistKey?: string; customLink?: boolean; open?: boolean } = $props()
+    headed = false,
+  }: {
+    current: string
+    persistKey?: string
+    customLink?: boolean
+    open?: boolean
+    headed?: boolean
+  } = $props()
 
-  const SECTIONS: SidebarNavSection[] = [
+  const HEADED: SidebarNavSection = {
+    label: 'Components',
+    items: [
+      {
+        label: 'Forms',
+        items: [
+          { heading: 'Text input' },
+          { label: 'Input', href: '/components/forms/input' },
+          { heading: 'Choices' },
+          { label: 'Select', href: '/components/forms/select' },
+        ],
+      },
+    ],
+  }
+
+  const BASE: SidebarNavSection[] = [
     {
       label: 'Operations',
       items: [
@@ -38,6 +60,8 @@
       ],
     },
   ]
+
+  const SECTIONS: SidebarNavSection[] = $derived(headed ? [...BASE, HEADED] : BASE)
 </script>
 
 <SidebarProvider {open}>

@@ -2,7 +2,7 @@
  * Origin: mise
  * Diverged: none. The data `SidebarNav` draws, and which row is current. The
  *   master portal's `nav-main.tsx` worked it out in the app; mise owns it
- *   (2026-11-10).
+ *   (2026-11-10). A group may hold sub-headings among its rows (2026-11-17).
  */
 import type { Component } from 'svelte'
 
@@ -24,6 +24,15 @@ export type SidebarNavLink = {
 export type SidebarNavSubLink = Omit<SidebarNavLink, 'icon'>
 
 /**
+ * A label among a group's rows, naming the run below it: "Text input" over
+ * Input and Textarea. Not a link and never current. For a group long enough
+ * that its rows want names; a short one reads better without.
+ */
+export type SidebarNavSubHeading = { heading: string }
+
+export type SidebarNavSubItem = SidebarNavSubLink | SidebarNavSubHeading
+
+/**
  * A row that opens a list. With an `href`, the row is also the section's main
  * page; without one it only toggles.
  */
@@ -31,7 +40,7 @@ export type SidebarNavGroup = {
   label: string
   icon?: Component
   href?: string
-  items: SidebarNavSubLink[]
+  items: SidebarNavSubItem[]
 }
 
 export type SidebarNavItem = SidebarNavLink | SidebarNavGroup
@@ -41,6 +50,19 @@ export type SidebarNavSection = { label?: string; items: SidebarNavItem[] }
 
 export function isNavGroup(item: SidebarNavItem): item is SidebarNavGroup {
   return 'items' in item
+}
+
+export function isNavSubHeading(item: SidebarNavSubItem): item is SidebarNavSubHeading {
+  return 'heading' in item
+}
+
+function isNavSubLink(item: SidebarNavSubItem): item is SidebarNavSubLink {
+  return !isNavSubHeading(item)
+}
+
+/** A group's rows without its headings: what can be current, and what a path opens. */
+function subLinks(group: SidebarNavGroup): SidebarNavSubLink[] {
+  return group.items.filter(isNavSubLink)
 }
 
 /** `/orders` owns `/orders/OR-2041`; `/` owns only itself. */
@@ -57,7 +79,7 @@ function hrefsOf(item: SidebarNavItem): string[] {
     return [item.href]
   }
 
-  const children = item.items.map((child) => child.href)
+  const children = subLinks(item).map((child) => child.href)
 
   return item.href ? [item.href, ...children] : children
 }
@@ -79,6 +101,6 @@ export function groupsHolding(sections: SidebarNavSection[], href: string | unde
   return sections
     .flatMap((section) => section.items)
     .filter(isNavGroup)
-    .filter((group) => group.items.some((child) => child.href === href))
+    .filter((group) => subLinks(group).some((child) => child.href === href))
     .map((group) => group.label)
 }
