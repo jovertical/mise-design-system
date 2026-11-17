@@ -53,13 +53,13 @@ and plans do not say. In progress: branch `feat/tabler-icons`, below.
   lists `layerchart`, `d3-scale` and `d3-shape` for the chart examples, and
   an anatomy measures again when its example renders after mounting (a
   chart's legend). Round 11 is merged (PR #29).
-- **Docs organisation (2026-11-17), branches `feat/sidebar-nav-headings` and
-  `docs/site-organisation` (stacked), awaiting the user's review.** Spec
+- **Docs organisation (2026-11-17).** The mise half (`SidebarNav` sub-headings,
+  PR #30) is merged and released as 1.9.0; the site half is PR #31 from
+  `docs/site-organisation`. Spec
   `docs/specs/2026-11-17-docs-organisation-design.md`; plans
   `docs/superpowers/plans/2026-11-17-sidebar-nav-headings.md`,
   `…-docs-organisation-round-a.md` and `…-round-b.md`. mise: a `SidebarNav`
-  group may hold `{ heading }` items (a `feat`, to release before the site's
-  pull request merges). Site: `group`, `traits` and `keywords` frontmatter on
+  group may hold `{ heading }` items, its rows nested beneath each. Site: `group`, `traits` and `keywords` frontmatter on
   every component page (checked by `tests/page-metadata.test.ts`); the sidebar
   folds by section with sub-group headings; origin from each folder's
   `Origin:` line; `since.json` from the release tags (`pnpm --filter
