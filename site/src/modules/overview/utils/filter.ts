@@ -35,7 +35,7 @@ export function filterEntries(
 }
 
 /** The known tags in a query string, in the order given; anything else is dropped. */
-export function tagsFrom(params: URLSearchParams): string[] {
+export function tagsFrom(params: Pick<URLSearchParams, 'getAll'>): string[] {
   return params.getAll('tag').filter((tag) => FILTER_TAGS.includes(tag))
 }
 

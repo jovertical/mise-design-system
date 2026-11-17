@@ -31,7 +31,12 @@ function frontmatterOf(text: string): Frontmatter {
   )
 }
 
-const pages = readdirSync(components).flatMap((section) =>
+// Section folders only: the overview's own +page.md sits beside them and is no component page.
+const sections = readdirSync(components, { withFileTypes: true }).filter((entry) =>
+  entry.isDirectory(),
+)
+
+const pages = sections.flatMap(({ name: section }) =>
   readdirSync(join(components, section)).map((folder) => {
     const file = join(section, folder, '+page.md')
 
