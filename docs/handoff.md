@@ -45,9 +45,14 @@ and plans do not say. In progress: branch `feat/tabler-icons`, below.
   `docs/superpowers/plans/2026-11-17-docs-site-round-10.md`, branch
   `docs/site-round-10`) is Data display's labels and records: Badge,
   DeltaBadge, IconChip, Avatar, EntityLabel, Item, FactList, Table,
-  Timeline, TreeLeaf, SegmentedCode. Next: round 11, the measures (StatTile,
-  MetricBar, MetricGrid, MetricRow, RadialStat, SegmentedBar, Sparkline,
-  Chart, Board, Checklist, Readiness), which completes the docs.
+  Timeline, TreeLeaf, SegmentedCode; merged (PR #28). Round 11 (plan
+  `docs/superpowers/plans/2026-11-17-docs-site-round-11.md`, branch
+  `docs/site-round-11`) is the measures: StatTile, MetricGrid, MetricBar,
+  MetricRow, RadialStat, SegmentedBar, Sparkline, Chart, Board, Checklist
+  and Readiness. With it every component in mise has a page. The site now
+  lists `layerchart`, `d3-scale` and `d3-shape` for the chart examples, and
+  an anatomy measures again when its example renders after mounting (a
+  chart's legend).
 - **Branch `feat/bakery-gaps` (2026-11-10), awaiting its pull request.** Plan:
   `docs/superpowers/plans/2026-11-10-bakery-gaps.md` (decisions B1–B16), from
   bertos-bakery-ops' gap audit. Every change is additive, so it ships as a
