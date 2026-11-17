@@ -3,7 +3,8 @@
   Diverged: none. A `SidebarNav` row that opens a list of rows. It is never
     the current row itself; the pill belongs to the child that owns the path.
     Collapsed to icons, it opens its rows in a menu beside the rail. A
-    heading among the rows is a label, expanded or in the menu. Not exported.
+    heading among the rows is a label, in the menu too; expanded, its rows
+    nest beneath it in a list it names. Not exported.
 -->
 <script lang="ts" module>
   import type { Snippet } from 'svelte'
@@ -38,13 +39,15 @@
   import SidebarMenuButton from './sidebar-menu-button.svelte'
   import SidebarMenuItem from './sidebar-menu-item.svelte'
   import SidebarMenuSub from './sidebar-menu-sub.svelte'
-  import { isNavSubHeading, type SidebarNavSubItem } from './sidebar-nav.js'
+  import { isNavSubHeading, runsOf, type SidebarNavSubItem } from './sidebar-nav.js'
   import SidebarNavLink from './sidebar-nav-link.svelte'
 
   let { group, active, link, open, ontoggle, onopen }: SidebarNavGroupProps = $props()
 
   const sidebar = useSidebar()
   const collapsed = $derived(sidebar.state === 'collapsed' && !sidebar.isMobile)
+  const runs = $derived(runsOf(group.items))
+
   const toggleLabel = $derived(open ? `Collapse ${group.label}` : `Expand ${group.label}`)
 
   /** A heading has no href; its text is unique within the group. */
@@ -135,21 +138,35 @@
     >
       <div class="min-h-0 overflow-hidden" data-slot="sidebar-nav-sub" inert={!open}>
         <SidebarMenuSub>
-          {#each group.items as item (keyOf(item))}
-            {#if isNavSubHeading(item)}
-              <!-- A label, not a link: it names the rows below it and is never current. -->
-              <li
-                data-slot="sidebar-nav-sub-heading"
-                class={[
-                  'text-sidebar-foreground/60 px-2 pt-2 pb-0.5 text-xs font-medium first:pt-0.5',
-                  // The sub-button's own inset on the panel theme, so the label lines up with the rows.
-                  'group-data-[sidetheme=panel]:mx-2 group-data-[sidetheme=panel]:px-2.5',
-                ]}
-              >
-                {item.heading}
+          {#each runs as run, index (run.heading ?? `run-${index}`)}
+            {#if run.heading}
+              <!--
+                A label, not a link, and never current. Its rows nest beneath it in
+                a list it names, indented, so the label reads as theirs.
+              -->
+              <li class="flex flex-col">
+                <span
+                  data-slot="sidebar-nav-sub-heading"
+                  class={[
+                    'text-muted-foreground px-2 pt-2 pb-1 text-xs font-medium',
+                    index === 0 && 'pt-0.5',
+                    // The sub-button's own inset on the panel theme, so the label lines up with the rows.
+                    'group-data-[sidetheme=panel]:mx-2 group-data-[sidetheme=panel]:px-2.5',
+                    'group-data-[sidetheme=primary]:text-white/60',
+                  ]}
+                >
+                  {run.heading}
+                </span>
+                <ul aria-label={run.heading} class="flex min-w-0 flex-col gap-1 pl-3">
+                  {#each run.links as item (item.href)}
+                    <SidebarNavLink {item} {active} {link} sub />
+                  {/each}
+                </ul>
               </li>
             {:else}
-              <SidebarNavLink {item} {active} {link} sub />
+              {#each run.links as item (item.href)}
+                <SidebarNavLink {item} {active} {link} sub />
+              {/each}
             {/if}
           {/each}
         </SidebarMenuSub>

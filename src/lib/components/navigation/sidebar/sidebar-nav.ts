@@ -74,6 +74,27 @@ export function matchesPath(current: string, href: string): boolean {
   return current === href || current.startsWith(`${href}/`)
 }
 
+/** A heading and the rows under it, up to the next heading; rows before any heading have none. */
+export type SidebarNavRun = { heading?: string; links: SidebarNavSubLink[] }
+
+export function runsOf(items: SidebarNavSubItem[]): SidebarNavRun[] {
+  const runs: SidebarNavRun[] = []
+
+  for (const item of items) {
+    if (isNavSubHeading(item)) {
+      runs.push({ heading: item.heading, links: [] })
+
+      continue
+    }
+
+    if (runs.length === 0) runs.push({ links: [] })
+
+    runs[runs.length - 1].links.push(item)
+  }
+
+  return runs
+}
+
 function hrefsOf(item: SidebarNavItem): string[] {
   if (!isNavGroup(item)) {
     return [item.href]

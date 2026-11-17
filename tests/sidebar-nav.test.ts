@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/svelte'
+import { render, screen, within } from '@testing-library/svelte'
 import { userEvent } from '@testing-library/user-event'
 import { beforeEach, describe, expect, it } from 'vitest'
 
@@ -6,6 +6,7 @@ import {
   activeHref,
   groupsHolding,
   matchesPath,
+  runsOf,
   type SidebarNavSection,
 } from '../src/lib/components/navigation/sidebar/sidebar-nav.js'
 import SidebarNavHarness from './fixtures/sidebar-nav-harness.svelte'
@@ -86,6 +87,31 @@ describe('sub-headings', () => {
 
   it('leave the group holding its rows', () => {
     expect(groupsHolding(HEADED, '/components/forms/input')).toEqual(['Forms'])
+  })
+})
+
+describe('runsOf', () => {
+  it('splits a group into runs, each heading over the rows up to the next', () => {
+    expect(
+      runsOf([
+        { label: 'Overview', href: '/forms' },
+        { heading: 'Text input' },
+        { label: 'Input', href: '/forms/input' },
+        { heading: 'Choices' },
+        { label: 'Select', href: '/forms/select' },
+        { label: 'Switch', href: '/forms/switch' },
+      ]),
+    ).toEqual([
+      { links: [{ label: 'Overview', href: '/forms' }] },
+      { heading: 'Text input', links: [{ label: 'Input', href: '/forms/input' }] },
+      {
+        heading: 'Choices',
+        links: [
+          { label: 'Select', href: '/forms/select' },
+          { label: 'Switch', href: '/forms/switch' },
+        ],
+      },
+    ])
   })
 })
 
@@ -183,6 +209,16 @@ describe('SidebarNav', () => {
     expect(screen.queryByRole('link', { name: 'Choices' })).toBeNull()
 
     expect(screen.getByRole('link', { name: 'Select' })).toHaveAttribute('aria-current', 'page')
+  })
+
+  it('nests the rows under a heading in their own list, named by the heading', () => {
+    render(SidebarNavHarness, { current: '/', headed: true })
+
+    const choices = screen.getByRole('list', { name: 'Choices' })
+
+    expect(within(choices).getByRole('link', { name: 'Select' })).toBeInTheDocument()
+
+    expect(within(choices).queryByRole('link', { name: 'Input' })).toBeNull()
   })
 
   it('draws a sub-heading as a menu label when collapsed to icons', async () => {
