@@ -1,3 +1,11 @@
+import type {
+  SidebarNavGroup,
+  SidebarNavItem,
+  SidebarNavLink,
+  SidebarNavSection,
+  SidebarNavSubItem,
+} from '@jovertical/mise-design-system'
+
 /**
  * The sidebar and the search palette, from the pages' frontmatter: a page is
  * listed once it exists, so the navigation never links to a page not written.
@@ -17,7 +25,6 @@ export type PageMeta = {
 }
 
 export type DocsPage = PageMeta & { href: string }
-export type NavSection = { label: string; items: { label: string; href: string }[] }
 
 export const GUIDE_SECTIONS = ['Getting started', 'Foundations']
 
@@ -46,14 +53,73 @@ export function docsPages(modules: Record<string, PageMeta>): DocsPage[] {
   return Object.entries(modules).map(([file, meta]) => ({ ...meta, href: hrefOf(file) }))
 }
 
-export function navSections(pages: DocsPage[]): NavSection[] {
-  return SECTIONS.map((label) => ({
+function inOrder(pages: DocsPage[]): DocsPage[] {
+  return pages.toSorted((first, second) => (first.order ?? 0) - (second.order ?? 0))
+}
+
+function linkTo(page: DocsPage): SidebarNavLink {
+  return { label: page.title, href: page.href }
+}
+
+/** A section's pages, each sub-group's under its heading where the section has them. */
+function componentGroup(section: string, pages: DocsPage[]): SidebarNavGroup {
+  const groups = SUB_GROUPS[section]
+
+  if (!groups) return { label: section, items: inOrder(pages).map(linkTo) }
+
+  const items: SidebarNavSubItem[] = groups.flatMap((group) => {
+    const members = inOrder(pages.filter((page) => page.group === group))
+
+    return members.length > 0 ? [{ heading: group }, ...members.map(linkTo)] : []
+  })
+
+  return { label: section, items }
+}
+
+/**
+ * The guides as labelled runs of links; then one Components section, led by
+ * the overview once it exists, with a folding group per component section.
+ */
+export function navSections(pages: DocsPage[]): SidebarNavSection[] {
+  const inSection = (label: string) => pages.filter((page) => page.section === label)
+
+  const guides = GUIDE_SECTIONS.map((label) => ({
     label,
-    items: pages
-      .filter((page) => page.section === label)
-      .toSorted((first, second) => (first.order ?? 0) - (second.order ?? 0))
-      .map((page) => ({ label: page.title, href: page.href })),
-  })).filter((section) => section.items.length > 0)
+    items: inOrder(inSection(label)).map(linkTo),
+  }))
+
+  // The overview page is titled for its own header; in the menu it is the Components section's first row.
+  const overview = pages
+    .filter((page) => page.href === '/components')
+    .map((page) => ({ label: 'Overview', href: page.href }))
+
+  const groups = COMPONENT_SECTIONS.filter((label) => inSection(label).length > 0).map((label) =>
+    componentGroup(label, inSection(label)),
+  )
+
+  const components = { label: 'Components', items: [...overview, ...groups] }
+
+  return [...guides, components].filter((section) => section.items.length > 0)
+}
+
+/** Every href rewritten, inside groups too: the Pages base path, for one. */
+export function withHrefs(
+  sections: SidebarNavSection[],
+  rewrite: (href: string) => string,
+): SidebarNavSection[] {
+  const rewriteItem = (item: SidebarNavItem): SidebarNavItem => {
+    if (!('items' in item)) return { ...item, href: rewrite(item.href) }
+
+    return {
+      ...item,
+      href: item.href === undefined ? undefined : rewrite(item.href),
+      items: item.items.map((child) =>
+        'heading' in child ? child : { ...child, href: rewrite(child.href) },
+      ),
+    }
+  }
+
+  return sections.map((section) => ({ ...section, items: section.items.map(rewriteItem) }))
 }
 
 function hrefOf(file: string) {
