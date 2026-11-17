@@ -114,6 +114,24 @@ describe('Anatomy', () => {
     expect(outline?.style.left).toBe('120px')
   })
 
+  it('measures again when the example renders a part after mounting', async () => {
+    const { container } = render(Anatomy, { example, parts })
+
+    await tick()
+
+    const late = document.createElement('div')
+
+    late.setAttribute('data-slot', 'part-gone')
+
+    container.querySelector('[data-anatomy-example]')?.append(late)
+
+    await new Promise((resolve) => setTimeout(resolve, 0))
+
+    expect(container.querySelectorAll('[data-anatomy-marker]')).toHaveLength(3)
+
+    expect(container.querySelector('[data-anatomy-missing]')).toBeNull()
+  })
+
   it('contains the stage, so a fixed overlay stays inside it', () => {
     const { container } = render(Anatomy, { example, parts, size: 'lg' })
     const stage = container.querySelector('[data-anatomy-stage]')

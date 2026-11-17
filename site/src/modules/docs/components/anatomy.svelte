@@ -2,8 +2,10 @@
   The live component on a stage, with a numbered marker and a line to each
   part, found by its data-slot (or a selector, for a part a dependency
   renders). Hovering or focusing a marker or a legend row outlines the part.
-  Redraws on resize, on a theme change and when an open animation ends. A part
-  not found is shown as missing, and the smoke run fails on it.
+  Redraws on resize, on a theme change, when an open animation ends and when
+  the example renders something after mounting (a chart's legend, drawn once
+  it has measured its box). A part not found is shown as missing, and the
+  smoke run fails on it.
 
   The stage is `contain: layout paint`, which makes it the containing block of
   a `position: fixed` descendant: an open dialog and its backdrop stay inside
@@ -36,6 +38,7 @@
   let { example, parts, size = 'md' }: AnatomyProps = $props()
 
   let stage: HTMLDivElement | null = $state(null)
+  let exampleBox: HTMLDivElement | null = $state(null)
   let markers: Marker[] = $state([])
   let missing: string[] = $state([])
   let active: number | null = $state(null)
@@ -71,8 +74,12 @@
 
     const resizes = new ResizeObserver(measure)
     const themes = new MutationObserver(measure)
+    const renders = new MutationObserver(measure)
 
     resizes.observe(stage)
+
+    // Only the example's subtree: the markers live beside it, so drawing them never retriggers this.
+    if (exampleBox) renders.observe(exampleBox, { childList: true, subtree: true })
 
     stage.addEventListener('animationend', measure)
 
@@ -84,6 +91,8 @@
       resizes.disconnect()
 
       themes.disconnect()
+
+      renders.disconnect()
 
       stage?.removeEventListener('animationend', measure)
 
@@ -102,7 +111,9 @@
       size === 'lg' ? 'min-h-96' : 'min-h-64',
     ]}
   >
-    <example.component />
+    <div bind:this={exampleBox} data-anatomy-example class="contents">
+      <example.component />
+    </div>
     <svg class="pointer-events-none absolute inset-0 z-[60] size-full" aria-hidden="true">
       {#each markers as marker (marker.index)}
         <line
