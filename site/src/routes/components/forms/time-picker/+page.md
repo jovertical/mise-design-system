@@ -3,6 +3,9 @@ title: TimePicker
 description: A time of day, as an hour and a minute, with AM and PM on a 12-hour clock.
 section: Forms
 order: 23
+group: Dates and files
+traits: [overlay, form control]
+keywords: [time, hour, clock]
 ---
 
 <script>

@@ -3,6 +3,8 @@ title: SummaryCard
 description: What one step of a flow produced, read-only, with a way back to change it.
 section: Layout
 order: 8
+group: Cards
+keywords: [summary, overview]
 ---
 
 <script>

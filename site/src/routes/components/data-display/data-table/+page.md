@@ -3,6 +3,9 @@ title: DataTable
 description: A listing, as a card holding a title, a toolbar, the table and a closing strip, or as a grid of cards.
 section: Data display
 order: 1
+group: Tables
+traits: [server data]
+keywords: [table, grid, sorting, filtering, pagination, datagrid]
 ---
 
 <script>

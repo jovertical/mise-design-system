@@ -3,6 +3,8 @@ title: SiteHeader
 description: The bar above every page of a shell, floating over a blurred band.
 section: Layout
 order: 3
+group: Page
+keywords: [top bar, navbar, app bar]
 ---
 
 <script>

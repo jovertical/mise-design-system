@@ -3,6 +3,9 @@ title: CheckboxGroup
 description: Several ticks over one list, bound to an array of values.
 section: Forms
 order: 11
+group: Choices
+traits: [form control]
+keywords: [multiple choice, multi select]
 ---
 
 <script>

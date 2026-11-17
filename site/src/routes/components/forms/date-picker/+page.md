@@ -3,6 +3,9 @@ title: DatePicker
 description: A date, or a range, behind a trigger that sits among a form's inputs.
 section: Forms
 order: 21
+group: Dates and files
+traits: [keyboard, overlay, form control]
+keywords: [date, calendar, date range]
 ---
 
 <script>

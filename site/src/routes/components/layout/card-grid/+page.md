@@ -3,6 +3,8 @@ title: CardGrid
 description: Cells of totals in a grid inside a card, ruled apart.
 section: Layout
 order: 5
+group: Cards
+keywords: [grid]
 ---
 
 <script>

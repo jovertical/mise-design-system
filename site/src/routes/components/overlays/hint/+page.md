@@ -3,6 +3,8 @@ title: Hint
 description: The ? that explains the thing it sits beside, to whoever asks.
 section: Overlays
 order: 8
+traits: [keyboard, overlay]
+keywords: [help, info, explanation]
 ---
 
 <script>

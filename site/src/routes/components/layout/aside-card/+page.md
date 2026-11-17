@@ -3,6 +3,8 @@ title: AsideCard
 description: A card of guidance in a side column, which folds away once read.
 section: Layout
 order: 7
+group: Cards
+keywords: [sidebar card, aside]
 ---
 
 <script>

@@ -3,6 +3,8 @@ title: Avatar
 description: A person's picture or initials, with whether they are here.
 section: Data display
 order: 6
+group: Labels
+keywords: [user, profile, initials, presence]
 ---
 
 <script>

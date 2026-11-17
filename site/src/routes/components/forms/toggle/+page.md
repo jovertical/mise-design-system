@@ -3,6 +3,9 @@ title: Toggle
 description: One button that stays pressed until pressed again.
 section: Forms
 order: 16
+group: Choices
+traits: [keyboard]
+keywords: [pressed, toggle button]
 ---
 
 <script>

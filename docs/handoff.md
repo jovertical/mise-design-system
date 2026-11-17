@@ -52,7 +52,20 @@ and plans do not say. In progress: branch `feat/tabler-icons`, below.
   and Readiness. With it every component in mise has a page. The site now
   lists `layerchart`, `d3-scale` and `d3-shape` for the chart examples, and
   an anatomy measures again when its example renders after mounting (a
-  chart's legend).
+  chart's legend). Round 11 is merged (PR #29).
+- **Docs organisation (2026-11-17).** The mise half (`SidebarNav` sub-headings,
+  PR #30) is merged and released as 1.9.0; the site half is PR #31 from
+  `docs/site-organisation`. Spec
+  `docs/specs/2026-11-17-docs-organisation-design.md`; plans
+  `docs/superpowers/plans/2026-11-17-sidebar-nav-headings.md`,
+  `…-docs-organisation-round-a.md` and `…-round-b.md`. mise: a `SidebarNav`
+  group may hold `{ heading }` items, its rows nested beneath each. Site: `group`, `traits` and `keywords` frontmatter on
+  every component page (checked by `tests/page-metadata.test.ts`); the sidebar
+  folds by section with sub-group headings; origin from each folder's
+  `Origin:` line; `since.json` from the release tags (`pnpm --filter
+  mise-docs since` after each release); search by keyword; a `/components`
+  overview filtered by origin, New and trait through `?tag=`; a component
+  page's tags in the rail and its sub-group in the eyebrow.
 - **Branch `feat/bakery-gaps` (2026-11-10), awaiting its pull request.** Plan:
   `docs/superpowers/plans/2026-11-10-bakery-gaps.md` (decisions B1–B16), from
   bertos-bakery-ops' gap audit. Every change is additive, so it ships as a

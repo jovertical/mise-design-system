@@ -3,6 +3,9 @@ title: Toaster
 description: Short messages about what just happened, that leave on their own.
 section: Feedback
 order: 1
+group: Messages
+traits: [overlay]
+keywords: [toast, notification, snackbar]
 ---
 
 <script>

@@ -3,6 +3,8 @@ title: DropdownMenu
 description: A menu of commands behind a trigger.
 section: Actions
 order: 2
+traits: [keyboard, overlay]
+keywords: [menu, actions, context menu, kebab]
 ---
 
 <script>

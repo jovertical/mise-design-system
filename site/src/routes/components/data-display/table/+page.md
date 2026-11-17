@@ -3,6 +3,8 @@ title: Table
 description: Rows of data in columns, with no sorting or filtering of its own.
 section: Data display
 order: 2
+group: Tables
+keywords: [rows, columns]
 ---
 
 <script>

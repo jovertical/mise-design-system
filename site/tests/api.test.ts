@@ -7,7 +7,11 @@ import { componentDocs } from '../../scripts/skill/component-docs.js'
 import { folderNamed, partNamed } from '../src/modules/docs/data/api.js'
 import { apiAnchor } from '../src/modules/docs/utils/anchors.js'
 
-const docs = componentDocs(join(import.meta.dirname, '..', '..'))
+// The lookups read what the plugin serves; origin plays no part in them.
+const docs = componentDocs(join(import.meta.dirname, '..', '..')).map((doc) => ({
+  ...doc,
+  origin: 'mise' as const,
+}))
 
 describe('the API lookups', () => {
   it('finds a folder by its root part', () => {

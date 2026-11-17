@@ -3,6 +3,9 @@ title: ToggleGroup
 description: A row of options, one or several pressed, as a segmented track or joined buttons.
 section: Forms
 order: 17
+group: Choices
+traits: [keyboard]
+keywords: [segmented control, filter]
 ---
 
 <script>

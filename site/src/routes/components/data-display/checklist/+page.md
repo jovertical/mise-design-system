@@ -3,6 +3,9 @@ title: Checklist
 description: "The full \"Get started\" list: setup steps grouped into cards, each row folding open."
 section: Data display
 order: 22
+group: Workflows
+traits: [keyboard]
+keywords: [onboarding, getting started, setup, tasks]
 ---
 
 <script>

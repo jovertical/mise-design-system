@@ -3,6 +3,8 @@ title: LockedOverlay
 description: A card the reader cannot open yet, with a blurred sample and the way in over it.
 section: Feedback
 order: 12
+group: Gates
+keywords: [locked, permission, paywall]
 ---
 
 <script>

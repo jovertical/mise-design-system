@@ -101,7 +101,8 @@ describe('the pages', () => {
 
   it('give every component page an Anatomy and an ApiTable', () => {
     const incomplete = pages
-      .filter(({ file }) => file.includes('/components/'))
+      // components/<section>/<folder>/+page.md; the overview, components/+page.md, is not one.
+      .filter(({ file }) => /\/components\/[^/]+\/[^/]+\/\+page\.md$/.test(file))
       .filter(({ text }) => !text.includes('<Anatomy') || !text.includes('<ApiTable'))
       .map(({ file }) => relative(file))
 

@@ -3,6 +3,8 @@ title: Form
 description: A SvelteKit form validated by superforms, with fields that wire their label, description and errors.
 section: Forms
 order: 25
+group: Fields
+keywords: [validation, superforms, submit, zod]
 ---
 
 <script>

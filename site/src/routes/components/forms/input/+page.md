@@ -3,6 +3,9 @@ title: Input
 description: One line of text.
 section: Forms
 order: 3
+group: Text input
+traits: [form control]
+keywords: [text field, textbox]
 ---
 
 <script>

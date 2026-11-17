@@ -3,6 +3,8 @@ title: Separator
 description: A rule between blocks, or between items in a row.
 section: Layout
 order: 10
+group: Structure
+keywords: [divider, hr, rule]
 ---
 
 <script>

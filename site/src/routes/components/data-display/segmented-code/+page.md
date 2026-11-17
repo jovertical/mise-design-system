@@ -3,6 +3,8 @@ title: SegmentedCode
 description: A code read off one screen and typed into another, split into groups.
 section: Data display
 order: 12
+group: Records
+keywords: [code, pairing code, reference]
 ---
 
 <script>

@@ -3,6 +3,8 @@ title: Sidebar
 description: The app's main menu, in a panel beside the page that can collapse to icons.
 section: Navigation
 order: 1
+traits: [keyboard]
+keywords: [navigation, menu, nav]
 ---
 
 <script>

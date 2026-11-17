@@ -3,6 +3,8 @@ title: Sheet
 description: A panel from the edge of the screen, for a quick view or a short task beside the page.
 section: Overlays
 order: 3
+traits: [keyboard, overlay]
+keywords: [side panel, drawer, slide over]
 ---
 
 <script>

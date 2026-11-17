@@ -3,6 +3,9 @@ title: Combobox
 description: "A searchable list: one value, several as chips, or free text with suggestions."
 section: Forms
 order: 19
+group: Choices
+traits: [keyboard, overlay, form control]
+keywords: [autocomplete, typeahead, searchable select, dropdown]
 ---
 
 <script>

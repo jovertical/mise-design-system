@@ -3,6 +3,8 @@ title: HoverCard
 description: A preview that opens on hover or focus, behind a link.
 section: Overlays
 order: 6
+traits: [overlay]
+keywords: [preview, hover]
 ---
 
 <script>

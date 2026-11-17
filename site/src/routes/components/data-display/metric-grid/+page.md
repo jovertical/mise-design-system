@@ -3,6 +3,8 @@ title: MetricGrid
 description: A breakdown as a grid of bordered cells, each a MetricBar.
 section: Data display
 order: 14
+group: Measures
+keywords: [breakdown, distribution]
 ---
 
 <script>

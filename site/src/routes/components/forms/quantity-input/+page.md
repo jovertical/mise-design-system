@@ -3,6 +3,9 @@ title: QuantityInput
 description: An amount and its unit, in one field.
 section: Forms
 order: 7
+group: Text input
+traits: [form control]
+keywords: [unit, quantity, uom, stepper]
 ---
 
 <script>

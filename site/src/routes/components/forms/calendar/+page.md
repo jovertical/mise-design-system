@@ -3,6 +3,9 @@ title: Calendar
 description: A month of days on the page, picking one date or a range.
 section: Forms
 order: 20
+group: Dates and files
+traits: [keyboard, form control]
+keywords: [date, month view]
 ---
 
 <script>

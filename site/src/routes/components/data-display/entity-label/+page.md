@@ -3,6 +3,8 @@ title: EntityLabel
 description: A named thing with its mark and one line about it, as one unit.
 section: Data display
 order: 7
+group: Labels
+keywords: [name, identity, record label]
 ---
 
 <script>

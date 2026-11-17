@@ -3,6 +3,8 @@ title: FeaturePreview
 description: A whole page for a feature the reader cannot use yet, showing what it would give them.
 section: Feedback
 order: 11
+group: Gates
+keywords: [upsell, upgrade, paywall, coming soon]
 ---
 
 <script>

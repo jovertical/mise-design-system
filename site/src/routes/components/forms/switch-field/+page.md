@@ -3,6 +3,9 @@ title: SwitchField
 description: A switch with its label and description on one surface, which can hold what it turns on.
 section: Forms
 order: 15
+group: Choices
+traits: [form control]
+keywords: [setting, preference, toggle]
 ---
 
 <script>

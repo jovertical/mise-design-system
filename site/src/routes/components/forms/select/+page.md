@@ -3,6 +3,9 @@ title: Select
 description: One choice from a list, in a trigger that opens it.
 section: Forms
 order: 9
+group: Choices
+traits: [keyboard, overlay, form control]
+keywords: [dropdown, picker, options]
 ---
 
 <script>

@@ -3,6 +3,8 @@ title: Tooltip
 description: A short label on hover or focus, for a control that cannot carry its own.
 section: Overlays
 order: 7
+traits: [overlay]
+keywords: [hint, title]
 ---
 
 <script>

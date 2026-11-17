@@ -3,6 +3,9 @@ title: MediaDropzone
 description: One image, dropped or chosen, uploaded through the app's own adapter.
 section: Forms
 order: 24
+group: Dates and files
+traits: [form control, draggable]
+keywords: [upload, file, image, drag and drop]
 ---
 
 <script>

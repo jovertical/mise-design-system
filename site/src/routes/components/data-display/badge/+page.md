@@ -3,6 +3,8 @@ title: Badge
 description: A status, a tag or a count, as a small label on something else.
 section: Data display
 order: 3
+group: Labels
+keywords: [status, tag, label, pill, chip]
 ---
 
 <script>

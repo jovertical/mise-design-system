@@ -3,6 +3,8 @@ title: Drawer
 description: A sheet that slides up from the bottom of a phone screen, and can be dragged away.
 section: Overlays
 order: 4
+traits: [overlay, draggable]
+keywords: [bottom sheet, mobile]
 ---
 
 <script>

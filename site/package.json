@@ -14,7 +14,8 @@
     "test:unit": "vitest run",
     "test": "pnpm check && pnpm lint && pnpm test:unit",
     "assemble": "tsx scripts/assemble-pages.ts",
-    "smoke": "tsx scripts/smoke.ts"
+    "smoke": "tsx scripts/smoke.ts",
+    "since": "tsx scripts/since.ts"
   },
   "dependencies": {
     "@jovertical/mise-design-system": "workspace:*",

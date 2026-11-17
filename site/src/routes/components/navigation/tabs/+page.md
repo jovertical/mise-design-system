@@ -3,6 +3,8 @@ title: Tabs
 description: Sections of one page, one shown at a time.
 section: Navigation
 order: 3
+traits: [keyboard]
+keywords: [tab, sections]
 ---
 
 <script>

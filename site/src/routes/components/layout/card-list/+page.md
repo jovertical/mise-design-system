@@ -3,6 +3,8 @@ title: CardList
 description: Rows inside one card, ruled edge to edge.
 section: Layout
 order: 6
+group: Cards
+keywords: [list, rows]
 ---
 
 <script>

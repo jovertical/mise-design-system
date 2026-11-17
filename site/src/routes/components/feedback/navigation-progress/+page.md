@@ -3,6 +3,8 @@ title: NavigationProgress
 description: A thin bar across the top of the window while a route loads.
 section: Feedback
 order: 10
+group: Progress
+keywords: [loading bar, route change]
 ---
 
 <script>

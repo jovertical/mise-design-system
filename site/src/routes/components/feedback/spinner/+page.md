@@ -3,6 +3,8 @@ title: Spinner
 description: Something is in progress, said to a screen reader as well as drawn.
 section: Feedback
 order: 7
+group: Progress
+keywords: [loader, loading]
 ---
 
 <script>

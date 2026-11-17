@@ -12,7 +12,7 @@
     CommandList,
     CommandTrigger,
   } from '@jovertical/mise-design-system'
-  import { SECTIONS } from '#modules/nav/data/navigation.js'
+  import { SECTIONS, searchTextOf } from '#modules/nav/data/navigation.js'
   import { PAGES } from '#modules/nav/data/pages.js'
   import { goto } from '$app/navigation'
   import { resolve } from '$app/paths'
@@ -42,10 +42,7 @@
     {#each groups as group (group.section)}
       <CommandGroup heading={group.section}>
         {#each group.pages as entry (entry.href)}
-          <CommandItem
-            value="{group.section} {entry.title} {entry.description ?? ''}"
-            onSelect={() => go(entry.href)}
-          >
+          <CommandItem value={searchTextOf(entry)} onSelect={() => go(entry.href)}>
             {entry.title}
           </CommandItem>
         {/each}

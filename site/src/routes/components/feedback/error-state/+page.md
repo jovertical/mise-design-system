@@ -3,6 +3,8 @@ title: ErrorState
 description: An error page or panel, with what happened, why, and the way forward.
 section: Feedback
 order: 5
+group: Page states
+keywords: [error, failure, retry]
 ---
 
 <script>

@@ -3,6 +3,8 @@ title: Empty
 description: The parts of an empty panel, for composing one EmptyState does not draw.
 section: Feedback
 order: 3
+group: Page states
+keywords: [no data, blank]
 ---
 
 <script>

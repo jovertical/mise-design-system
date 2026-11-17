@@ -3,6 +3,8 @@ title: DeltaBadge
 description: A change up or down, coloured by whether it is good.
 section: Data display
 order: 4
+group: Labels
+keywords: [change, trend, percentage, increase, decrease]
 ---
 
 <script>

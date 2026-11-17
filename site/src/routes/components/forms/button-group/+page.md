@@ -3,6 +3,8 @@ title: ButtonGroup
 description: Buttons, and the input or text they belong with, joined into one control.
 section: Forms
 order: 18
+group: Choices
+keywords: [split button, segmented]
 ---
 
 <script>

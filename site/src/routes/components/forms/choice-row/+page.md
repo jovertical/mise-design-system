@@ -3,6 +3,9 @@ title: ChoiceRow
 description: A radio or a checkbox on a bordered row, with room for a description, media and what the choice reveals.
 section: Forms
 order: 13
+group: Choices
+traits: [form control]
+keywords: [option card, selectable row, radio card]
 ---
 
 <script>

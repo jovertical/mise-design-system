@@ -3,6 +3,9 @@ title: Textarea
 description: Several lines of text, with a counter when it has a limit.
 section: Forms
 order: 4
+group: Text input
+traits: [form control]
+keywords: [multiline, notes, comment, character limit]
 ---
 
 <script>

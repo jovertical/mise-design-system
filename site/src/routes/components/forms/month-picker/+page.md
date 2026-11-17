@@ -3,6 +3,9 @@ title: MonthPicker
 description: A month and its year behind a trigger, for a report or a ledger filtered by month.
 section: Forms
 order: 22
+group: Dates and files
+traits: [keyboard, overlay, form control]
+keywords: [month, period]
 ---
 
 <script>

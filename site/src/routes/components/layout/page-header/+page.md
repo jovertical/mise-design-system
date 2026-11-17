@@ -3,6 +3,8 @@ title: PageHeader
 description: A page's title, what it is for, where it sits and its actions; the page's only h1.
 section: Layout
 order: 2
+group: Page
+keywords: [page title, header, actions]
 ---
 
 <script>

@@ -3,6 +3,8 @@ title: TreeLeaf
 description: A row in a one-level nested list, drawn hanging from its parent.
 section: Data display
 order: 11
+group: Records
+keywords: [tree, hierarchy, nested]
 ---
 
 <script>

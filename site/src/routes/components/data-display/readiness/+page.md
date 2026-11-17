@@ -3,6 +3,8 @@ title: Readiness
 description: "What a page still needs before it can be saved: a summary and one row per requirement."
 section: Data display
 order: 23
+group: Workflows
+keywords: [requirements, validation, ready]
 ---
 
 <script>

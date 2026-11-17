@@ -3,6 +3,7 @@ title: Heading
 description: A section heading inside a page body.
 section: Typography
 order: 1
+keywords: [title, h1, h2]
 ---
 
 <script>

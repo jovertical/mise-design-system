@@ -3,6 +3,9 @@ title: InputOTP
 description: A short code typed into one cell per character.
 section: Forms
 order: 8
+group: Text input
+traits: [keyboard, form control]
+keywords: [otp, pin, verification code, 2fa]
 ---
 
 <script>
