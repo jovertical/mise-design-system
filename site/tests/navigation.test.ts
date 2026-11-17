@@ -1,6 +1,12 @@
 import { describe, expect, it } from 'vitest'
 
-import { docsPages, navSections, SECTIONS, withHrefs } from '../src/modules/nav/data/navigation.js'
+import {
+  docsPages,
+  navSections,
+  SECTIONS,
+  searchTextOf,
+  withHrefs,
+} from '../src/modules/nav/data/navigation.js'
 
 const modules = {
   '/src/routes/+page.md': { title: 'mise' },
@@ -122,5 +128,23 @@ describe('withHrefs', () => {
 describe('SECTIONS', () => {
   it('starts with the guides, then follows the component groups', () => {
     expect(SECTIONS.slice(0, 3)).toEqual(['Getting started', 'Foundations', 'Typography'])
+  })
+})
+
+describe('searchTextOf', () => {
+  it('lets a page be found by its sub-group, traits and keywords as well as its words', () => {
+    const text = searchTextOf({
+      title: 'StatTile',
+      description: 'The headline number.',
+      section: 'Data display',
+      group: 'Measures',
+      traits: ['keyboard'],
+      keywords: ['kpi', 'metric'],
+      href: '/components/data-display/stat-tile',
+    })
+
+    for (const word of ['Data display', 'StatTile', 'headline', 'Measures', 'keyboard', 'kpi']) {
+      expect(text).toContain(word)
+    }
   })
 })

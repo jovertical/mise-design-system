@@ -122,6 +122,20 @@ export function withHrefs(
   return sections.map((section) => ({ ...section, items: section.items.map(rewriteItem) }))
 }
 
+/** What the search palette matches a page on: its words, and the tags a reader may search by. */
+export function searchTextOf(page: DocsPage): string {
+  return [
+    page.section,
+    page.group,
+    page.title,
+    page.description,
+    ...(page.traits ?? []),
+    ...(page.keywords ?? []),
+  ]
+    .filter(Boolean)
+    .join(' ')
+}
+
 function hrefOf(file: string) {
   const path = file.replace(/^\/src\/routes/, '').replace(/\/\+page\.md$/, '')
 
