@@ -1,6 +1,6 @@
 # Docs site organisation — Design
 
-**Date:** 2026-11-17. **Status:** approved in brainstorming; awaiting the written review.
+**Date:** 2026-11-17. **Status:** approved; built on `feat/sidebar-nav-headings` and `docs/site-organisation`.
 
 **Context:** rounds 1–11 of `2026-11-10-docs-site-design.md` gave every mise component a page: 88 component pages in eight sections, listed flat in the sidebar by `order`. Forms (25) and Data display (23) are long lists, there is no page listing the components, and search matches only a page's section, title and description.
 
