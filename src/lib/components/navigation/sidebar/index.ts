@@ -51,6 +51,8 @@ export {
   type SidebarNavItem,
   type SidebarNavLink,
   type SidebarNavSection,
+  type SidebarNavSubHeading,
+  type SidebarNavSubItem,
   type SidebarNavSubLink,
 } from './sidebar-nav.js'
 export {

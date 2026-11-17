@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/svelte'
+import { render, screen, within } from '@testing-library/svelte'
 import { userEvent } from '@testing-library/user-event'
 import { beforeEach, describe, expect, it } from 'vitest'
 
@@ -6,6 +6,7 @@ import {
   activeHref,
   groupsHolding,
   matchesPath,
+  runsOf,
   type SidebarNavSection,
 } from '../src/lib/components/navigation/sidebar/sidebar-nav.js'
 import SidebarNavHarness from './fixtures/sidebar-nav-harness.svelte'
@@ -59,6 +60,58 @@ describe('groupsHolding', () => {
   it('names the group whose sub-link is current', () => {
     expect(groupsHolding(SECTIONS, '/sales/refunds')).toEqual(['Sales'])
     expect(groupsHolding(SECTIONS, '/orders')).toEqual([])
+  })
+})
+
+const HEADED: SidebarNavSection[] = [
+  {
+    label: 'Components',
+    items: [
+      {
+        label: 'Forms',
+        items: [
+          { heading: 'Text input' },
+          { label: 'Input', href: '/components/forms/input' },
+          { heading: 'Choices' },
+          { label: 'Select', href: '/components/forms/select' },
+        ],
+      },
+    ],
+  },
+]
+
+describe('sub-headings', () => {
+  it('are never the current row', () => {
+    expect(activeHref(HEADED, '/components/forms/select')).toBe('/components/forms/select')
+  })
+
+  it('leave the group holding its rows', () => {
+    expect(groupsHolding(HEADED, '/components/forms/input')).toEqual(['Forms'])
+  })
+})
+
+describe('runsOf', () => {
+  it('splits a group into runs, each heading over the rows up to the next', () => {
+    expect(
+      runsOf([
+        { label: 'Overview', href: '/forms' },
+        { heading: 'Text input' },
+        { label: 'Input', href: '/forms/input' },
+        { heading: 'Choices' },
+        { label: 'Select', href: '/forms/select' },
+        { label: 'Switch', href: '/forms/switch' },
+      ]),
+    ).toEqual([
+      { links: [{ label: 'Overview', href: '/forms' }] },
+      { heading: 'Text input', links: [{ label: 'Input', href: '/forms/input' }] },
+      {
+        heading: 'Choices',
+        links: [
+          { label: 'Select', href: '/forms/select' },
+          { label: 'Switch', href: '/forms/switch' },
+        ],
+      },
+    ])
   })
 })
 
@@ -146,6 +199,37 @@ describe('SidebarNav', () => {
 
     expect(refunds).toHaveAttribute('data-slot', 'dropdown-menu-item')
     expect(refunds).toHaveAttribute('href', '/sales/refunds')
+  })
+
+  it('draws a sub-heading as a label among the rows, not a link', () => {
+    render(SidebarNavHarness, { current: '/components/forms/select', headed: true })
+
+    expect(screen.getByText('Choices')).toHaveAttribute('data-slot', 'sidebar-nav-sub-heading')
+
+    expect(screen.queryByRole('link', { name: 'Choices' })).toBeNull()
+
+    expect(screen.getByRole('link', { name: 'Select' })).toHaveAttribute('aria-current', 'page')
+  })
+
+  it('nests the rows under a heading in their own list, named by the heading', () => {
+    render(SidebarNavHarness, { current: '/', headed: true })
+
+    const choices = screen.getByRole('list', { name: 'Choices' })
+
+    expect(within(choices).getByRole('link', { name: 'Select' })).toBeInTheDocument()
+
+    expect(within(choices).queryByRole('link', { name: 'Input' })).toBeNull()
+  })
+
+  it('draws a sub-heading as a menu label when collapsed to icons', async () => {
+    render(SidebarNavHarness, { current: '/', open: false, headed: true })
+
+    await userEvent.click(screen.getByRole('button', { name: 'Forms' }))
+
+    expect(await screen.findByText('Text input')).toHaveAttribute(
+      'data-slot',
+      'dropdown-menu-label',
+    )
   })
 
   it('renders links through the link snippet when given', () => {

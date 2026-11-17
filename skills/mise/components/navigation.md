@@ -204,7 +204,7 @@ Also takes: everything `Button` takes.
 
 Also exports: `SidebarState`, `useSidebar`, `activeHref`, `sidebarMenuButtonVariants`.
 
-Types: `SidebarSideTheme` (`'primary' | 'light' | 'panel'`), `SidebarNavGroup`, `SidebarNavItem`, `SidebarNavLink`, `SidebarNavSection`, `SidebarNavSubLink`, `SidebarMenuButtonSize`.
+Types: `SidebarSideTheme` (`'primary' | 'light' | 'panel'`), `SidebarNavGroup`, `SidebarNavItem`, `SidebarNavLink`, `SidebarNavSection`, `SidebarNavSubHeading`, `SidebarNavSubItem`, `SidebarNavSubLink`, `SidebarMenuButtonSize`.
 
 ## Stepper
 
